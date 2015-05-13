@@ -20,6 +20,7 @@ Func GetResources() ;Reads resources
 			SetLog("Cannot locate Next button, Restarting Bot..." , $COLOR_RED)
 
 			$Is_ClientSyncError = True
+			GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
 			$iStuck = 0
 			checkMainScreen()
 			$Restart = True
@@ -38,6 +39,7 @@ Func GetResources() ;Reads resources
 	If $iStuck >= 5 Then
 		SetLog("Cannot locate Next button, Restarting Bot", $COLOR_RED)
 		$Is_ClientSyncError = True
+		GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
 		$iStuck = 0
 		checkMainScreen()
 		$Restart = True
