@@ -9,6 +9,8 @@ Func UpgradeWall()
 
 			Local $MinWallGold = Number($GoldCount - $Wallcost) > Number($itxtWallMinGold) ; Check if enough Gold
 			Local $MinWallElixir = Number($ElixirCount - $Wallcost) > Number($itxtWallMinElixir) ; Check if enough Elixir
+			Local $GoldCountOld = $GoldCount ; Will be used to avoid infinite loop
+			Local $ElixirCountOld = $ElixirCount ; Will be used to avoid infinite loop
 
 			If GUICtrlRead($UseGold) = $GUI_CHECKED Then
 				$iUseStorage = 1
@@ -51,6 +53,18 @@ Func UpgradeWall()
 			EndSwitch
 			Click(1, 1) ; click away
 			Click(820, 40) ; Close Builder/Shop if open by accident
+			VillageReport() ; Get current gold & elixir amounts
+			; If gold or elixir did not decrease after trying to upgrade, 
+			; either we could not locate wall, or some other error occured. Skip recursion
+			If (Number($GoldCount) < Number($GoldCountOld) Or Number($ElixirCount) < Number($ElixirCountOld)) Then
+				$MinWallGold = Number($GoldCount - $Wallcost) > Number($itxtWallMinGold) ; Check if enough Gold
+				$MinWallElixir = Number($ElixirCount - $Wallcost) > Number($itxtWallMinElixir) ; Check if enough Elixir
+				If ($MinWallGold And ($iUseStorage = 1 Or $iUseStorage = 3)) Or ($MinWallElixir And ($iUseStorage = 2 Or $iUseStorage = 3)) Then
+					UpgradeWall()
+				Else
+					SetLog("No Elixir or/and Gold to upgrade more Walls..", $COLOR_RED)
+				EndIf
+			EndIf
 		Else
 			SetLog("No free builder, Upgrade Walls skipped..", $COLOR_RED)
 		EndIf
