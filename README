@@ -1,10 +1,15 @@
 Mods Integrated to default CBG v3.0.4:
 
-- More Pushbullet features by  @Shark (https://gamebot.org/forums/thread-2424.html)
-- Add village name to pushes by @Boju (https://gamebot.org/forums/thread-2473.html)
-- Balanced donate/request by @sardo (https://gamebot.org/forums/thread-1621.html)
+- Gold + Elixir search condition inspired from @papaismurf (https://gamebot.org/forums/thread-2665.html) developed by me
+- More Pushbullet Features by  @Shark (https://gamebot.org/forums/thread-2424.html) [ I modified the code so that now it works even if you have spaces in the path to bot ]
+- Pushbullet with the name of the village by @Boju (https://gamebot.org/forums/thread-2473.html)
+- Balanced clan castle donated/received by @sardo (https://gamebot.org/forums/thread-1621.html)
 - Laboratory mod by @summoner (https://gamebot.org/forums/thread-2321.html)
 - Improved training order by @rcorts (https://gamebot.org/forums/thread-2036.html)
-- And all features/fixes from the late CBG 3.0.4 Unofficial github by too many people (you can see them and the features from here: https://github.com/Blaze5145/cgb-unofficial-v3/commits/Alpha)
+- Return Home when mistakenly clicked Visit Village when donating by @coldfire2k (https://gamebot.org/forums/thread-2456.html)
+- And all features/fixes from the late CBG 3.0.4 Unofficial github Alpha branch by too many people (you can see them and the features from here: htps://github.com/Blaze5145/cgb-unofficial-v3/commits/Alpha)
+- Adding Out of Sync Status to the Stats/Credits tab by @Cocmady (https://gamebot.org/forums/thread-1642.html)
+- TH Snipe - Gbarch by @barracoda (https://gamebot.org/forums/thread-1096.html) [ it was already there from unofficial github, added the newest changes ]
+- Update more than a wall by @sabrewulf86 (https://gamebot.org/forums/thread-2607.html) [ modified it to avoid infinite loop ]
 
 Enjoy
