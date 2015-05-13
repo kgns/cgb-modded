@@ -2,6 +2,10 @@
 config.ini
 building.ini
 
+# Game Bot personal files
+*.log
+*.jpg
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
