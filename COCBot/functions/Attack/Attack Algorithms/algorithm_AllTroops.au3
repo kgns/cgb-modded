@@ -292,9 +292,9 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen)
 			Local $listInfoDeployTroopPixel = $listListInfoDeployTroopPixel[$numWave]
 			For $i = 0 To UBound($listInfoDeployTroopPixel) - 1
 				Local $infoPixelDropTroop = $listInfoDeployTroopPixel[$i]
-				If Not (IsString($infoPixelDropTroop[0]) And ($infoPixelDropTroop[0] = "CC" Or $infoPixelDropTroop[0] = "HEROES")) Then
+				If Not(IsString($infoPixelDropTroop[0]) And ($infoPixelDropTroop[0] = "CC" Or $infoPixelDropTroop[0] = "HEROES")) Then
 					Local $numberLeft = ReadTroopQuantity($infoPixelDropTroop[0])
-					SetLog("NumberLeft : " & $numberLeft)
+					SetLog("NumberLeft : "&$numberLeft)
 					If ($numberLeft > 0) Then
 						If _Sleep(100) Then Return
 						SelectDropTroop($infoPixelDropTroop[0]) ;Select Troop
@@ -406,7 +406,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			Case 2
 				AttackTHXtreme();Good for Champ
 			Case 3
-				AttackTHgbarch();Good for Champ also
+				AttackTHgbarch(); good for masters+
 		EndSwitch
 
 		If $OptTrophyMode = 1 And SearchTownHallLoc() Then; Return ;Exit attacking if trophy hunting and not bullymode
@@ -445,16 +445,15 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	If ($nbSides = 0) Then Return
 	If _Sleep(1000) Then Return
 
-	Local $listInfoDeploy[14][5] = [[$eGiant, $nbSides, 1, 1, 2] _
+	Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, 2] _
 			, [$eBarb, $nbSides, 1, 2, 0] _
+			, [$eWall, $nbSides, 1, 1, 1] _
 			, [$eArch, $nbSides, 1, 2, 0] _
 			, [$eBarb, $nbSides, 2, 2, 0] _
-			, [$eWall, $nbSides, 1, 1, 1] _
 			, [$eGobl, $nbSides, 1, 2, 0] _
 			, ["CC", 1, 1, 1, 1] _
 			, [$eHogs, $nbSides, 1, 1, 1] _
 			, [$eWiza, $nbSides, 1, 1, 0] _
-			, [$eBall, $nbSides, 1, 1, 0] _
 			, [$eMini, $nbSides, 1, 1, 0] _
 			, [$eArch, $nbSides, 2, 2, 0] _
 			, [$eGobl, $nbSides, 2, 2, 0] _
@@ -879,9 +878,9 @@ Func GetVectorPixelToDeploy($arrPixel, $vectorDirection, $sizeVector)
 		Local $max = $maxPixel[$vectorDirection]
 		Local $offset = ($max - $min) / $sizeVector
 		debugRedArea("min : [" & $min & "] / max [" & $max & "] / offset [" & $offset & "]")
-		If ($min <= $max And $offset <= 0) Then
+		if($min <= $max And $offset <= 0) Then
 			$offset = 1
-		ElseIf ($min >= $max And $offset >= 0) Then
+		ElseIf($min >= $max And $offset >= 0) Then
 			$offset = -1
 		EndIf
 		For $i = $min To $max Step $offset

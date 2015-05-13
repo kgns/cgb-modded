@@ -107,11 +107,11 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep(1000) Then Return
 
 				If $Restart = True Then ContinueLoop
-			DonateCC()
+			Train()
 				If _Sleep(1000) Then Return
 				checkMainDM()
 				If $Restart = True Then ContinueLoop
-			Train()
+			DonateCC()
 				If _Sleep(1000) Then Return
 
 				If $Restart = True Then ContinueLoop
