@@ -11,5 +11,7 @@ Mods Integrated to default CBG v3.0.4:
 - Adding Out of Sync Status to the Stats/Credits tab by @Cocmady (https://gamebot.org/forums/thread-1642.html)
 - TH Snipe - Gbarch by @barracoda (https://gamebot.org/forums/thread-1096.html) [ it was already there from unofficial github, added the newest changes ]
 - Update more than a wall by @sabrewulf86 (https://gamebot.org/forums/thread-2607.html) [ modified it to avoid infinite loop ]
+- PushBullet Remote Control and more notification options by @Jame (https://gamebot.org/forums/thread-2798.html) [modified and improved a lot]
+- Runtime counter now stop when you pause, and it does not reset after you stop. Continues when you resume or start the bot.
 
 Enjoy
