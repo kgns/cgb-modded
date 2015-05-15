@@ -91,12 +91,14 @@ If $WallWord = 1 And $WallLvc = 1 Then
 			Click(440, 480)
 			If _Sleep(500) Then Return
 			SetLog("Upgrade complete", $COLOR_GREEN)
+			If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall upgrade completed" , "Completed by using GOLD")
 			$wallgoldmake = $wallgoldmake + 1
 			GUICtrlSetData($lblWallgoldmake, $wallgoldmake)
 			Return True
 		EndIf
 	Else
 		Setlog("No Upgrade Gold Button", $COLOR_RED)
+		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall Upgrade Failed" , "Cannot find gold upgrade button")
 		Return False
 	EndIf
 Else
@@ -124,12 +126,14 @@ If $WallWord = 1 And $WallLvc = 1 Then
 			Click(440, 480)
 			If _Sleep(500) Then Return
 			SetLog("Upgrade complete", $COLOR_GREEN)
+			If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall upgrade completed" , "Completed by using ELIXIR")
 			$wallelixirmake = $wallelixirmake + 1
 			GUICtrlSetData($lblWallelixirmake, $wallelixirmake)
 			Return True
 		EndIf
     Else
 		Setlog("No Upgrade Elixir Button", $COLOR_RED)
+		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall Upgrade Failed" , "Cannot find elixir upgrade button")
 		Return False
 	EndIf
 Else

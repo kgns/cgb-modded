@@ -63,6 +63,7 @@ Func CheckWall()
 						$WallY += 200
 						SetLog("Tolerance is " & $Tolerance2 & " Wall segment in Zone 2: " & "[" & $WallX & "," & $WallY & "]", $COLOR_GREEN)
 						SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
+						ReportWallUpgrade($Tolerance2)
 						$checkwalllogic = True
 						Return True
 					EndIf
@@ -82,6 +83,7 @@ Func CheckWall()
 						$WallY += 74
 						SetLog("Tolerance is " & $Tolerance2 & " Wall segment in Zone 1: " & "[" & $WallX & "," & $WallY & "]", $COLOR_GREEN)
 						SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
+						ReportWallUpgrade($Tolerance2)
 						$checkwalllogic = True
 						Return True
 					EndIf
@@ -101,6 +103,7 @@ Func CheckWall()
 						$WallY += 335
 						SetLog("Tolerance is " & $Tolerance2 & " Wall segment in Zone 3: " & "[" & $WallX & "," & $WallY & "]", $COLOR_GREEN)
 						SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
+						ReportWallUpgrade($Tolerance2)
 						$checkwalllogic = True
 						Return True
 					EndIf
@@ -120,6 +123,7 @@ Func CheckWall()
 						$WallY += 425
 						SetLog("Tolerance is " & $Tolerance2 & " Wall segment in Zone 4: " & "[" & $WallX & "," & $WallY & "]", $COLOR_GREEN)
 						SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
+						ReportWallUpgrade($Tolerance2)
 						$checkwalllogic = True
 						Return True
 					EndIf
@@ -131,6 +135,7 @@ Func CheckWall()
 	If $WallLoc = 0 Then ; Verifycation if is a Wall and if is a Correct Level
 		$checkwalllogic = False
 		SetLog("Cannot find Walls level " & $icmbWalls + 4 & ", Skip upgrade...", $COLOR_RED)
+		ReportWallUpgradeFailed()
 		Return False
 	EndIf
 

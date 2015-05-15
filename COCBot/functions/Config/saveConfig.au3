@@ -240,7 +240,6 @@ Func saveConfig() ;Saves the controls settings to the config
 	EndIf
 
 	IniWrite($config, "advanced", "ATBullyMode", GUICtrlRead($txtATBullyMode))
-	IniWrite($config, "advanced", "OrigPushB", GUICtrlRead($OrigPushB))
 	IniWrite($config, "advanced", "YourTH", _GUICtrlComboBox_GetCurSel($cmbYourTH))
 
 	If GUICtrlRead($chkTrophyMode) = $GUI_CHECKED Then
@@ -251,44 +250,6 @@ Func saveConfig() ;Saves the controls settings to the config
 
 	IniWrite($config, "advanced", "THaddTiles", GUICtrlRead($txtTHaddtiles))
 	IniWrite($config, "advanced", "AttackTHType", _GUICtrlComboBox_GetCurSel($cmbAttackTHType))
-
-	IniWrite($config, "advanced", "AccountToken", GUICtrlRead($PushBTokenN))
-
-	If GUICtrlRead($chkAlertPBVillage) = $GUI_CHECKED Then
-		IniWrite($config, "advanced", "AlertPBVillage", 1)
-	Else
-		IniWrite($config, "advanced", "AlertPBVillage", 0)
-	EndIf
-
-	If  GUICtrlRead($chkAlertPBLastAttack) = $GUI_CHECKED Then
-		IniWrite($config, "advanced", "AlertPBLastAttack", 1)
-	Else
-		IniWrite($config, "advanced", "AlertPBLastAttack", 0)
-	EndIf
-
-	If  GUICtrlRead($chkAlertPBMatchFound) = $GUI_CHECKED Then
-		IniWrite($config, "advanced", "AlertPBMatchFound", 1)
-	Else
-		IniWrite($config, "advanced", "AlertPBMatchFound", 0)
-	 EndIf
-
-	If  GUICtrlRead($chkAlertImageLoot) = $GUI_CHECKED Then
-		IniWrite($config, "advanced", "AlertPBImageLoot", 1)
-	Else
-		IniWrite($config, "advanced", "AlertPBImageLoot", 0)
-	EndIf
-
-	If GUICtrlRead($DelALlPush) = $GUI_CHECKED Then
-		IniWrite($config, "advanced", "DelALlPush", 1)
-	Else
-		IniWrite($config, "advanced", "DelALlPush", 0)
-	EndIf
-
-	If GUICtrlRead($chkAlertPBLastAttack) = $GUI_CHECKED Then
-		IniWrite($config, "advanced", "AlertPBLastAttack", 1)
-	Else
-		IniWrite($config, "advanced", "AlertPBLastAttack", 0)
-	EndIf
 
 	;atk their king
 	;attk their queen
@@ -667,5 +628,81 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 
 	IniWrite($building, "other", "xSpellfactory", $SFPos[0])
 	IniWrite($building, "other", "ySpellfactory", $SFPos[1])
+
+	;PushBullet Settings----------------------------------------
+    IniWrite($config, "pushbullet", "AccountToken", GUICtrlRead($PushBTokenValue))
+    IniWrite($config, "pushbullet", "PBVillageName", GUICtrlRead($PBVillageName))
+
+	If GUICtrlRead($chkAlertPBVillage) = $GUI_CHECKED Then
+	   IniWrite($config, "pushbullet", "AlertPBVillage", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBVillage", 0)
+	  EndIf
+
+	If  GUICtrlRead($chkAlertPBLastAttack) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBLastAttack", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBLastAttack", 0)
+	 EndIf
+
+	 If  GUICtrlRead($chkPBenabled) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "PBEnabled", 1)
+    Else
+	    IniWrite($config, "pushbullet", "PBEnabled", 0)
+	 EndIf
+
+	If  GUICtrlRead($chkPBRemote) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "PBRemote", 1)
+    Else
+	    IniWrite($config, "pushbullet", "PBRemote", 0)
+	 EndIf
+
+    If  GUICtrlRead($chkAlertPBVMFound) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBVMFound", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBVMFound", 0)
+    EndIf
+
+	If  GUICtrlRead($chkAlertPBLastRaid) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBLastRaid", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBLastRaid", 0)
+	 EndIf
+
+	 If  GUICtrlRead($chkAlertPBWallUpgrade) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBWallUpgrade", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBWallUpgrade", 0)
+	 EndIf
+
+	If  GUICtrlRead($chkAlertPBOOS) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBOOS", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBOOS", 0)
+	 EndIf
+
+	If  GUICtrlRead($chkAlertPBLab) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBLab", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBLab", 0)
+	 EndIf
+
+    If  GUICtrlRead($chkAlertPBVBreak) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBVBreak", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBVBreak", 0)
+    EndIf
+
+	If  GUICtrlRead($chkAlertPBOtherDevice) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBOtherDevice", 1)
+    Else
+	    IniWrite($config, "pushbullet", "AlertPBOtherDevice", 0)
+    EndIf
+
+	If GUICtrlRead($chkDeleteAllPushes) = $GUI_CHECKED Then
+		IniWrite($config, "pushbullet", "DeleteAllPBPushes", 1)
+	Else
+		IniWrite($config, "pushbullet", "DeleteAllPBPushes", 0)
+	EndIf
 
 EndFunc   ;==>saveConfig

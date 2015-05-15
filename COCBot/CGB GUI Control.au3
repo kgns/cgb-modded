@@ -81,8 +81,9 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 EndFunc   ;==>GUIControl
 
 Func SetTime()
-	Local $time = _TicksToTime(Int(TimerDiff($sTimer)), $hour, $min, $sec)
-	If _GUICtrlTab_GetCurSel($tabMain) = 8 Then GUICtrlSetData($lblresultruntime, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
+	Local $time = _TicksToTime(Int(TimerDiff($sTimer) + $iTimePassed), $hour, $min, $sec)
+	If _GUICtrlTab_GetCurSel($tabMain) = 9 Then GUICtrlSetData($lblresultruntime, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
+    If $pEnabled = 1 AND $pRemote = 1 AND (StringFormat("%02i", $sec) = "00" OR StringFormat("%02i", $sec) = "30") Then _RemoteControl()
 EndFunc   ;==>SetTime
 Func Initiate()
 
@@ -120,7 +121,7 @@ Func Initiate()
 		$AttackNow = False
 		$FirstStart = True
 		$Checkrearm = True
-		If $iDelALlPush = 1 Then
+		If $iDeleteAllPushes = 1 Then
 			_DeletePush()
 			SetLog("Delete all PushBullet...", $COLOR_BLUE)
 		EndIf
@@ -205,7 +206,8 @@ Func btnStop()
 		GUICtrlSetState($btnStop, $GUI_HIDE)
 		GUICtrlSetState($btnPause, $GUI_HIDE)
 		GUICtrlSetState($btnResume, $GUI_HIDE)
-
+		
+		If Not $TPaused Then $iTimePassed += Int(TimerDiff($sTimer))
 		AdlibUnRegister("SetTime")
 		_BlockInputEx(0, "", "", $HWnD)
 
@@ -1402,6 +1404,40 @@ Func sldVSDelay()
 		GUICtrlSetData($lbltxtVSDelay, "seconds")
 	EndIf
 EndFunc   ;==>sldVSDelay
+
+Func chkPBenabled()
+	If GUICtrlRead($chkPBenabled) = $GUI_CHECKED Then
+		GUICtrlSetState($chkPBRemote, $GUI_ENABLE)
+		GUICtrlSetState($PushBTokenValue, $GUI_ENABLE)
+		GUICtrlSetState($PBVillageName, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBVMFound, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBLastRaid, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_ENABLE)
+		;GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBOOS, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBLab, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBVBreak, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBVillage, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBLastAttack, $GUI_ENABLE)
+		GUICtrlSetState($chkAlertPBOtherDevice, $GUI_ENABLE)
+		GUICtrlSetState($chkDeleteAllPushes, $GUI_ENABLE)
+	 Else
+		GUICtrlSetState($chkPBRemote, $GUI_DISABLE)
+		GUICtrlSetState($PushBTokenValue, $GUI_DISABLE)
+		GUICtrlSetState($PBVillageName, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBVMFound, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBLastRaid, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_DISABLE)
+		;GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBOOS, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBLab, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBVBreak, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBVillage, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBLastAttack, $GUI_DISABLE)
+		GUICtrlSetState($chkAlertPBOtherDevice, $GUI_DISABLE)
+		GUICtrlSetState($chkDeleteAllPushes, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>$chkPBenabled
 
 Func tabMain()
 	If GUICtrlRead($tabMain, 1) = $tabGeneral Then

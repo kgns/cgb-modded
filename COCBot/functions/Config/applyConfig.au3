@@ -269,41 +269,6 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	_GUICtrlComboBox_SetCurSel($cmbAttackTHType, $AttackTHType)
 	chkSnipeMode()
 
-	GUICtrlSetData($PushBTokenN, $PushToken)
-	GUICtrlSetData($OrigPushB, $iOrigPushB)
-
-	If $iAlertPBVillage = 1 Then
-		GUICtrlSetState($chkAlertPBVillage, $GUI_CHECKED)
-	ElseIf $iAlertPBVillage = 0 Then
-		GUICtrlSetState($chkAlertPBVillage, $GUI_UNCHECKED)
-	EndIf
-
-	If $iDelALlPush = 1 Then
-		GUICtrlSetState($DelALlPush, $GUI_CHECKED)
-	ElseIf $iDelALlPush = 0 Then
-		GUICtrlSetState($DelALlPush, $GUI_UNCHECKED)
-	EndIf
-
-	If $iLastAttack = 1 Then
-		GUICtrlSetState($chkAlertPBLastAttack, $GUI_CHECKED)
-	ElseIf $iLastAttack = 0 Then
-		GUICtrlSetState($chkAlertPBLastAttack, $GUI_UNCHECKED)
-	EndIf
-
-	If $iAlertPBMatchFound = 1 Then
-		GUICtrlSetState($chkAlertPBMatchFound, $GUI_CHECKED)
-	Elseif $iAlertPBMatchFound = 0 Then
-		GUICtrlSetState($chkAlertPBMatchFound, $GUI_UNCHECKED)
-	Endif
-
-	If $iAlertPBImageLoot = 1 Then
-		GUICtrlSetState($chkAlertImageLoot, $GUI_CHECKED)
-	Elseif $iAlertPBImageLoot = 0 Then
-		GUICtrlSetState($chkAlertImageLoot, $GUI_UNCHECKED)
-	Endif
-
-
-
 	;attk their king
 	;attk their queen
 
@@ -591,6 +556,84 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 
 	GUICtrlSetData($txtFullTroop, $fulltroop)
 	;barracks boost not saved (no use)
+
+	;PushBullet-----------------------------------------------------------------------------
+
+    GUICtrlSetData($PushBTokenValue, $PushToken)
+    GUICtrlSetData($PBVillageName, $iPBVillageName)
+
+	If $iAlertPBVillage = 1 Then
+	   GUICtrlSetState($chkAlertPBVillage, $GUI_CHECKED)
+    ElseIf $iAlertPBVillage = 0 Then
+	   GUICtrlSetState($chkAlertPBVillage, $GUI_UNCHECKED)
+    EndIf
+
+	If $iLastAttack  = 1 Then
+	   GUICtrlSetState($chkAlertPBLastAttack, $GUI_CHECKED)
+	Elseif $iLastAttack = 0 Then
+	   GUICtrlSetState($chkAlertPBLastAttack, $GUI_UNCHECKED)
+    EndIf
+
+	If $pEnabled = 1 Then
+	   GUICtrlSetState($chkPBenabled, $GUI_CHECKED)
+	Elseif $pEnabled = 0 Then
+	   GUICtrlSetState($chkPBenabled, $GUI_UNCHECKED)
+    EndIf
+
+	If $pRemote = 1 Then
+	   GUICtrlSetState($chkPBRemote, $GUI_CHECKED)
+	Elseif $pRemote = 0 Then
+	   GUICtrlSetState($chkPBRemote, $GUI_UNCHECKED)
+    EndIf
+
+	If $pMatchFound = 1 Then
+	   GUICtrlSetState($chkAlertPBVMFound, $GUI_CHECKED)
+	Elseif $pMatchFound = 0 Then
+	   GUICtrlSetState($chkAlertPBVMFound, $GUI_UNCHECKED)
+    EndIf
+
+	If $pLastRaidImg = 1 Then
+	   GUICtrlSetState($chkAlertPBLastRaid, $GUI_CHECKED)
+	Elseif $pLastRaidImg = 0 Then
+	   GUICtrlSetState($chkAlertPBLastRaid, $GUI_UNCHECKED)
+    EndIf
+
+	If $pWallUpgrade = 1 Then
+	   GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_CHECKED)
+	Elseif $pWallUpgrade = 0 Then
+	   GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_UNCHECKED)
+    EndIf
+
+	If $pOOS = 1 Then
+	   GUICtrlSetState($chkAlertPBOOS, $GUI_CHECKED)
+	Elseif $pOOS = 0 Then
+	   GUICtrlSetState($chkAlertPBOOS, $GUI_UNCHECKED)
+    EndIf
+
+	If $pLabUpgrade = 1 Then
+	   GUICtrlSetState($chkAlertPBLab, $GUI_CHECKED)
+	Elseif $pLabUpgrade = 0 Then
+	   GUICtrlSetState($chkAlertPBLab, $GUI_UNCHECKED)
+    EndIf
+
+	If $pTakeAbreak = 1 Then
+	   GUICtrlSetState($chkAlertPBVBreak, $GUI_CHECKED)
+	Elseif $pTakeAbreak = 0 Then
+	   GUICtrlSetState($chkAlertPBVBreak, $GUI_UNCHECKED)
+    EndIf
+
+	If $pAnotherDevice = 1 Then
+	   GUICtrlSetState($chkAlertPBOtherDevice, $GUI_CHECKED)
+	Elseif $pAnotherDevice = 0 Then
+	   GUICtrlSetState($chkAlertPBOtherDevice, $GUI_UNCHECKED)
+    EndIf
+
+	If $iDeleteAllPushes = 1 Then
+		GUICtrlSetState($chkDeleteAllPushes, $GUI_CHECKED)
+	ElseIf $iDeleteAllPushes = 0 Then
+		GUICtrlSetState($chkDeleteAllPushes, $GUI_UNCHECKED)
+	EndIf
+    
 ; laboratory tab
 ;Lab
 		If $ichkLab = 1 Then
@@ -622,6 +665,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkWalls, $GUI_UNCHECKED)
 	EndIf
 	chkWalls()
+	chkPBenabled()
 
 	If $ichkUpgrade1 = 1 Then
 		GUICtrlSetState($chkUpgrade1, $GUI_CHECKED)

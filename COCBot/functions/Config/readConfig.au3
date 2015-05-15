@@ -127,19 +127,10 @@ Func readConfig() ;Reads config and sets it to the variables
 		$OptBullyMode = IniRead($config, "advanced", "BullyMode", "0")
 		$ATBullyMode = IniRead($config, "advanced", "ATBullyMode", "0")
 		$YourTH = IniRead($config, "advanced", "YourTH", "0")
-		$iOrigPushB = IniRead($config, "advanced", "OrigPushB", "")
+		
 		$OptTrophyMode = IniRead($config, "advanced", "TrophyMode", "0")
 		$THaddtiles = IniRead($config, "advanced", "THaddTiles", "0")
 		$AttackTHType = IniRead($config, "advanced", "AttackTHType", "0")
-
-		$iDelALlPush = IniRead($config, "advanced", "DelALlPush", "0")
-		$PushToken = IniRead($config, "advanced", "AccountToken", "")
-
-		$iAlertPBVillage = IniRead($config, "advanced", "AlertPBVillage", "0")
-		$iLastAttack = IniRead($config, "advanced", "AlertPBLastAttack", "0")
-		$iAlertPBMatchFound = IniRead($config, "advanced", "AlertPBMatchFound", "0")
-		$iAlertPBImageLoot = IniRead($config, "advanced", "AlertPBImageLoot", "0")
-		$iDeleteAllPushes = IniRead($config, "advanced", "DeleteAllPBAlerts", "0")
 
 		;atk their king
 		;atk their queen
@@ -302,7 +293,23 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iChkTrophyHeroes = IniRead($config, "other", "chkTrophyHeroes", "0")
 		$iChkTrophyAtkDead = IniRead($config, "other", "chkTrophyAtkDead", "0")
 
+		;PushBullet Settings ---------------------------------------------
+		$PushToken = IniRead($config, "pushbullet", "AccountToken", "")
+		$iPBVillageName = IniRead($config, "pushbullet", "PBVillageName", "")
+		$iDeleteAllPushes = IniRead($config, "pushbullet", "DeleteAllPBPushes", "0")
 
+		$iAlertPBVillage = IniRead($config, "pushbullet", "AlertPBVillage", "0")
+        $iLastAttack = IniRead($config, "pushbullet", "AlertPBLastAttack", "0")
+
+		$pEnabled = IniRead($config, "pushbullet", "PBEnabled", "0")
+		$pRemote = IniRead($config, "pushbullet", "PBRemote", "0")
+	    $pMatchFound = IniRead($config, "pushbullet", "AlertPBVMFound", "0")
+	    $pLastRaidImg = IniRead($config, "pushbullet", "AlertPBLastRaid", "0")
+	    $pWallUpgrade = IniRead($config, "pushbullet", "AlertPBWallUpgrade", "0")
+	    $pOOS = IniRead($config, "pushbullet", "AlertPBOOS", "0")
+	    $pLabUpgrade = IniRead($config, "pushbullet", "AlertPBLab", "0")
+	    $pTakeAbreak = IniRead($config, "pushbullet", "AlertPBVBreak", "0")
+	    $pAnotherDevice = IniRead($config, "pushbullet", "AlertPBOtherDevice", "0")
 
 	Else
 		Return False

@@ -8,10 +8,13 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
     If _ImageSearchArea($device, 0, 237, 321, 293, 346, $x, $y, 80) Then
 		if $sTimeWakeUp > 3600 then
 			SetLog("Another Device has connected, waiting " & Floor(Floor($sTimeWakeUp / 60) / 60) & " hours " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds", $COLOR_RED)
+			If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iPBVillageName & ": 1. Another Device has connected", "Another Device has connected, waiting " & Floor(Floor($sTimeWakeUp / 60) / 60) & " hours " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
 		Elseif $sTimeWakeUp > 60 then
 			SetLog("Another Device has connected, waiting " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds", $COLOR_RED)
+			If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iPBVillageName & ": 2. Another Device has connected", "Another Device has connected, waiting " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
 		else
 			SetLog("Another Device has connected, waiting " & Floor(Mod($sTimeWakeUp, 60)) & " seconds", $COLOR_RED)
+			If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iPBVillageName & ": 3. Another Device has connected", "Another Device has connected, waiting " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
 		endif
 		If _Sleep($sTimeWakeUp * 1000) Then Return ; 2 Minutes
 		$iTimeTroops = 0
@@ -19,6 +22,7 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 		If _Sleep(2000) Then Return
 	Endif
     If _ImageSearch($break, 0, $x, $y, 80) Then
+	    ReportBreak()
         SetLog("Village must take a break, wait ...", $COLOR_RED)
         If _Sleep(120000) Then Return ; 2 Minutes
         PureClick(416, 399);Check for "Take a break" message
@@ -26,6 +30,7 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 	 EndIf
 	  If _ImageSearchArea($CocStopped, 0, 250, 328, 618, 402, $x, $y, 70) Then
   SetLog("CoC Has Stopped Error .....", $COLOR_RED)
+	    ReportCoCStopped()
         If _Sleep(1000) Then Return
         PureClick(250+$x, 328+$y);Check for "CoC has stopped error, looking for OK message" on screen
 If _Sleep(2000) Then Return

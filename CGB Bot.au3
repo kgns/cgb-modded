@@ -153,6 +153,7 @@ Func runBot() ;Bot that runs everything in order
 
 		Else ;When error occours directly goes to attack
 			SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
+			If $pEnabled = 1 AND $pOOS = 1 Then _Push($iPBVillageName & ": Restarted after Out of Sync Error", "Attacking now...")
 			AttackMain()
 				If _Sleep(1000) Then Return
 

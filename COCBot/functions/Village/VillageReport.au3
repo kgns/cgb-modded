@@ -76,18 +76,6 @@ Func VillageReport()
 		If $i >= 20 Then ExitLoop
 	WEnd
 
-  ; If $iAlertPBVillage = 1 Then
-  ;   _PushBullet("My Village:", " [G]: " & _NumberFormat($GoldCount) & " [E]: " & _NumberFormat($ElixirCount) & " [D]: " & _NumberFormat($DarkCount) & "  [T]: " & _NumberFormat($TrophyCount) & " [FreeBuilders]: " & $FreeBuilder)
-  ; Endif
-
-  ; If $iLastAttack = 1 Then
-		;If $GoldLast = "" And $ElixirLast = "" Then
-		;	_PushBullet("First time run", "remember: Last gain is : Attack Loot & Bonus - Cost of troops & Cost of searchs ")
-	;	Else
-		;	_PushBullet("Last Gain :", " [G]: " &  _NumberFormat($GoldLast) & " [E]: " &  _NumberFormat($ElixirLast) & " [D]: " &  _NumberFormat($DarkLast) & "  [T]: " & _NumberFormat($TrophyLast))
-	;	EndIf
-  ; EndIf
-
 EndFunc   ;==>VillageReport
 
 Func ReportStart() ; stats at Start

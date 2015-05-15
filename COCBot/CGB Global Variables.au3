@@ -71,10 +71,24 @@ Global $iChkAttackNow, $iAttackNowDelay, $bBtnAttackNowPressed = False
 Global $PushToken = ""
 Global $iLastAttack
 Global $iAlertPBVillage
-Global $iAlertPBMatchFound
+
+;PushBullet---------------------------------------------------------------
+Global $pEnabled
+Global $pRemote
+Global $pMatchFound
+Global $pLastRaidImg
+Global $pWallUpgrade
+Global $pOOS
+Global $pLabUpgrade
+Global $pTakeAbreak
+Global $pAnotherDevice
+Global $sLogFName
 Global $iAlertPBImageLoot
-Global $iDelALlPush
+Global $iAlertPBMatchFound
+Global $iDeleteAllPushes
 Global $iImageLoot
+Global $LastLoot
+Global $iPBVillageName
 
 Global $cmbTroopComp ;For Event change on ComboBox Troop Compositions
 Global $iCollectCounter = 0 ; Collect counter, when reaches $COLLECTATCOUNT, it will collect
@@ -285,7 +299,7 @@ Global $resArmy = 0
 Global $FirstAttack = 0
 Global $CurTrophy = 0
 Global $brrNum
-Global $sTimer, $hour, $min, $sec , $sTimeWakeUp = 120,$sTimeStopAtk
+Global $sTimer, $iTimePassed, $hour, $min, $sec , $sTimeWakeUp = 120,$sTimeStopAtk
 Global $fulltroop = 100
 Global $CurCamp, $TotalCamp = 0
 Global $NoLeague
@@ -381,6 +395,3 @@ Global $SpellLightningX = 549
 Global $SpellLightningY = 461
 Global $SpellRageX = 650
 Global $SpellRageY = 372
-
-Global $LastLoot
-Global $iOrigPushB

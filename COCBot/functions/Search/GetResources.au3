@@ -17,6 +17,7 @@ Func GetResources() ;Reads resources
 		$i += 1
 
 		If $i >= 40 or isProblemAffect(true) Then ; wait max 20 sec then Restart Bot
+		    If $pEnabled = 1 AND $pOOS = 1 Then _Push($iPBVillageName & ": Disconnected after " & StringFormat("%3s", $SearchCount) & " skip(s)", "Cannot locate Next button, Restarting Bot...")
 			SetLog("Cannot locate Next button, Restarting Bot..." , $COLOR_RED)
 
 			$Is_ClientSyncError = True
@@ -37,6 +38,7 @@ Func GetResources() ;Reads resources
 
 	$searchGold2 = $searchGold
 	If $iStuck >= 5 Then
+	    If $pEnabled = 1 AND $pOOS = 1 Then _Push($iPBVillageName & ": Disconnected after " & StringFormat("%3s", $SearchCount) & " skip(s)", "Stuck...")
 		SetLog("Cannot locate Next button, Restarting Bot", $COLOR_RED)
 		$Is_ClientSyncError = True
 		GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
