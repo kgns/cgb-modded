@@ -153,7 +153,7 @@ $WallLv[6] = @ScriptDir & "\images\Walls\LV10.bmp"
 Func CheckWallLv()
 	$WallLvc = 0
 	_CaptureRegion(340, 520, 555, 550)
-	If _ImageSearch($WallLv[$icmbWalls], 1, $x, $y, 65) Then ; Getting Wall level
+	If _ImageSearch($WallLv[$icmbWalls], 1, $x, $y, 85) Then ; Getting Wall level
 		$WallLvc = 1
 		SetLog("Found Word: (level " & $icmbWalls + 4 & ")", $COLOR_GREEN)
 		Return True
@@ -168,7 +168,7 @@ EndFunc   ;==>CheckWallLv
 Func CheckWallWord()
 	$WallWord = 0
 	_CaptureRegion(340, 520, 515, 550)
-	If _ImageSearch(@ScriptDir & "\images\Walls\wallword.bmp", 1, $x, $y, 55) Then ; Getting Wall word
+	If _ImageSearch(@ScriptDir & "\images\Walls\wallword.bmp", 1, $x, $y, 85) Then ; Getting Wall word
 		$WallWord = 1
 		SetLog("Found Word: Wall", $COLOR_GREEN)
 		Return True
@@ -179,3 +179,59 @@ Func CheckWallWord()
 	EndIf
 
 EndFunc   ;==>CheckWallWord
+
+;##################################### transparecy image search ###################################
+
+Func _ImageSearch3($findImage, $resultPosition, ByRef $x, ByRef $y, $Tolerance, $transparency = 0)
+	Return _ImageSearchArea3($findImage, $resultPosition, 0, 0, 840, 720, $x, $y, $Tolerance, $transparency)
+EndFunc   ;==>_ImageSearch3
+
+Func _ImageSearchArea3($findImage, $resultPosition, $x1, $y1, $right, $bottom, ByRef $x, ByRef $y, $Tolerance, $transparency = 0)
+	Global $HBMP = $hHBitmap
+	If $ichkBackground = 0 Then
+		$HBMP = 0
+		$x1 += $BSPos[0]
+		$y1 += $BSPos[1]
+		$right += $BSPos[0]
+		$bottom += $BSPos[1]
+	EndIf
+	;MsgBox(0,"asd","" & $x1 & " " & $y1 & " " & $right & " " & $bottom)
+
+	If Not ($transparency = 0) Then $findImage = "*" & $transparency & " " & $findImage
+
+	If IsString($findImage) Then
+		If $Tolerance > 0 Then $findImage = "*" & $Tolerance & " " & $findImage
+		If $HBMP = 0 Then
+			$result = DllCall($LibDir & "\CGBPlugin.dll", "str", "ImageSearch", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage)
+		Else
+			$result = DllCall($LibDir & "\CGBPlugin.dll", "str", "ImageSearchEx", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage, "ptr", $HBMP)
+		EndIf
+	Else
+		$result = DllCall($LibDir & "\CGBPlugin.dll", "str", "ImageSearchExt", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "int", $Tolerance, "ptr", $findImage, "ptr", $HBMP)
+	EndIf
+
+	; If error exit
+	If IsArray($result) Then
+		If $result[0] = "0" Then Return 0
+	Else
+		SetLog("Error: Image Search not working...", $COLOR_RED)
+		Return 1
+	EndIf
+
+	; Otherwise get the x,y location of the match and the size of the image to
+	; compute the centre of search
+	$array = StringSplit($result[0], "|")
+	If (UBound($array) >= 4) Then
+		$x = Int(Number($array[2]))
+		$y = Int(Number($array[3]))
+		If $resultPosition = 1 Then
+			$x = $x + Int(Number($array[4]) / 2)
+			$y = $y + Int(Number($array[5]) / 2)
+		EndIf
+		If $Hide = False Then
+			$x -= $x1
+			$y -= $y1
+		EndIf
+		Return 1
+	EndIf
+EndFunc   ;==>_ImageSearchArea3
