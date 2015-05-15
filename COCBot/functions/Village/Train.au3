@@ -256,21 +256,21 @@ Func Train()
 			$brrNum += 1
 			Switch $barrackTroop[$brrNum-1]
 				Case 0
-					Click(220, 320, 55, 10) ;Barbarian
+					Click(220, 320, 75, 10) ;Barbarian
 				Case 1
-					Click(331, 320, 55, 10) ;Archer
+					Click(331, 320, 75, 10) ;Archer
 				Case 2
-					Click(432, 320, 3, 10) ;Giant
+					Click(432, 320, 15, 10) ;Giant
 				Case 3
-					Click(546, 320, 12, 10) ;Goblin
+					Click(546, 320, 75, 10) ;Goblin
 				Case 4
-					Click(647, 320, 3, 10) ;Wall Breaker
+					Click(647, 320, 37, 10) ;Wall Breaker
 				Case 5
-					Click(220, 425, 3, 10) ;Balloon
+					Click(220, 425, 15, 10) ;Balloon
 				Case 6
-					Click(331, 425, 3, 10) ;Wizard
+					Click(331, 425, 18, 10) ;Wizard
 				Case 7
-					Click(432, 425, 3, 10) ;Healer
+					Click(432, 425, 5, 10) ;Healer
 				Case 8
 					Click(546, 425, 3, 10) ;Dragon
 				Case 9
