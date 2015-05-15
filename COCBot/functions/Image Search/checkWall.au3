@@ -18,121 +18,129 @@ Global $WallLvc = 0
 Global $checkwalllogic
 Global $Wall[7][3]
 
-;$Wall[0][0] = @ScriptDir & "\images\Walls\3_1.bmp"
-;$Wall[0][1] = @ScriptDir & "\images\Walls\3_2.bmp"
-
 $Wall[0][0] = @ScriptDir & "\images\Walls\4_1.bmp"
 $Wall[0][1] = @ScriptDir & "\images\Walls\4_2.bmp"
+$Wall[0][2] = @ScriptDir & "\images\Walls\4.png"
 
 $Wall[1][0] = @ScriptDir & "\images\Walls\5_1.bmp"
 $Wall[1][1] = @ScriptDir & "\images\Walls\5_2.bmp"
+$Wall[1][2] = @ScriptDir & "\images\Walls\5.png"
 
 $Wall[2][0] = @ScriptDir & "\images\Walls\6_1.bmp"
 $Wall[2][1] = @ScriptDir & "\images\Walls\6_2.bmp"
+$Wall[2][2] = @ScriptDir & "\images\Walls\6.png"
 
 $Wall[3][0] = @ScriptDir & "\images\Walls\7_1.bmp"
 $Wall[3][1] = @ScriptDir & "\images\Walls\7_2.bmp"
+$Wall[3][2] = @ScriptDir & "\images\Walls\7.png"
 
 $Wall[4][0] = @ScriptDir & "\images\Walls\8_1.bmp"
 $Wall[4][1] = @ScriptDir & "\images\Walls\8_2.bmp"
+$Wall[4][2] = @ScriptDir & "\images\Walls\8.png"
 
 $Wall[5][0] = @ScriptDir & "\images\Walls\9_1.bmp"
 $Wall[5][1] = @ScriptDir & "\images\Walls\9_2.bmp"
-$Wall[5][2] = @ScriptDir & "\images\Walls\9_3.bmp"
+$Wall[5][2] = @ScriptDir & "\images\Walls\9.png"
 
 $Wall[6][0] = @ScriptDir & "\images\Walls\10_1.bmp"
 $Wall[6][1] = @ScriptDir & "\images\Walls\10_2.bmp"
+$Wall[6][2] = @ScriptDir & "\images\Walls\10.png"
 
-Global $WallX = 0, $WallY = 0, $WallLoc = 0
-
+Global $WallPos[4] , $WallxLOC , $WallyLOC
+Global $Tolerance2 = 70
+Global $WallX[4] , $WallY[4]
 
 Func CheckWall()
+
 	$WallLoc = 0
-	Local $centerPixel[2] = [430, 313]
 	If _Sleep(500) Then Return
+	Local $y1 ,$y2 , $y3
+
+        $y = 0
+		SetLog ("Initial Position of $y :" & $y )
+	    _CaptureRegion(0, $y, 860, 720) ; Detection for Position 1
+		For $Tolerance2 = 0 To 90
+		   For $x = 0 To 2
+			$WallPos[0]= _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX[0], $WallY[0], $Tolerance2) ; Getting Wall Location
+			If $WallPos[0] = 1 Then
+				ExitLoop(2)
+			EndIf
+		   Next
+		Next
+		$WallY[0] += $y
+		SetLog("Wall segment Position 1 •[" & $WallX[0] & "," & $WallY[0] & "]", $COLOR_GREEN)
+
+
+		$y1 = Ceiling ($WallY[0] + 10)
+		SetLog ("Initial Position of $y :" & $y1 )
+	    _CaptureRegion(0,$y1, 860, 720) ; Detection for Position 2
+        For $Tolerance2 = 0 To 90
+		   For $x = 0 To 2
+			$WallPos[1]= _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX[1], $WallY[1], $Tolerance2) ; Getting Wall Location
+			If $WallPos[1] = 1 Then
+				ExitLoop(2)
+			EndIf
+		   Next
+		Next
+		$WallY[1] += $y1
+		SetLog("Wall segment Position 2 •[" & $WallX[1] & "," & $WallY[1] & "]", $COLOR_GREEN)
+
+
+	    $y2 = Ceiling ($WallY[1] + 10)
+		SetLog ("Initial Position of $y :" & $y2 )
+	    _CaptureRegion(0, $y2, 860, 720) ; Detection for Position 3
+        For $Tolerance2 = 0 To 90
+		   For $x = 0 To 2
+			$WallPos[2]= _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX[2], $WallY[2], $Tolerance2) ; Getting Wall Location
+			If $WallPos[2] = 1 Then
+				ExitLoop(2)
+			EndIf
+		   Next
+		Next
+		$WallY[2] += $y2
+		SetLog("Wall segment Position 3 •[" & $WallX[2] & "," & $WallY[2] & "]", $COLOR_GREEN)
+
+
+		$y3 = Ceiling ($WallY[2] + 10)
+		SetLog ("Initial Position of $y :" & $y3 )
+	    _CaptureRegion(0, $y3, 860, 720) ; Detection for Position 4
+        For $Tolerance2 = 0 To 90
+		   For $x = 0 To 2
+			$WallPos[3]= _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX[3], $WallY[3], $Tolerance2) ; Getting Wall Location
+			If $WallPos[3] = 1 Then
+				ExitLoop(2)
+			EndIf
+		   Next
+		Next
+		$WallY[3] += $y3
+        SetLog("Wall segment Position 4 •[" & $WallX[3] & "," & $WallY[3] & "]", $COLOR_GREEN)
+
+
+		 If IsArray($WallPos)> 0 Then
+			SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
+			For $i = 0 To 3
+				Sleep (1000)
+				PureClick($WallX[$i], $WallY[$i])
+				Sleep(1000)
+				If CheckWallLv() = 1 And CheckWallWord() = 1 Then
+					$checkwalllogic = True
+					$WallLoc = 1
+					$WallxLOC = $WallX[$i]
+					$WallyLOC = $WallY[$i]
+					ReportWallUpgrade()
+					click(1, 1)
+					Return True
+					ExitLoop
+				Else
+					$WallLoc = 0
+					ContinueLoop
+					click(1, 1)
+				EndIf
+			Next
+		 EndIf
+
 
 	If $WallLoc = 0 Then
-		_CaptureRegion(78, 200, 790, 360) ; Zona 2
-		For $Tolerance2 = 0 To 65
-			For $x = 0 To 1
-				If $WallLoc = 0 Then
-					;_CaptureRegion(78, 200, 790, 360)
-					$WallLoc = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX, $WallY, $Tolerance2) ; Getting Wall Location
-					If $WallLoc = 1 Then
-						$WallX += 78
-						$WallY += 200
-						SetLog("Tolerance is " & $Tolerance2 & " Wall segment in Zone 2: " & "[" & $WallX & "," & $WallY & "]", $COLOR_GREEN)
-						SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
-						ReportWallUpgrade($Tolerance2)
-						$checkwalllogic = True
-						Return True
-					EndIf
-				EndIf
-			Next
-		Next
-	EndIf
-	If $WallLoc = 0 Then
-		_CaptureRegion(226, 74, 654, 204) ; Zona 1
-		For $Tolerance2 = 0 To 65
-			For $x = 0 To 1
-				If $WallLoc = 0 Then
-					;_CaptureRegion(226, 74, 654, 204)
-					$WallLoc = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX, $WallY, $Tolerance2) ; Getting Wall Location
-					If $WallLoc = 1 Then
-						$WallX += 226
-						$WallY += 74
-						SetLog("Tolerance is " & $Tolerance2 & " Wall segment in Zone 1: " & "[" & $WallX & "," & $WallY & "]", $COLOR_GREEN)
-						SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
-						ReportWallUpgrade($Tolerance2)
-						$checkwalllogic = True
-						Return True
-					EndIf
-				EndIf
-			Next
-		Next
-	EndIf
-	If $WallLoc = 0 Then
-		_CaptureRegion(168, 355, 702, 430) ; Zona 3
-		For $Tolerance2 = 0 To 65
-			For $x = 0 To 1
-				If $WallLoc = 0 Then
-					;_CaptureRegion(168, 355, 702, 430)
-					$WallLoc = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX, $WallY, $Tolerance2) ; Getting Wall Location
-					If $WallLoc = 1 Then
-						$WallX += 168
-						$WallY += 335
-						SetLog("Tolerance is " & $Tolerance2 & " Wall segment in Zone 3: " & "[" & $WallX & "," & $WallY & "]", $COLOR_GREEN)
-						SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
-						ReportWallUpgrade($Tolerance2)
-						$checkwalllogic = True
-						Return True
-					EndIf
-				EndIf
-			Next
-		Next
-	EndIf
-	If $WallLoc = 0 Then
-		_CaptureRegion(294, 425, 654, 520) ; Zona 4
-		For $Tolerance2 = 0 To 65
-			For $x = 0 To 1
-				If $WallLoc = 0 Then
-					;_CaptureRegion(294, 425, 654, 520)
-					$WallLoc = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX, $WallY, $Tolerance2) ; Getting Wall Location
-					If $WallLoc = 1 Then
-						$WallX += 294
-						$WallY += 425
-						SetLog("Tolerance is " & $Tolerance2 & " Wall segment in Zone 4: " & "[" & $WallX & "," & $WallY & "]", $COLOR_GREEN)
-						SetLog("Found Walls level " & $icmbWalls + 4 & ", Verifying...", $COLOR_GREEN)
-						ReportWallUpgrade($Tolerance2)
-						$checkwalllogic = True
-						Return True
-					EndIf
-				EndIf
-			Next
-		Next
-	EndIf
-
-	If $WallLoc = 0 Then ; Verifycation if is a Wall and if is a Correct Level
 		$checkwalllogic = False
 		SetLog("Cannot find Walls level " & $icmbWalls + 4 & ", Skip upgrade...", $COLOR_RED)
 		ReportWallUpgradeFailed()
@@ -153,7 +161,7 @@ $WallLv[6] = @ScriptDir & "\images\Walls\LV10.bmp"
 Func CheckWallLv()
 	$WallLvc = 0
 	_CaptureRegion(340, 520, 555, 550)
-	If _ImageSearch($WallLv[$icmbWalls], 1, $x, $y, 85) Then ; Getting Wall level
+	If _ImageSearch($WallLv[$icmbWalls], 1, $x, $y, 100) Then ; Getting Wall level
 		$WallLvc = 1
 		SetLog("Found Word: (level " & $icmbWalls + 4 & ")", $COLOR_GREEN)
 		Return True
@@ -162,13 +170,15 @@ Func CheckWallLv()
 		SetLog("Not Found Word: (level " & $icmbWalls + 4 & ")", $COLOR_GREEN)
 		Return False
 	EndIf
+	Click(1, 1)
 EndFunc   ;==>CheckWallLv
 
 
 Func CheckWallWord()
 	$WallWord = 0
 	_CaptureRegion(340, 520, 515, 550)
-	If _ImageSearch(@ScriptDir & "\images\Walls\wallword.bmp", 1, $x, $y, 85) Then ; Getting Wall word
+	If _ImageSearch(@ScriptDir & "\images\Walls\wallword.bmp", 1, $x, $y, 100) Or _
+	   _ImageSearch(@ScriptDir & "\images\Walls\wallword1.bmp", 1, $x, $y, 100) Then ; Getting Wall word
 		$WallWord = 1
 		SetLog("Found Word: Wall", $COLOR_GREEN)
 		Return True
@@ -180,58 +190,6 @@ Func CheckWallWord()
 
 EndFunc   ;==>CheckWallWord
 
-;##################################### transparecy image search ###################################
 
-Func _ImageSearch3($findImage, $resultPosition, ByRef $x, ByRef $y, $Tolerance, $transparency = 0)
-	Return _ImageSearchArea3($findImage, $resultPosition, 0, 0, 840, 720, $x, $y, $Tolerance, $transparency)
-EndFunc   ;==>_ImageSearch3
 
-Func _ImageSearchArea3($findImage, $resultPosition, $x1, $y1, $right, $bottom, ByRef $x, ByRef $y, $Tolerance, $transparency = 0)
-	Global $HBMP = $hHBitmap
-	If $ichkBackground = 0 Then
-		$HBMP = 0
-		$x1 += $BSPos[0]
-		$y1 += $BSPos[1]
-		$right += $BSPos[0]
-		$bottom += $BSPos[1]
-	EndIf
-	;MsgBox(0,"asd","" & $x1 & " " & $y1 & " " & $right & " " & $bottom)
 
-	If Not ($transparency = 0) Then $findImage = "*" & $transparency & " " & $findImage
-
-	If IsString($findImage) Then
-		If $Tolerance > 0 Then $findImage = "*" & $Tolerance & " " & $findImage
-		If $HBMP = 0 Then
-			$result = DllCall($LibDir & "\CGBPlugin.dll", "str", "ImageSearch", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage)
-		Else
-			$result = DllCall($LibDir & "\CGBPlugin.dll", "str", "ImageSearchEx", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage, "ptr", $HBMP)
-		EndIf
-	Else
-		$result = DllCall($LibDir & "\CGBPlugin.dll", "str", "ImageSearchExt", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "int", $Tolerance, "ptr", $findImage, "ptr", $HBMP)
-	EndIf
-
-	; If error exit
-	If IsArray($result) Then
-		If $result[0] = "0" Then Return 0
-	Else
-		SetLog("Error: Image Search not working...", $COLOR_RED)
-		Return 1
-	EndIf
-
-	; Otherwise get the x,y location of the match and the size of the image to
-	; compute the centre of search
-	$array = StringSplit($result[0], "|")
-	If (UBound($array) >= 4) Then
-		$x = Int(Number($array[2]))
-		$y = Int(Number($array[3]))
-		If $resultPosition = 1 Then
-			$x = $x + Int(Number($array[4]) / 2)
-			$y = $y + Int(Number($array[5]) / 2)
-		EndIf
-		If $Hide = False Then
-			$x -= $x1
-			$y -= $y1
-		EndIf
-		Return 1
-	EndIf
-EndFunc   ;==>_ImageSearchArea3

@@ -209,9 +209,9 @@ Func ReportMatchFound()
    Endif
 EndFunc   ;==>ReportMatchFound
 
-Func ReportWallUpgrade($Tolerance2)
+Func ReportWallUpgrade()
    If $pEnabled = 1 AND $pWallUpgrade = 1 Then 
-      _Push($iPBVillageName & ": Found Wall level " & $icmbWalls+4 , "Tolerance is " & $Tolerance2 & " Wall segment has been located...\nUpgrading ...")
+      _Push($iPBVillageName & ": Found Wall level " & $icmbWalls+4 , "Wall segment has been located...\nUpgrading ...")
    EndIf
 EndFunc   ;==>ReportWallUpgrade
 

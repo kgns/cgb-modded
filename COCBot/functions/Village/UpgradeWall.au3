@@ -73,13 +73,9 @@ Func UpgradeWall()
 EndFunc   ;==>UpgradeWall
 
 Func UpgradeWallGold()
-
-	Click($WallX, $WallY)
+     sleep (1000)
+	Click($WallxLOC, $WallyLOC)
 	If _Sleep(600) Then Return
-	CheckWallWord()
-	Sleep (1000)
-	CheckWallLv()
-If $WallWord = 1 And $WallLvc = 1 Then
 
 	Local $offColors[3][3] = [[0xD6714B, 47, 37], [0xF0E850, 70, 0], [0xF4F8F2, 79, 0]] ; 2nd pixel brown hammer, 3rd pixel gold, 4th pixel edge of button
 	Global $ButtonPixel = _MultiPixelSearch(240, 563, 670, 650, 1, 1, Hex(0xF3F3F1, 6), $offColors, 30) ; first gray/white pixel of button
@@ -101,20 +97,14 @@ If $WallWord = 1 And $WallLvc = 1 Then
 		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall Upgrade Failed" , "Cannot find gold upgrade button")
 		Return False
 	EndIf
-Else
-Setlog("It is not a Wall...", $COLOR_RED)
-Return False
-EndIf
+
 EndFunc   ;==>UpgradeWallGold
 
 Func UpgradeWallElixir()
-
-	Click($WallX, $WallY)
+    sleep (1000)
+	Click($WallxLOC, $WallyLOC)
 	If _Sleep(600) Then Return
-	CheckWallWord()
-	Sleep (1000)
-	CheckWallLv()
-If $WallWord = 1 And $WallLvc = 1 Then
+
 
 	Local $offColors[3][3] = [[0xBC5B31, 38, 32], [0xF84CF9, 72, 0], [0xF5F9F2, 79, 0]] ; 2nd pixel brown hammer, 3rd pixel gold, 4th pixel edge of button
 	Global $ButtonPixel = _MultiPixelSearch(240, 563, 670, 650, 1, 1, Hex(0xF4F7F2, 6), $offColors, 30) ; first gray/white pixel of button
@@ -136,8 +126,5 @@ If $WallWord = 1 And $WallLvc = 1 Then
 		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall Upgrade Failed" , "Cannot find elixir upgrade button")
 		Return False
 	EndIf
-Else
-Setlog("It is not a Wall...", $COLOR_RED)
-Return False
-EndIf
+
 EndFunc   ;==>UpgradeWallElixir
