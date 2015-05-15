@@ -1333,6 +1333,16 @@ Func chkWalls()
 	EndIf
 EndFunc   ;==>chkWalls
 
+;Mow the lawn
+Func chkTrees()
+	If GUICtrlRead($chkTrees) = $GUI_CHECKED Then
+		$ichkTrees = 1
+	Else
+		$ichkTrees = 0
+	EndIf
+EndFunc   ;==>chkTrees
+;End Mow the lawn
+
 Func cmbWalls()
 	Switch _GUICtrlComboBox_GetCurSel($cmbWalls)
 		Case 0

@@ -550,6 +550,14 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	IniWrite($config, "other", "walllvl", _GUICtrlComboBox_GetCurSel($cmbWalls))
 	IniWrite($config, "other", "minwallgold", GUICtrlRead($txtWallMinGold))
 	IniWrite($config, "other", "minwallelixir", GUICtrlRead($txtWallMinElixir))
+	
+	;Mow the Lawn
+	If GUICtrlRead($chkTrees) = $GUI_CHECKED Then
+		IniWrite($config, "other", "remove-trees", 1)
+	Else
+		IniWrite($config, "other", "remove-trees", 0)
+	EndIf
+	;End Mow the Lawn
 
 	If GUICtrlRead($chkTrap) = $GUI_CHECKED Then
 		IniWrite($config, "other", "chkTrap", 1)

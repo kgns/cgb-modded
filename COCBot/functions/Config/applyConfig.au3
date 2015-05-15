@@ -695,6 +695,15 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtUpgradeY3, $itxtUpgradeY3)
 	GUICtrlSetData($txtUpgradeX4, $itxtUpgradeX4)
 	GUICtrlSetData($txtUpgradeY4, $itxtUpgradeY4)
+	
+	;Mow the lawn
+	If $ichkTrees = 1 Then
+		GUICtrlSetState($chkTrees, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkTrees, $GUI_UNCHECKED)
+	EndIf
+	chkTrees()
+	;End Mow the lawn
 
 	If $ichkTrap = 1 Then
 		GUICtrlSetState($chkTrap, $GUI_CHECKED)

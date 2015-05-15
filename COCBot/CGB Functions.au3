@@ -34,6 +34,7 @@
 #include "functions\Image Search\checkTownhall.au3"
 #include "functions\Image Search\checkWall.au3"
 #include "functions\Image Search\checkDElixS.au3"
+#include "functions\Image Search\checkTrees.au3"
 
 #include "functions\Main Screen\checkMainScreen.au3"
 #include "functions\Main Screen\checkObstacles.au3"
@@ -108,6 +109,7 @@
 #include "functions\Village\UpgradeWall.au3"
 #include "functions\Village\PushBullet.au3"
 #include "functions\Village\UpTroops.au3"
+#include "functions\Village\RemoveTrees.au3"
 
 #include "functions\Village\LocateSpell.au3"
 #include "functions\Village\Spell.au3"

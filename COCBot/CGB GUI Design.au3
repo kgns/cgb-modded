@@ -16,10 +16,10 @@
 ;~ ------------------------------------------------------
 ;~ Main GUI
 ;~ ------------------------------------------------------
-$frmBot = GUICreate($sBotTitle, 470, 605)
+$frmBot = GUICreate($sBotTitle, 470, 665)
 	GUISetIcon($LibDir & "\CGBBOT.dll", 10)
 	TraySetIcon($LibDir & "\CGBBOT.dll", 10)
-$tabMain = GUICtrlCreateTab(5, 85, 461, 405, $TCS_TOOLTIPS)
+$tabMain = GUICtrlCreateTab(5, 85, 461, 465, $TCS_TOOLTIPS)
 	GUICtrlSetOnEvent(-1, "tabMain")
 	GUICtrlCreatePic (@ScriptDir & "\Icons\logo.jpg", 0, 0, 470, 80)
 
@@ -30,8 +30,8 @@ $tabMain = GUICtrlCreateTab(5, 85, 461, 405, $TCS_TOOLTIPS)
 Local $btnColor = False
 
 ;~ Buttons
-$grpButtons = GUICtrlCreateGroup("", 10, 490, 190, 85)
-Local $x = 15, $y = 500
+$grpButtons = GUICtrlCreateGroup("", 10, 550, 190, 85)
+Local $x = 15, $y = 560
 	$btnStart = GUICtrlCreateButton("Start Bot", $x, $y + 2, 90, 40)
 		GUICtrlSetOnEvent(-1, "btnStart")
 		IF $btnColor then GUICtrlSetBkColor(-1, 0x5CAD85)
@@ -73,7 +73,7 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 		GUICtrlSetColor(-1, $COLOR_MEDGRAY)
 
 ;~ Village
-Local $x = 290, $y = 510
+Local $x = 290, $y = 570
 $grpVillage = GUICtrlCreateGroup("Village", $x - 20, $y - 20, 190, 85)
 	$lblResultGoldNow = GUICtrlCreateLabel("", $x, $y + 2, 50, 15, $SS_RIGHT)
 	$picResultGoldNow = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 60, $y, 16, 16)
@@ -109,21 +109,21 @@ Global $FirstControlToHide = GUICtrlCreateDummy()
 ;~ -------------------------------------------------------
 
 $tabGeneral = GUICtrlCreateTabItem("General")
-	$txtLog = _GUICtrlRichEdit_Create($frmBot, "", 10, 115, 450, 315, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8912), $WS_EX_STATICEDGE)
+	$txtLog = _GUICtrlRichEdit_Create($frmBot, "", 10, 115, 450, 375, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8912), $WS_EX_STATICEDGE)
 		_ArrayConcatenate($G, $A)
-	$grpControls = GUICtrlCreateGroup("Halt Attack", 10, 435, 450, 50)
-		$chkBotStop = GUICtrlCreateCheckbox("", 25, 455, 16, 16)
+	$grpControls = GUICtrlCreateGroup("Halt Attack", 10, 495, 450, 50)
+		$chkBotStop = GUICtrlCreateCheckbox("", 25, 515, 16, 16)
 			$txtTip = "Use these options to set when the bot will stop attacking."
 			GUICtrlSetTip(-1, $txtTip)
-		$cmbBotCommand = GUICtrlCreateCombo("", 50, 452, 90, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbBotCommand = GUICtrlCreateCombo("", 50, 512, 90, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "Halt Attack|Shutdown PC|Sleep PC", "Halt Attack")
-		$lblBotCond = GUICtrlCreateLabel("When...", 155, 455, 45, 17)
-		$cmbBotCond = GUICtrlCreateCombo("", 205, 452, 160, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$lblBotCond = GUICtrlCreateLabel("When...", 155, 515, 45, 17)
+		$cmbBotCond = GUICtrlCreateCombo("", 205, 512, 160, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "G and E Full and Max.Trophy|(G and E) Full or Max.Trophy|(G or E) Full and Max.Trophy|G or E Full or Max.Trophy|Gold and Elixir Full|Gold or Elixir Full|Gold Full and Max.Trophy|Elixir Full and Max.Trophy|Gold Full or Max.Trophy|Elixir Full or Max.Trophy|Gold Full|Elixir Full|Reach Max. Trophy|Bot running for...|Now (Train/Donate Only)", "Now (Train/Donate Only)")
 			GUICtrlSetOnEvent(-1, "cmbBotCond")
-		$cmbHoursStop = GUICtrlCreateCombo("", 365, 452, 80, 35, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbHoursStop = GUICtrlCreateCombo("", 365, 512, 80, 35, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "-|1 Hour|2 Hours|3 Hours|4 Hours|5 Hours|6 Hours|7 Hours|8 Hours|9 Hours|10 Hours|11 Hours|12 Hours|13 Hours|14 Hours|15 Hours|16 Hours|17 Hours|18 Hours|19 Hours|20 Hours|21 Hours|22 Hours|23 Hours|24 Hours", "-")
 			GUICtrlSetState (-1, $GUI_DISABLE)
@@ -1448,8 +1448,19 @@ Local $x = 30, $y = 130
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_CHECKED)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
+	
+	;Mow the Lawn
 	Local $x = 30, $y = 385
+	GUICtrlCreateIcon(@ScriptDir & "\Icons\trees.ico", -1, $x - 10, $y - 4, 22, 28)
+	$grpOther = GUICtrlCreateGroup("Other", $x -20, $y - 20 , 225, 56)
+	$chkTrees = GUICtrlCreateCheckbox("Remove Trees", $x + 20, $y, -1, -1)
+		GUICtrlSetTip(-1, "Check this to remove shrubbery. Ni! ... and gem boxes.")
+		GUICtrlSetState(-1, $GUI_UNCHECKED)
+		GUICtrlSetOnEvent(-1, "chkTrees")
+		GUICtrlCreateGroup("", -99, -99, 1, 1)
+	;End Mow the Lawn
+
+	Local $x = 30, $y = 445
 	$grpTimeWakeUp = GUICtrlCreateGroup("Remote Device", $x - 20, $y - 20 , 225, 60)
 		$lblTimeWakeUp = GUICtrlCreateLabel("When 'Another Device' wait:", $x, $y + 7, -1, -1)
 		$txtTip = "Enter the time to wait (in seconds) before the Bot reconnects when another device took control."
@@ -1460,7 +1471,7 @@ Local $x = 30, $y = 130
 		$lblTimeWakeUpSec = GUICtrlCreateLabel("sec.", $x + 175, $y + 7, -1, -1)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 30, $y = 450
+	Local $x = 30, $y = 510
 	$grpVSDelay = GUICtrlCreateGroup("Village Search Delay ", $x - 20, $y - 20, 225, 55)
 		$txtTip = "Use this slider to change the time to wait between Next clicks when searching for a Village to Attack." & @CRLF & "This might compensate for Out of Sync errors on some PC's." & @CRLF & "NO GUARANTEES! This will not always have the same results!"
 		$lblVSDelay = GUICtrlCreateLabel("1", $x, $y, 12, 15, $SS_RIGHT)

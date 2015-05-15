@@ -254,6 +254,7 @@ Global $icmbWalls
 Global $iUseStorage
 Global $itxtWallMinGold
 Global $itxtWallMinElixir
+Global $ichkTrees
 Global $iVSDelay
 Global $ichkTrap, $iChkCollect
 Global $icmbUnitDelay, $icmbWaveDelay, $iRandomspeedatk
