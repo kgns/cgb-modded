@@ -395,137 +395,138 @@ Func Train()
 			endif
 		endif
 
-		;dark here
-
-		If $isDarkBuild Then
-			$iBarrHere = 0
-			$brrDarkNum = 0
-			while 1
-				If IsArray($PrevPos) Then Click($PrevPos[0], $PrevPos[1]) ;click prev button
-				$iBarrHere += 1
-				If _Sleep(1000) Then ExitLoop
-				if(isDarkBarrack() or $iBarrHere = 5) then ExitLoop
-			wend
-
-			while isDarkBarrack()
-				$brrDarkNum += 1
-	;~ 			; SetLog("====== Barrack: " & $brrDarkNum & " ======", $COLOR_PURPLE)
-				if StringInStr($sBotDll, "CGBPlugin.dll") < 1 then
-					ExitLoop
-				endif
-				if $fullArmy or $FirstStart then
-					$icount = 0
-					while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
-						Click(496, 197, 10)
-						$icount += 1
-						if $icount = 100 then exitloop
-					wend
-				endif
-
-				If _Sleep(100) Then ExitLoop
-				for $i=0 to Ubound($TroopDarkName) - 1
-					If GUICtrlRead(eval("txtNum" & $TroopDarkName[$i])) <> "0" Then
-						$heightTroop = 278
-						$positionTroop = $TroopDarkNamePosition[$i]
-						if $TroopDarkNamePosition[$i] > 4 then
-							$heightTroop = 384
-							$positionTroop = $TroopDarkNamePosition[$i] - 5
-						endif
-
-						assign(("troopFirst" & $TroopDarkName[$i]) , Number(getOther(171 + 107 * $positionTroop, $heightTroop, "Barrack")))
-						if eval("troopFirst" & $TroopDarkName[$i]) = 0 then
-							If _Sleep(100) Then ExitLoop
-							assign(("troopFirst" & $TroopDarkName[$i]) , Number(getOther(171 + 107 * $positionTroop, $heightTroop, "Barrack")))
-						endif
-					Endif
-				next
-
-				for $i=0 to Ubound($TroopDarkName) - 1
-				   If GUICtrlRead(eval("txtNum" & $TroopDarkName[$i])) <> "0" And eval("Cur" & $TroopDarkName[$i]) > 0 Then
-					   ;If _ColorCheck(_GetPixelColor(261, 366), Hex(0x39D8E0, 6), 20) And $CurArch > 0 Then
-					   If eval("Cur" & $TroopDarkName[$i]) > 0  Then
-							if eval($TroopDarkName[$i] & "EBarrack") = 0 then
-								TrainIt(eval("e" & $TroopDarkName[$i]), 1)
-								$BarrackDarkStatus[$brrDarkNum-1] = true
-							elseif eval($TroopDarkName[$i] & "EBarrack") >= eval("Cur" & $TroopDarkName[$i]) then
-								TrainIt(eval("e" & $TroopDarkName[$i]), eval("Cur" & $TroopDarkName[$i]))
-								$BarrackDarkStatus[$brrDarkNum-1] = true
-							else
-								TrainIt(eval("e" & $TroopDarkName[$i]), eval($TroopDarkName[$i] & "EBarrack"))
-								$BarrackDarkStatus[$brrDarkNum-1] = true
-							endif
-					   EndIf
-				   EndIf
-				next
-
-				If _Sleep(100) Then ExitLoop
-
-			   for $i=0 to Ubound($TroopDarkName) - 1
-					If GUICtrlRead(eval("txtNum" & $TroopDarkName[$i])) <> "0" Then
-						$heightTroop = 278
-						$positionTroop = $TroopDarkNamePosition[$i]
-						if $TroopDarkNamePosition[$i] > 4 then
-							$heightTroop = 384
-							$positionTroop = $TroopDarkNamePosition[$i] - 5
-						endif
-						assign(("troopSecond" & $TroopDarkName[$i]) , Number(getOther(171 + 107 * $positionTroop, $heightTroop, "Barrack")))
-						if eval("troopSecond" & $TroopDarkName[$i]) = 0 then
-							If _Sleep(100) Then ExitLoop
-							assign(("troopSecond" & $TroopDarkName[$i]) , Number(getOther(171 + 107 * $positionTroop, $heightTroop, "Barrack")))
-						endif
-					endif
-				next
-
-
-				for $i=0 to Ubound($TroopDarkName) - 1
-				   if eval("troopSecond" & $TroopDarkName[$i]) > eval("troopFirst" & $TroopDarkName[$i]) and GUICtrlRead(eval("txtNum" & $TroopDarkName[$i])) <> "0" then
-					   $ArmyComp += (eval("troopSecond" & $TroopDarkName[$i]) - eval("troopFirst" & $TroopDarkName[$i])) * $TroopDarkHeight[$i]
-					   assign(("Cur" & $TroopDarkName[$i]) , eval("Cur" & $TroopDarkName[$i]) - (eval("troopSecond" & $TroopDarkName[$i]) - eval("troopFirst" & $TroopDarkName[$i])))
-					endif
-				next
-
-				if  _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20) then
-					$BarrackDarkStatus[$brrDarkNum-1] = false
-				else
-					$BarrackDarkStatus[$brrDarkNum-1] = true
-				endif
-
-				if _ColorCheck(_GetPixelColor(327, 520,"Y"), Hex(0xD03838, 6), 20) then
-					$icount = 0
-					while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
-						Click(496, 197, 5)
-						$icount += 1
-						if $icount = 100 then exitloop
-					wend
-					If _Sleep(100) Then ExitLoop
-					TrainIt($eMini, 10)
-				endif
-
-				if $BarrackDarkStatus[0] = false and $BarrackDarkStatus[1] = false and (not $isNormalBuild) and (not $FirstStart) then
-					TrainIt($eMini, 6)
-				endif
-
-				If IsArray($PrevPos) Then Click($PrevPos[0], $PrevPos[1]) ;click prev button
-
-			   If _Sleep(500) Then ExitLoop
-				$icount = 0
-				while not isDarkBarrack()
-					If _Sleep(200) Then ExitLoop
-					$icount = $icount + 1
-					if $icount = 5 then ExitLoop
-				wend
-				If $brrDarkNum >= $barrackDarkNum Then ExitLoop ; make sure no more infiniti loop
-			wend
-			;end dark
-		EndIf
-
-		if $isNormalBuild and $BarrackStatus[0] = false and $BarrackStatus[1] = false and $BarrackStatus[2] = false and $BarrackStatus[3] = false and not $FirstStart then
-			if not $isDarkBuild or ($BarrackDarkStatus[0] = false and $BarrackDarkStatus[1] = false) then
-				train()
-				return
-			endif
-		endif
  EndIf
+ 
+ ;dark here
+
+	If $isDarkBuild Then
+		$iBarrHere = 0
+		$brrDarkNum = 0
+		while 1
+			If IsArray($PrevPos) Then Click($PrevPos[0], $PrevPos[1]) ;click prev button
+			$iBarrHere += 1
+			If _Sleep(1000) Then ExitLoop
+			if(isDarkBarrack() or $iBarrHere = 5) then ExitLoop
+		wend
+
+		while isDarkBarrack()
+			$brrDarkNum += 1
+;~ 			; SetLog("====== Barrack: " & $brrDarkNum & " ======", $COLOR_PURPLE)
+			if StringInStr($sBotDll, "CGBPlugin.dll") < 1 then
+				ExitLoop
+			endif
+			if $fullArmy or $FirstStart then
+				$icount = 0
+				while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
+					Click(496, 197, 10)
+					$icount += 1
+					if $icount = 100 then exitloop
+				wend
+			endif
+
+			If _Sleep(100) Then ExitLoop
+			for $i=0 to Ubound($TroopDarkName) - 1
+				If GUICtrlRead(eval("txtNum" & $TroopDarkName[$i])) <> "0" Then
+					$heightTroop = 278
+					$positionTroop = $TroopDarkNamePosition[$i]
+					if $TroopDarkNamePosition[$i] > 4 then
+						$heightTroop = 384
+						$positionTroop = $TroopDarkNamePosition[$i] - 5
+					endif
+
+					assign(("troopFirst" & $TroopDarkName[$i]) , Number(getOther(171 + 107 * $positionTroop, $heightTroop, "Barrack")))
+					if eval("troopFirst" & $TroopDarkName[$i]) = 0 then
+						If _Sleep(100) Then ExitLoop
+						assign(("troopFirst" & $TroopDarkName[$i]) , Number(getOther(171 + 107 * $positionTroop, $heightTroop, "Barrack")))
+					endif
+				Endif
+			next
+
+			for $i=0 to Ubound($TroopDarkName) - 1
+			   If GUICtrlRead(eval("txtNum" & $TroopDarkName[$i])) <> "0" And eval("Cur" & $TroopDarkName[$i]) > 0 Then
+				   ;If _ColorCheck(_GetPixelColor(261, 366), Hex(0x39D8E0, 6), 20) And $CurArch > 0 Then
+				   If eval("Cur" & $TroopDarkName[$i]) > 0  Then
+						if eval($TroopDarkName[$i] & "EBarrack") = 0 then
+							TrainIt(eval("e" & $TroopDarkName[$i]), 1)
+							$BarrackDarkStatus[$brrDarkNum-1] = true
+						elseif eval($TroopDarkName[$i] & "EBarrack") >= eval("Cur" & $TroopDarkName[$i]) then
+							TrainIt(eval("e" & $TroopDarkName[$i]), eval("Cur" & $TroopDarkName[$i]))
+							$BarrackDarkStatus[$brrDarkNum-1] = true
+						else
+							TrainIt(eval("e" & $TroopDarkName[$i]), eval($TroopDarkName[$i] & "EBarrack"))
+							$BarrackDarkStatus[$brrDarkNum-1] = true
+						endif
+				   EndIf
+			   EndIf
+			next
+
+			If _Sleep(100) Then ExitLoop
+
+		   for $i=0 to Ubound($TroopDarkName) - 1
+				If GUICtrlRead(eval("txtNum" & $TroopDarkName[$i])) <> "0" Then
+					$heightTroop = 278
+					$positionTroop = $TroopDarkNamePosition[$i]
+					if $TroopDarkNamePosition[$i] > 4 then
+						$heightTroop = 384
+						$positionTroop = $TroopDarkNamePosition[$i] - 5
+					endif
+					assign(("troopSecond" & $TroopDarkName[$i]) , Number(getOther(171 + 107 * $positionTroop, $heightTroop, "Barrack")))
+					if eval("troopSecond" & $TroopDarkName[$i]) = 0 then
+						If _Sleep(100) Then ExitLoop
+						assign(("troopSecond" & $TroopDarkName[$i]) , Number(getOther(171 + 107 * $positionTroop, $heightTroop, "Barrack")))
+					endif
+				endif
+			next
+
+
+			for $i=0 to Ubound($TroopDarkName) - 1
+			   if eval("troopSecond" & $TroopDarkName[$i]) > eval("troopFirst" & $TroopDarkName[$i]) and GUICtrlRead(eval("txtNum" & $TroopDarkName[$i])) <> "0" then
+				   $ArmyComp += (eval("troopSecond" & $TroopDarkName[$i]) - eval("troopFirst" & $TroopDarkName[$i])) * $TroopDarkHeight[$i]
+				   assign(("Cur" & $TroopDarkName[$i]) , eval("Cur" & $TroopDarkName[$i]) - (eval("troopSecond" & $TroopDarkName[$i]) - eval("troopFirst" & $TroopDarkName[$i])))
+				endif
+			next
+
+			if  _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20) then
+				$BarrackDarkStatus[$brrDarkNum-1] = false
+			else
+				$BarrackDarkStatus[$brrDarkNum-1] = true
+			endif
+
+			if _ColorCheck(_GetPixelColor(327, 520,"Y"), Hex(0xD03838, 6), 20) then
+				$icount = 0
+				while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
+					Click(496, 197, 5)
+					$icount += 1
+					if $icount = 100 then exitloop
+				wend
+				If _Sleep(100) Then ExitLoop
+				TrainIt($eMini, 10)
+			endif
+
+			if $BarrackDarkStatus[0] = false and $BarrackDarkStatus[1] = false and (not $isNormalBuild) and (not $FirstStart) then
+				TrainIt($eMini, 6)
+			endif
+
+			If IsArray($PrevPos) Then Click($PrevPos[0], $PrevPos[1]) ;click prev button
+
+		   If _Sleep(500) Then ExitLoop
+			$icount = 0
+			while not isDarkBarrack()
+				If _Sleep(200) Then ExitLoop
+				$icount = $icount + 1
+				if $icount = 5 then ExitLoop
+			wend
+			If $brrDarkNum >= $barrackDarkNum Then ExitLoop ; make sure no more infiniti loop
+		wend
+		;end dark
+	EndIf
+
+	if $isNormalBuild and $BarrackStatus[0] = false and $BarrackStatus[1] = false and $BarrackStatus[2] = false and $BarrackStatus[3] = false and not $FirstStart then
+		if not $isDarkBuild or ($BarrackDarkStatus[0] = false and $BarrackDarkStatus[1] = false) then
+			train()
+			return
+		endif
+	endif
 
   If GUICtrlRead($chkLightSpell) = $GUI_CHECKED Then
       $iBarrHere = 0
