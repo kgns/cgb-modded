@@ -154,31 +154,6 @@ Func _PushFile($File, $Folder, $FileType, $title, $body)
 	  $Result = $oHTTP.ResponseText
 EndFunc   ;==>PushFile
 
-;Func _PushImageLoot()
-;   $oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
-;   $access_token = $PushToken
-;   $oHTTP.Open("Post", "https://api.pushbullet.com/v2/upload-request", False)
-;   $oHTTP.SetCredentials($access_token, "", 0)
-;   $oHTTP.SetRequestHeader("Content-Type", "application/json")
-;   Local $pPush = '{"file_name": "' & $iImageLoot & '", "file_type": "image/jpeg"}'
-;   $oHTTP.Send($pPush)
-;   $Result = $oHTTP.ResponseText
-;   Local $upload_url = _StringBetween($Result, 'upload_url":"', '"')
-;   Local $awsaccesskeyid = _StringBetween($Result, 'awsaccesskeyid":"', '"')
-;   Local $acl = _StringBetween($Result, 'acl":"', '"')
-;   Local $key = _StringBetween($Result, 'key":"', '"')
-;   Local $signature = _StringBetween($Result, 'signature":"', '"')
-;   Local $policy = _StringBetween($Result, 'policy":"', '"')
-;   Local $file_url = _StringBetween($Result, 'file_url":"', '"')
-;   $result=run(@ScriptDir & "\curl\curl.exe -i -X POST " & $upload_url[0] & " -F awsaccesskeyid=" & $awsaccesskeyid[0] & " -F acl=" & $acl[0] & " -F key=" & $key[0] & " -F signature=" & $signature[0] & " -F policy=" & $policy[0] & " -F content-type=image/jpeg" & " -F ""file=@" & $dirLoots & $iImageLoot & """","",@SW_HIDE)
-;   $oHTTP.Open("Post", "https://api.pushbullet.com/v2/pushes", False)
-;   $oHTTP.SetCredentials($access_token, "", 0)
-;   $oHTTP.SetRequestHeader("Content-Type", "application/json")
-;   Local $pPush = '{"type": "file", "file_name": "' & $iImageLoot & '", "file_type": "image/jpeg", "file_url": "' & $file_url[0] & '", "body": "' & $iPBVillageName & ': Last Attack Image"}'
-;   $oHTTP.Send($pPush)
-;   $Result = $oHTTP.ResponseText
-;EndFunc   ;==>PushImageLoot
-
 Func ReportPushBullet()
 
 	If $iLastAttack = 1 Then
