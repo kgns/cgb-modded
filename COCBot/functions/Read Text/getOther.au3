@@ -111,6 +111,34 @@ Func getOther($x_start, $y_start, $type, $totalcamp = false)
             $Number &= getDigit($x, $y, "Other")
             $Number &= getDigit($x, $y, "Other")
 
+		 Case "Hitpoints"
+            $Number = getDigitSmall($x, $y, "Camp")
+
+            While $Number = ""
+                If $i >= 20 Then ExitLoop
+                $i += 1
+                $x += 1
+                $Number = getDigitSmall($x, $y, "Camp")
+            WEnd
+
+            $Number &= getDigitSmall($x, $y, "Camp")
+            $Number &= getDigitSmall($x, $y, "Camp")
+			$Number &= getDigitSmall($x, $y, "Camp")
+
+			If $totalcamp Then
+			   $x += 6
+			   $Number = ""
+			   While $Number = ""
+				   If $i >= 20 Then ExitLoop
+				   $i += 1
+				   $x += 1
+				   $Number = getDigitSmall($x, $y, "Camp")
+			   WEnd
+
+			   $Number &= getDigitSmall($x, $y, "Camp")
+			   $Number &= getDigitSmall($x, $y, "Camp")
+			   $Number &= getDigitSmall($x, $y, "Camp")
+			EndIf
         Case "MyProfile"
             $Number = getDigitProfile($x, $y, "MyProfile")
 
