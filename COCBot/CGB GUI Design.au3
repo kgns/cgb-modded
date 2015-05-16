@@ -575,7 +575,7 @@ GUICtrlCreateTabItem("")
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 30, $y = 425
-	$grpBattleOptions = GUICtrlCreateGroup("Battle Options", $x - 20, $y - 20, 300, 80)
+	$grpBattleOptions = GUICtrlCreateGroup("Battle Options", $x - 20, $y - 20, 300, 100)
 		;$chkTimeStopAtk = GUICtrlCreateCheckbox("End Battle, if no new loot raided within:", $x, $y - 5, -1, -1)
 		$lblTimeStopAtk = GUICtrlCreateLabel("End Battle, if no new loot raided within:", $x + 17, $y, -1, -1)
 			$txtTip = "End Battle if there is no extra loot raided within this No. of seconds." & @CRLF & "Countdown is started after all Troops and Royals are deployed in battle."
@@ -585,6 +585,16 @@ GUICtrlCreateTabItem("")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 2)
 		$lblTimeStopAtk = GUICtrlCreateLabel("sec.", $x + 237, $y, -1, -1)
+		$chkUnbreakable = GUICtrlCreateCheckbox("Unbreakable Mode             Wait Time:", $x, $y + 27, -1, -1)
+			$TxtTip = "Enable mode to farm defenses for Unbreakable achievement"
+			GUICtrlSetTip(-1, $TxtTip)
+			GUICtrlSetOnEvent(-1, "chkUnbreakable")
+		$txtUnbreakable = GUICtrlCreateInput("5", $x + 202, $y + 27, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 2)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$lblUnbreakable = GUICtrlCreateLabel("minutes", $x + 237, $y + 30, -1, -1)
+		$lblUnbreakableWarning = GUICtrlCreateLabel("(WARNING: Enable Unbreakable only if you know what it is)", $x - 10, $y + 54, -1, -1)
 #cs
 		$chkEndOneStar = GUICtrlCreateCheckbox("End Battle, when One Star is won", $x, $y + 15, -1, -1)
 			$txtTip = "Will End the Battle if 1 star is won in battle"
@@ -598,7 +608,7 @@ GUICtrlCreateTabItem("")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x +=305
-	$grpLootSnapshot = GUICtrlCreateGroup("Loot Snapshot", $x - 20, $y - 20, 145, 80)
+	$grpLootSnapshot = GUICtrlCreateGroup("Loot Snapshot", $x - 20, $y - 20, 145, 100)
 		$chkTakeLootSS = GUICtrlCreateCheckbox("Take Loot Snapshot", $x - 5, $y - 5, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to save a Loot snapshot of the Village that was attacked.")
 			GUICtrlSetState(-1, $GUI_CHECKED)

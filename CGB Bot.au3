@@ -133,6 +133,10 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep(1000) Then Return
 
 				If $Restart = True Then ContinueLoop
+			If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
+				Unbreakable()
+				ContinueLoop
+			Endif
 			Laboratory()
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
@@ -238,3 +242,76 @@ Func Attack() ;Selects which algorithm
 	SetLog(" ====== Start Attack ====== ", $COLOR_GREEN)
 	algorithm_AllTroops()
 EndFunc   ;==>Attack
+
+#cs ----------------------------------------------------------------------------
+    AutoIt Version: 3.3.6.1
+    This function was made to be used with software CoCgameBot v3.0.4
+    Author:         KnowJack
+    Script Function: unbreakable mode
+ CoCgameBot is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+ CoCgameBot is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty;of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with CoCgameBot.  If not, see ;<[url=http://www.gnu.org/licenses/]http://www.gnu.org/licenses/[/url]>.
+ #ce
+Func Unbreakable()
+;
+; Special mode to complete unbreakable achievement
+; Need to set max/min trophy on Misc tab to range where base can win defenses
+; Enable mode with checkbox, and set desired time to be offline getting defense wins before base is reset.
+;
+   Local $x, $y, $iTime
+   SetLog(" ====== Unbreakable Mode enabled! ====== ", $COLOR_GREEN)
+   If $CurCamp < 1 Then
+   SetLog("Oops, wait for troops", $COLOR_RED)
+   Return ; no troops then cycle again
+   EndIf
+#comments-start
+   _CaptureRegion()
+   If _ImageSearch($tombstone, 0, $x, $y, 100) Then
+  SetLog("Cleanup Tomb Stones!", $COLOR_BLUE)
+  If _Sleep(500) Then Return
+  PureClick($x, $y); click on a tombstone to remove them all
+  If _Sleep(1000) Then Return
+   EndIf
+#comments-end
+   DropTrophy()
+   ClickP($TopLeftClient, 2, 100) ;clear screen, 2 clicks 100ms delay
+   PrepareSearch() ; Break Shield
+   If _Sleep(3000) Then Return
+   SetLog("Returning Home For Defense", $COLOR_BLUE)
+   ClickP($TopLeftClient, 2, 100) ;clear screen selection
+   $i = 0
+   While _ColorCheck(_GetPixelColor(63, 532,True), Hex(0xC00000, 6), 20) = False
+   If _Sleep(1000) Then Return  ; wait for clouds to disappear and the end battle button to appear
+   If $i > 15 then ExitLoop
+   $i+= 1
+   WEnd
+   $i = 0
+   While _ColorCheck(_GetPixelColor(63, 532,True), Hex(0xC00000, 6), 20) = True
+   PureClick(62, 519) ;Click End Battle
+   If _Sleep(1000) Then Return  ; wait for button to disappear
+   If $i > 10 then ExitLoop
+   $i+= 1
+   WEnd
+   ClickP($TopLeftClient, 2, 50) ;clear screen selections
+   If _Sleep(1000) Then Return
+   _WinAPI_EmptyWorkingSet(WinGetProcess($Title))
+   SetLog("Closing Clash Of Clans", $COLOR_BLUE)
+   $i = 0
+   While _ColorCheck(_GetPixelColor(515, 410, True), Hex(0x60B010, 6), 20) = False
+   PureClick(50, 700)  ; Hit BS Back button till confirm exit dialog appears
+   If _Sleep(1000) Then Return
+   If $i > 10 then ExitLoop
+   $i+= 1
+   WEnd
+   PureClick(515, 400) ;Click Confirm to stop CoC
+   Local $iTime = Number(GUICtrlRead($txtUnbreakable))
+   If $iTime < 1 then $iTime = 1  ;error check user time input
+   SetLog("Waiting " & $iTime & " Minutes for Defense Attacks", $COLOR_GREEN)
+   If _Sleep($iTime*60*1000) Then Return  ; Eenemy attack time Wait
+   $HWnD = WinGetHandle($Title)
+   Local $RunApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "RunApp")
+   Run($RunApp & " Android com.supercell.clashofclans com.supercell.clashofclans.GameApp")
+   If _Sleep(15000) Then Return  ; Wait for CoC restart
+   ZoomOut()
+   If _Sleep(1000) Then Return
+ EndFunc

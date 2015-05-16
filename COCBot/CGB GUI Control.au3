@@ -224,6 +224,14 @@ Func btnResume()
 	Send("{PAUSE}")
 EndFunc   ;==>btnResume
 
+Func chkUnbreakable()
+	If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
+		GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($txtUnbreakable, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkUnbreakable
+
 Func btnAttackNow()
 	If $RunState Then
 		$bBtnAttackNowPressed = True
