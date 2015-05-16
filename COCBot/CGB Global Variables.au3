@@ -187,6 +187,8 @@ Global $iActivateKQCondition
 Global $delayActivateKQ ; = 9000 ;Delay before activating KQ
 Global $checkUseClanCastle ; Use Clan Castle settings
 Global $checkUseClanCastleBalanced ; Use Clan Castle Balanced settings
+Global $ratioNumeratorDonated ; Use Clan Castle Balanced ratio settings
+Global $ratioDenominatorReceived ; Use Clan Castle Balanced ratio settings
 Global $iradAttackMode ;Attack mode, 0 1 2
 Global $iradAttackModeString
 Global $THLoc

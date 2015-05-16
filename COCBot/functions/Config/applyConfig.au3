@@ -214,6 +214,9 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkUseClanCastleBalanced, $GUI_UNCHECKED)
 	EndIf
+	GUICtrlSetData($txtRatioNumeratorDonated, $ratioNumeratorDonated)
+	GUICtrlSetData($txtRatioDenominatorReceived, $ratioDenominatorReceived)
+	
 
 	Switch $iActivateKQCondition
 		Case "Manual"

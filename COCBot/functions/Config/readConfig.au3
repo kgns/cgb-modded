@@ -107,6 +107,8 @@ Func readConfig() ;Reads config and sets it to the variables
 
 		$checkUseClanCastle = IniRead($config, "attack", "use-cc", "0")
 		$checkUseClanCastleBalanced = IniRead($config, "attack", "use-cc-balanced", "0")
+		$ratioNumeratorDonated = IniRead($config, "attack", "use-cc-balanced-ratio-donated", "1")
+		$ratioDenominatorReceived = IniRead($config, "attack", "use-cc-balanced-ratio-received", "1")
 
 		$iActivateKQCondition = IniRead($config, "attack", "ActivateKQ", "Manual")
 		$delayActivateKQ = (1000 * IniRead($config, "attack", "delayActivateKQ", "9"))

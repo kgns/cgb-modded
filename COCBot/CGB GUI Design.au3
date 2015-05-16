@@ -468,7 +468,17 @@ $tabAttack = GUICtrlCreateTabItem("Basics")
 			GUICtrlSetTip(-1, "Drop your Clan Castle in battle if it contains troops.")
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 9, $x + 300, $y + 10, 32, 32)
 		$chkUseClanCastleBalanced = GUICtrlCreateCheckbox("Balance D/R", $x + 335, $y + 18, -1, -1)
-			GUICtrlSetTip(-1, "Drop your Clan Castle only if donated > received.")
+			GUICtrlSetTip(-1, "Drop your Clan Castle only if your donated/received ratio is greater than D/R ratio below.")
+		$lblDRRatio = GUICtrlCreateLabel("D/R Ratio", $x + 333, $y + 45, -1, -1)
+			$txtTip = "Wanted donated / received ratio" & @CRLF & "1/1 means donated = received, 1/2 means donated = half the received etc."
+			GUICtrlSetTip(-1, $txtTip)
+		$txtRatioNumeratorDonated = GUICtrlCreateInput("1", $x + 385, $y + 40, 16, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+			GUICtrlSetTip(-1, "Donated coefficient")
+			GUICtrlSetLimit(-1, 1)
+		$lblSlash = GUICtrlCreateLabel("/", $x + 403, $y + 45, -1, -1)
+		$txtRatioDenominatorReceived = GUICtrlCreateInput("1", $x + 410, $y + 40, 16, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+			GUICtrlSetTip(-1, "Received coefficient")
+			GUICtrlSetLimit(-1, 1)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 30, $y = 415
