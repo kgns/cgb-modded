@@ -36,7 +36,7 @@ Global $TrainArch[4]  = [ 369, 366, 0x39D8E0,     100] ;
 Global $TrainGiant[4] = [ 475, 366, 0x3DD8E0,     20] ;
 Global $TrainWiza[4]  = [ 325, 425, 0xA56052,     20] ;
 Global $TrainGobl[4]  = [ 581, 366, 0x39D8E0,     20] ;
-Global $TrainHogs[4]  = [ 367, 366, 0x56d6df,     20]
+Global $TrainHogs[4]  = [ 369, 366, 0x39CBDA,     20] 
 Global $TrainMini[4]  = [ 225, 324, 0x4E91B0,     20]
 Global $TrainWall[4]  = [ 688, 366, 0x3AD8E0,     20] ;
 
