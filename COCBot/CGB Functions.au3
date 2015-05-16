@@ -57,6 +57,7 @@
 #include "functions\Other\BlockInputEx.au3"
 #include "functions\Other\TogglePause.au3"
 #include "functions\Other\CheckPrerequisites.au3"
+#include "functions\Other\AutoStart.au3"
 
 #include "functions\Pixels\_CaptureRegion.au3"
 #include "functions\Pixels\_ColorCheck.au3"
@@ -78,6 +79,7 @@
 #include "functions\Read Text\getReturnHome.au3"
 #include "functions\Read Text\getTrophy.au3"
 #include "functions\Read Text\getString.au3"
+#include "functions\Read Text\getDigitProfile.au3"
 
 ;#include "functions\Search\checkNextButton.au3"
 #include "functions\Search\CompareResources.au3"
@@ -110,9 +112,6 @@
 #include "functions\Village\PushBullet.au3"
 #include "functions\Village\UpTroops.au3"
 #include "functions\Village\RemoveTrees.au3"
-
 #include "functions\Village\LocateSpell.au3"
 #include "functions\Village\Spell.au3"
-
-#include "functions\Read Text\getDigitProfile.au3"
 #include "functions\Village\ProfileReport.au3"

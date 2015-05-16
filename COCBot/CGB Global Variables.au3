@@ -288,6 +288,7 @@ Global $TimeToStop = -1
 
 Global $itxtMaxTrophy ; Max trophy before drop trophy
 Global $itxtdropTrophy ; trophy floor to drop to
+Global $ichkAutoStart; AutoStart mode enabled disabled
 Global $ichkBackground ; Background mode enabled disabled
 Global $collectorPos[17][2] ;Positions of each collectors
 Global $D[4] = [99, 111, 109, 47]

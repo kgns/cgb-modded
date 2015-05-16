@@ -41,6 +41,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$frmBotPosX = IniRead($config, "general", "frmBotPosX", "900")
 		$frmBotPosY = IniRead($config, "general", "frmBotPosY", "20")
 
+		$ichkAutoStart = IniRead($config, "general", "AutoStart", "0")
 		$ichkBackground = IniRead($config, "general", "Background", "0")
 		$ichkBotStop = IniRead($config, "general", "BotStop", "0")
 		$icmbBotCommand = IniRead($config, "general", "Command", "0")
@@ -127,7 +128,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$OptBullyMode = IniRead($config, "advanced", "BullyMode", "0")
 		$ATBullyMode = IniRead($config, "advanced", "ATBullyMode", "0")
 		$YourTH = IniRead($config, "advanced", "YourTH", "0")
-		
+
 		$OptTrophyMode = IniRead($config, "advanced", "TrophyMode", "0")
 		$THaddtiles = IniRead($config, "advanced", "THaddTiles", "0")
 		$AttackTHType = IniRead($config, "advanced", "AttackTHType", "0")
@@ -282,7 +283,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$icmbWalls = IniRead($config, "other", "walllvl", "0")
 		$itxtWallMinGold = IniRead($config, "other", "minwallgold", "0")
 		$itxtWallMinElixir = IniRead($config, "other", "minwallelixir", "0")
-		
+
 		$ichkTrees =  IniRead($config, "other", "remove-trees", "0")
 
 		$ichkTrap = IniRead($config, "other", "chkTrap", "0")

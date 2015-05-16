@@ -7,6 +7,12 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "general", "frmBotPosX", $frmBotPos[0])
 	IniWrite($config, "general", "frmBotPosY", $frmBotPos[1])
 
+	If GUICtrlRead($chkAutoStart) = $GUI_CHECKED Then
+		IniWrite($config, "general", "AutoStart", 1)
+	Else
+		IniWrite($config, "general", "AutoStart", 0)
+	EndIf
+
 	If GUICtrlRead($chkBackground) = $GUI_CHECKED Then
 		IniWrite($config, "general", "Background", 1)
 	Else
@@ -550,7 +556,7 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	IniWrite($config, "other", "walllvl", _GUICtrlComboBox_GetCurSel($cmbWalls))
 	IniWrite($config, "other", "minwallgold", GUICtrlRead($txtWallMinGold))
 	IniWrite($config, "other", "minwallelixir", GUICtrlRead($txtWallMinElixir))
-	
+
 	;Mow the Lawn
 	If GUICtrlRead($chkTrees) = $GUI_CHECKED Then
 		IniWrite($config, "other", "remove-trees", 1)

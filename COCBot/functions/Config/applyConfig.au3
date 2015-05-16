@@ -5,6 +5,12 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	;General Settings--------------------------------------------------------------------------
 	If $frmBotPosX <> -32000 Then WinMove($sBotTitle, "", $frmBotPosX, $frmBotPosY)
 
+	If $ichkAutoStart = 1 Then
+		GUICtrlSetState($chkAutoStart, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkAutoStart, $GUI_UNCHECKED)
+	EndIf
+
 	If $ichkBackground = 1 Then
 		GUICtrlSetState($chkBackground, $GUI_CHECKED)
 	Else
@@ -633,7 +639,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	ElseIf $iDeleteAllPushes = 0 Then
 		GUICtrlSetState($chkDeleteAllPushes, $GUI_UNCHECKED)
 	EndIf
-    
+
 ; laboratory tab
 ;Lab
 		If $ichkLab = 1 Then
@@ -695,7 +701,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtUpgradeY3, $itxtUpgradeY3)
 	GUICtrlSetData($txtUpgradeX4, $itxtUpgradeX4)
 	GUICtrlSetData($txtUpgradeY4, $itxtUpgradeY4)
-	
+
 	;Mow the lawn
 	If $ichkTrees = 1 Then
 		GUICtrlSetState($chkTrees, $GUI_CHECKED)
