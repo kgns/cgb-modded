@@ -15,13 +15,20 @@
 
 Global $atkDElix[36]
 Global $Tolerance3 = 75
+Local $DESpellProcede = 0
 
 For $i = 0 To 35
 	$atkDElix[$i] = @ScriptDir & "\images\DElixS\" & $i+1 & ".bmp"
 Next
 
 Func checkDarkElix()
-If $iChkLightSpell = 1 Then
+	$DESpellProcede = 0
+	If $bBtnAttackNowPressed = True Then
+		$DESpellProcede = $ichkAtkNowLSpell
+	Else
+		$DESpellProcede = $iChkLightSpell
+	EndIf
+  If $DESpellProcede = 1 Then
       _CaptureRegion(230,170,630,440)
      If _Sleep(500) Then Return
      For $i = 0 To 35
@@ -72,7 +79,13 @@ EndFunc
 	;###################################################################################
 
 Func DropLSpell ()
-  If $iChkLightSpell = 1 Then
+	$DESpellProcede = 0
+	If $bBtnAttackNowPressed = True Then
+		$DESpellProcede = $ichkAtkNowLSpell
+	Else
+		$DESpellProcede = $iChkLightSpell
+	EndIf
+  If $DESpellProcede = 1 Then
         $LSpell = -1
 		$LSpellQ = 0
        For $i = 0 To 8
@@ -107,7 +120,13 @@ EndFunc
 
 Func DEAttack()
 
-	If $iChkLightSpell = 1 Then
+	$DESpellProcede = 0
+	If $bBtnAttackNowPressed = True Then
+		$DESpellProcede = $ichkAtkNowLSpell
+	Else
+		$DESpellProcede = $iChkLightSpell
+	EndIf
+  If $DESpellProcede = 1 Then
 		;SetLog("Start Function ")
 		_WinAPI_DeleteObject($hBitmapFirst)
 		$hBitmapFirst = _CaptureRegion2(230, 170, 630, 440)

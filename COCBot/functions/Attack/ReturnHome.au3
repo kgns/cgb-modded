@@ -25,6 +25,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	$checkKPower = False
 	$checkQPower = False
 
+	$bBtnAttackNowPressed = False
 	SetLog("Returning Home", $COLOR_BLUE)
 	If $RunState = False Then Return
 	Click(62, 519) ;Click Surrender

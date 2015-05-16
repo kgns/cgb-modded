@@ -344,8 +344,32 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		;SetLog("	[" & UBound($PixelBottomLeft) & "] pixels BottomLeft")
 		;SetLog("	[" & UBound($PixelBottomRight) & "] pixels BottomRight")
 
-
-		If ($chkSmartAttack[0] = 1 Or $chkSmartAttack[1] = 1 Or $chkSmartAttack[2] = 1) Then
+		If $bBtnAttackNowPressed = True Then
+			If  $ichkAtkNowMines = True Then
+				SetLog("Locating Village Pump & Mines", $COLOR_BLUE)
+				$hTimer = TimerInit()
+				Global $PixelMine[0]
+				Global $PixelElixir[0]
+				Global $PixelDarkElixir[0]
+				Global $PixelNearCollector[0]
+				$PixelMine = GetLocationMine()
+				If (IsArray($PixelMine)) Then
+					_ArrayAdd($PixelNearCollector, $PixelMine)
+				EndIf
+				$PixelElixir = GetLocationElixir()
+				If (IsArray($PixelElixir)) Then
+					_ArrayAdd($PixelNearCollector, $PixelElixir)
+				EndIf
+				$PixelDarkElixir = GetLocationDarkElixir()
+				If (IsArray($PixelDarkElixir)) Then
+					_ArrayAdd($PixelNearCollector, $PixelDarkElixir)
+				EndIf
+				SetLog("Located  (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds) :")
+				SetLog("[" & UBound($PixelMine) & "] Gold Mines")
+				SetLog("[" & UBound($PixelElixir) & "] Elixir Collectors")
+				SetLog("[" & UBound($PixelDarkElixir) & "] Dark Elixir Drill/s")
+			EndIf
+		ElseIf ($chkSmartAttack[0] = 1 Or $chkSmartAttack[1] = 1 Or $chkSmartAttack[2] = 1) Then
 			SetLog("Locating Village Pump & Mines", $COLOR_BLUE)
 			$hTimer = TimerInit()
 			Global $PixelMine[0]
@@ -428,19 +452,20 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	DropLSpell()
 	;########################################################################################################################
 	Local $nbSides = 0
-	Switch $deploySettings
-		Case 0 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	If $bBtnAttackNowPressed = True Then
+		$nbSides = ($icmbAtkNowDeploy + 1)
+	Else
+		$nbSides = ($deploySettings + 1)
+	EndIf
+	Switch $nbSides
+		Case 1 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on a single side", $COLOR_BLUE)
-			$nbSides = 1
-		Case 1 ;Two sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 2 ;Two sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on two sides", $COLOR_BLUE)
-			$nbSides = 2
-		Case 2 ;Three sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 3 ;Three sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on three sides", $COLOR_BLUE)
-			$nbSides = 3
-		Case 3 ;Two sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		Case 4 ;Two sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on all sides", $COLOR_BLUE)
-			$nbSides = 4
 	EndSwitch
 	If ($nbSides = 0) Then Return
 	If _Sleep(1000) Then Return

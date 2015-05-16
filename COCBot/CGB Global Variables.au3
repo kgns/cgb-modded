@@ -68,6 +68,7 @@ Global $RunState = False
 Global $TakeLootSnapShot = True
 Global $AlertSearch = True
 Global $iChkAttackNow, $iAttackNowDelay, $bBtnAttackNowPressed = False
+Global $icmbAtkNowDeploy, $ichkAtkNowLSpell, $ichkAtkNowMines = False
 Global $PushToken = ""
 Global $iLastAttack
 Global $iAlertPBVillage

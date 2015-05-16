@@ -235,6 +235,17 @@ EndFunc   ;==>chkUnbreakable
 Func btnAttackNow()
 	If $RunState Then
 		$bBtnAttackNowPressed = True
+		$icmbAtkNowDeploy = _GUICtrlComboBox_GetCurSel($cmbAtkNowDeploy)
+		If GUICtrlRead($chkAtkNowMines) = $GUI_CHECKED Then
+			$ichkAtkNowMines = True
+		Else
+			$ichkAtkNowMines = False
+		EndIf
+		If GUICtrlRead($chkAtkNowLSpell) = $GUI_CHECKED Then
+			$ichkAtkNowLSpell = 1
+		Else
+			$ichkAtkNowLSpell = 0
+		EndIf
 	EndIf
 EndFunc   ;==>btnAttackNow
 

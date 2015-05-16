@@ -75,7 +75,18 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 	If $iChkAttackNow = 1 Then
 		GUICtrlSetState($btnAttackNow, $GUI_SHOW)
+		GUICtrlSetState($cmbAtkNowDeploy, $GUI_SHOW)
+			_GUICtrlComboBox_SetCurSel($cmbAtkNowDeploy, _GUICtrlComboBox_GetCurSel($cmbDeploy))
+		GUICtrlSetState($chkAtkNowMines, $GUI_SHOW)
+		If GUICtrlRead($chkAttackNearGoldMine) = $GUI_CHECKED OR GUICtrlRead($chkAttackNearElixirCollector) = $GUI_CHECKED OR GUICtrlRead($chkAttackNearDarkElixirDrill) = $GUI_CHECKED Then
+			GUICtrlSetState($chkAtkNowMines, $GUI_CHECKED)
+		Else
+			GUICtrlSetState($chkAtkNowMines, $GUI_UNCHECKED)
+		EndIf
+		GUICtrlSetState($chkAtkNowLSpell, $GUI_SHOW)
+		GUICtrlSetState($chkAtkNowLSpell, GUICtrlRead($chkLightSpell))
 		GUICtrlSetState($pic2arrow, $GUI_HIDE)
+		GUICtrlSetState($lblVersion, $GUI_HIDE)
 	EndIf
 
 	If $Is_ClientSyncError = False Then
@@ -224,13 +235,16 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 	WEnd
 
 	If $bBtnAttackNowPressed = True then
-		Setlog(_PadStringCenter(" Attack Now Pressed! ", 50, "~"), $COLOR_GREEN)
+		Setlog(_PadStringCenter(" JVS MOD v1.1 Attack Now Pressed! ", 50, "~"), $COLOR_GREEN)
 	EndIf
 
 	If $iChkAttackNow = 1 Then
 		GUICtrlSetState($btnAttackNow, $GUI_HIDE)
+		GUICtrlSetState($cmbAtkNowDeploy, $GUI_HIDE)
+		GUICtrlSetState($chkAtkNowMines, $GUI_HIDE)
+		GUICtrlSetState($chkAtkNowLSpell, $GUI_HIDE)
 		GUICtrlSetState($pic2arrow, $GUI_SHOW)
-		$bBtnAttackNowPressed = False
+		GUICtrlSetState($lblVersion, $GUI_SHOW)
 	EndIf
 
 	If $iChkBackToAllMode = 1 And Number($iSkipped) > Number($iTxtBackAllBase) Then
