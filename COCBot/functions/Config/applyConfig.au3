@@ -701,6 +701,10 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtUpgradeY3, $itxtUpgradeY3)
 	GUICtrlSetData($txtUpgradeX4, $itxtUpgradeX4)
 	GUICtrlSetData($txtUpgradeY4, $itxtUpgradeY4)
+	
+	GUICtrlSetData($txtBuildMinGold, $itxtBuildMinGold)
+    GUICtrlSetData($txtBuildMinElixir, $itxtBuildMinElixir)
+    GUICtrlSetData($txtBuildMinDElixir, $itxtBuildMinDElixir)
 
 	;Mow the lawn
 	If $ichkTrees = 1 Then

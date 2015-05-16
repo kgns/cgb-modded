@@ -255,6 +255,9 @@ Global $icmbWalls
 Global $iUseStorage
 Global $itxtWallMinGold
 Global $itxtWallMinElixir
+Global $itxtBuildMinGold
+Global $itxtBuildMinElixir
+Global $itxtBuildMinDElixir
 Global $ichkTrees
 Global $iVSDelay
 Global $ichkTrap, $iChkCollect

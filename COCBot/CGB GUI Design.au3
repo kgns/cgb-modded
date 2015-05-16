@@ -16,10 +16,10 @@
 ;~ ------------------------------------------------------
 ;~ Main GUI
 ;~ ------------------------------------------------------
-$frmBot = GUICreate($sBotTitle, 470, 665)
+$frmBot = GUICreate($sBotTitle, 470, 695)
 	GUISetIcon($LibDir & "\CGBBOT.dll", 10)
 	TraySetIcon($LibDir & "\CGBBOT.dll", 10)
-$tabMain = GUICtrlCreateTab(5, 85, 461, 465, $TCS_TOOLTIPS)
+$tabMain = GUICtrlCreateTab(5, 85, 461, 495, $TCS_TOOLTIPS)
 	GUICtrlSetOnEvent(-1, "tabMain")
 	GUICtrlCreatePic (@ScriptDir & "\Icons\logo.jpg", 0, 0, 470, 80)
 
@@ -30,8 +30,8 @@ $tabMain = GUICtrlCreateTab(5, 85, 461, 465, $TCS_TOOLTIPS)
 Local $btnColor = False
 
 ;~ Buttons
-$grpButtons = GUICtrlCreateGroup("", 10, 550, 190, 85)
-Local $x = 15, $y = 560
+$grpButtons = GUICtrlCreateGroup("", 10, 580, 190, 85)
+Local $x = 15, $y = 590
 	$btnStart = GUICtrlCreateButton("Start Bot", $x, $y + 2, 90, 40)
 		GUICtrlSetOnEvent(-1, "btnStart")
 		IF $btnColor then GUICtrlSetBkColor(-1, 0x5CAD85)
@@ -69,7 +69,7 @@ Local $x = 15, $y = 560
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "chkBackground")
 		GUICtrlSetState(-1, $GUI_UNCHECKED)
-	$btnAttackNow = GUICtrlCreateButton("Attack Now!", $x + 195, $y + 2, 50, 40, $BS_MULTILINE)
+	$btnAttackNow = GUICtrlCreateButton("Attack!", $x + 195, $y + 2, 50, 20, $BS_MULTILINE)
 		GUICtrlSetOnEvent(-1, "btnAttackNow")
  		GUICtrlSetState(-1, $GUI_HIDE)
 	$cmbAtkNowDeploy = GUICtrlCreateCombo("", $x + 195, $y + 22, 50, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -86,7 +86,7 @@ GUICtrlCreateGroup("", -99, -99, 1, 1)
 		GUICtrlSetColor(-1, $COLOR_MEDGRAY)
 
 ;~ Village
-Local $x = 290, $y = 570
+Local $x = 290, $y = 600
 $grpVillage = GUICtrlCreateGroup("Village", $x - 20, $y - 20, 190, 85)
 	$lblResultGoldNow = GUICtrlCreateLabel("", $x, $y + 2, 50, 15, $SS_RIGHT)
 	$picResultGoldNow = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 60, $y, 16, 16)
@@ -122,21 +122,21 @@ Global $FirstControlToHide = GUICtrlCreateDummy()
 ;~ -------------------------------------------------------
 
 $tabGeneral = GUICtrlCreateTabItem("General")
-	$txtLog = _GUICtrlRichEdit_Create($frmBot, "", 10, 115, 450, 375, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8912), $WS_EX_STATICEDGE)
+	$txtLog = _GUICtrlRichEdit_Create($frmBot, "", 10, 115, 450, 405, BitOR($ES_MULTILINE, $ES_READONLY, $WS_VSCROLL, 8912), $WS_EX_STATICEDGE)
 		_ArrayConcatenate($G, $A)
-	$grpControls = GUICtrlCreateGroup("Halt Attack", 10, 495, 450, 50)
-		$chkBotStop = GUICtrlCreateCheckbox("", 25, 515, 16, 16)
+	$grpControls = GUICtrlCreateGroup("Halt Attack", 10, 525, 450, 50)
+		$chkBotStop = GUICtrlCreateCheckbox("", 25, 545, 16, 16)
 			$txtTip = "Use these options to set when the bot will stop attacking."
 			GUICtrlSetTip(-1, $txtTip)
-		$cmbBotCommand = GUICtrlCreateCombo("", 50, 512, 90, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbBotCommand = GUICtrlCreateCombo("", 50, 542, 90, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "Halt Attack|Shutdown PC|Sleep PC", "Halt Attack")
-		$lblBotCond = GUICtrlCreateLabel("When...", 155, 515, 45, 17)
-		$cmbBotCond = GUICtrlCreateCombo("", 205, 512, 160, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$lblBotCond = GUICtrlCreateLabel("When...", 155, 545, 45, 17)
+		$cmbBotCond = GUICtrlCreateCombo("", 205, 542, 160, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "G and E Full and Max.Trophy|(G and E) Full or Max.Trophy|(G or E) Full and Max.Trophy|G or E Full or Max.Trophy|Gold and Elixir Full|Gold or Elixir Full|Gold Full and Max.Trophy|Elixir Full and Max.Trophy|Gold Full or Max.Trophy|Elixir Full or Max.Trophy|Gold Full|Elixir Full|Reach Max. Trophy|Bot running for...|Now (Train/Donate Only)", "Now (Train/Donate Only)")
 			GUICtrlSetOnEvent(-1, "cmbBotCond")
-		$cmbHoursStop = GUICtrlCreateCombo("", 365, 512, 80, 35, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbHoursStop = GUICtrlCreateCombo("", 365, 542, 80, 35, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "-|1 Hour|2 Hours|3 Hours|4 Hours|5 Hours|6 Hours|7 Hours|8 Hours|9 Hours|10 Hours|11 Hours|12 Hours|13 Hours|14 Hours|15 Hours|16 Hours|17 Hours|18 Hours|19 Hours|20 Hours|21 Hours|22 Hours|23 Hours|24 Hours", "-")
 			GUICtrlSetState (-1, $GUI_DISABLE)
@@ -1559,6 +1559,31 @@ Local $x = 30, $y = 130
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 260, $y = 440
+    $grpLocateBuildings = GUICtrlCreateGroup("Resources for Upgrade Buildings", $x - 20, $y - 20, 220, 87)
+
+      Local $x = 30, $y = 392
+      GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 220, $y + 47, 16, 16)
+      $BuildMinGold = GUICtrlCreateLabel("Min. Gold to save:", $x + 240, $y + 50, -1, -1)
+        $txtBuildMinGold = GUICtrlCreateInput("200000", $x + 330, $y + 45, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+            GUICtrlSetTip(-1, "Save at least this amount of Gold in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+            GUICtrlSetLimit(-1, 7)
+            ;GUICtrlSetState(-1, $GUI_DISABLE)
+        $y +=2
+        GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 220, $y + 67, 16, 16)
+        $BuildMinElixir = GUICtrlCreateLabel("Min. Elixir to save:", $x + 240, $y + 70, -1, -1)
+        $txtBuildMinElixir = GUICtrlCreateInput("200000", $x + 330, $y + 65, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+            GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+            GUICtrlSetLimit(-1, 7)
+            ;GUICtrlSetState(-1, $GUI_DISABLE)
+        $y +=2
+        GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 220, $y + 87, 16, 16)
+        $BuildMinDElixir = GUICtrlCreateLabel("Min. D. E. to save:", $x + 240, $y + 90, -1, -1)
+        $txtBuildMinDElixir = GUICtrlCreateInput("1000", $x + 330, $y + 85, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+            GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+            GUICtrlSetLimit(-1, 7)
+            ;GUICtrlSetState(-1, $GUI_DISABLE)
+	
+	Local $x = 260, $y = 530
 	$grpLocateBuildings = GUICtrlCreateGroup("Locate Manually", $x - 20, $y - 20, 220, 65)
 		$btnLocateTownHall = GUICtrlCreateButton("Townhall", $x - 10, $y, 40, 40, $BS_ICON)
 			GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 46, 1)

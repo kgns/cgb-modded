@@ -276,7 +276,11 @@ Func readConfig() ;Reads config and sets it to the variables
 		$itxtLabX = IniRead($config, "upgrade", "LabPosX", "0")
 		$itxtLabY = IniRead($config, "upgrade", "LabPosY", "0")
 		;Misc Settings--------------------------------------------------------------------------
-
+		
+		$itxtBuildMinGold = IniRead($config, "other", "minbuildgold", "0")
+        $itxtBuildMinElixir = IniRead($config, "other", "minbuildelixir", "0")
+        $itxtBuildMinDElixir = IniRead($config, "other", "minbuilddelixir", "0")
+		
 		$ichkWalls = IniRead($config, "other", "auto-wall", "0")
 		$iUseStorage = IniRead($config, "other", "use-storage", "0")
 
