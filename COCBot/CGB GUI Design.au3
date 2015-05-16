@@ -51,7 +51,7 @@ Local $x = 15, $y = 560
  		GUICtrlSetState(-1, $GUI_HIDE)
 	$btnDonate = GUICtrlCreateButton("Donate", $x + 140, -1, 40, 40, $BS_ICON)
     GUICtrlSetImage (-1, @ScriptDir & "\Icons\donate.ico",1)
-		GUICtrlSetOnEvent(-1, "")
+		GUICtrlSetOnEvent(-1, "btnDonate")
 	$chkAutoStart = GUICtrlCreateCheckbox("AS", $x + 2, $y + 48, 30, 20)
  		$txtTip = "Check this to ENABLE the Auto Start of the Bot." & @CRLF & "The bot will Auto Start after 10 seconds"
  		GUICtrlSetFont(-1, 7)

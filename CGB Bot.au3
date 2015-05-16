@@ -106,7 +106,7 @@ Func runBot() ;Bot that runs everything in order
 			;Mow the lawn
 			RemoveTrees()
 				If _Sleep(1000) Then Return
-				
+
 				If $Restart = True Then ContinueLoop
 			;End Mow the lawn
 			ReportPushBullet()
@@ -115,11 +115,11 @@ Func runBot() ;Bot that runs everything in order
 				If $Restart = True Then ContinueLoop
 			Train()
 				If _Sleep(1000) Then Return
-				checkMainDM()
+
 				If $Restart = True Then ContinueLoop
 			DonateCC()
 				If _Sleep(1000) Then Return
-
+				checkMainDM()
 				If $Restart = True Then ContinueLoop
 			BoostBarracks()
 				If _Sleep(1000) Then Return
