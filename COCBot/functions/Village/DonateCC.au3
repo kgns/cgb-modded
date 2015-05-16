@@ -42,7 +42,7 @@ Func DonateCC($Check = False)
 	If _Sleep(200) Then Return
 	Click(189, 24) ; clicking clan tab
 
-	Local $Scroll, $offColors[3][3] = [[0x000000, 0, -2], [0x272926, 0, 1], [0xcfea75, 0, 17]]
+	Local $Scroll, $offColors[3][3] = [[0x000000, 0, -2], [0x262926, 0, 1], [0xF8FCF0, 0, 11]]
 	Global $DonatePixel
 
 	While $Donate
@@ -84,7 +84,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eLava)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -94,7 +93,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eGole)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -104,7 +102,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($ePekk)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -114,7 +111,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eDrag)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -124,7 +120,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eHeal)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -134,7 +129,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eWitc)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -144,7 +138,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eValk)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -154,7 +147,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eGiant)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -164,7 +156,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eBall)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -174,7 +165,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eHogs)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -184,7 +174,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eWiza)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -194,7 +183,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eWall)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -204,7 +192,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eMini)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -214,7 +201,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eGobl)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -224,7 +210,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eBarb)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -234,7 +219,6 @@ Func DonateCC($Check = False)
 						DonateTroopType($eArch)
 					EndIf
 					If $Donate Then
-						If _Sleep(500) Then ExitLoop
 						$y = $DonatePixel[1] + 10
 						ContinueLoop
 					EndIf
@@ -365,7 +349,7 @@ Func DonateTroopType($Type)
 			$YComp = 99 + 98
 	EndSwitch
 
-	PureClick($DonatePixel[0], $DonatePixel[1] + 11)
+	Click($DonatePixel[0], $DonatePixel[1] + 11)
 	If _Sleep(250) Then Return
 	_CaptureRegion(0, 0, 766, $DonatePixel[1] + 50 + $YComp)
 	$icount = 0
@@ -382,7 +366,7 @@ Func DonateTroopType($Type)
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 16 + $YComp), Hex(0x507C00, 6), 10) Then
 			    SetLog("Donating " & NameOfTroop($Type), $COLOR_GREEN)
-				PureClick(237 + ($Slot * 82), $DonatePixel[1] - 17 + $YComp, 8, 50)
+				Click(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, 8, 50)
 				$Donate = True
 				for $i=0 to Ubound($TroopName) - 1
 					if eval("e" & $TroopName[$i]) = $Type then
