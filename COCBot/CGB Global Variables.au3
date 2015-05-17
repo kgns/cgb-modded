@@ -317,10 +317,13 @@ Global $TPaused, $BlockInputPause=0
 Global $iWBMortar
 Global $iWBWizTower
 Global $iWBXbow
-Global $TroopGroup[10][3] = [["Pekk",9,25],["Drag",8,20],["Heal",7,14],["Wiza",6,4],["Ball",5,5],["Wall",4,2],["Giant",2,5],["Gobl",3,1],["Arch",1,1],["Barb",0,1]]
+Global $TroopGroup[10][4] = [["Pekk",9,25,6],["Drag",8,20,5],["Heal",7,14,3],["Wiza",6,4,4],["Ball",5,5,9],["Wall",4,2,8],["Giant",2,5,2],["Gobl",3,1,7],["Arch",1,1,0],["Barb",0,1,1]]
 Global $TroopName[Ubound($TroopGroup,1)]
 Global $TroopNamePosition[Ubound($TroopGroup,1)]
 Global $TroopHeight[Ubound($TroopGroup,1)]
+Global $TroopTHSnipeName[Ubound($TroopGroup,1)]
+Global $TroopTHSnipeNamePosition[Ubound($TroopGroup,1)]
+Global $TroopTHSnipeHeight[Ubound($TroopGroup,1)]
 Global $TroopGroupDark[6][3] = [["Lava",5,30],["Gole",3,30],["Witc",4,12],["Valk",2,8],["Hogs",1,5],["Mini",0,2]]
 Global $TroopDarkName[Ubound($TroopGroupDark,1)]
 Global $TroopDarkNamePosition[Ubound($TroopGroupDark,1)]
@@ -333,9 +336,12 @@ Global $isDarkBuild = ""
 Global $TrainPos = ""
 
 for $i=0 to Ubound($TroopGroup,1) - 1
-	$TroopName[$i]         = $TroopGroup[$i][0]
-	$TroopNamePosition[$i] = $TroopGroup[$i][1]
-	$TroopHeight[$i]       = $TroopGroup[$i][2]
+	$TroopName[$i]         							= $TroopGroup[$i][0]
+	$TroopNamePosition[$i] 							= $TroopGroup[$i][1]
+	$TroopHeight[$i]       							= $TroopGroup[$i][2]
+	$TroopTHSnipeName[$TroopGroup[$i][3]] 			= $TroopGroup[$i][0]
+	$TroopTHSnipeNamePosition[$TroopGroup[$i][3]] 	= $TroopGroup[$i][1]
+	$TroopTHSnipeHeight[$TroopGroup[$i][3]] 		= $TroopGroup[$i][2]
 next
 for $i=0 to Ubound($TroopGroupDark,1) - 1
 	$TroopDarkName[$i]         = $TroopGroupDark[$i][0]

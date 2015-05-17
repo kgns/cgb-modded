@@ -311,23 +311,43 @@ Func Train()
 				Endif
 			next
 
-			for $i=0 to Ubound($TroopName) - 1
-			   If GUICtrlRead(eval("txtNum" & $TroopName[$i])) <> "0" And eval("Cur" & $TroopName[$i]) > 0 Then
-				   ;If _ColorCheck(_GetPixelColor(261, 366), Hex(0x39D8E0, 6), 20) And $CurArch > 0 Then
-				   If eval("Cur" & $TroopName[$i]) > 0  Then
-						if eval($TroopName[$i] & "EBarrack") = 0 then
-							TrainIt(eval("e" & $TroopName[$i]), 1)
-							$BarrackStatus[$brrNum-1] = true
-						elseif eval($TroopName[$i] & "EBarrack") >= eval("Cur" & $TroopName[$i]) then
-							TrainIt(eval("e" & $TroopName[$i]), eval("Cur" & $TroopName[$i]))
-							$BarrackStatus[$brrNum-1] = true
-						else
-							TrainIt(eval("e" & $TroopName[$i]), eval($TroopName[$i] & "EBarrack"))
-							$BarrackStatus[$brrNum-1] = true
-						endif
+			If $OptTrophyMode = 1 Then
+				for $i=0 to Ubound($TroopTHSnipeName) - 1
+				   If GUICtrlRead(eval("txtNum" & $TroopTHSnipeName[$i])) <> "0" And eval("Cur" & $TroopTHSnipeName[$i]) > 0 Then
+					   ;If _ColorCheck(_GetPixelColor(261, 366), Hex(0x39D8E0, 6), 20) And $CurArch > 0 Then
+					   If eval("Cur" & $TroopTHSnipeName[$i]) > 0  Then
+							if eval($TroopTHSnipeName[$i] & "EBarrack") = 0 then
+								TrainIt(eval("e" & $TroopTHSnipeName[$i]), 1)
+								$BarrackStatus[$brrNum-1] = true
+							elseif eval($TroopTHSnipeName[$i] & "EBarrack") >= eval("Cur" & $TroopTHSnipeName[$i]) then
+								TrainIt(eval("e" & $TroopTHSnipeName[$i]), eval("Cur" & $TroopTHSnipeName[$i]))
+								$BarrackStatus[$brrNum-1] = true
+							else
+								TrainIt(eval("e" & $TroopTHSnipeName[$i]), eval($TroopTHSnipeName[$i] & "EBarrack"))
+								$BarrackStatus[$brrNum-1] = true
+							endif
+					   EndIf
 				   EndIf
-			   EndIf
-			next
+				next
+			Else
+				for $i=0 to Ubound($TroopName) - 1
+				   If GUICtrlRead(eval("txtNum" & $TroopName[$i])) <> "0" And eval("Cur" & $TroopName[$i]) > 0 Then
+					   ;If _ColorCheck(_GetPixelColor(261, 366), Hex(0x39D8E0, 6), 20) And $CurArch > 0 Then
+					   If eval("Cur" & $TroopName[$i]) > 0  Then
+							if eval($TroopName[$i] & "EBarrack") = 0 then
+								TrainIt(eval("e" & $TroopName[$i]), 1)
+								$BarrackStatus[$brrNum-1] = true
+							elseif eval($TroopName[$i] & "EBarrack") >= eval("Cur" & $TroopName[$i]) then
+								TrainIt(eval("e" & $TroopName[$i]), eval("Cur" & $TroopName[$i]))
+								$BarrackStatus[$brrNum-1] = true
+							else
+								TrainIt(eval("e" & $TroopName[$i]), eval($TroopName[$i] & "EBarrack"))
+								$BarrackStatus[$brrNum-1] = true
+							endif
+					   EndIf
+				   EndIf
+				next
+			EndIf
 
 		   If _Sleep(100) Then ExitLoop
 
