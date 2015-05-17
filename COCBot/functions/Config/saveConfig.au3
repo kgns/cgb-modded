@@ -259,6 +259,11 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "advanced", "THaddTiles", GUICtrlRead($txtTHaddtiles))
 	IniWrite($config, "advanced", "AttackTHType", _GUICtrlComboBox_GetCurSel($cmbAttackTHType))
 
+	If GUICtrlRead($chkUmAf) = $GUI_CHECKED Then
+		IniWrite($config, "advanced", "UnbreakableAttackFirst", 1)
+	Else
+		IniWrite($config, "advanced", "UnbreakableAttackFirst", 0)
+	EndIf
 	;atk their king
 	;attk their queen
 

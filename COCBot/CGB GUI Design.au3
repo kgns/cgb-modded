@@ -617,7 +617,12 @@ GUICtrlCreateTabItem("")
 			GUICtrlSetLimit(-1, 2)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$lblUnbreakable = GUICtrlCreateLabel("minutes", $x + 237, $y + 30, -1, -1)
-		$lblUnbreakableWarning = GUICtrlCreateLabel("(WARNING: Enable Unbreakable only if you know what it is)", $x - 10, $y + 54, -1, -1)
+		;attack first mod
+		$chkUmAf = GUICtrlCreateCheckbox("Attack first", $x + 20 , $y + 42, -1, -1)
+			$TxtTip = "Attack first for Unbreakable Mode"
+			GUICtrlSetTip(-1, $TxtTip)
+			GUICtrlSetOnEvent(-1, "chkUmAf")
+		$lblUnbreakableWarning = GUICtrlCreateLabel("(WARNING: Enable Unbreakable only if you know what it is)", $x - 10, $y + 64, -1, -1)
 #cs
 		$chkEndOneStar = GUICtrlCreateCheckbox("End Battle, when One Star is won", $x, $y + 15, -1, -1)
 			$txtTip = "Will End the Battle if 1 star is won in battle"

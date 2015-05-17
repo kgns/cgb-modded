@@ -278,6 +278,12 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	_GUICtrlComboBox_SetCurSel($cmbAttackTHType, $AttackTHType)
 	chkSnipeMode()
 
+	If $ichkUmAf = 1 Then
+		GUICtrlSetState($chkUmAf, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkUmAf, $GUI_UNCHECKED)
+	EndIf
+	
 	;attk their king
 	;attk their queen
 
