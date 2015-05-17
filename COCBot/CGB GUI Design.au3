@@ -1519,7 +1519,7 @@ Local $x = 30, $y = 130
 			GUICtrlSetData(-1, 0) ; default value
 			GUICtrlSetOnEvent(-1, "sldVSDelay")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
+	#include "CGB GUI Design Free Builder.au3"
 	Local $x = 260, $y = 255
 	$grpTrophy = GUICtrlCreateGroup("Trophy Settings", $x - 20, $y - 20, 220, 65)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x - 10, $y + 5, 24, 24)
