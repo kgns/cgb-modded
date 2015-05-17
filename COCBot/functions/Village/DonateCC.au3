@@ -42,7 +42,7 @@ Func DonateCC($Check = False)
 	If _Sleep(200) Then Return
 	Click(189, 24) ; clicking clan tab
 
-	Local $Scroll, $offColors[3][3] = [[0x000000, 0, -2], [0x262926, 0, 1], [0xF8FCF0, 0, 11]]
+	Local $Scroll, $offColors[3][3] = [[0x000000, 0, -2], [0x272926, 0, 1], [0xcfea75, 0, 17]]
 	Global $DonatePixel
 
 	While $Donate

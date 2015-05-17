@@ -21,7 +21,7 @@ Func getString($y)
 	; exit func when still unreadable after 4 attempts
 	For $i = 0 To 3
 		If $i > 0 Then $y += 1
-		;$x = 35
+		$x = 35
 		$String_Temp = getChar($x, $y) & getChar($x, $y)
 		If $String_Temp = "  " Or $String_Temp = "||" Or $String_Temp = "| " Or $String_Temp = " |"  Then
 			If $i = 3 Then
