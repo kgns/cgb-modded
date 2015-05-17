@@ -1,7 +1,6 @@
 ;Reads config file and sets variables
 
 Func readConfig() ;Reads config and sets it to the variables
-#include "readFreeBuilder.au3"
 	If FileExists($building) Then
 		$TownHallPos[0] = IniRead($building, "other", "xTownHall", "-1")
 		$TownHallPos[1] = IniRead($building, "other", "yTownHall", "-1")
@@ -37,7 +36,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$itxtUpgradeY4 = IniRead($building, "other", "BuildUpgradeY4", "0")
 	EndIf
 	If FileExists($config) Then
-
+	#include "readFreeBuilder.au3"
 		;General Settings--------------------------------------------------------------------------
 		$frmBotPosX = IniRead($config, "general", "frmBotPosX", "900")
 		$frmBotPosY = IniRead($config, "general", "frmBotPosY", "20")
