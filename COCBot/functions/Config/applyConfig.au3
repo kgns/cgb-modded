@@ -1,8 +1,9 @@
 ;Applies all of the  variable to the GUI
 
-#include "applyFreeBuilder.au3"
 
 Func applyConfig() ;Applies the data from config to the controls in GUI
+
+#include "applyFreeBuilder.au3"
 
 	;General Settings--------------------------------------------------------------------------
 	If $frmBotPosX <> -32000 Then WinMove($sBotTitle, "", $frmBotPosX, $frmBotPosY)
