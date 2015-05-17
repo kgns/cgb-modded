@@ -48,6 +48,10 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		Endif
 		;attackReport()
 	EndIf
+	
+	If GUICtrlRead($chkUmAf) = $GUI_CHECKED Then
+		$UmAttacked = 1
+	EndIf
 
 	Click(428, 544) ;Click Return Home Button
 

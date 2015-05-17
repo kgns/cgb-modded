@@ -131,12 +131,22 @@ Func runBot() ;Bot that runs everything in order
 				If $Restart = True Then ContinueLoop
 			RequestCC()
 				If _Sleep(1000) Then Return
-
 				If $Restart = True Then ContinueLoop
+				
 			If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
+				If GUICtrlRead($chkUmAf) = $GUI_CHECKED And $UmAttacked == 0 Then
+					SetLog("Doing first attack before Unbreakable Mode", $COLOR_RED)
+				Else
+					SetLog("First attack already done switching to Unbreakable Mode", $COLOR_GREEN)
+					$UmAttacked = 0
+					Unbreakable()
+					ContinueLoop
+				Endif
+			Else
 				Unbreakable()
 				ContinueLoop
 			Endif
+
 			Laboratory()
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
