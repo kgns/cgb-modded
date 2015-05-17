@@ -1,6 +1,5 @@
 ;Applies all of the  variable to the GUI
 
-
 Func applyConfig() ;Applies the data from config to the controls in GUI
 
 #include "applyFreeBuilder.au3"
