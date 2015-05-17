@@ -521,7 +521,7 @@ Func Train()
 		;end dark
 	EndIf
 
-	if $isNormalBuild and $BarrackStatus[0] = false and $BarrackStatus[1] = false and $BarrackStatus[2] = false and $BarrackStatus[3] = false and not $FirstStart then
+	if _GUICtrlComboBox_GetCurSel($cmbTroopComp) <> 8 and $isNormalBuild and $BarrackStatus[0] = false and $BarrackStatus[1] = false and $BarrackStatus[2] = false and $BarrackStatus[3] = false and not $FirstStart then
 		if not $isDarkBuild or ($BarrackDarkStatus[0] = false and $BarrackDarkStatus[1] = false) then
 			train()
 			return
