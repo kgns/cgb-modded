@@ -1,5 +1,7 @@
 ;Reads config file and sets variables
 
+#include "readFreeBuilder.au3"
+
 Func readConfig() ;Reads config and sets it to the variables
 	If FileExists($building) Then
 		$TownHallPos[0] = IniRead($building, "other", "xTownHall", "-1")

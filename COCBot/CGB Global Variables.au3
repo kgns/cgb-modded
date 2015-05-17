@@ -13,6 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
+#include "CGB Global Variables Free Builder.au3"
 #include <ButtonConstants.au3>
 #include <ComboConstants.au3>
 #include <EditConstants.au3>

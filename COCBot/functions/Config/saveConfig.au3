@@ -1,5 +1,7 @@
 ;Saves all of the GUI values to the config.
 
+#include "saveFreeBuilder.au3"
+
 Func saveConfig() ;Saves the controls settings to the config
 
 	;General Settings--------------------------------------------------------------------------
