@@ -66,7 +66,7 @@ Func CheckWall()
 				PureClick($WallX[0], $WallY[0])
 				Sleep(500)
 				If  HitPoints()= true Then ; CheckWallLv() = 1 And CheckWallWord() = 1
-					SetLog("Wall segment Position 1 Correct •[" & $WallX[0] & "," & $WallY[0] & "]")
+					SetLog("Wall segment Position 1 Correct â€¢[" & $WallX[0] & "," & $WallY[0] & "]")
 					$checkwalllogic = True
 					$WallLoc = 1
 					Return True
@@ -81,7 +81,7 @@ Func CheckWall()
 		Next
 	Next
 	$WallY[0] += $y
-	;SetLog("Wall segment Position 1 •[" & $WallX[0] & "," & $WallY[0] & "]", $COLOR_GREEN)
+	;SetLog("Wall segment Position 1 â€¢[" & $WallX[0] & "," & $WallY[0] & "]", $COLOR_GREEN)
 
 
 	$y1 = Ceiling($WallY[0] + 5)
@@ -95,7 +95,7 @@ Func CheckWall()
 				PureClick($WallX[1], $WallY[1])
 				Sleep(500)
 				If  HitPoints()= true Then ; CheckWallLv() = 1 And CheckWallWord() = 1
-					SetLog("Wall segment Position 2 Correct •[" & $WallX[1] & "," & $WallY[1] & "]")
+					SetLog("Wall segment Position 2 Correct â€¢[" & $WallX[1] & "," & $WallY[1] & "]")
 					$checkwalllogic = True
 					$WallLoc = 1
 					Return True
@@ -110,7 +110,7 @@ Func CheckWall()
 		Next
 	Next
 	$WallY[1] += $y1
-	;SetLog("Wall segment Position 2 •[" & $WallX[1] & "," & $WallY[1] & "]", $COLOR_GREEN)
+	;SetLog("Wall segment Position 2 â€¢[" & $WallX[1] & "," & $WallY[1] & "]", $COLOR_GREEN)
 
 
 	$y2 = Ceiling($WallY[1] + 5)
@@ -124,7 +124,7 @@ Func CheckWall()
 				PureClick($WallX[2], $WallY[2])
 				Sleep(500)
 				If  HitPoints()= true Then ; CheckWallLv() = 1 And CheckWallWord() = 1
-					SetLog("Wall segment Position 3 Correct •[" & $WallX[2] & "," & $WallY[2] & "]")
+					SetLog("Wall segment Position 3 Correct â€¢[" & $WallX[2] & "," & $WallY[2] & "]")
 					$checkwalllogic = True
 					$WallLoc = 1
 					Return True
@@ -139,7 +139,7 @@ Func CheckWall()
 		Next
 	Next
 	$WallY[2] += $y2
-	;SetLog("Wall segment Position 3 •[" & $WallX[2] & "," & $WallY[2] & "]", $COLOR_GREEN)
+	;SetLog("Wall segment Position 3 â€¢[" & $WallX[2] & "," & $WallY[2] & "]", $COLOR_GREEN)
 
 
 	$y3 = Ceiling($WallY[2] + 5)
@@ -153,7 +153,7 @@ Func CheckWall()
 				PureClick($WallX[3], $WallY[3])
 				Sleep(500)
 				If  HitPoints()= true Then ; CheckWallLv() = 1 And CheckWallWord() = 1
-					SetLog("Wall segment Position 4 Correct •[" & $WallX[4] & "," & $WallY[4] & "]")
+					SetLog("Wall segment Position 4 Correct â€¢[" & $WallX[4] & "," & $WallY[4] & "]")
 					$checkwalllogic = True
 					$WallLoc = 1
 					ReportWallUpgrade()
@@ -194,7 +194,7 @@ Func HitPoints()
 
 		If $HitPointsWall[$icmbWalls] = $HitPoints then
 			SetLog("~ Wall HitPoints is correct.",$COLOR_GREEN)
-			Click(1, 1, 2)
+			Click(1, 1)
 			Sleep(500)
 			Return True
 		Else
