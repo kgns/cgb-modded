@@ -127,9 +127,9 @@ Func Laboratory()
 					SetLog("Upgrade troops" &  GUICtrlRead($cmbLaboratory) &" in your laboratory has been done...", $COLOR_GREEN)
 					If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iPBVillageName & " :" & GUICtrlRead($cmbLaboratory) & " upgrade has started", "")
 					If _Sleep(1000) Then Return
-					ClickP($TopLeftClient, 2)
 					GUICtrlSetState($chkLab, $GUI_UNCHECKED)
 				EndIf
+				ClickP($TopLeftClient, 2)
 			EndIf
 		EndIf
 	EndIf
