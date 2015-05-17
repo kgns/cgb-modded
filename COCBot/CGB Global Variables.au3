@@ -411,3 +411,6 @@ Global $SpellHealX = 675
 Global $SpellHealY = 470
 Global $SpellLightningX = 675
 Global $SpellLightningY = 370
+
+;FreeBuilder
+Global $ichkFreeBuilder
