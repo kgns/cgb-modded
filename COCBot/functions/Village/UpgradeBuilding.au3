@@ -9,7 +9,8 @@ Func UpgradeBuilding()
   EndIf
 
   VillageReport()
-  If $FreeBuilder = 0 Then
+
+  If $FreeBuilder = 0 or $ichkFreeBuilder = 1 Then
       SetLog("No builders available", $COLOR_RED)
       ClickP($TopLeftClient) ; Click Away
       Return
