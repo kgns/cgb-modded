@@ -512,9 +512,9 @@ WEnd
  AttackTHGrid($eGiant,2,1,1500,1,2,0) ;releases 2 giants in case of spring traps
  AttackTHGrid($eGiant,3,5,1500,2,2,0) ;releases up to 15 giants to take heat
  AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians 
- AttackTHGrid($eBarb,3,6,1500,1,5,0) ; deploys up to 18 barbarians
+ AttackTHGrid($eBarb,3,5,1500,1,5,0) ; deploys up to 15 barbarians
  AttackTHGrid($eArch,3,8,1500,3,4,0) ; deploys 24 archers
- AttackTHGrid($eArch,4,6,1000,3,4,0) ; deploys 24 archers
+ AttackTHGrid($eArch,4,7,1000,3,4,0) ; deploys 28 archers
  $count = 0
 While $count < 25
  _Sleep(1000)
