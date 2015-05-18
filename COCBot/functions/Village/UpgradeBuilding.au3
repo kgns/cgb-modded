@@ -118,7 +118,7 @@ Func UpgradeBuilding()
                   $Type_Resource = 1
                   SetLog("Upgrade using Dark Elixir(HEROES)...")
                   SetLog("Dark Storage: "&$iDarkStorage&" Dark Min: "&$iMinDark)
-                  If $iDarkStorage < $iMinDElixir Then
+                  If $iDarkStorage < $iMinDark Then
                      SetLog("Dark is below the minimum, skip upgrading...", $COLOR_RED)
                      ClickP($TopLeftClient, 2)
                   Else
