@@ -13,7 +13,6 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-#include "CGB Global Variables Free Builder.au3"
 #include <ButtonConstants.au3>
 #include <ComboConstants.au3>
 #include <EditConstants.au3>
@@ -252,6 +251,9 @@ Global $barrackTroop[10] ;Barrack troop set
 Global $ArmyPos[2]
 Global $barrackNum = 0
 Global $barrackDarkNum = 0
+Global $ichkUpgradeKing, $ichkUpgradeQueen ;==> upgrade heroes
+Global $KingPos[2]
+Global $QueenPos[2]
 ;Other Settings
 Global $ichkWalls
 Global $icmbWalls
@@ -275,6 +277,7 @@ Global $iTimeWizard = 480
 Global $iChkTrophyHeroes, $iChkTrophyAtkDead
 Global $ichkUpgrade1, $ichkUpgrade2, $ichkUpgrade3, $ichkUpgrade4
 Global $itxtUpgradeX1, $itxtUpgradeY1, $itxtUpgradeX2, $itxtUpgradeY2, $itxtUpgradeX3, $itxtUpgradeY3, $itxtUpgradeX4, $itxtUpgradeY4
+Global $ichkFreeBuilder
 Global $BuildPos1[2]
 Global $BuildPos2[2]
 Global $BuildPos3[2]

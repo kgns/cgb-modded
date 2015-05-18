@@ -2,8 +2,6 @@
 
 Func applyConfig() ;Applies the data from config to the controls in GUI
 
-#include "applyFreeBuilder.au3"
-
 	;General Settings--------------------------------------------------------------------------
 	If $frmBotPosX <> -32000 Then WinMove($sBotTitle, "", $frmBotPosX, $frmBotPosY)
 
@@ -218,7 +216,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	EndIf
 	GUICtrlSetData($txtRatioNumeratorDonated, $ratioNumeratorDonated)
 	GUICtrlSetData($txtRatioDenominatorReceived, $ratioDenominatorReceived)
-	
+
 
 	Switch $iActivateKQCondition
 		Case "Manual"
@@ -706,10 +704,28 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtUpgradeY3, $itxtUpgradeY3)
 	GUICtrlSetData($txtUpgradeX4, $itxtUpgradeX4)
 	GUICtrlSetData($txtUpgradeY4, $itxtUpgradeY4)
-	
+
 	GUICtrlSetData($txtBuildMinGold, $itxtBuildMinGold)
     GUICtrlSetData($txtBuildMinElixir, $itxtBuildMinElixir)
     GUICtrlSetData($txtBuildMinDElixir, $itxtBuildMinDElixir)
+	
+	If $ichkUpgradeKing = 1 Then ;==>upgradeking
+		GUICtrlSetState($chkUpgradeKing, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkUpgradeKing, $GUI_UNCHECKED)
+	EndIf
+	
+	If $ichkUpgradeQueen = 1 Then ;==>upgradequeen
+		GUICtrlSetState($chkUpgradeQueen, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkUpgradeQueen, $GUI_UNCHECKED)
+	EndIf
+
+    If $ichkFreeBuilder = 1 Then
+        GUICtrlSetState($chkFreeBuilder, $GUI_CHECKED)
+    Else
+        GUICtrlSetState($chkFreeBuilder, $GUI_UNCHECKED)
+    EndIf
 
 	;Mow the lawn
 	If $ichkTrees = 1 Then

@@ -309,6 +309,26 @@ Func btnLocateTownHall()
 	$RunState = False
 EndFunc   ;==>btnLocateTownHall
 
+Func btnLocateKing()
+	$RunState = True
+	While 1
+		ZoomOut()
+		LocateKing()
+		ExitLoop
+	WEnd
+	$RunState = False
+EndFunc   ;==>btnLocateKing
+
+Func btnLocateQueen()
+	$RunState = True
+	While 1
+		ZoomOut()
+		LocateQueen()
+		ExitLoop
+	WEnd
+	$RunState = False
+EndFunc   ;==>btnLocateQueen
+
 Func btnSearchMode()
 	While 1
 		GUICtrlSetState($btnStart, $GUI_HIDE)

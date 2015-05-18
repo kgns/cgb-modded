@@ -2,8 +2,6 @@
 
 Func saveConfig() ;Saves the controls settings to the config
 
-#include "saveFreeBuilder.au3"
-
 	;General Settings--------------------------------------------------------------------------
 	Local $frmBotPos = WinGetPos($sBotTitle)
 	IniWrite($config, "general", "frmBotPosX", $frmBotPos[0])
@@ -560,7 +558,7 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	IniWrite($config, "other", "walllvl", _GUICtrlComboBox_GetCurSel($cmbWalls))
 	IniWrite($config, "other", "minwallgold", GUICtrlRead($txtWallMinGold))
 	IniWrite($config, "other", "minwallelixir", GUICtrlRead($txtWallMinElixir))
-	
+
     IniWrite($config, "other", "minbuildgold", GUICtrlRead($txtBuildMinGold))
     IniWrite($config, "other", "minbuildelixir", GUICtrlRead($txtBuildMinElixir))
     IniWrite($config, "other", "minbuilddelixir", GUICtrlRead($txtBuildMinDElixir))
@@ -628,6 +626,30 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	IniWrite($building, "other", "BuildUpgradeY3", GUICtrlRead($txtUpgradeY3))
 	IniWrite($building, "other", "BuildUpgradeX4", GUICtrlRead($txtUpgradeX4))
 	IniWrite($building, "other", "BuildUpgradeY4", GUICtrlRead($txtUpgradeY4))
+
+	If GUICtrlRead($chkFreeBuilder) = $GUI_CHECKED Then
+	
+		IniWrite($config, "other", "chkFreeBuilder", 1)
+	Else
+		IniWrite($config, "other", "chkFreeBuilder", 0)
+	EndIf
+	
+	If GUICtrlRead($chkUpgradeKing) = $GUI_CHECKED Then ;==>upgradeking
+		IniWrite($config, "other", "UpKing", 1)
+	Else
+		IniWrite($config, "other", "UpKing", 0)
+	EndIf
+	
+	If GUICtrlRead($chkUpgradeQueen) = $GUI_CHECKED Then ;==>upgradequeen
+		IniWrite($config, "other", "UpQueen", 1)
+	Else
+		IniWrite($config, "other", "UpQueen", 0)
+	EndIf
+
+	IniWrite($building, "other", "xKing", $KingPos[0])
+	IniWrite($building, "other", "yKing", $KingPos[1])
+	IniWrite($building, "other", "xQueen", $QueenPos[0])
+	IniWrite($building, "other", "yQueen", $QueenPos[1])
 
 	IniWrite($building, "other", "xTownHall", $TownHallPos[0])
 	IniWrite($building, "other", "yTownHall", $TownHallPos[1])

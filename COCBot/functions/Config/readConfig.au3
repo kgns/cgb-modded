@@ -16,6 +16,11 @@ Func readConfig() ;Reads config and sets it to the variables
 
 		$SFPos[0] = IniRead($building, "other", "xspellfactory", "-1")
 		$SFPos[1] = IniRead($building, "other", "yspellfactory", "-1")
+		
+		$KingPos[0] = IniRead($building, "other", "xKing", "0")
+		$KingPos[1] = IniRead($building, "other", "yKing", "0")
+		$QueenPos[0] = IniRead($building, "other", "xQueen", "0")
+		$QueenPos[1] = IniRead($building, "other", "yQueen", "0")
 
 		$barrackNum = IniRead($building, "other", "barrackNum", "0")
 		$barrackDarkNum = IniRead($building, "other", "barrackDarkNum", "0")
@@ -36,7 +41,6 @@ Func readConfig() ;Reads config and sets it to the variables
 		$itxtUpgradeY4 = IniRead($building, "other", "BuildUpgradeY4", "0")
 	EndIf
 	If FileExists($config) Then
-	#include "readFreeBuilder.au3"
 		;General Settings--------------------------------------------------------------------------
 		$frmBotPosX = IniRead($config, "general", "frmBotPosX", "900")
 		$frmBotPosY = IniRead($config, "general", "frmBotPosY", "20")
@@ -278,11 +282,16 @@ Func readConfig() ;Reads config and sets it to the variables
 		$itxtLabX = IniRead($config, "upgrade", "LabPosX", "0")
 		$itxtLabY = IniRead($config, "upgrade", "LabPosY", "0")
 		;Misc Settings--------------------------------------------------------------------------
-		
+
 		$itxtBuildMinGold = IniRead($config, "other", "minbuildgold", "0")
         $itxtBuildMinElixir = IniRead($config, "other", "minbuildelixir", "0")
         $itxtBuildMinDElixir = IniRead($config, "other", "minbuilddelixir", "0")
 		
+		$ichkUpgradeKing = IniRead($config, "other", "UpKing", "0") ;==>upgradeking
+		$ichkUpgradeQueen = IniRead($config, "other", "UpQueen", "0") ;==>upgradequeen
+
+		$ichkFreeBuilder = IniRead($config, "other", "chkFreeBuilder", "0")
+
 		$ichkWalls = IniRead($config, "other", "auto-wall", "0")
 		$iUseStorage = IniRead($config, "other", "use-storage", "0")
 
