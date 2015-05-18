@@ -169,8 +169,8 @@ Func ReportLastTotal()
 	GUICtrlSetData($lblTrophyLoot, _NumberFormat($iTrophyLoot))
 
 	; hourly stats
-	GUICtrlSetData($lblHourlyStatsGold, _NumberFormat($iGoldLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600) & "K / h")
-	GUICtrlSetData($lblHourlyStatsElixir, _NumberFormat($iElixirLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600) & "K / h")
-	GUICtrlSetData($lblHourlyStatsDark, _NumberFormat($iDarkLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000) & " / h")
-	GUICtrlSetData($lblHourlyStatsTrophy, _NumberFormat($iTrophyLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000) & " / h")
+	GUICtrlSetData($lblHourlyStatsGold, _NumberFormat(Round($iGoldLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")
+	GUICtrlSetData($lblHourlyStatsElixir, _NumberFormat(Round($iElixirLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")
+	GUICtrlSetData($lblHourlyStatsDark, _NumberFormat(Round($iDarkLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
+	GUICtrlSetData($lblHourlyStatsTrophy, _NumberFormat(Round($iTrophyLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
 EndFunc
