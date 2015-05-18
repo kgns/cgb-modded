@@ -1834,84 +1834,109 @@ Global $iPrevState[$LastControlToHide + 1]
 ;~ -------------------------------------------------------------
 $tabStatsCredits = GUICtrlCreateTabItem("Stats")
 Local $x = 30, $y = 130
-	$grpResourceOnStart = GUICtrlCreateGroup("Stats: Started with", $x - 20, $y - 20, 110, 105)
+	$grpResourceOnStart = GUICtrlCreateGroup("Stats: Started with", $x - 20, $y - 20, 108, 105)
 		$lblResultStatsTemp = GUICtrlCreateLabel("Report" & @CRLF & "will appear" & @CRLF & "here on" & @CRLF & "first run.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
 		$lblResultGoldStart = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Gold you had when the bot started."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
 		$lblResultElixirStart = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Elixir you had when the bot started."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		$picResultDEStart = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 60, $y, 16, 16)
+		$picResultDEStart = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
 		$lblResultDEStart = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Dark Elixir you had when the bot started."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
 		$lblResultTrophyStart = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies you had when the bot started."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$x = 145
+	$x += 113
 	$y = 130
-	$grpLastAttack = GUICtrlCreateGroup("Stats: Last Attack", $x - 20, $y - 20, 110, 105)
+	$grpLastAttack = GUICtrlCreateGroup("Stats: Last Attack", $x - 20, $y - 20, 108, 105)
 		$lblLastAttackTemp = GUICtrlCreateLabel("Report" & @CRLF & "will update" & @CRLF & "here after" & @CRLF & "each attack.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
 		$lblGoldLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Gold you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the Gold cost for Searching." & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
 		$lblElixirLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Elixir you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the cost of your Troops"  & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		$picDarkLastAttack = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 60, $y, 16, 16)
+		$picDarkLastAttack = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
 		$lblDarkLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Dark Elixir you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the cost of your Dark Troops" & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
 		$lblTrophyLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies you gained or lost since the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$x = 260
+	
+	$x += 113
 	$y = 130
-    $grpTotalLoot = GUICtrlCreateGroup("Stats: Total Loot", $x - 20, $y - 20, 150, 105)
+    $grpTotalLoot = GUICtrlCreateGroup("Stats: Total Loot", $x - 20, $y - 20, 108, 105)
 		$lblTotalLootTemp = GUICtrlCreateLabel("Report" & @CRLF & "will update" & @CRLF & "here after" & @CRLF & "each attack.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 100, $y, 16, 16)
-		$lblGoldLoot =  GUICtrlCreateLabel("", $x - 30, $y + 2, 120, 17, $SS_RIGHT)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
+		$lblGoldLoot =  GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The total amount of Gold you gained or lost while the Bot is running." & @CRLF & "(This includes manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 100, $y, 16, 16)
-		$lblElixirLoot =  GUICtrlCreateLabel("", $x - 30, $y + 2, 120, 17, $SS_RIGHT)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
+		$lblElixirLoot =  GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The total amount of Elixir you gained or lost while the Bot is running." & @CRLF & "(This includes manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		$picDarkLoot = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 100, $y, 16, 16)
-        $lblDarkLoot =  GUICtrlCreateLabel("", $x - 30, $y + 2, 120, 17, $SS_RIGHT)
+		$picDarkLoot = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
+        $lblDarkLoot =  GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The total amount of Dark Elixir you gained or lost while the Bot is running." & @CRLF & "(This includes manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 100, $y, 16, 16)
-		$lblTrophyLoot = GUICtrlCreateLabel("", $x - 30, $y + 2, 120, 17, $SS_RIGHT)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
+		$lblTrophyLoot = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies you gained or lost while the Bot is running."
 			GUICtrlSetTip(-1, $txtTip)
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$x = 395
-	$y = 115
+	$x += 113
+	$y = 130
+	$grpHourlyStats = GUICtrlCreateGroup("Stats: Hourly", $x - 20, $y - 20, 108, 105)
+	$lblHourlyStatsTemp = GUICtrlCreateLabel("Report" & @CRLF & "will update" & @CRLF & "here after" & @CRLF & "each attack.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
+		$lblHourlyStatsGold = GUICtrlCreateLabel("", $x - 10, $y + 2, 65, 17, $SS_RIGHT)
+			$txtTip = "Net Gold gain per hour"
+			GUICtrlSetTip(-1, $txtTip)
+		$y +=20
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
+		$lblHourlyStatsElixir = GUICtrlCreateLabel("", $x - 10, $y + 2, 65, 17, $SS_RIGHT)
+			$txtTip = "Net Elixir gain per hour"
+			GUICtrlSetTip(-1, $txtTip)
+		$y +=20
+		$picHourlyStatsDark = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
+		$lblHourlyStatsDark = GUICtrlCreateLabel("", $x - 10, $y + 2, 65, 17, $SS_RIGHT)
+			$txtTip = "Net Dark Elixir gain per hour"
+			GUICtrlSetTip(-1, $txtTip)
+		$y +=20
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
+		$lblHourlyStatsTrophy = GUICtrlCreateLabel("", $x - 10, $y + 2, 65, 17, $SS_RIGHT)
+			$txtTip = "Net Trophy gain per hour"
+			GUICtrlSetTip(-1, $txtTip)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$x = 330
+	$y = 235
 	$btnMoreStats = GUICtrlCreateButton ("More Stats", $x, $y, 60,21)
 		GUICtrlSetState(-1, $GUI_DISABLE)
-	$y +=25
+	$x +=65
 	$btnExportCSV = GUICtrlCreateButton ("Export CSV", $x, $y, 60,21)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 #cs    $y +=25
@@ -1923,7 +1948,7 @@ Local $x = 30, $y = 130
 #ce
 
 	$x = 30
-	$y = 240
+	$y = 280
 	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 80)
 		$y -=2
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 45, $x - 10, $y + 7, 24, 24)
@@ -1937,8 +1962,8 @@ Local $x = 30, $y = 130
         $lblresultvillagesskipped = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The No. of Villages that were skipped during search by the Bot."
 			GUICtrlSetTip(-1, $txtTip)
-		$x = 185
-		$y = 238
+		$x += 155
+		$y -= 17
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x, $y, 16, 16)
         $lbltrophiesdropped = GUICtrlCreateLabel("Dropped:", $x + 20, $y + 2, -1, 17)
         $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 80, $y + 2, 30, 17, $SS_RIGHT)
@@ -1950,8 +1975,8 @@ Local $x = 30, $y = 130
         $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 50, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The total Running Time of the Bot."
 			GUICtrlSetTip(-1, $txtTip)
-		$x = 330
-		$y = 238
+		$x += 145
+		$y -= 17
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 50, $x - 7, $y + 7, 24, 24)
         $lblwallbygold = GUICtrlCreateLabel("Upg. by Gold:", $x + 20, $y + 2, -1, 17)
 		$lblWallgoldmake =  GUICtrlCreateLabel("0", $x + 55, $y + 2, 60, 17, $SS_RIGHT)
@@ -1970,7 +1995,7 @@ Local $x = 30, $y = 130
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 30
-	$y = 335
+	$y = 375
 	$grpCredits = GUICtrlCreateGroup("Credits", $x - 20, $y - 20, 450, 170)
 		$labelGameBotURL = GUICtrlCreateLabel("https://GameBot.org", $x - 5, $y + 5, 430, 20)
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
