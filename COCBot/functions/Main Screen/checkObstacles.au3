@@ -32,7 +32,7 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
   SetLog("CoC Has Stopped Error .....", $COLOR_RED)
 	    ReportCoCStopped()
         If _Sleep(1000) Then Return
-        PureClick(250+$x, 328+$y);Check for "CoC has stopped error, looking for OK message" on screen
+        PureClick(250+$x, 328+$y, 2, 100));Check for "CoC has stopped error, looking for OK message" on screen
 If _Sleep(2000) Then Return
   PureClick(126, 700, 1, 500)
    Local $RunApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "RunApp")
