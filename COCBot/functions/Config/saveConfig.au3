@@ -567,7 +567,8 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 
     IniWrite($config, "other", "minbuildgold", GUICtrlRead($txtBuildMinGold))
     IniWrite($config, "other", "minbuildelixir", GUICtrlRead($txtBuildMinElixir))
-    IniWrite($config, "other", "minbuilddelixir", GUICtrlRead($txtBuildMinDElixir))
+    IniWrite($config, "other", "minbuildark", GUICtrlRead($txtBuildMinDark))
+    IniWrite($config, "other", "builderkeepfree", GUICtrlRead($txtBuilderKeepFree))
 
 	;Mow the Lawn
 	If GUICtrlRead($chkTrees) = $GUI_CHECKED Then
@@ -637,13 +638,6 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	IniWrite($building, "other", "BuildUpgradeY3", GUICtrlRead($txtUpgradeY3))
 	IniWrite($building, "other", "BuildUpgradeX4", GUICtrlRead($txtUpgradeX4))
 	IniWrite($building, "other", "BuildUpgradeY4", GUICtrlRead($txtUpgradeY4))
-
-	If GUICtrlRead($chkFreeBuilder) = $GUI_CHECKED Then
-	
-		IniWrite($config, "other", "chkFreeBuilder", 1)
-	Else
-		IniWrite($config, "other", "chkFreeBuilder", 0)
-	EndIf
 	
 	If GUICtrlRead($chkUpgradeKing) = $GUI_CHECKED Then ;==>upgradeking
 		IniWrite($config, "other", "UpKing", 1)

@@ -263,7 +263,8 @@ Global $itxtWallMinGold
 Global $itxtWallMinElixir
 Global $itxtBuildMinGold
 Global $itxtBuildMinElixir
-Global $itxtBuildMinDElixir
+Global $itxtBuildMinDark
+Global $itxtBuilderKeepFree
 Global $ichkTrees
 Global $ichkTombs
 Global $iVSDelay
@@ -279,7 +280,6 @@ Global $iTimeWizard = 480
 Global $iChkTrophyHeroes, $iChkTrophyAtkDead
 Global $ichkUpgrade1, $ichkUpgrade2, $ichkUpgrade3, $ichkUpgrade4
 Global $itxtUpgradeX1, $itxtUpgradeY1, $itxtUpgradeX2, $itxtUpgradeY2, $itxtUpgradeX3, $itxtUpgradeY3, $itxtUpgradeX4, $itxtUpgradeY4
-Global $ichkFreeBuilder
 Global $BuildPos1[2]
 Global $BuildPos2[2]
 Global $BuildPos3[2]

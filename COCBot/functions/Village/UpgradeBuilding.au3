@@ -1,16 +1,12 @@
 Func UpgradeBuilding()
-
   If $ichkUpgrade1 = 0 And $ichkUpgrade2 = 0 And $ichkUpgrade3 = 0 And $ichkUpgrade4 = 0 Then Return
-
   If GUICtrlRead($txtUpgradeX1) = "" And GUICtrlRead($txtUpgradeX2) = "" And GUICtrlRead($txtUpgradeX3) = "" And GUICtrlRead($txtUpgradeX4) = "" Then
         SetLog("Building location not set, skipping upgrade...", $COLOR_RED)
         ClickP($TopLeftClient) ; Click Away
         Return
   EndIf
-
   VillageReport()
-
-  If $FreeBuilder = 0 or ($ichkFreeBuilder = 1 and $FreeBuilder <= 1) Then
+  If $FreeBuilder < $txtBuilderKeepFree Then
       SetLog("No builders available", $COLOR_RED)
       ClickP($TopLeftClient) ; Click Away
       Return
@@ -23,7 +19,7 @@ Func UpgradeBuilding()
   Local $ElixirUpgrade4 = False
   Local $iMinGold = Number(GUICtrlRead($txtBuildMinGold))
   Local $iMinElixir = Number(GUICtrlRead($txtBuildMinElixir))
-  Local $iMinDark = Number(GUICtrlRead($txtBuildMinDElixir))
+  Local $iMinDark = Number(GUICtrlRead($txtBuildMinDark))
   Local $iGoldStorage = Number($GoldCount)
   Local $iElixirStorage = Number($ElixirCount)
   Local $iDarkStorage = Number($DarkCount)
@@ -85,7 +81,7 @@ Func UpgradeBuilding()
                         SetLog("Building "&$i&" successfully upgraded...", $COLOR_GREEN)
                         If _Sleep(1000) Then Return
                         ClickP($TopLeftClient, 2)
-                        GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
+                        ;GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
                      EndIf
                   EndIf
                EndIf
@@ -109,7 +105,7 @@ Func UpgradeBuilding()
                         SetLog("Building "&$i&" successfully upgraded...", $COLOR_GREEN)
                         If _Sleep(1000) Then Return
                         ClickP($TopLeftClient, 2)
-                        GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
+                        ;GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
                      EndIf
                   EndIf
                EndIf
@@ -118,7 +114,7 @@ Func UpgradeBuilding()
                   $Type_Resource = 1
                   SetLog("Upgrade using Dark Elixir(HEROES)...")
                   SetLog("Dark Storage: "&$iDarkStorage&" Dark Min: "&$iMinDark)
-                  If $iDarkStorage < $iMinDark Then
+                  If $iDarkStorage < $iMinDElixir Then
                      SetLog("Dark is below the minimum, skip upgrading...", $COLOR_RED)
                      ClickP($TopLeftClient, 2)
                   Else
@@ -133,7 +129,7 @@ Func UpgradeBuilding()
                         SetLog("Building "&$i&" successfully upgraded...", $COLOR_GREEN)
                         If _Sleep(1000) Then Return
                         ClickP($TopLeftClient, 2)
-                        GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
+                        ;GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
                      EndIf
                   EndIf
                EndIf
@@ -141,6 +137,16 @@ Func UpgradeBuilding()
                If $Type_Resource = 0 Then
                   SetLog("Not found Gold/Elixir/Dark Elixir on button...", $COLOR_RED)
                   ClickP($TopLeftClient, 2)
+               ElseIf $Type_Resource = 1 Then
+                  If $i = 1 Then
+                     GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
+                  ElseIf $i = 2 Then
+                     GUICtrlSetState($chkUpgrade2, $GUI_UNCHECKED)
+                  ElseIf $i = 3 Then
+                     GUICtrlSetState($chkUpgrade3, $GUI_UNCHECKED)
+                  ElseIf $i = 4 Then
+                     GUICtrlSetState($chkUpgrade4, $GUI_UNCHECKED)
+                  EndIf
                EndIf
 
             Else
@@ -154,7 +160,7 @@ Func UpgradeBuilding()
          If $Type_Resource = 1 Then
             VillageReport()
             If _Sleep(1000) Then Return
-            If $FreeBuilder = 0 Then
+            If $FreeBuilder < $txtBuilderKeepFree Then
               SetLog("No builders available", $COLOR_RED)
               ClickP($TopLeftClient) ; Click Away
               Return

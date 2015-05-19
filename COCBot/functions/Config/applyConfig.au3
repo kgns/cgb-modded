@@ -710,9 +710,10 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtUpgradeX4, $itxtUpgradeX4)
 	GUICtrlSetData($txtUpgradeY4, $itxtUpgradeY4)
 
-	GUICtrlSetData($txtBuildMinGold, $itxtBuildMinGold)
+    GUICtrlSetData($txtBuildMinGold, $itxtBuildMinGold)
     GUICtrlSetData($txtBuildMinElixir, $itxtBuildMinElixir)
-    GUICtrlSetData($txtBuildMinDElixir, $itxtBuildMinDElixir)
+    GUICtrlSetData($txtBuildMinDark, $itxtBuildMinDark)
+    GUICtrlSetData($txtBuilderKeepFree, $itxtBuilderKeepFree)
 	
 	If $ichkUpgradeKing = 1 Then ;==>upgradeking
 		GUICtrlSetState($chkUpgradeKing, $GUI_CHECKED)
@@ -725,12 +726,6 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkUpgradeQueen, $GUI_UNCHECKED)
 	EndIf
-
-    If $ichkFreeBuilder = 1 Then
-        GUICtrlSetState($chkFreeBuilder, $GUI_CHECKED)
-    Else
-        GUICtrlSetState($chkFreeBuilder, $GUI_UNCHECKED)
-    EndIf
 
 	;Mow the lawn
 	If $ichkTrees = 1 Then

@@ -1617,30 +1617,33 @@ Local $x = 30, $y = 125
 
 	$y -= 15
 	$x += 230
-    $grpLocateBuildings = GUICtrlCreateGroup("Resources for Upgrade Buildings", $x - 20, $y - 20, 220, 110)
-
-      GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x - 10, $y - 1, 16, 16)
-      $BuildMinGold = GUICtrlCreateLabel("Min. Gold to save:", $x + 10, $y + 2, -1, -1)
-        $txtBuildMinGold = GUICtrlCreateInput("200000", $x + 100, $y - 3, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-            GUICtrlSetTip(-1, "Save at least this amount of Gold in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
-            GUICtrlSetLimit(-1, 7)
-            ;GUICtrlSetState(-1, $GUI_DISABLE)
-        $y +=2
-        GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x - 10, $y + 18, 16, 16)
-        $BuildMinElixir = GUICtrlCreateLabel("Min. Elixir to save:", $x + 10, $y + 22, -1, -1)
-        $txtBuildMinElixir = GUICtrlCreateInput("200000", $x + 100, $y + 17, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-            GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
-            GUICtrlSetLimit(-1, 7)
-            ;GUICtrlSetState(-1, $GUI_DISABLE)
-        $y +=2
-        GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x - 10, $y + 39, 16, 16)
-        $BuildMinDElixir = GUICtrlCreateLabel("Min. D. E. to save:", $x + 10, $y + 42, -1, -1)
-        $txtBuildMinDElixir = GUICtrlCreateInput("1000", $x + 100, $y + 37, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-            GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
-            GUICtrlSetLimit(-1, 7)
-            ;GUICtrlSetState(-1, $GUI_DISABLE)
+	$grpLocateBuildings = GUICtrlCreateGroup("Resources for Upgrade Buildings", $x - 20, $y - 20, 220, 110)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x - 10, $y - 1, 16, 16)
+		$BuildMinGold = GUICtrlCreateLabel("Min. Gold to save:", $x + 10, $y + 2, -1, -1)
+		$txtBuildMinGold = GUICtrlCreateInput("200000", $x + 100, $y - 3, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Save at least this amount of Gold in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+			GUICtrlSetLimit(-1, 7)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
 		$y +=2
-		$chkFreeBuilder = GUICtrlCreateCheckbox("1 Free Builder", $x + 10, $y + 57, -1, -1)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x - 10, $y + 18, 16, 16)
+		$BuildMinElixir = GUICtrlCreateLabel("Min. Elixir to save:", $x + 10, $y + 22, -1, -1)
+		$txtBuildMinElixir = GUICtrlCreateInput("200000", $x + 100, $y + 17, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+			GUICtrlSetLimit(-1, 7)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+		$y +=2
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x - 10, $y + 39, 16, 16)
+		$BuildMinDark = GUICtrlCreateLabel("Min. D. E. to save:", $x + 10, $y + 42, -1, -1)
+		$txtBuildMinDark = GUICtrlCreateInput("1000", $x + 100, $y + 37, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Save at least this amount of Dark Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+			GUICtrlSetLimit(-1, 7)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+		$y +=2
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 8, $x - 10, $y + 60, 16, 16)
+		$BuilderKeepFree = GUICtrlCreateLabel("Builders Free:", $x + 10, $y + 62, -1, -1)
+		$txtBuilderKeepFree = GUICtrlCreateInput("0", $x + 100, $y + 57, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Keep free builders to build walls or otherwise.")
+			GUICtrlSetLimit(-1, 1)
 		
 		$x -= 230
 		$y += 105
