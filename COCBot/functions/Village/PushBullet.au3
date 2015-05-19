@@ -57,50 +57,60 @@ Func _RemoteControl()
 				$title[$x] = StringUpper(StringStripWS($title[$x], $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES))
 				$iden[$x] = StringStripWS($iden[$x], $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)
 
-				If $title[$x] = "BOT HELP" Then
-					_Push($iPBVillageName & ": Request for Help", "You can remotely control your bot using the following command format\nEnter Bot <command> in the Title message\n\n<command> is:\nPause - pause the bot\nResume - resume the bot\nStats - village report\nLogs - send the current log file\nDelete - Delete all previous Push messages\nLastRaid - send last raid screenshot\nHelp - send this help message")
-					SetLog("Your request has been received. Help has been sent")
-					_DeleteMessage($iden[$x])
+			   If $title[$x] = "BOT HELP" Then
+				   _DeleteMessage($iden[$x])
+				   SetLog("Your request has been received. " & $title[$x])
+					_Push($iPBVillageName & ": Request for Help", "You can remotely control your bot using the following command format\nEnter Bot <command> in the Title message\n\n<command> is:\nRestart or Stop - to restart the bot and Bluestacks\nStop - to stop bot\nPause - to pause bot\nResume - to resume bot\nStats - to send village report and current troop capacity\nLogs - to send the current log file\nDelete - to delete all previous Push messages\nLastRaid - to send last raid screenshot\nHelp - to send this help message")
 			    ElseIf $title[$x] = "BOT PAUSE" Then
-					SetLog("Your request has been received.")
-					_DeleteMessage($iden[$x])
-					TogglePauseImpl("Push")
-				ElseIf $title[$x] = "BOT RESUME" Then
-					SetLog("Your request has been received.")
-					_DeleteMessage($iden[$x])
-					TogglePauseImpl("Push")
-			    ElseIf $title[$x] = "BOT DELETE" Then
+				  _DeleteMessage($iden[$x])
+				  SetLog("Your request has been received. " & $title[$x])
+				  TogglePauseImpl("Push")
+			   ElseIf $title[$x] = "BOT RESUME" Then
+				  _DeleteMessage($iden[$x])
+				  SetLog("Your request has been received. " & $title[$x])
+				  TogglePauseImpl("Push")
+			    ElseIf $title[$x] = "BOT RESTART" Or $title[$x] = "BOT START" Then
+				  _DeleteMessage($iden[$x])
+				  SetLog("Your request has been received. " & $title[$x])
+				  _Push($iPBVillageName & ": Request to Restart...", "Your bot and BS are now restarting...")
+				  SaveConfig()
+				  _Restart()
+			    ElseIf $title[$x] = "BOT STOP" Then
+				  _DeleteMessage($iden[$x])
+				  SetLog("Your request has been received. " & $title[$x])
+				  If $Runstate = True Then
+					 _Push($iPBVillageName & ": Request to Stop...", "Your bot is now stopping...")
+					 btnStop()
+				  Else
+					 _Push($iPBVillageName & ": Request to Stop...", "Your bot is currently stopped, no action was taken")
+				  EndIf
+				ElseIf $title[$x] = "BOT DELETE" Then
 					_DeletePush()
-					SetLog("Your request has been received.")
+					SetLog("Your request has been received. " & $title[$x])
 					_Push($iPBVillageName & ": Request to Delete Push messages...", "All your previous Push messages are deleted...")
-				ElseIf $title[$x] = "BOT STATS" Then
-					SetLog("Your request has been received. Statistics sent")
-					_Push($iPBVillageName & ": Village Report, My Lord...", "Here are your Resources at Start\n-[G]: " & _NumberFormat($GoldStart) & "\n-[E]: " & _NumberFormat($ElixirStart) & "\n-[D]: " & _NumberFormat($DarkStart) & " \n-[T]: " & $TrophyStart & "\n\nNow (Current Resources)\n-[G]: " & _NumberFormat($GoldVillage) & "\n-[E]: " & _NumberFormat($ElixirVillage) & "\n-[D]: " & _NumberFormat($DarkVillage) & "\n-[T]: " & $TrophyVillage & "\n\n-[GEM]: " & $GemCount & "\n [No. of Free Builders]: " & $FreeBuilder & "\n [No. of Wall Up]: G: " & $wallgoldmake & "/ E: " & $wallelixirmake & "\n\nAttacked: " & GUICtrlRead($lblresultvillagesattacked) & "\nSkipped: " & GUICtrlRead($lblresultvillagesskipped))
+				 ElseIf $title[$x] = "BOT STATS" Then
 					_DeleteMessage($iden[$x])
-				ElseIf $title[$x] = "BOT LOGS" Then
-					SetLog("Your request has been received. Log is now sent")
+					SetLog("Your request has been received. " & $title[$x])
+					_Push($iPBVillageName & ": Village Report, My Lord...", "Total Army Camp capacity: " & $CurCamp & "/" & $TotalCamp & "\n\nHere are your Resources at Start\n-[G]: " & _NumberFormat($GoldStart) & "\n-[E]: " & _NumberFormat($ElixirStart) & "\n-[D]: " & _NumberFormat($DarkStart) & " \n-[T]: " & $TrophyStart & "\n\nNow (Current Resources)\n-[G]: " & _NumberFormat($GoldVillage) & "\n-[E]: " & _NumberFormat($ElixirVillage) & "\n-[D]: " & _NumberFormat($DarkVillage) & "\n-[T]: " & $TrophyVillage & "\n\n-[GEM]: " & $GemCount & "\n [No. of Free Builders]: " & $FreeBuilder & "\n [No. of Wall Up]: G: " & $wallgoldmake & "/ E: " & $wallelixirmake & "\n\nAttacked: " & GUICtrlRead($lblresultvillagesattacked) & "\nSkipped: " & GUICtrlRead($lblresultvillagesskipped))
+				 ElseIf $title[$x] = "BOT LOGS" Then
+					_DeleteMessage($iden[$x])
+					SetLog("Your request has been received. " & $title[$x])
 					_PushFile($sLogFName, "logs", "text/plain; charset=utf-8", $iPBVillageName & ": Current Logs", $sLogFName)
+				 ElseIf $title[$x] = "BOT LASTRAID" Then
 					_DeleteMessage($iden[$x])
-				ElseIf $title[$x] = "BOT LASTRAID" Then
-					SetLog("Your request has been received.")
+					SetLog("Your request has been received. " & $title[$x])
 					If $iImageLoot <> "" Then
 					   _PushFile($iImageLoot, "Loots", "image/jpeg", $iPBVillageName & ": Last Raid", $iImageLoot)
 				    Else
-						_Push($iPBVillageName & ": There is no last raid screenshot", "")
+						_Push($iPBVillageName & ": There is no last raid screenshot", "...")
 					 EndIf
-					 _DeleteMessage($iden[$x])
-				ElseIf $title[$x] = "BOT RESTART" Then
-					SetLog("Your request has been received. Bot is now restarting")
-					_Push($iPBVillageName & ": Request to Restart", "Your bot is being restarted")
-					_DeleteMessage($iden[$x])
-					_Restart()
 				EndIf
 				$title[$x] = ""
 				$iden[$x] = ""
 			EndIf
 		Next
 	EndIf
-EndFunc   ;==>RemoteControl
+EndFunc   ;==>_RemoteControl
 
 Func _PushBullet($pTitle = "", $pMessage = "")
     $oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
@@ -128,7 +138,7 @@ Func _Push($pTitle, $pMessage)
     $oHTTP.SetRequestHeader("Content-Type", "application/json")
     Local $pPush = '{"type": "note", "title": "' & $pTitle & '", "body": "' & $pMessage & '"}'
     $oHTTP.Send($pPush)
- EndFunc   ;==>Push
+EndFunc   ;==>_Push
 
 Func _PushFile($File, $Folder, $FileType, $title, $body)
 	$oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
@@ -148,7 +158,7 @@ Func _PushFile($File, $Folder, $FileType, $title, $body)
 	Local $signature = _StringBetween($Result, 'signature":"', '"')
 	Local $policy = _StringBetween($Result, 'policy":"', '"')
 	Local $file_url = _StringBetween($Result, 'file_url":"', '"')
-
+   If IsArray($upload_url) And IsArray($awsaccesskeyid) And IsArray($acl) And IsArray($key) And IsArray($signature) and IsArray($policy) Then
     $Result = RunWait(@ScriptDir & "\curl\curl.exe -i -X POST " & $upload_url[0] & ' -F awsaccesskeyid="' & $awsaccesskeyid[0] & '" -F acl="' & $acl[0] & '" -F key="' & $key[0] & '" -F signature="' & $signature[0] & '" -F policy="' & $policy[0] & '" -F content-type="' & $FileType & '" -F file=@"' & @ScriptDir & '\' & $Folder & '\' & $File & '"', "", @SW_HIDE)
 
 	  $oHTTP.Open("Post", "https://api.pushbullet.com/v2/pushes", False)
@@ -156,8 +166,10 @@ Func _PushFile($File, $Folder, $FileType, $title, $body)
 	  $oHTTP.SetRequestHeader("Content-Type", "application/json")
 	  Local $pPush = '{"type": "file", "file_name": "' & $File & '", "file_type": "' & $FileType & '", "file_url": "' & $file_url[0] & '", "title": "' & $title & '", "body": "' & $body & '"}'
 	  $oHTTP.Send($pPush)
-	  $Result = $oHTTP.ResponseText
-EndFunc   ;==>PushFile
+   Else
+	  SetLog("Unable to send file " & $File, $COLOR_RED)
+   EndIf
+EndFunc   ;==>_PushFile
 
 Func ReportPushBullet()
 

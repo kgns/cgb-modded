@@ -364,6 +364,7 @@ Func btnSearchMode()
 EndFunc   ;==>btnSearchMode
 
 Func btnHide()
+   If IsArray(ControlGetPos($Title, "_ctl.Window", "[CLASS:BlueStacksApp; INSTANCE:1]")) Then
 	If $Hide = False Then
 		GUICtrlSetData($btnHide, "Show BS")
 		$botPos[0] = WinGetPos($Title)[0]
@@ -380,7 +381,8 @@ Func btnHide()
 			WinActivate($Title)
 		EndIf
 		$Hide = False
-	EndIf
+	 EndIf
+   EndIf
 EndFunc   ;==>btnHide
 
 Func chkDeployRedArea()
@@ -1681,6 +1683,9 @@ Func _Restart()
 	FileWrite(@TempDir & "restart.bat", $sCmdFile)
 	IniWrite($config, "general", "Restarted", 1)
 	Run(@TempDir & "restart.bat", @TempDir, @SW_HIDE)
+	ProcessClose("HD-Frontend.exe")
+	ProcessClose("HD-Agent.exe")
+	ProcessClose("CGB Bot.exe")
 	Exit
 EndFunc
 

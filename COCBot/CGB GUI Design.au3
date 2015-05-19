@@ -1850,7 +1850,7 @@ $tabPushBullet = GUICtrlCreateTabItem("Push")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
 
 	  $lblgrppushbullet = GUICtrlCreateGroup("PushBullet Remote Control", $x-10, $y + 185, 430, 160)
-	  $lblPBdesc = GUICtrlCreateLabel("You can remotely control your bot using the following command format" & @CRLF & "Enter Bot <command> in the title of the message" & @CRLF & @CRLF & "<command> are:" & @CRLF & "Pause - pause the bot" & @CRLF & "Resume - resume the bot" & @CRLF & "Stats - send Village report" & @CRLF & "Logs - send the current log file" & @CRLF & "Delete - delete all your previous Push message" & @CRLF & "LastRaid - send last raid screenshot" & @CRLF & "Help - send this help message", $x, $y + 200, -1, -1, $SS_LEFT)
+	  $lblPBdesc = GUICtrlCreateLabel("You can remotely control your bot using the following command format" & @CRLF & "Enter Bot <command> in the title of the message" & @CRLF & "<command> is:" & @CRLF & "Restart or Start - to restart bot and Bluestacks" & @CRLF & "Pause - to pause bot" & @CRLF & "Resume - to resume bot" & @CRLF & "Stats - to send Village report and current troop capacity" & @CRLF & "Logs - to send the current log file" & @CRLF & "Delete - to delete all your previous Push message" & @CRLF & "LastRaid - to send last raid screenshot" & @CRLF & "Help - to send this help message", $x, $y + 200, -1, -1, $SS_LEFT)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
