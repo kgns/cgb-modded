@@ -127,6 +127,11 @@ Func Initiate()
 		EndIf
 		$sTimer = TimerInit()
 		AdlibRegister("SetTime", 1000)
+		If $restarted = 1 Then
+			$restarted = 0
+			IniWrite($config, "general", "Restarted", 0)
+			_Push($iPBVillageName & ": Bot restarted", "")
+		EndIf
 		checkMainScreen()
 		ZoomOut()
 		BotDetectFirstTime()
@@ -206,7 +211,7 @@ Func btnStop()
 		GUICtrlSetState($btnStop, $GUI_HIDE)
 		GUICtrlSetState($btnPause, $GUI_HIDE)
 		GUICtrlSetState($btnResume, $GUI_HIDE)
-		
+
 		If Not $TPaused Then $iTimePassed += Int(TimerDiff($sTimer))
 		AdlibUnRegister("SetTime")
 		_BlockInputEx(0, "", "", $HWnD)
@@ -1662,6 +1667,22 @@ Func _DonateBtn($FirstControl, $LastControl)
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 EndFunc   ;==>_DonateBtn
+
+Func _Restart()
+	Local $sCmdFile
+	FileDelete(@TempDir & "restart.bat")
+	$sCmdFile = 'tasklist /FI "IMAGENAME eq ' & @ScriptFullPath & '" | find /i "' & @ScriptFullPath & '"' & @CRLF _
+				& 'IF ERRORLEVEL 1 GOTO LAUNCHPROGRAM' & @CRLF _
+				&' :LAUNCHPROGRAM '& @CRLF _
+				&' start "" "' & @ScriptFullPath & '" '& @CRLF _
+				& 'call :deleteSelf&exit /b '& @CRLF _
+				& ':deleteSelf '& @CRLF _
+				& 'start /b "" cmd /c del "%~f0"&exit /b'
+	FileWrite(@TempDir & "restart.bat", $sCmdFile)
+	IniWrite($config, "general", "Restarted", 1)
+	Run(@TempDir & "restart.bat", @TempDir, @SW_HIDE)
+	Exit
+EndFunc
 
 ;---------------------------------------------------
 If FileExists($config) Then

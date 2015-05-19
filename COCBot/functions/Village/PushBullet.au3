@@ -81,7 +81,7 @@ Func _RemoteControl()
 					SetLog("Your request has been received. Log is now sent")
 					_PushFile($sLogFName, "logs", "text/plain; charset=utf-8", $iPBVillageName & ": Current Logs", $sLogFName)
 					_DeleteMessage($iden[$x])
-				 ElseIf $title[$x] = "BOT LASTRAID" Then
+				ElseIf $title[$x] = "BOT LASTRAID" Then
 					SetLog("Your request has been received.")
 					If $iImageLoot <> "" Then
 					   _PushFile($iImageLoot, "Loots", "image/jpeg", $iPBVillageName & ": Last Raid", $iImageLoot)
@@ -89,6 +89,11 @@ Func _RemoteControl()
 						_Push($iPBVillageName & ": There is no last raid screenshot", "")
 					 EndIf
 					 _DeleteMessage($iden[$x])
+				ElseIf $title[$x] = "BOT RESTART" Then
+					SetLog("Your request has been received. Bot is now restarting")
+					_Push($iPBVillageName & ": Request to Restart", "Your bot is being restarted")
+					_DeleteMessage($iden[$x])
+					_Restart()
 				EndIf
 				$title[$x] = ""
 				$iden[$x] = ""

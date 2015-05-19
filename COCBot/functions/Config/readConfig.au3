@@ -46,6 +46,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$frmBotPosY = IniRead($config, "general", "frmBotPosY", "20")
 
 		$ichkAutoStart = IniRead($config, "general", "AutoStart", "0")
+		$restarted = IniRead($config, "general", "Restarted", "0")
 		$ichkBackground = IniRead($config, "general", "Background", "0")
 		$ichkBotStop = IniRead($config, "general", "BotStop", "0")
 		$icmbBotCommand = IniRead($config, "general", "Command", "0")
