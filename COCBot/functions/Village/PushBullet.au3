@@ -26,29 +26,7 @@ Func _RemoteControl()
 	$oHTTP.Send()
 	$Result = $oHTTP.ResponseText
 
-	Local $findstr = StringRegExp($Result, '"title":"BOT')
-	If $findstr = 0 Then
-		$findstr = StringRegExp($Result, '"title":"bot')
-	EndIf
-	If $findstr = 0 Then
-		$findstr = StringRegExp($Result, '"title":"Bot')
-	EndIf
-	If $findstr = 0 Then
-		$findstr = StringRegExp($Result, '"title":"bOt')
-	EndIf
-	If $findstr = 0 Then
-		$findstr = StringRegExp($Result, '"title":"boT')
-	EndIf
-	If $findstr = 0 Then
-		$findstr = StringRegExp($Result, '"title":"BOt')
-	EndIf
-	If $findstr = 0 Then
-		$findstr = StringRegExp($Result, '"title":"bOT')
-	EndIf
-	If $findstr = 0 Then
-		$findstr = StringRegExp($Result, '"title":"BoT')
-	EndIf
-	If $findstr = 1 Then
+	If StringRegExp($Result, '(?i)"title":"bot') = 1 Then
 		Local $title = _StringBetween($Result, '"title":"', '"', "", False)
 		Local $iden = _StringBetween($Result, '"iden":"', '"', "", False)
 
@@ -61,7 +39,7 @@ Func _RemoteControl()
 					_Push($iPBVillageName & ": Request for Help", "You can remotely control your bot using the following command format\nEnter Bot <command> in the Title message\n\n<command> is:\nPause - pause the bot\nResume - resume the bot\nStats - village report\nLogs - send the current log file\nDelete - Delete all previous Push messages\nLastRaid - send last raid screenshot\nHelp - send this help message")
 					SetLog("Your request has been received. Help has been sent")
 					_DeleteMessage($iden[$x])
-			    ElseIf $title[$x] = "BOT PAUSE" Then
+			 	ElseIf $title[$x] = "BOT PAUSE" Then
 					SetLog("Your request has been received.")
 					_DeleteMessage($iden[$x])
 					TogglePauseImpl("Push")
@@ -69,7 +47,7 @@ Func _RemoteControl()
 					SetLog("Your request has been received.")
 					_DeleteMessage($iden[$x])
 					TogglePauseImpl("Push")
-			    ElseIf $title[$x] = "BOT DELETE" Then
+				ElseIf $title[$x] = "BOT DELETE" Then
 					_DeletePush()
 					SetLog("Your request has been received.")
 					_Push($iPBVillageName & ": Request to Delete Push messages...", "All your previous Push messages are deleted...")
@@ -85,9 +63,9 @@ Func _RemoteControl()
 					SetLog("Your request has been received.")
 					If $iImageLoot <> "" Then
 					   _PushFile($iImageLoot, "Loots", "image/jpeg", $iPBVillageName & ": Last Raid", $iImageLoot)
-				    Else
+				    	Else
 						_Push($iPBVillageName & ": There is no last raid screenshot", "")
-					 EndIf
+					EndIf
 					 _DeleteMessage($iden[$x])
 				ElseIf $title[$x] = "BOT RESTART" Then
 					SetLog("Your request has been received. Bot is now restarting")
@@ -103,31 +81,31 @@ Func _RemoteControl()
 EndFunc   ;==>RemoteControl
 
 Func _PushBullet($pTitle = "", $pMessage = "")
-    $oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
-    $access_token = $PushToken
-    $oHTTP.Open("Get", "https://api.pushbullet.com/v2/devices", False)
-    $oHTTP.SetCredentials($access_token, "", 0)
-    $oHTTP.Send()
-    $Result = $oHTTP.ResponseText
-    Local $device_iden = _StringBetween($Result, 'iden":"', '"')
-    Local $device_name = _StringBetween($Result, 'nickname":"', '"')
-    Local $device = ""
-    Local $pDevice = 1
-    $oHTTP.Open("Post", "https://api.pushbullet.com/v2/pushes", False)
-    $oHTTP.SetCredentials($access_token, "", 0)
-    $oHTTP.SetRequestHeader("Content-Type", "application/json")
-    Local $pPush = '{"type": "note", "title": "' & $pTitle & '", "body": "' & $pMessage & '"}'
-    $oHTTP.Send($pPush)
+	$oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
+	$access_token = $PushToken
+	$oHTTP.Open("Get", "https://api.pushbullet.com/v2/devices", False)
+	$oHTTP.SetCredentials($access_token, "", 0)
+	$oHTTP.Send()
+	$Result = $oHTTP.ResponseText
+	Local $device_iden = _StringBetween($Result, 'iden":"', '"')
+	Local $device_name = _StringBetween($Result, 'nickname":"', '"')
+	Local $device = ""
+	Local $pDevice = 1
+	$oHTTP.Open("Post", "https://api.pushbullet.com/v2/pushes", False)
+	$oHTTP.SetCredentials($access_token, "", 0)
+	$oHTTP.SetRequestHeader("Content-Type", "application/json")
+	Local $pPush = '{"type": "note", "title": "' & $pTitle & '", "body": "' & $pMessage & '"}'
+	$oHTTP.Send($pPush)
 EndFunc   ;==>PushBullet
 
 Func _Push($pTitle, $pMessage)
-    $oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
-    $access_token = $PushToken
-    $oHTTP.Open("Post", "https://api.pushbullet.com/v2/pushes", False)
-    $oHTTP.SetCredentials($access_token, "", 0)
-    $oHTTP.SetRequestHeader("Content-Type", "application/json")
-    Local $pPush = '{"type": "note", "title": "' & $pTitle & '", "body": "' & $pMessage & '"}'
-    $oHTTP.Send($pPush)
+	$oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
+	$access_token = $PushToken
+	$oHTTP.Open("Post", "https://api.pushbullet.com/v2/pushes", False)
+	$oHTTP.SetCredentials($access_token, "", 0)
+	$oHTTP.SetRequestHeader("Content-Type", "application/json")
+	Local $pPush = '{"type": "note", "title": "' & $pTitle & '", "body": "' & $pMessage & '"}'
+	$oHTTP.Send($pPush)
  EndFunc   ;==>Push
 
 Func _PushFile($File, $Folder, $FileType, $title, $body)
@@ -149,14 +127,14 @@ Func _PushFile($File, $Folder, $FileType, $title, $body)
 	Local $policy = _StringBetween($Result, 'policy":"', '"')
 	Local $file_url = _StringBetween($Result, 'file_url":"', '"')
 
-    $Result = RunWait(@ScriptDir & "\curl\curl.exe -i -X POST " & $upload_url[0] & ' -F awsaccesskeyid="' & $awsaccesskeyid[0] & '" -F acl="' & $acl[0] & '" -F key="' & $key[0] & '" -F signature="' & $signature[0] & '" -F policy="' & $policy[0] & '" -F content-type="' & $FileType & '" -F file=@"' & @ScriptDir & '\' & $Folder & '\' & $File & '"', "", @SW_HIDE)
+	$Result = RunWait(@ScriptDir & "\curl\curl.exe -i -X POST " & $upload_url[0] & ' -F awsaccesskeyid="' & $awsaccesskeyid[0] & '" -F acl="' & $acl[0] & '" -F key="' & $key[0] & '" -F signature="' & $signature[0] & '" -F policy="' & $policy[0] & '" -F content-type="' & $FileType & '" -F file=@"' & @ScriptDir & '\' & $Folder & '\' & $File & '"', "", @SW_HIDE)
 
-	  $oHTTP.Open("Post", "https://api.pushbullet.com/v2/pushes", False)
-	  $oHTTP.SetCredentials($access_token, "", 0)
-	  $oHTTP.SetRequestHeader("Content-Type", "application/json")
-	  Local $pPush = '{"type": "file", "file_name": "' & $File & '", "file_type": "' & $FileType & '", "file_url": "' & $file_url[0] & '", "title": "' & $title & '", "body": "' & $body & '"}'
-	  $oHTTP.Send($pPush)
-	  $Result = $oHTTP.ResponseText
+	$oHTTP.Open("Post", "https://api.pushbullet.com/v2/pushes", False)
+	$oHTTP.SetCredentials($access_token, "", 0)
+	$oHTTP.SetRequestHeader("Content-Type", "application/json")
+	Local $pPush = '{"type": "file", "file_name": "' & $File & '", "file_type": "' & $FileType & '", "file_url": "' & $file_url[0] & '", "title": "' & $title & '", "body": "' & $body & '"}'
+	$oHTTP.Send($pPush)
+	$Result = $oHTTP.ResponseText
 EndFunc   ;==>PushFile
 
 Func ReportPushBullet()
@@ -184,33 +162,33 @@ Func _DeletePush()
 EndFunc   ;==>DeletePush
 
 Func ReportMatchFound()
-   If $pEnabled = 1 AND $pMatchFound = 1 Then
-	  _Push($iPBVillageName & ": Match Found After " & StringFormat("%3s", $SearchCount) & " skip(s)", " [G]: " & _NumberFormat($searchGold) & " [E]: " & _NumberFormat($searchElixir) & " [D]: " & _NumberFormat($searchDark) & " [T]: " & _NumberFormat($searchTrophy) & " [M]: " & $iradAttackModeString)
-   Endif
+	If $pEnabled = 1 AND $pMatchFound = 1 Then
+		_Push($iPBVillageName & ": Match Found After " & StringFormat("%3s", $SearchCount) & " skip(s)", " [G]: " & _NumberFormat($searchGold) & " [E]: " & _NumberFormat($searchElixir) & " [D]: " & _NumberFormat($searchDark) & " [T]: " & _NumberFormat($searchTrophy) & " [M]: " & $iradAttackModeString)
+	Endif
 EndFunc   ;==>ReportMatchFound
 
 Func ReportWallUpgrade()
-   If $pEnabled = 1 AND $pWallUpgrade = 1 Then 
-      _Push($iPBVillageName & ": Found Wall level " & $icmbWalls+4 , "Wall segment has been located...\nUpgrading ...")
-   EndIf
+	If $pEnabled = 1 AND $pWallUpgrade = 1 Then 
+		_Push($iPBVillageName & ": Found Wall level " & $icmbWalls+4 , "Wall segment has been located...\nUpgrading ...")
+	EndIf
 EndFunc   ;==>ReportWallUpgrade
 
 Func ReportWallUpgradeFailed()
-   If $pEnabled = 1 AND $pWallUpgrade = 1 Then 
-      _Push($iPBVillageName & ": Cannot find Wall level " & $icmbWalls+4 , "Skip upgrade ...")
-   EndIf
+	If $pEnabled = 1 AND $pWallUpgrade = 1 Then 
+		_Push($iPBVillageName & ": Cannot find Wall level " & $icmbWalls+4 , "Skip upgrade ...")
+	EndIf
 EndFunc   ;==>ReportWallUpgradeFailed
 
 Func ReportBreak()
-   If $pEnabled = 1 AND $pTakeAbreak = 1 Then 
-      _Push($iPBVillageName & ": Village must take a break", "")
-   EndIf
+	If $pEnabled = 1 AND $pTakeAbreak = 1 Then 
+		_Push($iPBVillageName & ": Village must take a break", "")
+	EndIf
 EndFunc   ;==>ReportBreak
 
 Func ReportCoCStopped()
-   If $pEnabled = 1 AND $pOOS = 1 Then 
-      _Push($iPBVillageName & ": CoC Has Stopped Error", "")
-   EndIf
+	If $pEnabled = 1 AND $pOOS = 1 Then 
+		_Push($iPBVillageName & ": CoC Has Stopped Error", "")
+	EndIf
 EndFunc   ;==>ReportCoCStopped
 
 Func _DeleteMessage($iden)
