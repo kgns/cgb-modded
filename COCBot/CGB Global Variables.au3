@@ -312,6 +312,7 @@ Global $CocStopped = @ScriptDir & "\images\CocStopped.bmp"
 Global $G[3] = [104, 116, 116]
 Global $resArmy = 0
 Global $FirstAttack = 0
+Global $FirstRun = 1
 Global $CurTrophy = 0
 Global $brrNum
 Global $sTimer, $iTimePassed, $hour, $min, $sec , $sTimeWakeUp = 120,$sTimeStopAtk

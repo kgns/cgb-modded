@@ -80,40 +80,42 @@ Func VillageReport()
 EndFunc   ;==>VillageReport
 
 Func ReportStart() ; stats at Start
+	If $FirstRun = 1 Then
+		$FirstRun = 0
+		$GoldStart = $GoldCount
+		$ElixirStart = $ElixirCount
+		$DarkStart = $DarkCount
+		$TrophyStart = $TrophyCount
 
-	$GoldStart = $GoldCount
-	$ElixirStart = $ElixirCount
-	$DarkStart = $DarkCount
-	$TrophyStart = $TrophyCount
+		GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
+		GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
+		GUICtrlSetState($picResultGoldTemp, $GUI_HIDE)
+		GUICtrlSetState($picResultElixirTemp, $GUI_HIDE)
+		GUICtrlSetState($picResultDETemp, $GUI_HIDE)
 
-	GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
-	GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
-	GUICtrlSetState($picResultGoldTemp, $GUI_HIDE)
-	GUICtrlSetState($picResultElixirTemp, $GUI_HIDE)
-	GUICtrlSetState($picResultDETemp, $GUI_HIDE)
+		GUICtrlSetState($lblResultGoldNow, $GUI_SHOW)
+		GUICtrlSetState($picResultGoldNow, $GUI_SHOW)
+		GUICtrlSetData($lblResultGoldStart, _NumberFormat($GoldCount))
 
-	GUICtrlSetState($lblResultGoldNow, $GUI_SHOW)
-	GUICtrlSetState($picResultGoldNow, $GUI_SHOW)
-	GUICtrlSetData($lblResultGoldStart, _NumberFormat($GoldCount))
+		GUICtrlSetState($lblResultElixirNow, $GUI_SHOW)
+		GUICtrlSetState($picResultElixirNow, $GUI_SHOW)
+		GUICtrlSetData($lblResultElixirStart, _NumberFormat($ElixirCount))
 
-	GUICtrlSetState($lblResultElixirNow, $GUI_SHOW)
-	GUICtrlSetState($picResultElixirNow, $GUI_SHOW)
-	GUICtrlSetData($lblResultElixirStart, _NumberFormat($ElixirCount))
+		If $DarkCount <> "" Then
+			GUICtrlSetData($lblResultDEStart, _NumberFormat($DarkCount))
+			GUICtrlSetState($lblResultDeNow, $GUI_SHOW)
+			GUICtrlSetState($picResultDeNow, $GUI_SHOW)
+		Else
+			GUICtrlSetState($picResultDEStart, $GUI_HIDE)
+			GUICtrlSetState($picDarkLoot, $GUI_HIDE)
+			GUICtrlSetState($picDarkLastAttack, $GUI_HIDE)
+		EndIf
 
-	If $DarkCount <> "" Then
-		GUICtrlSetData($lblResultDEStart, _NumberFormat($DarkCount))
-		GUICtrlSetState($lblResultDeNow, $GUI_SHOW)
-		GUICtrlSetState($picResultDeNow, $GUI_SHOW)
-	Else
-		GUICtrlSetState($picResultDEStart, $GUI_HIDE)
-		GUICtrlSetState($picDarkLoot, $GUI_HIDE)
-		GUICtrlSetState($picDarkLastAttack, $GUI_HIDE)
+		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($TrophyCount))
+		GUICtrlSetState($lblResultTrophyNow, $GUI_SHOW)
+		GUICtrlSetState($lblResultBuilderNow, $GUI_SHOW)
+		GUICtrlSetState($lblResultGemNow, $GUI_SHOW)
 	EndIf
-
-	GUICtrlSetData($lblResultTrophyStart, _NumberFormat($TrophyCount))
-	GUICtrlSetState($lblResultTrophyNow, $GUI_SHOW)
-	GUICtrlSetState($lblResultBuilderNow, $GUI_SHOW)
-	GUICtrlSetState($lblResultGemNow, $GUI_SHOW)
 
 EndFunc
 
