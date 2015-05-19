@@ -575,6 +575,11 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	Else
 		IniWrite($config, "other", "remove-trees", 0)
 	EndIf
+	If GUICtrlRead($chkTombs) = $GUI_CHECKED Then
+		IniWrite($config, "other", "remove-tombs", 1)
+	Else
+		IniWrite($config, "other", "remove-tombs", 0)
+	EndIf
 	;End Mow the Lawn
 
 	If GUICtrlRead($chkTrap) = $GUI_CHECKED Then

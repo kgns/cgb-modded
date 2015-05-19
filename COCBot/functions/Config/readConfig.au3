@@ -301,6 +301,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$itxtWallMinElixir = IniRead($config, "other", "minwallelixir", "0")
 
 		$ichkTrees =  IniRead($config, "other", "remove-trees", "0")
+		$ichkTombs =  IniRead($config, "other", "remove-tombs", "0")
 
 		$ichkTrap = IniRead($config, "other", "chkTrap", "0")
 		$iChkCollect = IniRead($config, "other", "chkCollect", "1")

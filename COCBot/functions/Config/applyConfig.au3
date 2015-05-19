@@ -738,6 +738,11 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkTrees, $GUI_UNCHECKED)
 	EndIf
+	If $ichkTombs = 1 Then
+		GUICtrlSetState($chkTombs, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkTombs, $GUI_UNCHECKED)
+	EndIf
 	chkTrees()
 	;End Mow the lawn
 

@@ -265,6 +265,7 @@ Global $itxtBuildMinGold
 Global $itxtBuildMinElixir
 Global $itxtBuildMinDElixir
 Global $ichkTrees
+Global $ichkTombs
 Global $iVSDelay
 Global $ichkTrap, $iChkCollect
 Global $icmbUnitDelay, $icmbWaveDelay, $iRandomspeedatk

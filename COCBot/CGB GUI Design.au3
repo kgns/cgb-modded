@@ -1445,13 +1445,18 @@ $tabMisc = GUICtrlCreateTabItem("Misc")
 
 	;Mow the Lawn
 	Local $x = 260, $y = 200
-	GUICtrlCreateIcon(@ScriptDir & "\Icons\trees.ico", -1, $x - 10, $y - 4, 22, 28)
-	$grpOther = GUICtrlCreateGroup("Other", $x -20, $y - 20 , 220, 56)
-	$chkTrees = GUICtrlCreateCheckbox("Remove Trees", $x + 20, $y, -1, -1)
-		GUICtrlSetTip(-1, "Check this to remove shrubbery. Ni! ... and gem boxes.")
-		GUICtrlSetState(-1, $GUI_UNCHECKED)
-		GUICtrlSetOnEvent(-1, "chkTrees")
-		GUICtrlCreateGroup("", -99, -99, 1, 1)
+	$grpOther = GUICtrlCreateGroup("Other", $x -20, $y - 20 , 220, 70)
+		GUICtrlCreateIcon(@ScriptDir & "\Icons\trees.ico", -1, $x - 10, $y - 4, 18, 23)
+		$chkTrees = GUICtrlCreateCheckbox("Remove Trees", $x + 20, $y - 2, -1, -1)
+			GUICtrlSetTip(-1, "Check this to remove shrubbery. Ni! ... and gem boxes.")
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "chkTrees")
+		GUICtrlCreateIcon(@ScriptDir & "\Icons\tombs.ico", -1, $x - 10, $y + 18, 18, 23)
+		$chkTombs = GUICtrlCreateCheckbox("Remove Tombstones", $x + 20, $y + 20, -1, -1)
+			GUICtrlSetTip(-1, "Check this to remove enemy tombstones. They may obstruct shrubbery.")
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "chkTombs")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	;End Mow the Lawn
 
 	Local $x = 30, $y = 260
@@ -1501,7 +1506,7 @@ $tabMisc = GUICtrlCreateTabItem("Misc")
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	
-	Local $x = 260, $y = 260
+	Local $x = 260, $y = 275
 	$grpLocateBuildings = GUICtrlCreateGroup("Locate Manually", $x - 20, $y - 20, 220, 65)
 		$btnLocateTownHall = GUICtrlCreateButton("Townhall", $x - 10, $y, 40, 40, $BS_ICON)
 			GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 46, 1)

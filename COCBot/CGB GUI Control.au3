@@ -1387,6 +1387,11 @@ Func chkTrees()
 	Else
 		$ichkTrees = 0
 	EndIf
+	If GUICtrlRead($chkTombs) = $GUI_CHECKED Then
+		$ichkTombs = 1
+	Else
+		$ichkTombs = 0
+	EndIf
 EndFunc   ;==>chkTrees
 ;End Mow the lawn
 

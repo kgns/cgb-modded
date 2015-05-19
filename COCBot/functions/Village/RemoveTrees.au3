@@ -13,5 +13,6 @@ Func RemoveTrees()
 		Else
 			SetLog("No free builder, Remove Trees skipped..", $COLOR_RED)
 		EndIf
+		CheckTombs()
 	EndIf
 EndFunc   ;==>RemoveTrees
