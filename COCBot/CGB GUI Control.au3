@@ -858,10 +858,12 @@ Func chkSnipeMode()
 		$OptTrophyMode = 1
 		GUICtrlSetState($txtTHaddtiles, $GUI_ENABLE)
 		GUICtrlSetState($cmbAttackTHType, $GUI_ENABLE)
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
 	Else
 		$OptTrophyMode = 0
 		GUICtrlSetState($txtTHaddtiles, $GUI_DISABLE)
 		GUICtrlSetState($cmbAttackTHType, $GUI_DISABLE)
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkSnipeMode
 

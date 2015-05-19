@@ -259,6 +259,12 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "advanced", "THaddTiles", GUICtrlRead($txtTHaddtiles))
 	IniWrite($config, "advanced", "AttackTHType", _GUICtrlComboBox_GetCurSel($cmbAttackTHType))
 
+	If GUICtrlRead($chkTHSnipeLightningDE) = $GUI_CHECKED Then
+		IniWrite($config, "advanced", "TrophyModeDE", 1)
+	Else
+		IniWrite($config, "advanced", "TrophyModeDE", 0)
+	EndIf
+
 	;atk their king
 	;attk their queen
 

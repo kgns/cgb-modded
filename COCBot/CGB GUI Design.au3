@@ -595,6 +595,11 @@ GUICtrlCreateTabItem("")
 		$cmbAttackTHType = GUICtrlCreateCombo("",  $x + 100, $y, 120, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch", "Attack1:Normal")
 			GUICtrlSetState(-1, $GUI_DISABLE)
+		$y+=22
+		$chkTHSnipeLightningDE = GUICtrlCreateCheckbox("Use lightning on DE storage if DE is > than Dark Elixir option above", $x, $y, -1, -1)
+			$txtTip = "Use lightning on DE storage if DE is > than Dark Elixir option above (NOT the one in the Search tab, but this tab) (This will disable lightning for non TH snipe attacks)"
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_DISABLE)
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 30, $y = 425

@@ -138,6 +138,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$OptTrophyMode = IniRead($config, "advanced", "TrophyMode", "0")
 		$THaddtiles = IniRead($config, "advanced", "THaddTiles", "0")
 		$AttackTHType = IniRead($config, "advanced", "AttackTHType", "0")
+		$OptTrophyModeDE = IniRead($config, "advanced", "TrophyModeDE", "0")
 
 		;atk their king
 		;atk their queen

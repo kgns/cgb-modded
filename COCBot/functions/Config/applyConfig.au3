@@ -276,6 +276,11 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	EndIf
 	GUICtrlSetData($txtTHaddTiles, $THaddTiles)
 	_GUICtrlComboBox_SetCurSel($cmbAttackTHType, $AttackTHType)
+	If $OptTrophyModeDE = 1 Then
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_CHECKED)
+	ElseIf $OptTrophyModeDE = 0 Then
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_UNCHECKED)
+	EndIf
 	chkSnipeMode()
 
 	;attk their king

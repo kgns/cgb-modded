@@ -139,6 +139,7 @@ Global $SearchTHLResult=0
 Global $BullySearchCount=0
 Global $OptBullyMode=0
 Global $OptTrophyMode
+Global $OptTrophyModeDE
 Global $ATBullyMode
 Global $YourTH
 Global $AttackTHType

@@ -369,6 +369,9 @@ EndIf
 EndFunc   ;==>AttackTHGrid
 
 Func AttackTHNormal()
+		If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		EndIf
 		 Setlog("Normal Attacking TH Outside with BAM PULSE!")
 
 		 ;---1st wave 15 secs
@@ -416,6 +419,9 @@ Func AttackTHNormal()
 EndFunc   ;==>AttackTHNormal
 
 Func AttackTHXtreme()
+		If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		EndIf
 		 Setlog("Extreme Attacking TH Outside with BAM PULSE!")
 
 		 ;---1st wave 15 secs
@@ -481,6 +487,9 @@ Func AttackTHXtreme()
 EndFunc   ;==>AttackTHXtreme
 
 Func AttackTHgbarch()
+	If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+		DropLSpell()
+	EndIf
  Setlog("Sending 20 archers.")
  AttackTHGrid($eArch,4,2,2000,1,4,0) ; deploys 8 archers - take out possible bombs
  AttackTHGrid($eArch,3,4,1000,1,4,0) ; deploys 12 archers
