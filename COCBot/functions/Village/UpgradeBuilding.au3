@@ -195,11 +195,12 @@ Func UpgradeHeroes()
 			ClickP($TopLeftClient) ;Click Away
 		EndIf
 		SetLog("Attempting to upgrade Queen...")
-		Click($QueenPos[0], $QueenPos[1]) ;Click Queen bed
+		Click($QueenPos[0], $QueenPos[1]) ;Click Queen Altar
 		If _Sleep(500) Then Return
 		_CaptureRegion()
-		;If _ColorCheck(_GetPixelColor(603, 575), Hex(0x3E2F46, 6), 20) Then ;Finds DarkElixir Upgrade Button
-		If _ColorCheck(_GetPixelColor(595, 570), Hex(0xE70A12, 6), 20) Then ; Red numbers
+		If _ColorCheck(_GetPixelColor(605, 570), Hex(0xD8EC71, 6), 20) Then ; Finds Heal button
+			QueenUpgrade()
+		ElseIf _ColorCheck(_GetPixelColor(595, 570), Hex(0xE70A12, 6), 20) Then ; Red numbers
 			SetLog("Not enough Dark Elixir to Upgrade Queen.", $COLOR_ORANGE)
 			If _Sleep(1000) Then Return
 			ClickP($TopLeftClient, 2)
@@ -243,18 +244,19 @@ Func UpgradeHeroes()
 	;upgradeking 
 	If $ichkUpgradeKing = 1 Then
 		If $KingPos[0] = "" Then
-			LocateKing()
+                	LocateKing()
 			SaveConfig()
 			If _Sleep(500) Then Return
 			ClickP($TopLeftClient) ;Click Away
 		EndIf
 		SetLog("Attempting to upgrade King...")
-		Click($KingPos[0], $KingPos[1]) ;Click King bed
+		Click($KingPos[0], $KingPos[1]) ;Click King Altar
 		If _Sleep(500) Then Return
 		_CaptureRegion()
-		;If _ColorCheck(_GetPixelColor(603, 575), Hex(0x3E2F46, 6), 20) Then ;Finds DarkElixir Upgrade Button
-		If _ColorCheck(_GetPixelColor(595, 570), Hex(0xE70A12, 6), 20) Then ; Red numbers
-			SetLog("Not enough Dark Elixir to Upgrade Queen.", $COLOR_ORANGE)
+		If _ColorCheck(_GetPixelColor(605, 570), Hex(0xD8EC71, 6), 20) Then ; Finds Heal button
+			KingUpgrade()
+		ElseIf _ColorCheck(_GetPixelColor(595, 570), Hex(0xE70A12, 6), 20) Then ; Red numbers
+			SetLog("Not enough Dark Elixir to Upgrade King.", $COLOR_ORANGE)
 			If _Sleep(1000) Then Return
 			ClickP($TopLeftClient, 2)
 		Else
@@ -292,6 +294,56 @@ Func UpgradeHeroes()
 		$iDarkStorage = Number($DarkCount)
 		If _Sleep(2000) Then Return
 		ClickP($TopLeftClient, 2)
+	EndIf
+EndFunc
+
+Func KingUpgrade()
+	_CaptureRegion()
+	If _ColorCheck(_GetPixelColor(501, 570), Hex(0xE70A12, 6), 20) Then ; Red numbers
+		SetLog("Not enough Dark Elixir to Upgrade Queen.", $COLOR_ORANGE)
+		If _Sleep(1000) Then Return
+		ClickP($TopLeftClient, 2)
+	Else
+		Click(504, 592) ;Click Upgrade Button
+		If _Sleep(2000) Then Return
+		Click(578, 512) ;Click Confirm Button
+		If _Sleep(500) Then Return
+		_CaptureRegion()
+		If _ColorCheck(_GetPixelColor(743, 152), Hex(0xE51016, 6), 20) Then ;red arrow
+			SetLog("Your hero has reached max level to your TownHall.", $COLOR_RED)
+			GUICtrlSetState($chkUpgradeKing, $GUI_UNCHECKED)
+			If _Sleep(500) Then Return
+		Else
+			SetLog("King is successfully upgraded...", $COLOR_BLUE)
+			GUICtrlSetState($chkUpgradeKing, $GUI_UNCHECKED)
+			If _Sleep(1000) Then Return
+			ClickP($TopLeftClient, 2)
+		EndIf
+	EndIf
+EndFunc
+
+Func QueenUpgrade()
+	_CaptureRegion()
+	If _ColorCheck(_GetPixelColor(501, 570), Hex(0xE70A12, 6), 20) Then ; Red numbers
+		SetLog("Not enough Dark Elixir to Upgrade Queen.", $COLOR_ORANGE)
+		If _Sleep(1000) Then Return
+		ClickP($TopLeftClient, 2)
+	Else
+		Click(504, 592) ;Click Upgrade Button
+		If _Sleep(2000) Then Return
+		Click(578, 512) ;Click Confirm Button
+		If _Sleep(500) Then Return
+		_CaptureRegion()
+		If _ColorCheck(_GetPixelColor(743, 152), Hex(0xE51016, 6), 20) Then ;red arrow
+			SetLog("Your hero has reached max level to your TownHall.", $COLOR_RED)
+			GUICtrlSetState($chkUpgradeQueen, $GUI_UNCHECKED)
+			If _Sleep(500) Then Return
+		Else
+			SetLog("Queen is successfully upgraded...", $COLOR_BLUE)
+			GUICtrlSetState($chkUpgradeQueen, $GUI_UNCHECKED)
+			If _Sleep(1000) Then Return
+			ClickP($TopLeftClient, 2)
+		EndIf
 	EndIf
 EndFunc
 
