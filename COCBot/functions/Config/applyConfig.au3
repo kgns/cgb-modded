@@ -438,7 +438,23 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	chkDonateLavaHounds()
 	GUICtrlSetData($txtDonateLavaHounds, $sTxtDonateLavaHounds)
 	GUICtrlSetData($txtBlacklistLavaHounds, $sTxtBlacklistLavaHounds)
-
+	
+	;;; Custom Combination Donate by ChiefM3
+	If $ichkDonateCustom = 1 Then
+		GUICtrlSetState($chkDonateCustom, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDonateCustom, $GUI_UNCHECKED)
+	EndIf
+	chkDonateCustom()
+	GUICtrlSetData($txtDonateCustom, $sTxtDonateCustom)
+	GUICtrlSetData($txtBlacklistCustom, $sTxtBlacklistCustom)
+	_GUICtrlComboBox_SetCurSel($cmbDonateCustom1, $icmbDonateCustom1)
+	GUICtrlSetData($txtDonateCustom1, $itxtDonateCustom1)
+	_GUICtrlComboBox_SetCurSel($cmbDonateCustom2, $icmbDonateCustom2)
+	GUICtrlSetData($txtDonateCustom2, $itxtDonateCustom2)
+	_GUICtrlComboBox_SetCurSel($cmbDonateCustom3, $icmbDonateCustom3)
+	GUICtrlSetData($txtDonateCustom3, $itxtDonateCustom3)
+	
 	GUICtrlSetData($txtBlacklist, $sTxtBlacklist)
 
 	If $ichkDonateAllBarbarians = 1 Then

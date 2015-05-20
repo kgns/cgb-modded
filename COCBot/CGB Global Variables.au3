@@ -232,6 +232,8 @@ Global $ichkDonateAllValkyries = 0, $ichkDonateValkyries = 0, $sTxtDonateValkyri
 Global $ichkDonateAllGolems = 0, $ichkDonateGolems = 0, $sTxtDonateGolems = "", $sTxtBlacklistGolems = "", $aDonGolems, $aBlkGolems
 Global $ichkDonateAllWitches = 0, $ichkDonateWitches = 0, $sTxtDonateWitches = "", $sTxtBlacklistWitches = "", $aDonWitches, $aBlkWitches
 Global $ichkDonateAllLavaHounds = 0, $ichkDonateLavaHounds = 0, $sTxtDonateLavaHounds = "", $sTxtBlacklistLavaHounds = "", $aDonLavaHounds, $aBlkLavaHounds
+Global $ichkDonateAllCustom = 0, $ichkDonateCustom = 0, $sTxtDonateCustom = "", $sTxtBlacklistCustom = "", $aDonCustom, $aBlkCustom ;;; Custom Combination Donate by ChiefM3
+Global $icmbDonateCustom1, $itxtDonateCustom1, $icmbDonateCustom2, $itxtDonateCustom2, $icmbDonateCustom3, $itxtDonateCustom3 ;;; Custom Combination Donate by ChiefM3
 Global $sTxtBlacklist = "", $aBlacklist
 Global $B[6] = [116, 111, 98, 111, 116, 46]
 Global $F[8] = [112, 58, 47, 47, 119, 119, 119, 46]

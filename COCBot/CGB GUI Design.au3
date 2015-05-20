@@ -774,6 +774,14 @@ $y += 40
 		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 35, 1)
 		GUICtrlSetOnEvent(-1, "btnDonateLavaHounds")
 		;GUICtrlSetState (-1, $GUI_DISABLE)
+		
+	;;; Custom Combination Donate by ChiefM3
+	$lblBtnCustom = GUICtrlCreateLabel("", $x + 263, $y - 2, 42, 42)
+		GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
+		GUICtrlSetState(-1, $GUI_DISABLE)
+	$btnCustom = GUICtrlCreateButton("Custom", $x + 265, $y, 38, 38, $BS_ICON)
+		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 56, 1) ;;; temporarily use wizard icon
+		GUICtrlSetOnEvent(-1, "btnDonateCustom")
 
 $x += 2
 $y += 75
@@ -1217,6 +1225,60 @@ $y += 75
 			GUICtrlSetTip(-1, "Blacklist for donating Lava Hounds")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	;;; Custom Combination Donate by Chief M3
+	$grpCustom = GUICtrlCreateGroup("Custom", $x - 20, $y - 20, 450, 190)
+		GUICtrlSetState(-1, $GUI_HIDE)
+		;$picDonateCustom = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 56, $x + 215, $y, 64, 64, $BS_ICON)
+		;    GUICtrlSetState(-1, $GUI_HIDE)
+		$chkDonateCustom = GUICtrlCreateCheckbox("Custom Combi", $x + 205, $y, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+			GUICtrlSetTip(-1, "Check this to donate Custom Combination if keywords match the Chat Request.")
+			GUICtrlSetOnEvent(-1, "chkDonateCustom")
+		$chkDonateAllCustom = GUICtrlCreateCheckbox("Donate to All", $x + 300, $y, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+			GUICtrlSetTip(-1, "Check this to donate Custom Combination to ALL Chat Requests." & @CRLF & "This will also ignore ALL keywords.")
+			GUICtrlSetOnEvent(-1, "chkDonateAllCustom")
+		$lblDonateCustom =     GUICtrlCreateLabel("Keywords for donating Custom Combination:", $x - 5, $y + 5, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtDonateCustom = GUICtrlCreateEdit("", $x - 5, $y + 20, 205, 135, BitOR($ES_WANTRETURN, $ES_CENTER, $ES_AUTOVSCROLL))
+			GUICtrlSetState(-1, $GUI_HIDE)
+			GUICtrlSetData(-1, StringFormat("any\r\nneed"))
+			GUICtrlSetTip(-1, "Keywords for donating Custom Troops")
+
+		$lblDonateCustom1 = GUICtrlCreateLabel("Troop1", $x+215, $y+27, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$cmbDonateCustom1 = GUICtrlCreateCombo("", $x+260, $y+23, 95, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "Barbarian|Archer|Giant|Goblin|Ballon|W.Breaker|Wizard|Healer|Dragon|Pekka|Minion|HogRider|Valkyrie|Golem|Witch|Lava|Nothing", "Wizard")
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtDonateCustom1 = GUICtrlCreateInput("2", $x+365, $y+23, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetState(-1, $GUI_HIDE)
+
+		$lblDonateCustom2 = GUICtrlCreateLabel("Troop2", $x+215, $y+49, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$cmbDonateCustom2 = GUICtrlCreateCombo("", $x+260, $y+45, 95, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "Barbarian|Archer|Giant|Goblin|Ballon|W.Breaker|Wizard|Healer|Dragon|Pekka|Minion|HogRider|Valkyrie|Golem|Witch|Lava|Nothing", "Barbarian")
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtDonateCustom2 = GUICtrlCreateInput("1", $x+365, $y+45, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetState(-1, $GUI_HIDE)
+
+		$lblDonateCustom3 = GUICtrlCreateLabel("Troop3", $x+215, $y+71, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$cmbDonateCustom3 = GUICtrlCreateCombo("", $x+260, $y+67, 95, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "Barbarian|Archer|Giant|Goblin|Ballon|W.Breaker|Wizard|Healer|Dragon|Pekka|Minion|HogRider|Valkyrie|Golem|Witch|Lava|Nothing", "Archer")
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtDonateCustom3 = GUICtrlCreateInput("8", $x+365, $y+67, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetState(-1, $GUI_HIDE)
+
+		$lblBlacklistCustom = GUICtrlCreateLabel("Do NOT donate to these keywords:", $x + 215, $y + 90, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtBlacklistCustom = GUICtrlCreateEdit("", $x + 215, $y + 105, 200, 50, BitOR($ES_WANTRETURN, $ES_CENTER, $ES_AUTOVSCROLL))
+			GUICtrlSetState(-1, $GUI_HIDE)
+			GUICtrlSetBkColor ( -1, 0x505050)
+			GUICtrlSetColor ( -1, $COLOR_WHITE)
+			GUICtrlSetData(-1, StringFormat("no\r\ncw\r\nwar"))
+			GUICtrlSetTip(-1, "Blacklist for donating Custom Troops")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
 	$grpBlacklist = GUICtrlCreateGroup("General Blacklist", $x - 20, $y - 20, 450, 190)
 		GUICtrlSetState(-1, $GUI_HIDE)
 		$picDonateBlacklist = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 63, $x + 215, $y, 64, 64, $BS_ICON)

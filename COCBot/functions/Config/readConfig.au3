@@ -259,7 +259,21 @@ Func readConfig() ;Reads config and sets it to the variables
 		$sTxtBlacklistLavaHounds = StringReplace(IniRead($config, "donate", "txtBlacklistLavaHounds", "no lavahound|hound no"), "|", @CRLF)
 		$aDonLavaHounds = StringSplit($sTxtDonateLavaHounds, @CRLF, $STR_ENTIRESPLIT)
 		$aBlkLavaHounds = StringSplit($sTxtBlacklistLavaHounds, @CRLF, $STR_ENTIRESPLIT)
-
+		
+		;;; Custom Combination Donate by ChiefM3
+		$ichkDonateCustom = IniRead($config, "donate", "chkDonateCustom", "0")
+		$ichkDonateAllCustom = IniRead($config, "donate", "chkDonateAllCustom", "0")
+		$sTxtDonateCustom = StringReplace(IniRead($config, "donate", "txtDonateCustom", "any|need"), "|", @CRLF)
+		$sTxtBlacklistCustom = StringReplace(IniRead($config, "donate", "txtBlacklistCustom", "no|cw|war"), "|", @CRLF)
+		$aDonCustom = StringSplit($sTxtDonateCustom, @CRLF, $STR_ENTIRESPLIT)
+		$aBlkCustom = StringSplit($sTxtBlacklistCustom, @CRLF, $STR_ENTIRESPLIT)
+		$icmbDonateCustom1 = IniRead($config, "donate", "cmbDonateCustom1", "0")
+		$itxtDonateCustom1 = IniRead($config, "donate", "txtDonateCustom1", "0")
+		$icmbDonateCustom2 = IniRead($config, "donate", "cmbDonateCustom2", "0")
+		$itxtDonateCustom2 = IniRead($config, "donate", "txtDonateCustom2", "0")
+		$icmbDonateCustom3 = IniRead($config, "donate", "cmbDonateCustom3", "0")
+		$itxtDonateCustom3 = IniRead($config, "donate", "txtDonateCustom3", "0")
+		
 		$sTxtBlacklist = StringReplace(IniRead($config, "donate", "txtBlacklist", "clan war|war|cw"), "|", @CRLF)
 		$aBlackList = StringSplit($sTxtBlacklist, @CRLF, $STR_ENTIRESPLIT)
 

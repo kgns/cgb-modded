@@ -17,11 +17,11 @@ Func DonateCC($Check = False)
 	Local $DonateTroop = BitOR($iChkDonateBarbarians, $iChkDonateArchers, $iChkDonateGiants, $iChkDonateGoblins, _
 			$iChkDonateWallBreakers, $iChkDonateBalloons, $iChkDonateWizards, $iChkDonateHealers, _
 			$iChkDonateDragons, $iChkDonatePekkas, $iChkDonateMinions, $iChkDonateHogRiders, _
-			$iChkDonateValkyries, $iChkDonateGolems, $iChkDonateWitches, $iChkDonateLavaHounds)
+			$iChkDonateValkyries, $iChkDonateGolems, $iChkDonateWitches, $iChkDonateLavaHounds, $iChkDonateCustom) ;;;
 	Local $DonateAllTroop = BitOR($iChkDonateAllBarbarians, $iChkDonateAllArchers, $iChkDonateAllGiants, $iChkDonateAllGoblins, _
 			$iChkDonateAllWallBreakers, $iChkDonateAllBalloons, $iChkDonateAllWizards, $iChkDonateAllHealers, _
 			$iChkDonateAllDragons, $iChkDonateAllPekkas, $iChkDonateAllMinions, $iChkDonateAllHogRiders, _
-			$iChkDonateAllValkyries, $iChkDonateAllGolems, $iChkDonateAllWitches, $iChkDonateAllLavaHounds)
+			$iChkDonateAllValkyries, $iChkDonateAllGolems, $iChkDonateAllWitches, $iChkDonateAllLavaHounds, $iChkDonateAllCustom)
 
 	Global $Donate = BitOR($DonateTroop, $DonateAllTroop)
 
@@ -79,6 +79,20 @@ Func DonateCC($Check = False)
 					SetLog("Chat Request: " & $ClanString)
 				EndIf
 
+				;;; Custom Combination Donate by ChiefM3
+				If $iChkDonateCustom = 1 Then
+					If CheckDonateTroop($eWiza, $aDonCustom, $aBlkCustom, $aBlackList, $ClanString) Then
+						DonateTroopType2($icmbDonateCustom1, $itxtDonateCustom1) ;;; Donate Custom Troop 1
+						DonateTroopType2($icmbDonateCustom2, $itxtDonateCustom2) ;;; Donate Custom Troop 2
+						DonateTroopType2($icmbDonateCustom3, $itxtDonateCustom3) ;;; Donate Custom Troop 3 (8 troops is recommended)
+						Click(1, 1)
+					EndIf
+					If $Donate Then
+						$y = $DonatePixel[1] + 10
+						ContinueLoop
+					EndIf
+				EndIf
+				
 				If $iChkDonateLavaHounds = 1 Then
 					If CheckDonateTroop($eLava, $aDonLavaHounds, $aBlkLavaHounds, $aBlackList, $ClanString) Then
 						DonateTroopType($eLava)
@@ -349,7 +363,7 @@ Func DonateTroopType($Type)
 			$YComp = 99 + 98
 	EndSwitch
 
-	Click($DonatePixel[0], $DonatePixel[1] + 11)
+	PureClick($DonatePixel[0], $DonatePixel[1] + 11)
 	If _Sleep(250) Then Return
 	_CaptureRegion(0, 0, 766, $DonatePixel[1] + 50 + $YComp)
 	$icount = 0
@@ -396,3 +410,66 @@ Func DonateTroopType($Type)
 	Click(1, 1)
 	If _Sleep(250) Then Return
 EndFunc   ;==>DonateTroopType
+
+;;; Custom Combination Donate by ChiefM3
+Func DonateTroopType2($Type, $quant)
+
+	Local $Slot, $YComp
+
+	Switch $Type
+		Case $eBarb To $eWiza
+			$Slot = $Type
+			$YComp = 0
+		Case $eHeal To $eGole
+			$Slot = $Type - 7
+			$YComp = 99
+		Case $eWitc To $eLava
+			$Slot = $Type - 14
+			$YComp = 99 + 98
+	EndSwitch
+
+	PureClick($DonatePixel[0], $DonatePixel[1] + 11)
+	If _Sleep(250) Then Return
+	_CaptureRegion(0, 0, 766, $DonatePixel[1] + 50 + $YComp)
+	$icount = 0
+	while not (_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 5 + $YComp), Hex(0x507C00, 6), 10) Or _
+			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp), Hex(0x507C00, 6), 10) Or _
+			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 16 + $YComp), Hex(0x507C00, 6), 10))
+		If _Sleep(250) Then Return
+		_CaptureRegion(0, 0, 766, $DonatePixel[1] + 50 + $YComp)
+		$icount += 1
+		if $icount = 10 then exitloop
+	wend
+
+	If _ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 5 + $YComp), Hex(0x507C00, 6), 10) Or _
+			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp), Hex(0x507C00, 6), 10) Or _
+			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 16 + $YComp), Hex(0x507C00, 6), 10) Then
+				SetLog("Donating " & $quant & " " & NameOfTroop($Type), $COLOR_GREEN)
+				PureClick(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, $quant, 200)
+				$Donate = True
+				for $i=0 to Ubound($TroopName) - 1
+					if eval("e" & $TroopName[$i]) = $Type then
+						if $TroopHeight[$i] <= 6 then
+							assign(eval("Cur" & $TroopName[$i]),eval("Cur" & $TroopName[$i])+5)
+						else
+							assign(eval("Cur" & $TroopName[$i]),eval("Cur" & $TroopName[$i])+1)
+						endif
+					endif
+				next
+				for $i=0 to Ubound($TroopDarkName) - 1
+					if eval("e" & $TroopDarkName[$i]) = $Type then
+						if $TroopDarkHeight[$i] <= 6 then
+							assign(eval("Cur" & $TroopDarkName[$i]),eval("Cur" & $TroopDarkName[$i]) + 5)
+						else
+							assign(eval("Cur" & $TroopDarkName[$i]),eval("Cur" & $TroopDarkName[$i]) + 1)
+						endif
+					endif
+				next
+				
+				
+	Else
+		SetLog("No " & NameOfTroop($Type) & " available to donate..", $COLOR_RED)
+		Return
+	EndIf
+
+EndFunc   ;;;==>DonateTroopType2 for custom troops

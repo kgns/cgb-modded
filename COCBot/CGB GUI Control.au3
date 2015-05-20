@@ -22,11 +22,11 @@ Opt("TrayMenuMode", 3)
 #include "functions\Other\GUICtrlGetBkColor.au3" ; Included here to use on GUI Control
 
 ;Dynamic declaration of Array controls, cannot be on global variables because the GUI has to be created first for these control-id's to be known.
-Local $aChkDonateControls[16] = [$chkDonateBarbarians, $chkDonateArchers, $chkDonateGiants, $chkDonateGoblins, $chkDonateWallBreakers, $chkDonateBalloons, $chkDonateWizards, $chkDonateHealers, $chkDonateDragons, $chkDonatePekkas, $chkDonateMinions, $chkDonateHogRiders, $chkDonateValkyries, $chkDonateGolems, $chkDonateWitches, $chkDonateLavaHounds]
-Local $aChkDonateAllControls[16] = [$chkDonateAllBarbarians, $chkDonateAllArchers, $chkDonateAllGiants, $chkDonateAllGoblins, $chkDonateAllWallBreakers, $chkDonateAllBalloons, $chkDonateAllWizards, $chkDonateAllHealers, $chkDonateAllDragons, $chkDonateAllPekkas, $chkDonateAllMinions, $chkDonateAllHogRiders, $chkDonateAllValkyries, $chkDonateAllGolems, $chkDonateAllWitches, $chkDonateAllLavaHounds]
-Local $aTxtDonateControls[16] = [$txtDonateBarbarians, $txtDonateArchers, $txtDonateGiants, $txtDonateGoblins, $txtDonateWallBreakers, $txtDonateBalloons, $txtDonateWizards, $txtDonateHealers, $txtDonateDragons, $txtDonatePekkas, $txtDonateMinions, $txtDonateHogRiders, $txtDonateValkyries, $txtDonateGolems, $txtDonateWitches, $txtDonateLavaHounds]
-Local $aTxtBlacklistControls[16] = [$txtBlacklistBarbarians, $txtBlacklistArchers, $txtBlacklistGiants, $txtBlacklistGoblins, $txtBlacklistWallBreakers, $txtBlacklistBalloons, $txtBlacklistWizards, $txtBlacklistHealers, $txtBlacklistDragons, $txtBlacklistPekkas, $txtBlacklistMinions, $txtBlacklistHogRiders, $txtBlacklistValkyries, $txtBlacklistGolems, $txtBlacklistWitches, $txtBlacklistLavaHounds]
-Local $aLblBtnControls[16] = [$lblBtnBarbarians, $lblBtnArchers, $lblBtnGiants, $lblBtnGoblins, $lblBtnWallBreakers, $lblBtnBalloons, $lblBtnWizards, $lblBtnHealers, $lblBtnDragons, $lblBtnPekkas, $lblBtnMinions, $lblBtnHogRiders, $lblBtnValkyries, $lblBtnGolems, $lblBtnWitches, $lblBtnLavaHounds]
+Local $aChkDonateControls[17] = [$chkDonateBarbarians, $chkDonateArchers, $chkDonateGiants, $chkDonateGoblins, $chkDonateWallBreakers, $chkDonateBalloons, $chkDonateWizards, $chkDonateHealers, $chkDonateDragons, $chkDonatePekkas, $chkDonateMinions, $chkDonateHogRiders, $chkDonateValkyries, $chkDonateGolems, $chkDonateWitches, $chkDonateLavaHounds, $chkDonateCustom]
+Local $aChkDonateAllControls[17] = [$chkDonateAllBarbarians, $chkDonateAllArchers, $chkDonateAllGiants, $chkDonateAllGoblins, $chkDonateAllWallBreakers, $chkDonateAllBalloons, $chkDonateAllWizards, $chkDonateAllHealers, $chkDonateAllDragons, $chkDonateAllPekkas, $chkDonateAllMinions, $chkDonateAllHogRiders, $chkDonateAllValkyries, $chkDonateAllGolems, $chkDonateAllWitches, $chkDonateAllLavaHounds, $chkDonateAllCustom]
+Local $aTxtDonateControls[17] = [$txtDonateBarbarians, $txtDonateArchers, $txtDonateGiants, $txtDonateGoblins, $txtDonateWallBreakers, $txtDonateBalloons, $txtDonateWizards, $txtDonateHealers, $txtDonateDragons, $txtDonatePekkas, $txtDonateMinions, $txtDonateHogRiders, $txtDonateValkyries, $txtDonateGolems, $txtDonateWitches, $txtDonateLavaHounds, $txtDonateCustom]
+Local $aTxtBlacklistControls[17] = [$txtBlacklistBarbarians, $txtBlacklistArchers, $txtBlacklistGiants, $txtBlacklistGoblins, $txtBlacklistWallBreakers, $txtBlacklistBalloons, $txtBlacklistWizards, $txtBlacklistHealers, $txtBlacklistDragons, $txtBlacklistPekkas, $txtBlacklistMinions, $txtBlacklistHogRiders, $txtBlacklistValkyries, $txtBlacklistGolems, $txtBlacklistWitches, $txtBlacklistLavaHounds, $txtBlacklistCustom]
+Local $aLblBtnControls[17] = [$lblBtnBarbarians, $lblBtnArchers, $lblBtnGiants, $lblBtnGoblins, $lblBtnWallBreakers, $lblBtnBalloons, $lblBtnWizards, $lblBtnHealers, $lblBtnDragons, $lblBtnPekkas, $lblBtnMinions, $lblBtnHogRiders, $lblBtnValkyries, $lblBtnGolems, $lblBtnWitches, $lblBtnLavaHounds, $lblBtnCustom]
 
 _GDIPlus_Startup()
 Global Const $64Bit = StringInStr(@OSArch, "64") > 0
@@ -1106,6 +1106,13 @@ Func btnDonateLavaHounds()
 	EndIf
 EndFunc   ;==>btnDonateLavaHounds
 
+;;; Custom Combination Donate by ChiefM3
+Func btnDonateCustom()
+	If GUICtrlGetState($grpCustom) = BitOR($GUI_HIDE, $GUI_ENABLE) Then
+		_DonateBtn($grpCustom, $txtBlacklistCustom)
+	EndIf
+EndFunc   ;==>btnDonateCustom
+
 Func btnDonateBlacklist()
 	If GUICtrlGetState($grpBlacklist) = BitOR($GUI_HIDE, $GUI_ENABLE) Then
 		_DonateBtn($grpBlacklist, $txtBlacklist)
@@ -1240,6 +1247,15 @@ Func chkDonateAllLavaHounds()
 	EndIf
 EndFunc   ;==>chkDonateAllLavaHounds
 
+;;; Custom Combination Donate by ChiefM3
+Func chkDonateAllCustom()
+	If GUICtrlRead($chkDonateAllCustom) = $GUI_CHECKED Then
+		_DonateAllControls(16, True)
+	Else
+		_DonateAllControls(16, False)
+	EndIf
+EndFunc   ;==>chkDonateAllCustom
+
 Func chkDonateBarbarians()
 	If GUICtrlRead($chkDonateBarbarians) = $GUI_CHECKED Then
 		_DonateControls($eBarb)
@@ -1367,6 +1383,15 @@ Func chkDonateLavaHounds()
 		GUICtrlSetBkColor($lblBtnLavaHounds, $GUI_BKCOLOR_TRANSPARENT)
 	EndIf
 EndFunc   ;==>chkDonateLavaHounds
+
+;;; Custom Combination Donate by ChiefM3
+Func chkDonateCustom()
+	If GUICtrlRead($chkDonateCustom) = $GUI_CHECKED Then
+		_DonateControls(16)
+	Else
+		GUICtrlSetBkColor($lblBtnCustom, $GUI_BKCOLOR_TRANSPARENT)
+	EndIf
+EndFunc   ;==>chkDonateCustom
 
 Func chkWalls()
 	If GUICtrlRead($chkWalls) = $GUI_CHECKED Then
