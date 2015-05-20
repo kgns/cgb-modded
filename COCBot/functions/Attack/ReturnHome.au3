@@ -5,6 +5,13 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		While GoldElixirChange()
 			If _Sleep(1000) Then Return
 		WEnd
+		
+		;############################################# LSpell Attack ############################################################
+		If $OptTrophyMode <> 1 OR $OptTrophyModeDE <> 1 Then
+			DropLSpell()
+			If _Sleep(5000) Then Return
+		EndIf
+		;########################################################################################################################
 
 		;If Heroes were not activated: Hero Ability activation before End of Battle to restore health
 		If ($checkKPower = True Or $checkQPower = True) And $iActivateKQCondition = "Auto" Then
