@@ -135,16 +135,16 @@ Func runBot() ;Bot that runs everything in order
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
 		     	If $Restart = True Then ContinueLoop
+			UpgradeWall()
+				If _Sleep(1000) Then Return
+
+				If $Restart = True Then ContinueLoop
 			;Mow the lawn
 			RemoveTrees()
 				If _Sleep(1000) Then Return
 
 				If $Restart = True Then ContinueLoop
 			;End Mow the lawn
-			UpgradeWall()
-				If _Sleep(1000) Then Return
-
-				If $Restart = True Then ContinueLoop
 			UpgradeHeroes()
 				If _Sleep(1000) Then Return
 
