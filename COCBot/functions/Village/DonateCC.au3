@@ -366,7 +366,7 @@ Func DonateTroopType($Type)
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 16 + $YComp), Hex(0x507C00, 6), 10) Then
 			    SetLog("Donating " & NameOfTroop($Type), $COLOR_GREEN)
-				Click(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, 8, 50)
+				PureClick(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, 8, 50)
 				$Donate = True
 				for $i=0 to Ubound($TroopName) - 1
 					if eval("e" & $TroopName[$i]) = $Type then
