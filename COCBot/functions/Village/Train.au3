@@ -310,9 +310,13 @@ Func Train()
 					endif
 				Endif
 			next
-
+			Local $TempTroopName = ""
 			If $OptTrophyMode = 1 Then
 				for $i=0 to Ubound($TroopTHSnipeName) - 1
+				   If IsOdd($brrNum-1) AND $TroopTHSnipeRotateIndex[$i] <> -1 Then
+					   $TempTroopName = $TroopTHSnipeName[$i]
+					   $TroopTHSnipeName[$i] = $TroopTHSnipeName[$TroopTHSnipeRotateIndex[$i]]
+				   EndIf
 				   If GUICtrlRead(eval("txtNum" & $TroopTHSnipeName[$i])) <> "0" And eval("Cur" & $TroopTHSnipeName[$i]) > 0 Then
 					   ;If _ColorCheck(_GetPixelColor(261, 366), Hex(0x39D8E0, 6), 20) And $CurArch > 0 Then
 					   If eval("Cur" & $TroopTHSnipeName[$i]) > 0  Then
@@ -328,9 +332,17 @@ Func Train()
 							endif
 					   EndIf
 				   EndIf
+				   If $TempTroopName <> "" Then
+					   $TroopTHSnipeName[$i] = $TempTroopName
+					   $TempTroopName = ""
+				   EndIf
 				next
 			Else
 				for $i=0 to Ubound($TroopName) - 1
+				   If IsOdd($brrNum-1) AND $TroopRotateIndex[$i] <> -1 Then
+					   $TempTroopName = $TroopName[$i]
+					   $TroopName[$i] = $TroopName[$TroopRotateIndex[$i]]
+				   EndIf
 				   If GUICtrlRead(eval("txtNum" & $TroopName[$i])) <> "0" And eval("Cur" & $TroopName[$i]) > 0 Then
 					   ;If _ColorCheck(_GetPixelColor(261, 366), Hex(0x39D8E0, 6), 20) And $CurArch > 0 Then
 					   If eval("Cur" & $TroopName[$i]) > 0  Then
@@ -345,6 +357,10 @@ Func Train()
 								$BarrackStatus[$brrNum-1] = true
 							endif
 					   EndIf
+				   EndIf
+				   If $TempTroopName <> "" Then
+					   $TroopName[$i] = $TempTroopName
+					   $TempTroopName = ""
 				   EndIf
 				next
 			EndIf
@@ -729,3 +745,11 @@ Func checkArmyCamp()
 	 EndIf
 
 Endfunc
+
+Func IsOdd($num)
+	if (Mod($num, 2) >= 1)  Then
+		return True
+	Else
+		return False
+	EndIf
+EndFunc
