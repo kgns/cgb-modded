@@ -6,7 +6,7 @@ Func UpgradeBuilding()
         Return
   EndIf
   VillageReport()
-  If $FreeBuilder < $txtBuilderKeepFree Then
+  If $FreeBuilder <= $itxtBuilderKeepFree Then
       SetLog("No builders available", $COLOR_RED)
       ClickP($TopLeftClient) ; Click Away
       Return
@@ -63,7 +63,6 @@ Func UpgradeBuilding()
                _CaptureRegion()
 
                If _ColorCheck(_GetPixelColor(491, 479), Hex(0xF8EF5F, 6), 30) Then ; GOLD ON BUTTON
-                  $Type_Resource = 1
                   SetLog("Upgrade using Gold...")
                   SetLog("Gold Storage: "&$iGoldStorage&" Gold Min: "&$iMinGold)
                   If $iGoldStorage < $iMinGold Then
@@ -79,6 +78,7 @@ Func UpgradeBuilding()
                         ClickP($TopLeftClient, 2)
                      Else
                         SetLog("Building "&$i&" successfully upgraded...", $COLOR_GREEN)
+						$Type_Resource = 1
                         If _Sleep(1000) Then Return
                         ClickP($TopLeftClient, 2)
                         ;GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
@@ -87,7 +87,6 @@ Func UpgradeBuilding()
                EndIf
 
                If _ColorCheck(_GetPixelColor(491, 479), Hex(0xE050D8, 6), 30) Then ; ELIXIR ON BUTTON
-                  $Type_Resource = 1
                   SetLog("Upgrade using Elixir...")
                   SetLog("Elixir Storage: "&$iElixirStorage&" Elixir Min: "&$iMinElixir)
                   If $iElixirStorage < $iMinElixir Then
@@ -103,6 +102,7 @@ Func UpgradeBuilding()
                         ClickP($TopLeftClient, 2)
                      Else
                         SetLog("Building "&$i&" successfully upgraded...", $COLOR_GREEN)
+						$Type_Resource = 1
                         If _Sleep(1000) Then Return
                         ClickP($TopLeftClient, 2)
                         ;GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
@@ -111,10 +111,9 @@ Func UpgradeBuilding()
                EndIf
 
                If _ColorCheck(_GetPixelColor(579, 482), Hex(0x261A2C, 6), 30) Then ; DARK ELIXIR ON BUTTON
-                  $Type_Resource = 1
                   SetLog("Upgrade using Dark Elixir(HEROES)...")
                   SetLog("Dark Storage: "&$iDarkStorage&" Dark Min: "&$iMinDark)
-                  If $iDarkStorage < $iMinDElixir Then
+                  If $iDarkStorage < $iMinDark Then
                      SetLog("Dark is below the minimum, skip upgrading...", $COLOR_RED)
                      ClickP($TopLeftClient, 2)
                   Else
@@ -127,6 +126,7 @@ Func UpgradeBuilding()
                         ClickP($TopLeftClient, 2)
                      Else
                         SetLog("Building "&$i&" successfully upgraded...", $COLOR_GREEN)
+						$Type_Resource = 1
                         If _Sleep(1000) Then Return
                         ClickP($TopLeftClient, 2)
                         ;GUICtrlSetState($chkUpgrade1, $GUI_UNCHECKED)
@@ -160,7 +160,7 @@ Func UpgradeBuilding()
          If $Type_Resource = 1 Then
             VillageReport()
             If _Sleep(1000) Then Return
-            If $FreeBuilder < $txtBuilderKeepFree Then
+            If $FreeBuilder <= $itxtBuilderKeepFree Then
               SetLog("No builders available", $COLOR_RED)
               ClickP($TopLeftClient) ; Click Away
               Return
