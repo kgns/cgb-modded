@@ -369,10 +369,9 @@ EndIf
 EndFunc   ;==>AttackTHGrid
 
 Func AttackTHNormal()
-		 SetLog($thinfo)
-		 If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+		If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
 			DropLSpell()
-		 EndIf
+		EndIf
 		 Setlog("Normal Attacking TH Outside with BAM PULSE!")
 
 		 ;---1st wave 15 secs
@@ -420,10 +419,9 @@ Func AttackTHNormal()
 EndFunc   ;==>AttackTHNormal
 
 Func AttackTHXtreme()
-		 SetLog($thinfo)
-		 If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+		If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
 			DropLSpell()
-		 EndIf
+		EndIf
 		 Setlog("Extreme Attacking TH Outside with BAM PULSE!")
 
 		 ;---1st wave 15 secs
@@ -489,10 +487,9 @@ Func AttackTHXtreme()
 EndFunc   ;==>AttackTHXtreme
 
 Func AttackTHgbarch()
- SetLog($thinfo)
- If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
-	DropLSpell()
- EndIf
+	If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+		DropLSpell()
+	EndIf
  Setlog("Sending 20 archers.")
  AttackTHGrid($eArch,4,2,2000,1,4,0) ; deploys 8 archers - take out possible bombs
  AttackTHGrid($eArch,3,4,1000,1,4,0) ; deploys 12 archers
@@ -506,7 +503,7 @@ While $count < 25
  EndIf
  $count+=1
 WEnd
-
+ 
  Setlog("No star yet? Sending 20 more archers.")
  AttackTHGrid($eArch,4,5,1000,2,4,0) ;releases 20 archers
   $count = 0
@@ -523,7 +520,7 @@ WEnd
  Setlog("I smell a trap! Let's send in more diverse troops...")
  AttackTHGrid($eGiant,2,1,1500,1,2,0) ;releases 2 giants in case of spring traps
  AttackTHGrid($eGiant,3,5,1500,2,2,0) ;releases up to 15 giants to take heat
- AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians
+ AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians 
  AttackTHGrid($eBarb,3,5,1500,1,5,0) ; deploys up to 15 barbarians
  AttackTHGrid($eArch,3,8,1500,3,4,0) ; deploys 24 archers
  AttackTHGrid($eArch,4,7,1000,3,4,0) ; deploys 28 archers
@@ -540,7 +537,7 @@ WEnd
 
  Setlog("Hope the rest of your troops can finish the job!")
  AttackTHGrid($eGiant,2,9,1500,3,2,0) ;releases up to 18 giants (in case numbers are off)
- AttackTHGrid($eBarb,4,8,1200,2,5,1) ; deploys Heroes/CC + up to 32 barbarians
+ AttackTHGrid($eBarb,4,8,1200,2,5,1) ; deploys Heroes/CC + up to 32 barbarians 
  AttackTHGrid($eBarb,3,11,1200,2,5,0) ; deploys up to 33 barbarians
  AttackTHGrid($eBarb,4,8,1500,2,5,0) ; deploys up to 32 barbarians
  AttackTHGrid($eArch,3,13,1200,4,4,0) ;releases up to 39 archers
