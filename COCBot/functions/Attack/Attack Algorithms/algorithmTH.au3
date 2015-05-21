@@ -367,6 +367,9 @@ EndIf
 EndFunc   ;==>AttackTHGrid
 
 Func AttackTHNormal() ;; modified by ChiefM3 for barch & higher efficiency
+		If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		EndIf
 		 Setlog("Sniping TH with BARCH")
 
 		 ;---1st wave 30 secs, total 4 barbs 8 archers
@@ -436,6 +439,9 @@ Func AttackTHNormal() ;; modified by ChiefM3 for barch & higher efficiency
 EndFunc ;---AttackTHNormal
 
 Func AttackTHXtreme()
+		If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		EndIf
 		 Setlog("Extreme Attacking TH Outside with BAM PULSE!")
 
 		 ;---1st wave 15 secs
@@ -501,71 +507,73 @@ Func AttackTHXtreme()
 EndFunc   ;==>AttackTHXtreme
 
 Func AttackTHgbarch()
-   Setlog("Sending 20 archers.")
-   AttackTHGrid($eArch,4,2,2000,1,4,0) ; deploys 8 archers - take out possible bombs
-   AttackTHGrid($eArch,3,4,1000,1,4,0) ; deploys 12 archers
-   $count = 0
+	If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+		DropLSpell()
+	EndIf
+ Setlog("Sending 20 archers.")
+ AttackTHGrid($eArch,4,2,2000,1,4,0) ; deploys 8 archers - take out possible bombs
+ AttackTHGrid($eArch,3,4,1000,1,4,0) ; deploys 12 archers
+ $count = 0
 While $count < 25
-   _Sleep(1000)
-   _CaptureRegion()
-   If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
-	  SetLog("Townhall has been destroyed!")
-	  Return ;exit if you get a star
-   EndIf
-   $count+=1
+ _Sleep(1000)
+ _CaptureRegion()
+ If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+	SetLog("Townhall has been destroyed!")
+	Return ;exit if you get a star
+ EndIf
+ $count+=1
 WEnd
 
-   Setlog("No star yet? Sending 20 more archers.")
-   AttackTHGrid($eArch,4,5,1000,2,4,0) ;releases 20 archers
-   $count = 0
-
+ Setlog("No star yet? Sending 20 more archers.")
+ AttackTHGrid($eArch,4,5,1000,2,4,0) ;releases 20 archers
+  $count = 0
 While $count < 25
-   _Sleep(1000)
-   _CaptureRegion()
-   If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
-	  SetLog("Townhall has been destroyed!")
-	  Return ;exit if you get a star
-   EndIf
-   $count+=1
+ _Sleep(1000)
+ _CaptureRegion()
+ If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+	SetLog("Townhall has been destroyed!")
+	Return ;exit if you get a star
+ EndIf
+ $count+=1
 WEnd
 
-   Setlog("I smell a trap! Let's send in more diverse troops...")
-   AttackTHGrid($eGiant,2,1,1500,1,2,0) ;releases 2 giants in case of spring traps
-   AttackTHGrid($eGiant,3,5,1500,2,2,0) ;releases up to 15 giants to take heat
-   AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians
-   AttackTHGrid($eBarb,3,5,1500,1,5,0) ; deploys up to 15 barbarians
-   AttackTHGrid($eArch,3,8,1500,3,4,0) ; deploys 24 archers
-   AttackTHGrid($eArch,4,7,1000,3,4,0) ; deploys 28 archers
-   $count = 0
+ Setlog("I smell a trap! Let's send in more diverse troops...")
+ AttackTHGrid($eGiant,2,1,1500,1,2,0) ;releases 2 giants in case of spring traps
+ AttackTHGrid($eGiant,3,5,1500,2,2,0) ;releases up to 15 giants to take heat
+ AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians
+ AttackTHGrid($eBarb,3,5,1500,1,5,0) ; deploys up to 15 barbarians
+ AttackTHGrid($eArch,3,8,1500,3,4,0) ; deploys 24 archers
+ AttackTHGrid($eArch,4,7,1000,3,4,0) ; deploys 28 archers
+ $count = 0
 While $count < 25
-   _Sleep(1000)
-   _CaptureRegion()
-   If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
-	  SetLog("Townhall has been destroyed!")
-	  Return ;exit if you get a star
-   EndIf
-   $count+=1
+ _Sleep(1000)
+ _CaptureRegion()
+ If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+	SetLog("Townhall has been destroyed!")
+	Return ;exit if you get a star
+ EndIf
+ $count+=1
 WEnd
 
-   Setlog("Hope the rest of your troops can finish the job!")
-   AttackTHGrid($eGiant,2,9,1500,3,2,0) ;releases up to 18 giants (in case numbers are off)
-   AttackTHGrid($eBarb,4,8,1200,2,5,1) ; deploys Heroes/CC + up to 32 barbarians
-   AttackTHGrid($eBarb,3,11,1200,2,5,0) ; deploys up to 33 barbarians
-   AttackTHGrid($eBarb,4,8,1500,2,5,0) ; deploys up to 32 barbarians
-   AttackTHGrid($eArch,3,13,1200,4,4,0) ;releases up to 39 archers
-   AttackTHGrid($eArch,2,20,1200,4,4,0) ;releases up to 40 archers
-   AttackTHGrid($eArch,2,20,1000,4,4,0) ;releases up to 40 archers
-   $count = 0
+ Setlog("Hope the rest of your troops can finish the job!")
+ AttackTHGrid($eGiant,2,9,1500,3,2,0) ;releases up to 18 giants (in case numbers are off)
+ AttackTHGrid($eBarb,4,8,1200,2,5,1) ; deploys Heroes/CC + up to 32 barbarians
+ AttackTHGrid($eBarb,3,11,1200,2,5,0) ; deploys up to 33 barbarians
+ AttackTHGrid($eBarb,4,8,1500,2,5,0) ; deploys up to 32 barbarians
+ AttackTHGrid($eArch,3,13,1200,4,4,0) ;releases up to 39 archers
+ AttackTHGrid($eArch,2,20,1200,4,4,0) ;releases up to 40 archers
+ AttackTHGrid($eArch,2,20,1000,4,4,0) ;releases up to 40 archers
+ $count = 0
 While $count < 25
-   _Sleep(1000)
-   _CaptureRegion()
-   If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
-	  SetLog("Townhall has been destroyed!")
-	  Return ;exit if you get a star
-   EndIf
-   $count+=1
+ _Sleep(1000)
+ _CaptureRegion()
+ If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+	SetLog("Townhall has been destroyed!")
+	Return ;exit if you get a star
+ EndIf
+ $count+=1
 WEnd
-   SetLog("~Finished Attacking, waiting to finish", $COLOR_GREEN)
+ SetLog("~Finished Attacking, waiting to finish", $COLOR_GREEN)
 
 EndFunc   ;==>AttackTHgbarch
 
