@@ -29,14 +29,6 @@ Func AttackReport()
 		$lootDarkElixir = GetReturnHome(438, 366, "ReturnResource")
 		If $debug_getdigitlarge = 1 Then SetLog("====== Search Trophies =====", $COLOR_RED)
 		$lootTrophies = GetReturnHome(438, 402, "ReturnResource")
-		SetLog("Loot: [G]: " & _NumberFormat($lootGold) & " [E]: " & _NumberFormat($lootElixir) & " [DE]: " & _NumberFormat($lootDarkElixir) & " [T]: " & $lootTrophies, $COLOR_GREEN)
-
-		If $FirstAttack = 1 Then GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
-
-		GUICtrlSetData($lblGoldLastAttack, _NumberFormat($lootGold))
-		GUICtrlSetData($lblElixirLastAttack, _NumberFormat($lootElixir))
-		GUICtrlSetData($lblDarkLastAttack, _NumberFormat($lootDarkElixir))
-		GUICtrlSetData($lblTrophyLastAttack, _NumberFormat($lootTrophies))
 	Else
 		If $debug_getdigitlarge = 1 Then SetLog("====== Search Gold =====", $COLOR_RED)
 		$lootGold = GetReturnHome(438, 289, "ReturnResource")
@@ -44,14 +36,8 @@ Func AttackReport()
 		$lootElixir = GetReturnHome(438, 328, "ReturnResource")
 		If $debug_getdigitlarge = 1 Then SetLog("====== Search Trophies =====", $COLOR_RED)
 		$lootTrophies = GetReturnHome(438, 365, "ReturnResource") ; 1 pixel higher
-		SetLog("Loot: [G]: " & _NumberFormat($lootGold) & " [E]: " & _NumberFormat($lootElixir) & " [DE]: " & "" & " [T]: " & $lootTrophies, $COLOR_GREEN)
-
-		If $FirstAttack = 1 Then GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
-
-		GUICtrlSetData($lblGoldLastAttack, _NumberFormat($lootGold))
-		GUICtrlSetData($lblElixirLastAttack, _NumberFormat($lootElixir))
-		GUICtrlSetData($lblDarkLastAttack, "")
-		GUICtrlSetData($lblTrophyLastAttack, _NumberFormat($lootTrophies))
+		$lootDarkElixir = 0
 	EndIf
-
+	SetLog("Loot: [G]: " & _NumberFormat($lootGold) & " [E]: " & _NumberFormat($lootElixir) & " [DE]: " & _NumberFormat($lootDarkElixir) & " [T]: " & $lootTrophies, $COLOR_GREEN)
+	UpdateStats()
 EndFunc   ;==>AttackReport

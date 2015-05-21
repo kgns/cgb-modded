@@ -51,22 +51,8 @@ Func VillageReport()
 	PureClick(820, 40) ; Close Builder/Shop
 
 	; update stats
-	Switch $FirstAttack
-		Case 2
-			ReportLastTotal()
-			ReportCurrent()
-		Case 1
-;			GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
-			GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
-			GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE) ;; added for hourly stats
-			ReportLastTotal()
-			ReportCurrent()
-			$FirstAttack = 2
-		Case 0
-			ReportStart()
-			ReportCurrent()
-			$FirstAttack = 1
-	EndSwitch
+	If $FirstRun = 1 Then UpdateStats()
+	ReportCurrent()
 
 	_CaptureRegion()
 	Local $i = 0
@@ -79,45 +65,46 @@ Func VillageReport()
 
 EndFunc   ;==>VillageReport
 
-Func ReportStart() ; stats at Start
-	If $FirstRun = 1 Then
-		$FirstRun = 0
-		$GoldStart = $GoldCount
-		$ElixirStart = $ElixirCount
-		$DarkStart = $DarkCount
-		$TrophyStart = $TrophyCount
-
-		GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
-		GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
-		GUICtrlSetState($picResultGoldTemp, $GUI_HIDE)
-		GUICtrlSetState($picResultElixirTemp, $GUI_HIDE)
-		GUICtrlSetState($picResultDETemp, $GUI_HIDE)
-
-		GUICtrlSetState($lblResultGoldNow, $GUI_SHOW)
-		GUICtrlSetState($picResultGoldNow, $GUI_SHOW)
-		GUICtrlSetData($lblResultGoldStart, _NumberFormat($GoldCount))
-
-		GUICtrlSetState($lblResultElixirNow, $GUI_SHOW)
-		GUICtrlSetState($picResultElixirNow, $GUI_SHOW)
-		GUICtrlSetData($lblResultElixirStart, _NumberFormat($ElixirCount))
-
-		If $DarkCount <> "" Then
-			GUICtrlSetData($lblResultDEStart, _NumberFormat($DarkCount))
-			GUICtrlSetState($lblResultDeNow, $GUI_SHOW)
-			GUICtrlSetState($picResultDeNow, $GUI_SHOW)
-		Else
-			GUICtrlSetState($picResultDEStart, $GUI_HIDE)
-			GUICtrlSetState($picDarkLoot, $GUI_HIDE)
-			GUICtrlSetState($picDarkLastAttack, $GUI_HIDE)
-		EndIf
-
-		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($TrophyCount))
-		GUICtrlSetState($lblResultTrophyNow, $GUI_SHOW)
-		GUICtrlSetState($lblResultBuilderNow, $GUI_SHOW)
-		GUICtrlSetState($lblResultGemNow, $GUI_SHOW)
-	EndIf
-
-EndFunc
+;Func ReportStart() ; stats at Start
+;	If $FirstRun = 1 Then
+;		$FirstRun = 0
+;		$GoldStart = $GoldCount
+;		$ElixirStart = $ElixirCount
+;		$DarkStart = $DarkCount
+;		$TrophyStart = $TrophyCount
+;
+;		GUICtrlSetState($lblResultStatsTemp, $GUI_HIDE)
+;		GUICtrlSetState($lblVillageReportTemp, $GUI_HIDE)
+;		GUICtrlSetState($picResultGoldTemp, $GUI_HIDE)
+;		GUICtrlSetState($picResultElixirTemp, $GUI_HIDE)
+;		GUICtrlSetState($picResultDETemp, $GUI_HIDE)
+;
+;		GUICtrlSetState($lblResultGoldNow, $GUI_SHOW)
+;		GUICtrlSetState($picResultGoldNow, $GUI_SHOW)
+;		GUICtrlSetData($lblResultGoldStart, _NumberFormat($GoldCount))
+;
+;		GUICtrlSetState($lblResultElixirNow, $GUI_SHOW)
+;		GUICtrlSetState($picResultElixirNow, $GUI_SHOW)
+;		GUICtrlSetData($lblResultElixirStart, _NumberFormat($ElixirCount))
+;
+;		If $DarkCount <> "" Then
+;			GUICtrlSetData($lblResultDEStart, _NumberFormat($DarkCount))
+;			GUICtrlSetState($lblResultDeNow, $GUI_SHOW)
+;			GUICtrlSetState($picResultDeNow, $GUI_SHOW)
+;		Else
+;			GUICtrlSetState($picResultDEStart, $GUI_HIDE)
+;			GUICtrlSetState($picDarkLoot, $GUI_HIDE)
+;			GUICtrlSetState($picDarkLastAttack, $GUI_HIDE)
+;			GUICtrlSetState($picHourlyStatsDark, $GUI_HIDE)
+;		EndIf
+;
+;		GUICtrlSetData($lblResultTrophyStart, _NumberFormat($TrophyCount))
+;		GUICtrlSetState($lblResultTrophyNow, $GUI_SHOW)
+;		GUICtrlSetState($lblResultBuilderNow, $GUI_SHOW)
+;		GUICtrlSetState($lblResultGemNow, $GUI_SHOW)
+;	EndIf
+;
+;EndFunc
 
 Func ReportCurrent()
 
@@ -139,41 +126,41 @@ Func ReportCurrent()
 
 EndFunc
 
-Func ReportLastTotal()
-
-	;last attack
+;Func ReportLastTotal()
+;
+;	;last attack
 ;	$GoldLast = $GoldCount - $GoldVillage
 ;	$ElixirLast = $ElixirCount - $ElixirVillage
 ;	$DarkLast = $DarkCount - $DarkVillage
 ;	$TrophyLast = $TrophyCount - $TrophyVillage
-
-
+;
+;
 ;	GUICtrlSetData($lblGoldLastAttack, _NumberFormat($GoldLast))
 ;	GUICtrlSetData($lblElixirLastAttack, _NumberFormat($ElixirLast))
 ;	If $DarkStart <> "" Then
 ;		GUICtrlSetData($lblDarkLastAttack, _NumberFormat($DarkLast))
 ;	EndIf
 ;	GUICtrlSetData($lblTrophyLastAttack, _NumberFormat($TrophyLast))
-
-	;total stats
-	$CostGoldWall = $WallGoldMake * $WallCost
-	$CostElixirWall = $WallElixirMake * $WallCost
-
-	$iGoldLoot = $GoldCount + $CostGoldWall - $GoldStart
-	$iElixirLoot = $ElixirCount + $CostElixirWall - $ElixirStart
-	$iDarkLoot = $DarkCount - $DarkStart
-	$iTrophyLoot = $TrophyCount - $TrophyStart
-
-	GUICtrlSetData($lblGoldLoot, _NumberFormat($iGoldLoot))
-	GUICtrlSetData($lblElixirLoot, _NumberFormat($iElixirLoot))
-	If $DarkStart <> "" Then
-		GUICtrlSetData($lblDarkLoot, _NumberFormat($iDarkLoot))
-	EndIf
-	GUICtrlSetData($lblTrophyLoot, _NumberFormat($iTrophyLoot))
-
-	; hourly stats
-	GUICtrlSetData($lblHourlyStatsGold, _NumberFormat(Round($iGoldLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")
-	GUICtrlSetData($lblHourlyStatsElixir, _NumberFormat(Round($iElixirLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")
-	GUICtrlSetData($lblHourlyStatsDark, _NumberFormat(Round($iDarkLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
-	GUICtrlSetData($lblHourlyStatsTrophy, _NumberFormat(Round($iTrophyLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
-EndFunc
+;
+;	;total stats
+;	$CostGoldWall = $WallGoldMake * $WallCost
+;	$CostElixirWall = $WallElixirMake * $WallCost
+;
+;	$iGoldLoot = $GoldCount + $CostGoldWall - $GoldStart
+;	$iElixirLoot = $ElixirCount + $CostElixirWall - $ElixirStart
+;	$iDarkLoot = $DarkCount - $DarkStart
+;	$iTrophyLoot = $TrophyCount - $TrophyStart
+;
+;	GUICtrlSetData($lblGoldLoot, _NumberFormat($iGoldLoot))
+;	GUICtrlSetData($lblElixirLoot, _NumberFormat($iElixirLoot))
+;	If $DarkStart <> "" Then
+;		GUICtrlSetData($lblDarkLoot, _NumberFormat($iDarkLoot))
+;	EndIf
+;	GUICtrlSetData($lblTrophyLoot, _NumberFormat($iTrophyLoot))
+;
+;	; hourly stats
+;	GUICtrlSetData($lblHourlyStatsGold, _NumberFormat(Round($iGoldLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")
+;	GUICtrlSetData($lblHourlyStatsElixir, _NumberFormat(Round($iElixirLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600)) & "K / h")
+;	GUICtrlSetData($lblHourlyStatsDark, _NumberFormat(Round($iDarkLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
+;	GUICtrlSetData($lblHourlyStatsTrophy, _NumberFormat(Round($iTrophyLoot / (Int(TimerDiff($sTimer) + $iTimePassed)) * 3600 * 1000)) & " / h")
+;EndFunc

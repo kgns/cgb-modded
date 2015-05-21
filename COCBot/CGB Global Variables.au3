@@ -98,13 +98,14 @@ Global $COLLECTATCOUNT = 8 ; Run Collect() after this amount of times before act
 Global $BSpos[2] ; Inside BlueStacks positions relative to the screen
 ;---------------------------------------------------------------------------------------------------
 ;Stats
-Global $iGoldLoot, $iElixirLoot, $iDarkLoot, $iTrophyLoot
+;Global $iGoldLoot, $iElixirLoot, $iDarkLoot, $iTrophyLoot
 Global $GoldCount, $ElixirCount, $DarkCount, $TrophyCount
 Global $FreeBuilder, $TotalBuilders, $GemCount
 Global $GoldStart, $ElixirStart, $DarkStart, $TrophyStart
 Global $GoldVillage, $ElixirVillage, $DarkVillage, $TrophyVillage
-Global $GoldLast, $ElixirLast, $DarkLast, $TrophyLast
-Global $CostGoldWall, $CostElixirWall
+;Global $GoldLast, $ElixirLast, $DarkLast, $TrophyLast
+Global $totalLootGold, $totalLootElixir, $totalLootDarkElixir, $totalLootTrophies
+;Global $CostGoldWall, $CostElixirWall
 
 ;Global $costspell
 

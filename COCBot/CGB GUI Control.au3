@@ -65,6 +65,8 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 					If $RunState Then btnAttackNow()
 				Case $btnDonate
 					ShellExecute("https://gamebot.org/forums/misc.php?action=mydonations")
+				Case $btnResetStats
+					btnResetStats()
 			EndSwitch
 
 		Case 274
@@ -413,6 +415,27 @@ Func btnHide()
 	 EndIf
    EndIf
 EndFunc   ;==>btnHide
+
+Func btnResetStats()
+	GUICtrlSetState($btnResetStats, $GUI_DISABLE)
+	$FirstRun = 1
+	$FirstAttack = 0
+	GUICtrlSetState($lblLastAttackTemp, $GUI_SHOW)
+	GUICtrlSetState($lblTotalLootTemp, $GUI_SHOW)
+	GUICtrlSetState($lblHourlyStatsTemp, $GUI_SHOW) ;; added for hourly stats
+	GUICtrlSetData($lblresultruntime, "00:00:00")
+	GUICtrlSetData($lblWallgoldmake, "0")
+	$wallgoldmake = 0
+	GUICtrlSetData($lblWallelixirmake, "0")
+	$wallelixirmake = 0
+	GUICtrlSetData($lblresultoutofsync, "0")
+	GUICtrlSetData($lblresulttrophiesdropped, "0")
+	GUICtrlSetData($lblresultvillagesskipped, "0")
+	GUICtrlSetData($lblresultvillagesattacked, "0")
+	$iTimePassed = 0
+	$sTimer = TimerInit()
+	UpdateStats()
+EndFunc   ;==>btnResetStats
 
 Func chkDeployRedArea()
 	If GUICtrlRead($chkDeployRedArea) = $GUI_CHECKED Then

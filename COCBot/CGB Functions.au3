@@ -85,6 +85,7 @@
 #include "functions\Other\TogglePause.au3"
 #include "functions\Other\CheckPrerequisites.au3"
 #include "functions\Other\AutoStart.au3"
+#include "functions\Other\UpdateStats.au3"
 
 #include "functions\Pixels\_CaptureRegion.au3"
 #include "functions\Pixels\_ColorCheck.au3"

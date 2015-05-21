@@ -2081,8 +2081,13 @@ Local $x = 30, $y = 130
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$x = 330
+	$x = 265
 	$y = 235
+	$btnResetStats = GUICtrlCreateButton ("Reset Stats", $x, $y, 60,21)
+		GUICtrlSetOnEvent(-1, "btnResetStats")
+		GUICtrlSetTip(-1, "Reset statistics without closing the bot")
+		GUICtrlSetState(-1, $GUI_DISABLE)
+	$x +=65
 	$btnMoreStats = GUICtrlCreateButton ("More Stats", $x, $y, 60,21)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 	$x +=65
