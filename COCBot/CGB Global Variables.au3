@@ -73,13 +73,12 @@ Global $PushToken = ""
 
 ;PushBullet---------------------------------------------------------------
 GLOBAL $iOrigPushB
-Global $iLastAttack
 Global $iAlertPBVillage
 GLOBAL $pEnabled
 GLOBAL $pRemote
 GLOBAL $pMatchFound
 GLOBAL $pLastRaidImg
-;GLOBAL $pLastRaidTxt
+GLOBAL $pLastRaidTxt
 GLOBAL $pWallUpgrade
 GLOBAL $pOOS
 GLOBAL $pTakeAbreak

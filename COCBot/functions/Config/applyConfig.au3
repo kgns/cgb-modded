@@ -615,10 +615,10 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	   GUICtrlSetState($chkAlertPBVillage, $GUI_UNCHECKED)
     EndIf
 
-	If $iLastAttack  = 1 Then
-	   GUICtrlSetState($chkAlertPBLastAttack, $GUI_CHECKED)
-	Elseif $iLastAttack = 0 Then
-	   GUICtrlSetState($chkAlertPBLastAttack, $GUI_UNCHECKED)
+	If $pLastRaidTxt  = 1 Then
+	   GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_CHECKED)
+	Elseif $pLastRaidTxt = 0 Then
+	   GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_UNCHECKED)
     EndIf
 
 	If $pEnabled = 1 Then

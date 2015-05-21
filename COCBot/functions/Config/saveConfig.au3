@@ -721,10 +721,10 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	    IniWrite($config, "pushbullet", "AlertPBVillage", 0)
 	  EndIf
 
-	If  GUICtrlRead($chkAlertPBLastAttack) = $GUI_CHECKED Then
-        IniWrite($config, "pushbullet", "AlertPBLastAttack", 1)
+	If  GUICtrlRead($chkAlertPBLastRaidTxt) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "AlertPBLastRaidTxt", 1)
     Else
-	    IniWrite($config, "pushbullet", "AlertPBLastAttack", 0)
+	    IniWrite($config, "pushbullet", "AlertPBLastRaidTxt", 0)
 	 EndIf
 
 	 If  GUICtrlRead($chkPBenabled) = $GUI_CHECKED Then

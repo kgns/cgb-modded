@@ -37,6 +37,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 		If _Sleep(2500) Then Return
 		_CaptureRegion(0, 0, 860, 675)
 		AttackReport()
+		PushMsg("LastRaidTxt")
 	EndIf
 
 	If $TakeSS = 1 Then

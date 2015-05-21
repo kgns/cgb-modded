@@ -211,18 +211,8 @@ Func _PushFile($File, $Folder, $FileType, $title, $body)
 EndFunc   ;==>_PushFile
 
 Func ReportPushBullet()
-	If $iLastAttack = 1 Then
-		If $lootGold <> "" Or $lootElixir <> "" Then
-			_PushBullet($iOrigPushB & ": Last Gain", " [G]: " &  _NumberFormat($lootGold) & " [E]: " &  _NumberFormat($lootElixir) & " [D]: " &  _NumberFormat($lootDarkElixir) & "  [T]: " & _NumberFormat($lootTrophies))
-		EndIf
-	EndIf
-
-	If $iAlertPBVillage = 1 Then
-		_PushBullet($iOrigPushB & ": My Village", " [G]: " &  _NumberFormat($GoldCount) & " [E]: " &  _NumberFormat($ElixirCount) & " [D]: " &  _NumberFormat($DarkCount) & "  [T]: " &  _NumberFormat($TrophyCount) & " [FB]: " &  _NumberFormat($FreeBuilder))
-	EndIf
-
+	PushMsg("MyVillage")
 EndFunc   ;==>ReportPushBullet
-
 
 Func _DeletePush()
 	$oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
@@ -263,6 +253,10 @@ Func PushMsg($Message, $Source = "")
 				    ;If not($iDelete) Then SetLog("An error occurred deleting the file." )
 					;_DeleteMessage($iden[$x])
 	  EndIf
+	Case "LastRaidTxt"
+		If $pEnabled = 1 And $pLastRaidTxt = 1 Then _Push($iOrigPushB & ": Last Raid", " [G]: " &  _NumberFormat($lootGold) & " [E]: " &  _NumberFormat($lootElixir) & " [D]: " &  _NumberFormat($lootDarkElixir) & "  [T]: " & _NumberFormat($lootTrophies))
+	Case "MyVillage"
+		If $pEnabled = 1 AND $iAlertPBVillage = 1 Then _Push($iOrigPushB & ": My Village", " [G]: " &  _NumberFormat($GoldCount) & " [E]: " &  _NumberFormat($ElixirCount) & " [D]: " &  _NumberFormat($DarkCount) & "  [T]: " &  _NumberFormat($TrophyCount) & " [FB]: " &  _NumberFormat($FreeBuilder))
 	Case "FoundWalls"
 		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & ": Found Wall level " & $icmbWalls+4 , " Wall segment has been located...\nUpgrading ...")
 	Case "SkypWalls"
