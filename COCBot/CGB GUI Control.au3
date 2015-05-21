@@ -4,7 +4,7 @@
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
-; Author ........:
+; Author ........: GkevinOD (2014)
 ; Modified ......: Hervidero (2015)
 ; Remarks .......: This file is part of ClashGameBot. Copyright 2015
 ;                  ClashGameBot is distributed under the terms of the GNU GPL
@@ -113,11 +113,9 @@ Func Initiate()
 		EndIf
 
 		WinActivate($Title)
-
-		SetLog("~~~~ " & $sBotTitle & " Powered by GameBot.org~~~~", $COLOR_PURPLE)
-		SetLog($Compiled & " running on " & @OSArch & " OS", $COLOR_GREEN)
-		SetLog("Bot is starting...", $COLOR_ORANGE)
-
+		SetLog(_PadStringCenter(" " & $sBotTitle & " Powered by GameBot.org ", 50, "~"), $COLOR_PURPLE)
+		SetLog($Compiled & " running on " & @OSVersion & " " & @OSServicePack & " " & @OSArch)
+		SetLog(_PadStringCenter(" Bot Start ", 50, "="), $COLOR_GREEN)
 		$AttackNow = False
 		$FirstStart = True
 		$Checkrearm = True
@@ -126,11 +124,30 @@ Func Initiate()
 			SetLog("Delete all PushBullet...", $COLOR_BLUE)
 		EndIf
 		$sTimer = TimerInit()
+
+		$RunState = True
+		For $i = $FirstControlToHide To $LastControlToHide ; Save state of all controls on tabs
+			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
+			$iPrevState[$i] = GUICtrlGetState($i)
+		Next
+		For $i = $FirstControlToHide To $LastControlToHide ; Disable all controls in 1 go on all tabs
+			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
+
+		GUICtrlSetState($chkBackground, $GUI_DISABLE)
+		GUICtrlSetState($btnStart, $GUI_HIDE)
+		GUICtrlSetState($btnStop, $GUI_SHOW)
+		GUICtrlSetState($btnPause, $GUI_SHOW)
+		GUICtrlSetState($btnResume, $GUI_HIDE)
+
+
+
 		AdlibRegister("SetTime", 1000)
 		If $restarted = 1 Then
 			$restarted = 0
 			IniWrite($config, "general", "Restarted", 0)
-			_Push($iPBVillageName & ": Bot restarted", "")
+			_Push($iOrigPushB & ": Bot restarted", "")
 		EndIf
 		checkMainScreen()
 		ZoomOut()
@@ -175,6 +192,7 @@ Func btnStart()
 	GUICtrlSetState($btnStop, $GUI_SHOW)
 	GUICtrlSetState($btnPause, $GUI_SHOW)
 	$FirstAttack = 0
+	$NoMoreWalls = 0
 	CreateLogFile()
 
 
@@ -202,7 +220,7 @@ Func btnStop()
 		EnableBS($HWnD, $SC_MINIMIZE)
 		EnableBS($HWnD, $SC_CLOSE)
 		For $i = $FirstControlToHide To $LastControlToHide ; Restore previous state of controls
-			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabPushBullet Then $i += 1 ; exclude tabs
+			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
 			GUICtrlSetState($i, $iPrevState[$i])
 		Next
 
@@ -226,16 +244,9 @@ Func btnPause()
 EndFunc   ;==>btnPause
 
 Func btnResume()
+	$NoMoreWalls = 0
 	Send("{PAUSE}")
 EndFunc   ;==>btnResume
-
-Func chkUnbreakable()
-	If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
-		GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($txtUnbreakable, $GUI_DISABLE)
-	EndIf
-EndFunc   ;==>chkUnbreakable
 
 Func btnAttackNow()
 	If $RunState Then
@@ -253,6 +264,24 @@ Func btnAttackNow()
 		EndIf
 	EndIf
 EndFunc   ;==>btnAttackNow
+
+Func chkUnbreakable()
+   If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
+	  GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)
+	  GUICtrlSetState($txtUnBrkMinGold , $GUI_ENABLE)
+	  GUICtrlSetState($txtUnBrkMaxGold , $GUI_ENABLE)
+	  GUICtrlSetState($txtUnBrkMinElixir, $GUI_ENABLE)
+	  GUICtrlSetState($txtUnBrkMaxElixir, $GUI_ENABLE)
+	  $iUnbreakableMode = 1
+   ElseIf  GUICtrlRead($chkUnbreakable) = $GUI_UNCHECKED Then
+	  GUICtrlSetState($txtUnbreakable, $GUI_DISABLE)
+	  GUICtrlSetState($txtUnBrkMinGold , $GUI_DISABLE)
+	  GUICtrlSetState($txtUnBrkMaxGold , $GUI_DISABLE)
+	  GUICtrlSetState($txtUnBrkMinElixir, $GUI_DISABLE)
+	  GUICtrlSetState($txtUnBrkMaxElixir, $GUI_DISABLE)
+	  $iUnbreakableMode = 0
+   EndIf
+EndFunc
 
 Func btnLocateBarracks()
 	$RunState = True
@@ -805,16 +834,6 @@ Func radNotWeakBases()
 	GUICtrlSetState($lblWBXBow, $GUI_DISABLE)
 	GUICtrlSetState($cmbWBXbow, $GUI_DISABLE)
 EndFunc   ;==>radNotWeakBases
-
-Func chkBackToAllMode()
-	If GUICtrlRead($chkBackToAllMode) = $GUI_CHECKED Then
-		GUICtrlSetState($txtBackToAllMode, $GUI_ENABLE)
-		GUICtrlSetState($lblBackToAllMode, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($txtBackToAllMode, $GUI_DISABLE)
-		GUICtrlSetState($lblBackToAllMode, $GUI_DISABLE)
-	EndIf
-EndFunc   ;==>chkBackToAllMode
 
 Func chkAttackNow()
 	If GUICtrlRead($chkAttackNow) = $GUI_CHECKED Then
@@ -1497,13 +1516,13 @@ Func sldVSDelay()
 	Else
 		GUICtrlSetData($lbltxtVSDelay, "seconds")
 	EndIf
-EndFunc   ;==>sldVSDelay
+ EndFunc   ;==>sldVSDelay
 
-Func chkPBenabled()
+ Func chkPBenabled()
 	If GUICtrlRead($chkPBenabled) = $GUI_CHECKED Then
 		GUICtrlSetState($chkPBRemote, $GUI_ENABLE)
 		GUICtrlSetState($PushBTokenValue, $GUI_ENABLE)
-		GUICtrlSetState($PBVillageName, $GUI_ENABLE)
+		GUICtrlSetState($OrigPushB, $GUI_ENABLE)
 		GUICtrlSetState($chkAlertPBVMFound, $GUI_ENABLE)
 		GUICtrlSetState($chkAlertPBLastRaid, $GUI_ENABLE)
 		GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_ENABLE)
@@ -1518,7 +1537,7 @@ Func chkPBenabled()
 	 Else
 		GUICtrlSetState($chkPBRemote, $GUI_DISABLE)
 		GUICtrlSetState($PushBTokenValue, $GUI_DISABLE)
-		GUICtrlSetState($PBVillageName, $GUI_DISABLE)
+		GUICtrlSetState($OrigPushB, $GUI_DISABLE)
 		GUICtrlSetState($chkAlertPBVMFound, $GUI_DISABLE)
 		GUICtrlSetState($chkAlertPBLastRaid, $GUI_DISABLE)
 		GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_DISABLE)

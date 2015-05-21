@@ -21,7 +21,7 @@ Func ReArm()
 	Local $offColors[3][3] = [[0x887d79, 24, 34], [0xF3EC55, 69, 7], [0xECEEE9, 77, 0]] ; 2nd pixel brown wrench, 3rd pixel gold, 4th pixel edge of button
 	Global $RearmPixel = _MultiPixelSearch2(240, $y, 670, 600, 1, 1, Hex(0xF6F9F2, 6), $offColors, 30) ; first gray/white pixel of button
 	If IsArray($RearmPixel) Then
-		Setlog (" traps" )
+		If $debugSetlog = 1 Then Setlog (" traps" )
 		Click($RearmPixel[0]+ 20, $RearmPixel[1] + 20) ; Click RearmButton
 		If _Sleep(1000) Then Return
 		_CaptureRegion()
@@ -36,8 +36,7 @@ Func ReArm()
 	Local $offColors[3][3] = [[0x8F4B9E, 19, 20], [0xFB5CF4, 70, 7], [0xF0F1EC, 77, 0]]; xbow, elixir, edge
 	Local $XbowPixel = _MultiPixelSearch2(240, $y, 670, 600, 1, 1, Hex(0xF4F7F0, 6), $offColors, 30) ; button start
 	If IsArray($XbowPixel) Then
-		Setlog (" xbow" )
-
+		If $debugSetlog = 1 Then Setlog (" xbow" )
 		Click($XbowPixel[0] + 20, $XbowPixel[1] + 20) ; Click XbowButton
 		If _Sleep(1000) Then Return
 		_CaptureRegion()
@@ -52,7 +51,7 @@ Func ReArm()
 	Local $offColors[3][3] = [[0x8D7477, 19, 20], [0x574460, 70, 7], [0xF0F1EC, 77, 0]]; inferno, dark, edge
 	Global $InfernoPixel = _MultiPixelSearch2(240, $y, 670, 600, 1, 1, Hex(0xF4F7F0, 6), $offColors, 30)
 	If IsArray($InfernoPixel) Then
-		Setlog (" Inferno " )
+		If $debugSetlog = 1 Then Setlog (" Inferno " )
 		Click($InfernoPixel[0] + 20, $InfernoPixel[1] + 20) ; Click InfernoButton
 		If _Sleep(1000) Then Return
 		_CaptureRegion()

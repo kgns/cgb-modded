@@ -1,28 +1,27 @@
 Func UpgradeBuilding()
-  If $ichkUpgrade1 = 0 And $ichkUpgrade2 = 0 And $ichkUpgrade3 = 0 And $ichkUpgrade4 = 0 Then Return
-  If GUICtrlRead($txtUpgradeX1) = "" And GUICtrlRead($txtUpgradeX2) = "" And GUICtrlRead($txtUpgradeX3) = "" And GUICtrlRead($txtUpgradeX4) = "" Then
-        SetLog("Building location not set, skipping upgrade...", $COLOR_RED)
-        ClickP($TopLeftClient) ; Click Away
-        Return
-  EndIf
-  VillageReport()
-  If $FreeBuilder <= $itxtBuilderKeepFree Then
-      SetLog("No builders available", $COLOR_RED)
-      ClickP($TopLeftClient) ; Click Away
-      Return
-  EndIf
+	If $ichkUpgrade1 = 0 And $ichkUpgrade2 = 0 And $ichkUpgrade3 = 0 And $ichkUpgrade4 = 0 Then Return
+  	If GUICtrlRead($txtUpgradeX1) = "" And GUICtrlRead($txtUpgradeX2) = "" And GUICtrlRead($txtUpgradeX3) = "" And GUICtrlRead($txtUpgradeX4) = "" Then
+		SetLog("Building location not set, skipping upgrade...", $COLOR_RED)
+		ClickP($TopLeftClient) ; Click Away
+		Return
+	EndIf
+			VillageReport()
+  			If $FreeBuilder <= $itxtBuilderKeepFree Then
+			   SetLog("No builders available", $COLOR_RED)
+			   ClickP($TopLeftClient) ; Click Away
+			   Return
+			EndIf
 
-  Local $ElixirUpgrade1 = False
-  Local $ElixirUpgrade2 = False
-  Local $ElixirUpgrade3 = False
-
-  Local $ElixirUpgrade4 = False
-  Local $iMinGold = Number(GUICtrlRead($txtBuildMinGold))
-  Local $iMinElixir = Number(GUICtrlRead($txtBuildMinElixir))
-  Local $iMinDark = Number(GUICtrlRead($txtBuildMinDark))
-  Local $iGoldStorage = Number($GoldCount)
-  Local $iElixirStorage = Number($ElixirCount)
-  Local $iDarkStorage = Number($DarkCount)
+    Local $ElixirUpgrade1 = False
+	Local $ElixirUpgrade2 = False
+	Local $ElixirUpgrade3 = False
+	Local $ElixirUpgrade4 = False
+	Local $iMinGold = Number(GUICtrlRead($txtBuildMinGold))
+	Local $iMinElixir = Number(GUICtrlRead($txtBuildMinElixir))
+	Local $iMinDark = Number(GUICtrlRead($txtBuildMinDark))
+	Local $iGoldStorage = Number($GoldCount)
+	Local $iElixirStorage = Number($ElixirCount)
+	Local $iDarkStorage = Number($DarkCount)
 
   Local $ichkUpgrade[5] = [0,$ichkUpgrade1,$ichkUpgrade2,$ichkUpgrade3,$ichkUpgrade4]
   Local $txtUpgradeXY[5][2] = [[0,0],[GUICtrlRead($txtUpgradeX1),GUICtrlRead($txtUpgradeY1)],[GUICtrlRead($txtUpgradeX2),GUICtrlRead($txtUpgradeY2)],[GUICtrlRead($txtUpgradeX3),GUICtrlRead($txtUpgradeY3)],[GUICtrlRead($txtUpgradeX4),GUICtrlRead($txtUpgradeY4)]]

@@ -207,9 +207,7 @@ If SearchTownHallLoc() And GUICtrlRead($chkAttackTH)=$GUI_CHECKED Then
 	  _CaptureRegion()
 	  If _ColorCheck(_GetPixelColor(747,497), Hex(0x0C2C8C0, 6), 20) Then Return ;exit if 1 star
 
-	  If $BoolDropHeroes=True Then
-	  ALLDropheroes($aThx,$aThy)
-	  EndIf
+	  If $BoolDropHeroes=True Then	ALLDropheroes($aThx,$aThy)
 
    Local $THtroop = -1
    Local $troopNb = 0
@@ -578,7 +576,7 @@ Func ALLDropheroes($aThx,$aThy)
 				SelectDropTroop($Queen)
 			EndIf
 		EndIf
-EndFunc   ;==>ALLDropheroes
+EndFunc
 
 Func SpellTHGrid($S)
 			If $THi<=15 Or $THside=0 Or $THside=2 Then
@@ -594,7 +592,7 @@ Func SpellTHGrid($S)
 				 EndSwitch
 			 EndIf
 
-EndFunc   ;==>SpellTHGrid
+EndFunc ;---SpellTHGrid
 
 Func CastSpell($THSpell,$x,$y)
    Local $Spell = -1
@@ -616,6 +614,6 @@ Func CastSpell($THSpell,$x,$y)
 		SetLog("No "&$name&" Found")
 	EndIf
 
-EndFunc   ;==>CastSpell
+EndFunc;---CastSpell
 
 

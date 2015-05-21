@@ -111,7 +111,20 @@ Func getOther($x_start, $y_start, $type, $totalcamp = false)
             $Number &= getDigit($x, $y, "Other")
             $Number &= getDigit($x, $y, "Other")
 
-		 Case "Hitpoints"
+	    Case "MyProfile"
+		    $Number = getDigitProfile($x, $y, "MyProfile")
+			While $Number = ""
+			    If $i >= 70 Then ExitLoop
+                $i += 1
+                $x += 1
+                $Number = getDigitProfile($x, $y, "MyProfile")
+			 WEnd
+
+			$Number &= getDigitProfile($x, $y, "MyProfile")
+            $Number &= getDigitProfile($x, $y, "MyProfile")
+            $Number &= getDigitProfile($x, $y, "MyProfile")
+
+		Case "Hitpoints"
             $Number = getDigitSmall($x, $y, "Camp")
 
             While $Number = ""
@@ -139,18 +152,7 @@ Func getOther($x_start, $y_start, $type, $totalcamp = false)
 			   $Number &= getDigitSmall($x, $y, "Camp")
 			   $Number &= getDigitSmall($x, $y, "Camp")
 			EndIf
-        Case "MyProfile"
-            $Number = getDigitProfile($x, $y, "MyProfile")
 
-            While $Number = ""
-                If $i >= 70 Then ExitLoop
-                $i += 1
-                $x += 1
-                $Number = getDigitProfile($x, $y, "MyProfile")
-            WEnd
-            $Number &= getDigitProfile($x, $y, "MyProfile")
-            $Number &= getDigitProfile($x, $y, "MyProfile")
-            $Number &= getDigitProfile($x, $y, "MyProfile")
     EndSwitch
 
     Return $Number

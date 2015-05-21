@@ -8,8 +8,8 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 
 		;If Heroes were not activated: Hero Ability activation before End of Battle to restore health
 		If ($checkKPower = True Or $checkQPower = True) And $iActivateKQCondition = "Auto" Then
-			_CaptureRegion()
-			If _ColorCheck(_GetPixelColor(363, 548), Hex(0x78C11C, 6), 20) = False And _ColorCheck(_GetPixelColor(497, 548), Hex(0x79C326, 6), 20) = False Then ; If not already at Return Homescreen
+			;_CaptureRegion()
+			If _ColorCheck(_GetPixelColor(363, 548, True), Hex(0x78C11C, 6), 20) = False And _ColorCheck(_GetPixelColor(497, 548, True), Hex(0x79C326, 6), 20) = False Then ; If not already at Return Homescreen
 				If $checkKPower = True Then
 					SetLog("Activating King's power to restore some health before EndBattle", $COLOR_BLUE)
 					SelectDropTroop($King) ;If King was not activated: Boost King before EndBattle to restore some health
@@ -33,21 +33,33 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	Click(512, 394) ;Click Confirm
 	If _Sleep(500) Then Return
 
-	If $TakeSS = 1 Then
+	If $GoldChangeCheck = True Then
 		If _Sleep(2500) Then Return
+		_CaptureRegion(0, 0, 860, 675)
+		AttackReport()
+	EndIf
+
+	If $TakeSS = 1 Then
 		SetLog("Taking snapshot of your loot", $COLOR_GREEN)
 		Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
 		Local $Time = @HOUR & "." & @MIN
-		_CaptureRegion(0, 0, 860, 675)
+
+		If $GoldChangeCheck = False Then
+			_CaptureRegion(0, 0, 860, 675)
+		EndIf
 		$hBitmap_Scaled = _GDIPlus_ImageResize($hBitmap, _GDIPlus_ImageGetWidth($hBitmap) / 2, _GDIPlus_ImageGetHeight($hBitmap) / 2) ;resize image
-		$iImageLoot =  $iPBVillageName & "_" & $Date & "_" & $Time & ".jpg"
-		_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $iImageLoot)
-		If $pEnabled = 1 AND $pLastRaidImg = 1 Then
-		   _PushFile($iImageLoot, "Loots", "image/jpeg", $iPBVillageName & ": Last Raid", $iImageLoot)
-		   SetLog("Push: Last Raid Snapshot", $COLOR_GREEN)
-		Endif
-		;attackReport()
+	    ; screenshot filename according with new options around filenames
+	    If GUICtrlRead($chkScreenshotLootInfo) = $GUI_CHECKED Then
+			$LootFileName = $iOrigPushB & "_" & $Date & "_" & $Time & " G" & $lootGold & " E" & $lootElixir & " DE" & $lootDarkElixir & " T" & $lootTrophies & " S" & StringFormat("%s", $SearchCount) & ".jpg"
+		Else
+			$LootFileName = $iOrigPushB & "_" & $Date & "_" & $Time & ".jpg"
+		EndIf
+		_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $LootFileName  )
 	EndIf
+
+    ;push images if requested..
+	PushMsg("LastRaid")
+
 
 	Click(428, 544) ;Click Return Home Button
 
@@ -62,7 +74,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 
 		$counter += 1
 
-		If $counter >= 50 Then
+		If $counter >= 50 Or isProblemAffect(True) Then
 			SetLog("Cannot return home.", $COLOR_RED)
 			checkMainScreen()
 			Return

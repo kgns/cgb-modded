@@ -43,14 +43,6 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 			GUICtrlSetState($radAllBases, $GUI_CHECKED)
 	EndSwitch
 
-	If $iChkBackToAllMode = 1 Then
-		GUICtrlSetState($chkBackToAllMode, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkBackToAllMode, $GUI_UNCHECKED)
-	EndIf
-	GUICtrlSetData($txtBackToAllMode, $iTxtBackAllBase)
-	chkBackToAllMode()
-
 	If $iChkSearchReduction = 1 Then
 		GUICtrlSetState($chkSearchReduction, $GUI_CHECKED)
 	Else
@@ -110,11 +102,11 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkMeetTHO, $GUI_UNCHECKED)
 	EndIf
 
-	If $ichkMeetOne = 1 Then
+   If $ichkMeetOne = 1 Then
 		GUICtrlSetState($chkMeetOne, $GUI_CHECKED)
-	Else
+   Else
 		GUICtrlSetState($chkMeetOne, $GUI_UNCHECKED)
-	EndIf
+	 EndIf
 
 	GUICtrlSetData($txtMinGold, $MinGold)
 	GUICtrlSetData($txtMinElixir, $MinElixir)
@@ -123,8 +115,8 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtMinTrophy, $MinTrophy)
 
 	For $i = 0 To 4
-		If $icmbTH = $i Then $MaxTH = $THText[$i]
-	Next
+	   If $icmbTH = $i Then $MaxTH = $THText[$i]
+    Next
 	_GUICtrlComboBox_SetCurSel($cmbTH, $icmbTH)
 
 	If $AlertSearch = 1 Then
@@ -208,16 +200,18 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkUseClanCastle, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkUseClanCastle, $GUI_UNCHECKED)
-    EndIf
-	If $checkUseClanCastleBalanced = 1 Then
-		GUICtrlSetState($chkUseClanCastleBalanced, $GUI_CHECKED)
-	Else
-		GUICtrlSetState($chkUseClanCastleBalanced, $GUI_UNCHECKED)
 	EndIf
+
+    If $checkUseClanCastleBalanced = 1 Then
+	    GUICtrlSetState($chkUseClanCastleBalanced, $GUI_CHECKED)
+    Else
+	    GUICtrlSetState($chkUseClanCastleBalanced, $GUI_UNCHECKED)
+    EndIf
+
 	GUICtrlSetData($txtRatioNumeratorDonated, $ratioNumeratorDonated)
 	GUICtrlSetData($txtRatioDenominatorReceived, $ratioDenominatorReceived)
-
-
+	
+	
 	Switch $iActivateKQCondition
 		Case "Manual"
 			GUICtrlSetState($radManAbilities, $GUI_CHECKED)
@@ -233,6 +227,12 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkTakeLootSS, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkTakeLootSS, $GUI_UNCHECKED)
+	EndIf
+
+	If $ScreenshotLootInfo = 1 Then
+		GUICtrlSetState($chkScreenshotLootInfo, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkScreenshotLootInfo, $GUI_UNCHECKED)
 	EndIf
 
 	;Attack Adv. Settings--------------------------------------------------------------------------
@@ -256,15 +256,15 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkLightSpell, $GUI_UNCHECKED)
 	EndIf
+	GUILightSpell()
 	GUICtrlSetData($txtMinDarkStorage, $SpellMinDarkStorage)
 	_GUICtrlComboBox_SetCurSel($cmbiLSpellQ, $iLSpellQ - 1)
-	GUILightSpell()
 
 	If $OptBullyMode = 1 Then
 		GUICtrlSetState($chkBullyMode, $GUI_CHECKED)
 	ElseIf $OptBullyMode = 0 Then
 		GUICtrlSetState($chkBullyMode, $GUI_UNCHECKED)
-	EndIf
+	 EndIf
 	GUICtrlSetData($txtATBullyMode, $ATBullyMode)
 	_GUICtrlComboBox_SetCurSel($cmbYourTH, $YourTH)
 	chkBullyMode()
@@ -282,6 +282,18 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_UNCHECKED)
 	EndIf
 	chkSnipeMode()
+
+;	If $iUnbreakableMode = 1 Then
+;		GUICtrlSetState($chkUnbreakable, $GUI_CHECKED)
+;	Else
+;		GUICtrlSetState($chkUnbreakable, $GUI_UNCHECKED)
+;	EndIf
+	GUICtrlSetData($txtUnbreakable, $iUnbreakableWait)
+	GUICtrlSetData($txtUnBrkMinGold, $iUnBrkMinGold)
+	GUICtrlSetData($txtUnBrkMinElixir, $iUnBrkMinElixir)
+	GUICtrlSetData($txtUnBrkMaxGold, $iUnBrkMaxGold)
+	GUICtrlSetData($txtUnBrkMaxElixir, $iUnBrkMaxElixir)
+	chkUnbreakable()
 
 	;attk their king
 	;attk their queen
@@ -570,12 +582,12 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	EndIf
 
 	;Troop Settings--------------------------------------------------------------------------
-	For $i = 0 To UBound($TroopName) - 1
-		GUICtrlSetData(Eval("txtNum" & $TroopName[$i]), Eval($TroopName[$i] & "Comp"))
-	Next
-	For $i = 0 To UBound($TroopDarkName) - 1
-		GUICtrlSetData(Eval("txtNum" & $TroopDarkName[$i]), Eval($TroopDarkName[$i] & "Comp"))
-	Next
+	for $i=0 to Ubound($TroopName) - 1
+		GUICtrlSetData(eval("txtNum" & $TroopName[$i]), eval($TroopName[$i]&"Comp"))
+	next
+	for $i=0 to Ubound($TroopDarkName) - 1
+		GUICtrlSetData(eval("txtNum" & $TroopDarkName[$i]), eval($TroopDarkName[$i]&"Comp"))
+	next
 	SetComboTroopComp()
 	lblTotalCount()
 
@@ -587,10 +599,15 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtFullTroop, $fulltroop)
 	;barracks boost not saved (no use)
 
+
 	;PushBullet-----------------------------------------------------------------------------
 
     GUICtrlSetData($PushBTokenValue, $PushToken)
-    GUICtrlSetData($PBVillageName, $iPBVillageName)
+	if $iOrigPushB = "" then
+	  GUICtrlSetData($OrigPushB, "MyVillage")
+    Else
+	  GUICtrlSetData($OrigPushB, $iOrigPushB)
+   EndIf
 
 	If $iAlertPBVillage = 1 Then
 	   GUICtrlSetState($chkAlertPBVillage, $GUI_CHECKED)
@@ -606,9 +623,11 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 
 	If $pEnabled = 1 Then
 	   GUICtrlSetState($chkPBenabled, $GUI_CHECKED)
+	   chkPBenabled()
 	Elseif $pEnabled = 0 Then
 	   GUICtrlSetState($chkPBenabled, $GUI_UNCHECKED)
-    EndIf
+	   chkPBenabled()
+   EndIf
 
 	If $pRemote = 1 Then
 	   GUICtrlSetState($chkPBRemote, $GUI_CHECKED)
@@ -683,7 +702,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 			GUICtrlSetState($UseElixir, $GUI_CHECKED)
 		Case 2
 			GUICtrlSetState($UseElixirGold, $GUI_CHECKED)
-	EndSwitch
+    EndSwitch
 
 	GUICtrlSetData($txtWallMinGold, $itxtWallMinGold)
 	GUICtrlSetData($txtWallMinElixir, $itxtWallMinElixir)
@@ -695,7 +714,6 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkWalls, $GUI_UNCHECKED)
 	EndIf
 	chkWalls()
-	chkPBenabled()
 
 	If $ichkUpgrade1 = 1 Then
 		GUICtrlSetState($chkUpgrade1, $GUI_CHECKED)
@@ -712,7 +730,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkUpgrade3, $GUI_UNCHECKED)
 	EndIf
-	If $ichkUpgrade4 = 1 Then
+		If $ichkUpgrade4 = 1 Then
 		GUICtrlSetState($chkUpgrade4, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkUpgrade4, $GUI_UNCHECKED)

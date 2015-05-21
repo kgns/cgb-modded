@@ -112,20 +112,20 @@ Func Laboratory()
 	Else
 		If _ColorCheck(_GetPixelColor(558, 489), Hex(0xE70A12, 6), 20) or  _ColorCheck(_GetPixelColor(558, 489), Hex(0xE70A12, 6), 20)  Then
 			SetLog("Not enough Elixir to upgrade troops "&GUICtrlRead($cmbLaboratory)&"...", $COLOR_RED)
-			If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iPBVillageName & " :" & GUICtrlRead($cmbLaboratory) & " upgrade failed to start", "Not enough Elixir to upgrade troops "&GUICtrlRead($cmbLaboratory))
+			PushMsg("LabFailedElixir")
 			If _Sleep(1000) Then Return
 			ClickP($TopLeftClient, 2)
 		Else
 			If _ColorCheck(_GetPixelColor(558, 489), Hex(0xE70A12, 6), 20) And  _ColorCheck(_GetPixelColor(577, 498), Hex(0x2A2A2A, 6), 20)  Then
 				SetLog("Not enough Dark Elixir to upgrade troops "&GUICtrlRead($cmbLaboratory)&"...", $COLOR_RED)
-				If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iPBVillageName & " :" & GUICtrlRead($cmbLaboratory) & " upgrade failed to start", "Not enough Dark Elixir to upgrade troops "&GUICtrlRead($cmbLaboratory))
+				PushMsg("LabFailedDElixir")
 				If _Sleep(1000) Then Return
 				ClickP($TopLeftClient, 2)
 			Else
 				If _ColorCheck(_GetPixelColor(558, 489), Hex(0xFFFFFF, 6), 20) = True Then
 					Click(558, 489) ; Click Upgrade troops
 					SetLog("Upgrade troops" &  GUICtrlRead($cmbLaboratory) &" in your laboratory has been done...", $COLOR_GREEN)
-					If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iPBVillageName & " :" & GUICtrlRead($cmbLaboratory) & " upgrade has started", "")
+					PushMsg("LabSuccess")
 					If _Sleep(1000) Then Return
 					GUICtrlSetState($chkLab, $GUI_UNCHECKED)
 				EndIf

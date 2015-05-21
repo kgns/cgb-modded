@@ -45,7 +45,4 @@ Func dropHeroes($x, $y, $KingSlot = -1, $QueenSlot = -1) ;Drops for king and que
 		Click($x, $y)
 		$checkQPower = True
 	EndIf
-	If $checkKPower Or $checkQPower Then
-		$checkHeroesByHealth = True
-	EndIf
 EndFunc   ;==>dropHeroes

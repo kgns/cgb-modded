@@ -1,8 +1,10 @@
 Func UpgradeWall()
 
+	If $NoMoreWalls = 1 Then Return
+
 	If GUICtrlRead($chkWalls) = $GUI_CHECKED Then
 		If $FreeBuilder > 0 Then
-			SetLog("Checking Upgrade Walls", $COLOR_GREEN)
+			SetLog("Checking Upgrade Walls", $COLOR_BLUE)
 			Click(1, 1) ; click away
 			$itxtWallMinGold = GUICtrlRead($txtWallMinGold)
 			$itxtWallMinElixir = GUICtrlRead($txtWallMinElixir)
@@ -87,14 +89,14 @@ Func UpgradeWallGold()
 			Click(440, 480)
 			If _Sleep(500) Then Return
 			SetLog("Upgrade complete", $COLOR_GREEN)
-			If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall upgrade completed" , "Completed by using GOLD")
+			PushMsg("UpgradeWithWallGold")
 			$wallgoldmake = $wallgoldmake + 1
 			GUICtrlSetData($lblWallgoldmake, $wallgoldmake)
 			Return True
 		EndIf
 	Else
 		Setlog("No Upgrade Gold Button", $COLOR_RED)
-		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall Upgrade Failed" , "Cannot find gold upgrade button")
+		PushMsg("NoUpgradeGoldButton")
 		Return False
 	EndIf
 
@@ -104,7 +106,6 @@ Func UpgradeWallElixir()
 
 	;Click($WallxLOC, $WallyLOC)
 	If _Sleep(600) Then Return
-
 
 	Local $offColors[3][3] = [[0xBC5B31, 38, 32], [0xF84CF9, 72, 0], [0xF5F9F2, 79, 0]] ; 2nd pixel brown hammer, 3rd pixel gold, 4th pixel edge of button
 	Global $ButtonPixel = _MultiPixelSearch(240, 563, 670, 650, 1, 1, Hex(0xF4F7F2, 6), $offColors, 30) ; first gray/white pixel of button
@@ -116,14 +117,14 @@ Func UpgradeWallElixir()
 			Click(440, 480)
 			If _Sleep(500) Then Return
 			SetLog("Upgrade complete", $COLOR_GREEN)
-			If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall upgrade completed" , "Completed by using ELIXIR")
+			PushMsg("UpgradeWithWallElixir")
 			$wallelixirmake = $wallelixirmake + 1
 			GUICtrlSetData($lblWallelixirmake, $wallelixirmake)
 			Return True
 		EndIf
-    Else
+	Else
 		Setlog("No Upgrade Elixir Button", $COLOR_RED)
-		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iPBVillageName & ": Wall Upgrade Failed" , "Cannot find elixir upgrade button")
+		PushMsg("NoUpgradeElixirButton")
 		Return False
 	EndIf
 

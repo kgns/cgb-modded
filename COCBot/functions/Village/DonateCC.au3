@@ -42,7 +42,7 @@ Func DonateCC($Check = False)
 	If _Sleep(200) Then Return
 	Click(189, 24) ; clicking clan tab
 
-	Local $Scroll, $offColors[3][3] = [[0x000000, 0, -2], [0x272926, 0, 1], [0xcfea75, 0, 17]]
+	Local $Scroll, $offColors[3][3] = [[0x000000, 0, -2], [0x272926, 0, 1], [0xcfea75, 0, 17]] ; $offColors[3][3] = [[0x000000, 0, -2], [0x262926, 0, 1], [0xF8FCF0, 0, 11]]
 	Global $DonatePixel
 
 	While $Donate
@@ -53,7 +53,7 @@ Func DonateCC($Check = False)
 			If $DonateTroop Then
 				Local $ClanString = ""
 				$icount = 0
-				while $ClanString = "" or $ClanString = " "
+				While $ClanString = "" Or $ClanString = " "
 					_CaptureRegion(0, 0, 435, $DonatePixel[1] + 50)
 					$ClanString = getString($DonatePixel[1] - 44)
 					If $ClanString = "" Then
@@ -68,8 +68,8 @@ Func DonateCC($Check = False)
 					EndIf
 					If _Sleep(250) Then ExitLoop
 					$icount += 1
-					if $icount = 10 then exitloop
-				wend
+					If $icount = 10 Then ExitLoop
+				WEnd
 				If $ClanString = "" Or $ClanString = " " Then
 					SetLog("Unable to read Chat Request!", $COLOR_RED)
 					$Donate = True
@@ -363,51 +363,52 @@ Func DonateTroopType($Type)
 			$YComp = 99 + 98
 	EndSwitch
 
-	PureClick($DonatePixel[0], $DonatePixel[1] + 11)
+	Click($DonatePixel[0], $DonatePixel[1] + 11)
 	If _Sleep(250) Then Return
 	_CaptureRegion(0, 0, 766, $DonatePixel[1] + 50 + $YComp)
 	$icount = 0
-	while not (_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 5 + $YComp), Hex(0x507C00, 6), 10) Or _
+	While Not (_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 5 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 16 + $YComp), Hex(0x507C00, 6), 10))
 		If _Sleep(250) Then Return
 		_CaptureRegion(0, 0, 766, $DonatePixel[1] + 50 + $YComp)
 		$icount += 1
-		if $icount = 10 then exitloop
-	wend
+		If $icount = 10 Then ExitLoop
+	WEnd
 
 	If _ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 5 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 16 + $YComp), Hex(0x507C00, 6), 10) Then
-			    SetLog("Donating " & NameOfTroop($Type), $COLOR_GREEN)
-				PureClick(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, 8, 50)
-				$Donate = True
-				for $i=0 to Ubound($TroopName) - 1
-					if eval("e" & $TroopName[$i]) = $Type then
-						if $TroopHeight[$i] <= 6 then
-							assign(eval("Cur" & $TroopName[$i]),eval("Cur" & $TroopName[$i])+5)
-						else
-							assign(eval("Cur" & $TroopName[$i]),eval("Cur" & $TroopName[$i])+1)
-						endif
-					endif
-				next
-				for $i=0 to Ubound($TroopDarkName) - 1
-					if eval("e" & $TroopDarkName[$i]) = $Type then
-						if $TroopDarkHeight[$i] <= 6 then
-							assign(eval("Cur" & $TroopDarkName[$i]),eval("Cur" & $TroopDarkName[$i]) + 5)
-						else
-							assign(eval("Cur" & $TroopDarkName[$i]),eval("Cur" & $TroopDarkName[$i]) + 1)
-						endif
-					endif
-				next
-
-
+		SetLog("Donating " & NameOfTroop($Type), $COLOR_GREEN)
+		Click(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, 8, 50)
+;~		PureClick(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, 8, 50)
+		$Donate = True
+		For $i = 0 To UBound($TroopName) - 1
+			If Eval("e" & $TroopName[$i]) = $Type Then
+				If $TroopHeight[$i] <= 6 Then
+					Assign(Eval("Cur" & $TroopName[$i]), Eval("Cur" & $TroopName[$i]) + 5)
+				Else
+					Assign(Eval("Cur" & $TroopName[$i]), Eval("Cur" & $TroopName[$i]) + 1)
+				EndIf
+			EndIf
+		Next
+		For $i = 0 To UBound($TroopDarkName) - 1
+			If Eval("e" & $TroopDarkName[$i]) = $Type Then
+				If $TroopDarkHeight[$i] <= 6 Then
+					Assign(Eval("Cur" & $TroopDarkName[$i]), Eval("Cur" & $TroopDarkName[$i]) + 5)
+				Else
+					Assign(Eval("Cur" & $TroopDarkName[$i]), Eval("Cur" & $TroopDarkName[$i]) + 1)
+				EndIf
+			EndIf
+		Next
+	ElseIf $DonatePixel[1] - 5 + $YComp > 675 Then
+		Setlog("Unable to donate " & NameOfTroop($Type) & ". Donate screen not visible, will retry next run.", $COLOR_RED)
 	Else
 		SetLog("No " & NameOfTroop($Type) & " available to donate..", $COLOR_RED)
-		Return
 	EndIf
 
 	Click(1, 1)
+;~	PureClick(1, 1)
 	If _Sleep(250) Then Return
 EndFunc   ;==>DonateTroopType
 
@@ -428,48 +429,51 @@ Func DonateTroopType2($Type, $quant)
 			$YComp = 99 + 98
 	EndSwitch
 
-	PureClick($DonatePixel[0], $DonatePixel[1] + 11)
+	Click($DonatePixel[0], $DonatePixel[1] + 11)
 	If _Sleep(250) Then Return
 	_CaptureRegion(0, 0, 766, $DonatePixel[1] + 50 + $YComp)
 	$icount = 0
-	while not (_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 5 + $YComp), Hex(0x507C00, 6), 10) Or _
+	While Not (_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 5 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 16 + $YComp), Hex(0x507C00, 6), 10))
 		If _Sleep(250) Then Return
 		_CaptureRegion(0, 0, 766, $DonatePixel[1] + 50 + $YComp)
 		$icount += 1
-		if $icount = 10 then exitloop
-	wend
+		If $icount = 10 Then ExitLoop
+	WEnd
 
 	If _ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 5 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp), Hex(0x507C00, 6), 10) Or _
 			_ColorCheck(_GetPixelColor(237 + ($Slot * 82), $DonatePixel[1] - 16 + $YComp), Hex(0x507C00, 6), 10) Then
-				SetLog("Donating " & $quant & " " & NameOfTroop($Type), $COLOR_GREEN)
-				PureClick(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, $quant, 200)
-				$Donate = True
-				for $i=0 to Ubound($TroopName) - 1
-					if eval("e" & $TroopName[$i]) = $Type then
-						if $TroopHeight[$i] <= 6 then
-							assign(eval("Cur" & $TroopName[$i]),eval("Cur" & $TroopName[$i])+5)
-						else
-							assign(eval("Cur" & $TroopName[$i]),eval("Cur" & $TroopName[$i])+1)
-						endif
-					endif
-				next
-				for $i=0 to Ubound($TroopDarkName) - 1
-					if eval("e" & $TroopDarkName[$i]) = $Type then
-						if $TroopDarkHeight[$i] <= 6 then
-							assign(eval("Cur" & $TroopDarkName[$i]),eval("Cur" & $TroopDarkName[$i]) + 5)
-						else
-							assign(eval("Cur" & $TroopDarkName[$i]),eval("Cur" & $TroopDarkName[$i]) + 1)
-						endif
-					endif
-				next
-				
-				
+		SetLog("Donating " & $quant & " " & NameOfTroop($Type), $COLOR_GREEN)
+		Click(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, $quant, 200)
+;~		PureClick(237 + ($Slot * 82), $DonatePixel[1] - 10 + $YComp, $quant, 200)
+		$Donate = True
+		For $i = 0 To UBound($TroopName) - 1
+			If Eval("e" & $TroopName[$i]) = $Type Then
+				If $TroopHeight[$i] <= 6 Then
+					Assign(Eval("Cur" & $TroopName[$i]), Eval("Cur" & $TroopName[$i]) + 5)
+				Else
+					Assign(Eval("Cur" & $TroopName[$i]), Eval("Cur" & $TroopName[$i]) + 1)
+				EndIf
+			EndIf
+		Next
+		For $i = 0 To UBound($TroopDarkName) - 1
+			If Eval("e" & $TroopDarkName[$i]) = $Type Then
+				If $TroopDarkHeight[$i] <= 6 Then
+					Assign(Eval("Cur" & $TroopDarkName[$i]), Eval("Cur" & $TroopDarkName[$i]) + 5)
+				Else
+					Assign(Eval("Cur" & $TroopDarkName[$i]), Eval("Cur" & $TroopDarkName[$i]) + 1)
+				EndIf
+			EndIf
+		Next
+	ElseIf $DonatePixel[1] - 5 + $YComp > 675 Then
+		Setlog("Unable to donate " & NameOfTroop($Type) & ". Donate screen not visible, will retry next run.", $COLOR_RED)
 	Else
 		SetLog("No " & NameOfTroop($Type) & " available to donate..", $COLOR_RED)
-		Return
 	EndIf
 
-EndFunc   ;;;==>DonateTroopType2 for custom troops
+	Click(1, 1)
+;~	PureClick(1, 1)
+	If _Sleep(250) Then Return
+EndFunc   ;==>DonateTroopType2 for custom troops

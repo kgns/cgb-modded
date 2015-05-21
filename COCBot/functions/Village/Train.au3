@@ -24,11 +24,11 @@ Func TrainIt($troopKind, $howMuch = 1, $iSleep = 400)
    _CaptureRegion()
    Local $pos = GetTrainPos($troopKind)
    If IsArray($pos) Then
-	  If CheckPixel($pos) Then
+	  ;If CheckPixel($pos) Then
 		 ClickP($pos, $howMuch, 20)
 		 ;if _Sleep($iSleep) Then Return False
-		 Return True
-	  EndIf
+		 ;Return True
+	  ;EndIf
    EndIf
 EndFunc
 
@@ -65,7 +65,7 @@ Func Train()
 		If _Sleep(500) Then Return
 		$icount = $icount + 1
 		$TrainPos = _PixelSearch(155, 603, 694, 605, Hex(0x9C7C37, 6), 5) ;Finds Train Troops button
-		if $icount = 4 then ExitLoop
+		if $icount = 10 then ExitLoop
 	wend
 
 
@@ -85,13 +85,14 @@ Func Train()
 		if not $fullArmy then CheckFullArmy()  ;if armycamp not full, check full by barrack
 	Endif
 
-	Local $NextPos = _PixelSearch(749, 333, 787, 349, Hex(0xF08C40, 6), 7)
-    Local $PrevPos = _PixelSearch(70, 336, 110, 351, Hex(0xF08C40, 6), 7)
+	Local $NextPos = _PixelSearch(749, 333, 787, 349, Hex(0xF08C40, 6), 5)
+    Local $PrevPos = _PixelSearch(70, 336, 110, 351, Hex(0xF08C40, 6), 5)
 
 	$icount = 0
 	while not IsArray($NextPos)
 		If _Sleep(100) Then Return
-		$NextPos = _PixelSearch(749, 333, 787, 349, Hex(0xF08C40, 6), 7)
+		$NextPos = _PixelSearch(749, 333, 787, 349, Hex(0xF08C40, 6), 5)
+		$PrevPos = _PixelSearch(70, 336, 110, 351, Hex(0xF08C40, 6), 5)
 		$icount += 1
 		if $icount = 20 then ExitLoop
 	wend
@@ -99,7 +100,7 @@ Func Train()
 	$icount = 0
 	while not IsArray($PrevPos)
 		If _Sleep(100) Then Return
-		$PrevPos = _PixelSearch(70, 336, 110, 351, Hex(0xF08C40, 6), 7)
+		$PrevPos = _PixelSearch(70, 336, 110, 351, Hex(0xF08C40, 6), 5)
 		$icount += 1
 		if $icount = 20 then ExitLoop
 	wend
@@ -246,7 +247,7 @@ Func Train()
 			_CaptureRegion()
 			if $FirstStart then
 				$icount = 0
-				while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
+				while not _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20)
 				    Click(496, 197, 10)
 					$icount += 1
 					if $icount = 20 then ExitLoop
@@ -288,7 +289,7 @@ Func Train()
 			$brrNum += 1
 			if $fullArmy or $FirstStart then
 				$icount = 0
-				while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
+				while not _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20)
 				    Click(496, 197, 10)
 					$icount += 1
 					if $icount = 100 then exitloop
@@ -382,23 +383,33 @@ Func Train()
 					endif
 				endif
 			next
-
+			
+			$troopNameCooking = ""
 			for $i=0 to Ubound($TroopName) - 1
 			   if eval("troopSecond" & $TroopName[$i]) > eval("troopFirst" & $TroopName[$i]) and GUICtrlRead(eval("txtNum" & $TroopName[$i])) <> "0" then
 				   $ArmyComp += (eval("troopSecond" & $TroopName[$i]) - eval("troopFirst" & $TroopName[$i])) * $TroopHeight[$i]
 				   assign(("Cur" & $TroopName[$i]) , eval("Cur" & $TroopName[$i]) - (eval("troopSecond" & $TroopName[$i]) - eval("troopFirst" & $TroopName[$i])))
 			   endif
+			   if eval("troopSecond" & $TroopName[$i]) > 0 then
+					$troopNameCooking = $troopNameCooking & $i & ";"
+				endif
 			next
 
-			if  _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20) then
+			;if  _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20) then
+			if  _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20) or $troopNameCooking = "" then 
 				$BarrackStatus[$brrNum-1] = false
+			elseif StringSplit($troopNameCooking,";")[0]  = 2 then 
+				$troopIndexRemain = Number(StringSplit($troopNameCooking,";")[1])
+				if $TroopHeight[$troopIndexRemain] = 1 then	
+					$BarrackStatus[$brrNum-1] = false	
+				endif
 			else
 				$BarrackStatus[$brrNum-1] = true
 			endif
 
-			if _ColorCheck(_GetPixelColor(327, 520,"Y"), Hex(0xD03838, 6), 20) then
+			if _ColorCheck(_GetPixelColor(327, 520, True), Hex(0xD03838, 6), 20) then
 			    $icount = 0
-				while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
+				while not _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20)
 				    Click(496, 197, 5)
 					$icount += 1
 					if $icount = 100 then exitloop
@@ -409,7 +420,7 @@ Func Train()
 
 			if $BarrackStatus[0] = false and $BarrackStatus[1] = false and $BarrackStatus[2] = false and $BarrackStatus[3] = false and not $FirstStart then
 				if not $isDarkBuild or ($BarrackDarkStatus[0] = false and $BarrackDarkStatus[1] = false) then
-					TrainIt($eArch, 8)
+					TrainIt($eArch, 20)
 				endif
 			endif
 
@@ -453,7 +464,7 @@ Func Train()
 			endif
 			if $fullArmy or $FirstStart then
 				$icount = 0
-				while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
+				while not _ColorCheck(_GetPixelColor(496, 197,True), Hex(0xE0E4D0, 6), 20)
 					Click(496, 197, 10)
 					$icount += 1
 					if $icount = 100 then exitloop
@@ -522,15 +533,15 @@ Func Train()
 				endif
 			next
 
-			if  _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20) then
+			if  _ColorCheck(_GetPixelColor(496, 197,True), Hex(0xE0E4D0, 6), 20) then
 				$BarrackDarkStatus[$brrDarkNum-1] = false
 			else
 				$BarrackDarkStatus[$brrDarkNum-1] = true
 			endif
 
-			if _ColorCheck(_GetPixelColor(327, 520,"Y"), Hex(0xD03838, 6), 20) then
+			if _ColorCheck(_GetPixelColor(327, 520,True), Hex(0xD03838, 6), 20) then
 				$icount = 0
-				while not _ColorCheck(_GetPixelColor(496, 197,"Y"), Hex(0xE0E4D0, 6), 20)
+				while not _ColorCheck(_GetPixelColor(496, 197,True), Hex(0xE0E4D0, 6), 20)
 					Click(496, 197, 5)
 					$icount += 1
 					if $icount = 100 then exitloop
@@ -575,9 +586,9 @@ Func Train()
 
 	if isSpellFactory() then
 		SetLog("Create Lightning Spell", $COLOR_BLUE)
-		If  _ColorCheck(_GetPixelColor(237, 354,"Y"), Hex(0xFFFFFF, 6), 20) = False Then
+		If  _ColorCheck(_GetPixelColor(237, 354, True), Hex(0xFFFFFF, 6), 20) = False Then
 			setlog("Not enough Elixir to create Spell", $COLOR_RED)
-		Elseif  _ColorCheck(_GetPixelColor(200, 346,"Y"), Hex(0x1A1A1A, 6), 20) Then
+		Elseif  _ColorCheck(_GetPixelColor(200, 346, True), Hex(0x1A1A1A, 6), 20) Then
 			setlog("Spell Factory Full", $COLOR_RED)
 		Else
 			Click(252,354,5,20)
@@ -617,6 +628,13 @@ Func checkArmyCamp()
 	_CaptureRegion()
    If _Sleep(500) Then Return
    Local $BArmyPos = _PixelSearch(309, 581, 433, 583, Hex(0x4084B8, 6), 5) ;Finds Info button
+   $icount = 0
+	while not IsArray($BArmyPos)
+		If _Sleep(500) Then Return
+		$icount = $icount + 1
+		$BArmyPos = _PixelSearch(309, 581, 433, 583, Hex(0x4084B8, 6), 5) ;Finds Info button
+		if $icount = 10 then ExitLoop
+	wend
    If IsArray($BArmyPos) = False Then
 	   SetLog("Your Army Camp is not available", $COLOR_RED)
 	   if $TotalCamp = "" and $TotalCamp = 0 then

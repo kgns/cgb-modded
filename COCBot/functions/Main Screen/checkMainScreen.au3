@@ -7,7 +7,7 @@ Func checkMainScreen($Check = True) ;Checks if in main screen
 		_WinAPI_EmptyWorkingSet(WinGetProcess($Title)) ; Reduce BlueStacks Memory Usage
 	EndIf
 
-	While _ColorCheck(_GetPixelColor(284, 28,"Y"), Hex(0x41B1CD, 6), 20) = False
+	While _ColorCheck(_GetPixelColor(284, 28, True), Hex(0x41B1CD, 6), 20) = False
 		$HWnD = WinGetHandle($Title)
 
 		If _Sleep(1000) Then Return
@@ -15,7 +15,7 @@ Func checkMainScreen($Check = True) ;Checks if in main screen
 			Click(126, 700, 1, 500)
 			Local $RunApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "RunApp")
 			Run($RunApp & " Android com.supercell.clashofclans com.supercell.clashofclans.GameApp")
-	    Else
+		Else
 			$Restart = True
 		EndIf
 		waitMainScreen()
@@ -23,28 +23,3 @@ Func checkMainScreen($Check = True) ;Checks if in main screen
 	ZoomOut()
 	If $Check = True Then SetLog("Main Screen Located", $COLOR_GREEN)
 EndFunc   ;==>checkMainScreen
-
-Func checkMainDM($Check = True) ;Checks if in main screen
-    If $Check = True Then
-        SetLog("Checking Donation Mode situation.")
-        _WinAPI_EmptyWorkingSet(WinGetProcess($Title)) ; Reduce BlueStacks Memory Usage
-    EndIf
-
-    _CaptureRegion()
-    While _ColorCheck(_GetPixelColor(284, 28), Hex(0x41B1CD, 6), 20) = False
-        $HWnD = WinGetHandle($Title)
-
-        If _Sleep(1000) Then Return
-        If checkObstacles() = False Then
-            SetLog("Main Screen not located. Returning home.")
-            Click(126, 700, 1, 500)
-            Local $RunApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "RunApp")
-            Run($RunApp & " Android com.supercell.clashofclans com.supercell.clashofclans.GameApp")
-        Else
-            ;SetLog("Continue Donating....")
-            ExitLoop
-        EndIf
-        ;waitMainScreen()
-    WEnd
-    ;If $Check = True Then SetLog("Main Screen Located.", $COLOR_GREEN)
-EndFunc   ;==>checkMainDM

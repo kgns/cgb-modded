@@ -52,7 +52,7 @@ EndIf
 
 Global $hBitmap; Image for pixel functions
 Global $hHBitmap; Handle Image for pixel functions
-Global $sFile = @ScriptDir & "\Icons\logo.gif"
+;Global $sFile = @ScriptDir & "\Icons\logo.gif"
 
 Global $Title = "BlueStacks App Player" ; Name of the Window
 Global $HWnD = WinGetHandle($Title) ;Handle for Bluestacks window
@@ -66,30 +66,30 @@ Global $hLogFileHandle
 Global $Restart = False
 Global $RunState = False
 Global $TakeLootSnapShot = True
+Global $ScreenshotLootInfo = False
 Global $AlertSearch = True
 Global $iChkAttackNow, $iAttackNowDelay, $bBtnAttackNowPressed = False
 Global $icmbAtkNowDeploy, $ichkAtkNowLSpell, $ichkAtkNowMines = False
 Global $PushToken = ""
-Global $iLastAttack
-Global $iAlertPBVillage
 
 ;PushBullet---------------------------------------------------------------
-Global $pEnabled
-Global $pRemote
-Global $pMatchFound
-Global $pLastRaidImg
-Global $pWallUpgrade
-Global $pOOS
-Global $pLabUpgrade
-Global $pTakeAbreak
-Global $pAnotherDevice
-Global $sLogFName
-Global $iAlertPBImageLoot
-Global $iAlertPBMatchFound
+GLOBAL $iOrigPushB
+Global $iLastAttack
+Global $iAlertPBVillage
+GLOBAL $pEnabled
+GLOBAL $pRemote
+GLOBAL $pMatchFound
+GLOBAL $pLastRaidImg
+;GLOBAL $pLastRaidTxt
+GLOBAL $pWallUpgrade
+GLOBAL $pOOS
+GLOBAL $pTakeAbreak
+GLOBAL $pAnotherDevice
+GLOBAL $sLogFName
+GLOBAL $AttackFile
+GLOBAL $RequestScreenshot = 0
 Global $iDeleteAllPushes
-Global $iImageLoot
-Global $LastLoot
-Global $iPBVillageName
+Global $pLabUpgrade
 
 Global $cmbTroopComp ;For Event change on ComboBox Troop Compositions
 Global $iCollectCounter = 0 ; Collect counter, when reaches $COLLECTATCOUNT, it will collect
@@ -115,8 +115,6 @@ Global $searchGold, $searchElixir, $searchDark, $searchTrophy, $searchTH ;Resour
 Global $SearchGold2=0, $SearchElixir2=0, $iStuck=0, $iNext=0
 Global $MinGold, $MinElixir, $MinGoldPlusElixir, $MinDark, $MinTrophy, $MaxTH ; Minimum Resources conditions
 Global $AimGold, $AimElixir, $AimGoldPlusElixir, $AimDark, $AimTrophy, $AimTHtext ; Aiming Resource values
-Global $iChkBackToAllMode ;Back to All Base
-Global $iTxtBackAllBase = 150 ;Number of searches before back to All Base
 Global $iChkSearchReduction
 Global $ReduceCount, $ReduceGold, $ReduceElixir, $ReduceGoldPlusElixir, $ReduceDark, $ReduceTrophy ; Reducing values
 Global $chkConditions[7], $ichkMeetOne ;Conditions (meet gold...)
@@ -143,7 +141,7 @@ Global $OptTrophyModeDE
 Global $ATBullyMode
 Global $YourTH
 Global $AttackTHType
-Global $chkLightSpell
+Global $chklightspell
 Global $SpellMinDarkStorage = 500
 Global $iLSpellQ
 
@@ -199,6 +197,8 @@ Global $King, $Queen, $CC, $Barb, $Arch, $LSpell , $LSpellQ
 Global $LeftTHx, $RightTHx, $BottomTHy, $TopTHy
 Global $AtkTroopTH
 Global $GetTHLoc
+Global $iUnbreakableMode = 0
+Global $iUnbreakableWait, $iUnBrkMinGold, $iUnBrkMinElixir, $iUnBrkMaxGold, $iUnBrkMaxElixir
 
 ;Boosts Settings
 Global $remainingBoosts = 0 ;  remaining boost to active during session
@@ -351,11 +351,11 @@ for $i=0 to Ubound($TroopGroup,1) - 1
 	$TroopName[$i]         							= $TroopGroup[$i][0]
 	$TroopNamePosition[$i] 							= $TroopGroup[$i][1]
 	$TroopHeight[$i]       							= $TroopGroup[$i][2]
-	$TroopRotateIndex[$i] 							= $TroopGroup[$i][4]
-	$TroopTHSnipeName[$TroopGroup[$i][3]] 			= $TroopGroup[$i][0]
-	$TroopTHSnipeNamePosition[$TroopGroup[$i][3]] 	= $TroopGroup[$i][1]
-	$TroopTHSnipeHeight[$TroopGroup[$i][3]] 		= $TroopGroup[$i][2]
-	$TroopTHSnipeRotateIndex[$TroopGroup[$i][3]] 	= $TroopGroup[$i][5]
+	$TroopRotateIndex[$i]       						= $TroopGroup[$i][4]
+	$TroopTHSnipeName[$TroopGroup[$i][3]]       				= $TroopGroup[$i][0]
+	$TroopTHSnipeNamePosition[$TroopGroup[$i][3]]       			= $TroopGroup[$i][1]
+	$TroopTHSnipeHeight[$TroopGroup[$i][3]]       				= $TroopGroup[$i][2]
+	$TroopTHSnipeRotateIndex[$TroopGroup[$i][3]]       			= $TroopGroup[$i][5]
 next
 for $i=0 to Ubound($TroopGroupDark,1) - 1
 	$TroopDarkName[$i]         = $TroopGroupDark[$i][0]
@@ -383,18 +383,26 @@ Global $PixelNearCollector[0]
 Global $PixelRedArea[0]
 Global $hBitmapFirst
 Global Enum $eVectorLeftTop, $eVectorRightTop, $eVectorLeftBottom, $eVectorRightBottom
-Global $debugRedArea = 0
+Global $debugRedArea = 0, $debugSetlog = 0
 
 Global $DESTOLoc = ""
 
 Global $dropAllOnSide=1
-Global $checkHeroesByHealth = False
 
 ; Info Profile
 Global $AttacksWon = 0
 Global $DefensesWon = 0
 Global $TroopsDonated = 0
 Global $TroopsReceived = 0
+
+Global $LootFileName = ""
+
+Global $lootGold
+Global $lootElixir
+Global $lootDarkElixir
+Global $lootTrophies
+
+Global $debug_getdigitlarge
 
 ;UpTroops
 Global $ichkLab

@@ -3,6 +3,7 @@
 
 Func DropTrophy()
 	Local $TrophyCount = getOther(50, 74, "Trophy")
+	Local $iCount
 	Local $itxtMaxTrophyNeedCheck
 	$itxtMaxTrophyNeedCheck = $itxtMaxTrophy ; $itxtMaxTrophy = 1800
 
@@ -22,8 +23,11 @@ Func DropTrophy()
 						PrepareSearch()
 
 						If _Sleep(2000) Then ExitLoop
+						$iCount = 0
 						While getGold(51, 66) = "" ; Loops until gold is readable
 							If _Sleep(1000) Then ExitLoop (2)
+							$iCount += 1
+							If $iCount >= 35 Then ExitLoop (2) ; or Return
 						WEnd
 						SetLog("Identification of your troops:", $COLOR_BLUE)
 						PrepareAttack() ; ==== Troops :checks for type, slot, and quantity ===
@@ -40,10 +44,10 @@ Func DropTrophy()
 							SetLog("Found [G]:" & StringFormat("%7s", $searchGold) & " [E]:" & StringFormat("%7s", $searchElixir), $COLOR_BLACK, "Lucida Console")
 							If checkDeadBase() Then
 								; _BlockInputEx(0, "", "", $HWnD) ; block all keyboard keys
-								SetLog(_PadStringCenter(" Dead Base Found!! Meet All Conditionals", 50, "~"), $COLOR_GREEN)
+								SetLog(_PadStringCenter(" Dead Base Found!! ", 50, "~"), $COLOR_GREEN)
 								Attack()
 								ReturnHome($TakeLootSnapShot)
-								ExitLoop (3) ; or ContinueLoop
+								ExitLoop ; or Return, Will end function, no troops left to drop Trophies, will need to Train new Troops first
 							EndIf
 						EndIf
 
@@ -109,7 +113,7 @@ Func DropTrophy()
 									Click(34, 310) ;Drop one troop
 									$CurGobl += 1
 									$ArmyComp -= 2
-									SetLog("Deploying 1 Goblins", $COLOR_BLUE)
+									SetLog("Deploying 1 Goblin", $COLOR_BLUE)
 								Case $atkTroops[0][0] = $eMini
 									Click(34, 310) ;Drop one troop
 									$CurMini += 1
@@ -132,7 +136,7 @@ Func DropTrophy()
 				WEnd
 			Else
 				Setlog("Drop Thropies: Army is < 70% capacity")
-				Setlog("You selected Option Attack DBase if find it")
+				Setlog("You selected Option Attack Dead Base if found..")
 			EndIf
 
 		Else
@@ -149,7 +153,15 @@ Func DropTrophy()
 					PrepareSearch()
 
 					If _Sleep(2000) Then ExitLoop
+					$iCount = 0
+						While getGold(51, 66) = "" ; Loops until gold is readable
+							If _Sleep(1000) Then ExitLoop (2)
+							$iCount += 1
+							If $iCount >= 35 Then ExitLoop (2) ; or Return
+						WEnd
+					SetLog("Identification of your troops:", $COLOR_BLUE)
 					PrepareAttack()
+
 					If $iChkTrophyHeroes = 1 Then
 						$King = -1
 						$Queen = -1
@@ -209,7 +221,7 @@ Func DropTrophy()
 								Click(34, 310) ;Drop one troop
 								$CurGobl += 1
 								$ArmyComp -= 2
-								SetLog("Deploying 1 Goblins", $COLOR_BLUE)
+								SetLog("Deploying 1 Goblin", $COLOR_BLUE)
 							Case $atkTroops[0][0] = $eMini
 								Click(34, 310) ;Drop one troop
 								$CurMini += 1
@@ -217,7 +229,7 @@ Func DropTrophy()
 								SetLog("Deploying 1 Minion", $COLOR_BLUE)
 							Case Else
 								$itxtMaxTrophy += 50
-								SetLog("You Don´t have Tier 1/2 Troops, exit of dropping Trophies", $COLOR_BLUE) ; preventing of deploying Tier 2/3 expensive troops
+								SetLog("You don´t have Tier 1/2 Troops, exit of dropping Trophies", $COLOR_BLUE) ; preventing of deploying Tier 2/3 expensive troops
 						EndSelect
 						If _Sleep(1000) Then ExitLoop
 						ReturnHome(False, False) ;Return home no screenshot

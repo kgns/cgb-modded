@@ -22,13 +22,14 @@ For $i = 0 To 35
 Next
 
 Func checkDarkElix()
-	$DESpellProcede = 0
-	If $bBtnAttackNowPressed = True Then
-		$DESpellProcede = $ichkAtkNowLSpell
-	Else
-		$DESpellProcede = $iChkLightSpell
-	EndIf
-  If $DESpellProcede = 1 Then
+
+$DESpellProcede = 0
+If $bBtnAttackNowPressed = True Then
+	$DESpellProcede = $ichkAtkNowLSpell
+Else
+	$DESpellProcede = $iChkLightSpell
+EndIf
+If $DESpellProcede = 1 Then
       _CaptureRegion(230,170,630,440)
      If _Sleep(500) Then Return
      For $i = 0 To 35
@@ -79,12 +80,12 @@ EndFunc
 	;###################################################################################
 
 Func DropLSpell ()
-	$DESpellProcede = 0
-	If $bBtnAttackNowPressed = True Then
-		$DESpellProcede = $ichkAtkNowLSpell
-	Else
-		$DESpellProcede = $iChkLightSpell
-	EndIf
+  $DESpellProcede = 0
+  If $bBtnAttackNowPressed = True Then
+  	$DESpellProcede = $ichkAtkNowLSpell
+  Else
+  	$DESpellProcede = $iChkLightSpell
+  EndIf
   If $DESpellProcede = 1 Then
         $LSpell = -1
 		$LSpellQ = 0
@@ -126,7 +127,7 @@ Func DEAttack()
 	Else
 		$DESpellProcede = $iChkLightSpell
 	EndIf
-  If $DESpellProcede = 1 Then
+	If $DESpellProcede = 1 Then
 		;SetLog("Start Function ")
 		_WinAPI_DeleteObject($hBitmapFirst)
 		$hBitmapFirst = _CaptureRegion2(230, 170, 630, 440)

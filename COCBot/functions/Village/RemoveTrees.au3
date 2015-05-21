@@ -4,7 +4,7 @@ Func RemoveTrees()
 			VillageReport() ; Get current gold and elixir amount
 			Local $ElixirCountOld = 11000000 ; Will be used to avoid infinite loop
 			Local $GoldCountOld = 11000000 ; Will be used to avoid infinite loop
-			; If gold or elixir did not decrease after trying to remove, 
+			; If gold or elixir did not decrease after trying to remove,
 			; either we could not locate correct objects, or some other error occurred.
 			; end loop and exit
 			While (Number($ElixirCount) < Number($ElixirCountOld) OR Number($GoldCount) < Number($GoldCountOld))

@@ -27,25 +27,25 @@ Func VillageReport()
 
 	SetLog("Opening Builder page to read Resources..", $COLOR_BLUE)
 	PureClick(388, 30) ; Click Builder Button
-	_CaptureRegion()
+	;_CaptureRegion()
 	Local $i = 0
-	While _ColorCheck(_GetPixelColor(819, 39), Hex(0xF8FCFF, 6), 20) = False ; wait for Builder/shop to open
+	While _ColorCheck(_GetPixelColor(819, 39, True), Hex(0xF8FCFF, 6), 20) = False ; wait for Builder/shop to open
 		$i += 1
 		If _Sleep(500) Then Return
-		_CaptureRegion()
+		;_CaptureRegion()
 		If $i >= 20 Then ExitLoop
 	WEnd
-	If _ColorCheck(_GetPixelColor(318, 637), Hex(0xD854D0, 6), 20) Then
+	If _ColorCheck(_GetPixelColor(318, 637, True), Hex(0xD854D0, 6), 20) Then
 		$GoldCount = GetOther(356, 625, "Resource")
 		$ElixirCount = GetOther(195, 625, "Resource")
 		$GemCount = GetOther(543, 625, "Gems")
-		SetLog(" [G]: " & $GoldCount & " [E]: " & $ElixirCount & " [GEM]: " & $GemCount, $COLOR_GREEN)
+		SetLog(" [G]: " & _NumberFormat($GoldCount) & " [E]: " &  _NumberFormat($ElixirCount) & " [GEM]: " &  _NumberFormat($GemCount), $COLOR_GREEN)
 	Else
 		$GoldCount = GetOther(440, 625, "Resource")
 		$ElixirCount = GetOther(282, 625, "Resource")
 		$DarkCount = GetOther(125, 625, "Resource")
 		$GemCount = GetOther(606, 625, "Gems")
-		SetLog(" [G]: " & $GoldCount & " [E]: " & $ElixirCount & " [D]: " & $DarkCount & " [GEM]: " & $GemCount, $COLOR_GREEN)
+		SetLog(" [G]: " & _NumberFormat($GoldCount) & " [E]: " &  _NumberFormat($ElixirCount) & " [D]: " &  _NumberFormat($DarkCount) & " [GEM]: " &  _NumberFormat($GemCount), $COLOR_GREEN)
 	EndIf
 
 	PureClick(820, 40) ; Close Builder/Shop
@@ -56,9 +56,9 @@ Func VillageReport()
 			ReportLastTotal()
 			ReportCurrent()
 		Case 1
-			GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
+;			GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
 			GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
-            GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE) ;; added for hourly stats
+			GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE) ;; added for hourly stats
 			ReportLastTotal()
 			ReportCurrent()
 			$FirstAttack = 2
@@ -142,17 +142,18 @@ EndFunc
 Func ReportLastTotal()
 
 	;last attack
-	$GoldLast = $GoldCount - $GoldVillage
-	$ElixirLast = $ElixirCount - $ElixirVillage
-	$DarkLast = $DarkCount - $DarkVillage
-	$TrophyLast = $TrophyCount - $TrophyVillage
+;	$GoldLast = $GoldCount - $GoldVillage
+;	$ElixirLast = $ElixirCount - $ElixirVillage
+;	$DarkLast = $DarkCount - $DarkVillage
+;	$TrophyLast = $TrophyCount - $TrophyVillage
 
-	GUICtrlSetData($lblGoldLastAttack, _NumberFormat($GoldLast))
-	GUICtrlSetData($lblElixirLastAttack, _NumberFormat($ElixirLast))
-	If $DarkStart <> "" Then
-		GUICtrlSetData($lblDarkLastAttack, _NumberFormat($DarkLast))
-	EndIf
-	GUICtrlSetData($lblTrophyLastAttack, _NumberFormat($TrophyLast))
+
+;	GUICtrlSetData($lblGoldLastAttack, _NumberFormat($GoldLast))
+;	GUICtrlSetData($lblElixirLastAttack, _NumberFormat($ElixirLast))
+;	If $DarkStart <> "" Then
+;		GUICtrlSetData($lblDarkLastAttack, _NumberFormat($DarkLast))
+;	EndIf
+;	GUICtrlSetData($lblTrophyLastAttack, _NumberFormat($TrophyLast))
 
 	;total stats
 	$CostGoldWall = $WallGoldMake * $WallCost

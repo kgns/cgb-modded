@@ -16,12 +16,23 @@
 ;~ ------------------------------------------------------
 ;~ Main GUI
 ;~ ------------------------------------------------------
-$frmBot = GUICreate($sBotTitle, 470, 695)
+$frmBot = GUICreate($sBotTitle, 470, 715)
 	GUISetIcon($LibDir & "\CGBBOT.dll", 10)
 	TraySetIcon($LibDir & "\CGBBOT.dll", 10)
 $tabMain = GUICtrlCreateTab(5, 85, 461, 495, $TCS_TOOLTIPS)
 	GUICtrlSetOnEvent(-1, "tabMain")
 	GUICtrlCreatePic (@ScriptDir & "\Icons\logo.jpg", 0, 0, 470, 80)
+
+;~ ------------------------------------------------------
+;~ Header Menu
+;~ ------------------------------------------------------
+$configMenu = GUICtrlCreateMenu("Load / Save Config")
+$loadConfig = GUICtrlCreateMenuItem("Load", $configMenu)
+	GUICtrlSetOnEvent(-1, "btnLoadConfig")
+	GUICtrlSetTip(-1, "Load Configuration Setting")
+$saveConfig = GUICtrlCreateMenuItem("Save", $configMenu)
+	GUICtrlSetOnEvent(-1, "btnSaveConfig")
+	GUICtrlSetTip(-1, "Save Configuration Setting")
 
 ;~ ------------------------------------------------------
 ;~ Lower part visible on all Tabs
@@ -43,15 +54,19 @@ Local $x = 15, $y = 590
 		$txtTip = "Use this to PAUSE all actions of the bot until you Resume."
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "btnPause")
- 		;GUICtrlSetState(-1, $GUI_HIDE)
+ 		IF $btnColor then GUICtrlSetBkColor(-1,  0xFFA500)
+		GUICtrlSetState(-1, $GUI_HIDE)
 	$btnResume = GUICtrlCreateButton("Resume", -1, -1, 50, 40)
  		$txtTip = "Use this to RESUME a paused Bot."
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "btnResume")
- 		GUICtrlSetState(-1, $GUI_HIDE)
+		IF $btnColor then GUICtrlSetBkColor(-1,  0xFFA500)
+		GUICtrlSetState(-1, $GUI_HIDE)
 	$btnDonate = GUICtrlCreateButton("Donate", $x + 140, -1, 40, 40, $BS_ICON)
-    GUICtrlSetImage (-1, @ScriptDir & "\Icons\donate.ico",1)
-		GUICtrlSetOnEvent(-1, "btnDonate")
+		$txtTip = "Click here if you want to DONATE to our project."
+		GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetImage (-1, @ScriptDir & "\Icons\donate.ico",1)
+		GUICtrlSetOnEvent(-1, "")
 	$chkAutoStart = GUICtrlCreateCheckbox("AS", $x + 2, $y + 48, 30, 20)
  		$txtTip = "Check this to ENABLE the Auto Start of the Bot." & @CRLF & "The bot will Auto Start after 10 seconds"
  		GUICtrlSetFont(-1, 7)
@@ -62,6 +77,7 @@ Local $x = 15, $y = 590
 		$txtTip = "Use this to move the BlueStacks Window out of sight." & @CRLF & "(Not minimized, but hidden)"
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "btnHide")
+		IF $btnColor Then GUICtrlSetBkColor(-1, 0x22C4F5)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 	$chkBackground = GUICtrlCreateCheckbox("Background" & @CRLF & "Mode", $x + 100, $y + 48, 70, 20, BITOR($BS_MULTILINE, $BS_CENTER))
 		$txtTip = "Check this to ENABLE the Background Mode of the Bot." & @CRLF & "With this you can also hide the BlueStacks window out of sight."
@@ -71,7 +87,7 @@ Local $x = 15, $y = 590
 		GUICtrlSetState(-1, $GUI_UNCHECKED)
 	$btnAttackNow = GUICtrlCreateButton("Attack!", $x + 195, $y + 2, 50, 20, $BS_MULTILINE)
 		GUICtrlSetOnEvent(-1, "btnAttackNow")
- 		GUICtrlSetState(-1, $GUI_HIDE)
+		GUICtrlSetState(-1, $GUI_HIDE)
 	$cmbAtkNowDeploy = GUICtrlCreateCombo("", $x + 195, $y + 22, 50, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 		GUICtrlSetData(-1, "1 side|2 side|3 side|4 side", "4 side")
  		GUICtrlSetState(-1, $GUI_HIDE)
@@ -215,7 +231,7 @@ $tabSearch = GUICtrlCreateTabItem("Search")
 		GUICtrlSetData(-1, "0|1|2|3", "0")
 		GUICtrlSetState(-1, $GUI_DISABLE)
 
-	Local $x = 30, $y = 210
+#cs	Local $x = 30, $y = 210
 		$chkBackToAllMode = GUICtrlCreateCheckbox("All Base after:", $x, $y, -1, -1)
 			$txtTip = "Release Dead Base or Weak Base search and switch to All Base after No. of searches."
 			GUICtrlSetTip(-1, $txtTip)
@@ -227,7 +243,7 @@ $tabSearch = GUICtrlCreateTabItem("Search")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$lblBackToAllMode = GUICtrlCreateLabel("search(es).", $x + 137, $y + 5, -1, -1)
-			GUICtrlSetState(-1, $GUI_DISABLE)
+#ce			GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 Local $x = 30, $y = 265
@@ -381,7 +397,7 @@ GUICtrlCreateTabItem("")
 ; Attack Basics Tab
 ;~ -------------------------------------------------------------
 
-$tabAttack = GUICtrlCreateTabItem("Basics")
+$tabAttack = GUICtrlCreateTabItem("Attack")
 	Local $x = 30, $y = 130
 	$grpDeploy = GUICtrlCreateGroup("Deploy", $x - 20, $y - 20, 450, 75)
 		$y -= 5
@@ -562,48 +578,93 @@ GUICtrlCreateTabItem("")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 30, $y = 285
-	$grpAtkCombos = GUICtrlCreateGroup("Advanced Attack Combo's", $x - 20, $y - 20, 450, 135)
-		$chkBullyMode = GUICtrlCreateCheckbox("TH Bully after:", $x, $y, -1, -1)
+	$grpAtkCombos = GUICtrlCreateGroup("Advanced Attack Combo's", $x - 20, $y - 20, 225, 135)
+		$chkBullyMode = GUICtrlCreateCheckbox("TH Bully.  After:", $x, $y, -1, -1)
 			$txtTip = "Adds the TH Bully combo to the current search settings. (Example: Deadbase OR TH Bully)" & @CRLF & _
 				"TH Bully: Attacks a lower townhall level after the specified No. of searches."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "chkBullyMode")
-		$txtATBullyMode = GUICtrlCreateInput("150", $x + 100, $y, 60, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$txtATBullyMode = GUICtrlCreateInput("150", $x + 95, $y, 35, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			$txtTip = "TH Bully: No. of searches to wait before activating."
 			GUICtrlSetLimit(-1, 3)
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$lblATBullyMode = GUICtrlCreateLabel("search(es).", $x + 165, $y + 5, -1, -1)
+		$lblATBullyMode = GUICtrlCreateLabel("search(es).", $x + 135, $y + 5, -1, -1)
 		$y +=22
-		$lblATBullyMode = GUICtrlCreateLabel("Max TH lvl:", $x + 20, $y + 5, -1, -1, $SS_RIGHT)
-		$cmbYourTH = GUICtrlCreateCombo("", $x + 100, $y, 60, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$lblATBullyMode = GUICtrlCreateLabel("Max TH level:", $x + 10, $y + 5, -1, -1, $SS_RIGHT)
+		$cmbYourTH = GUICtrlCreateCombo("", $x + 95, $y, 50, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = "TH Bully: Max. Townhall level to bully."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "4-6|7|8|9|10", "4-6")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y+=27
-		$chkTrophyMode = GUICtrlCreateCheckbox("TH Snipe within:", $x, $y, -1, -1)
+		$chkTrophyMode = GUICtrlCreateCheckbox("TH Snipe. Add:", $x, $y, -1, -1)
 			$txtTip = "Adds the TH Snipe combination to the current search settings. (Example: Deadbase OR TH Snipe)"
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "chkSnipeMode")
-		$lblTHaddtiles = GUICtrlCreateLabel( "tiles.", $x + 165, $y + 5, 90, 17)
-		$txtTHaddtiles = GUICtrlCreateInput("1", $x + 100, $y, 60, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$lblTHaddtiles = GUICtrlCreateLabel( "tile(s).", $x + 135, $y + 5, -1, 17)
+		$txtTHaddtiles = GUICtrlCreateInput("1", $x + 95, $y, 35, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetLimit(-1, 3)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y+=22
-		$lblAttackTHType = GUICtrlCreateLabel("Attack Type:", $x + 20 , $y + 5, -1, 17, $SS_RIGHT)
-		$cmbAttackTHType = GUICtrlCreateCombo("",  $x + 100, $y, 120, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$lblAttackTHType = GUICtrlCreateLabel("Attack Type:", $x + 10 , $y + 5, -1, 17, $SS_RIGHT)
+		$cmbAttackTHType = GUICtrlCreateCombo("",  $x + 95, $y, 105, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch", "Attack1:Normal")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y+=22
-		$chkTHSnipeLightningDE = GUICtrlCreateCheckbox("Use lightning on DE storage if DE is > than Dark Elixir option above", $x, $y, -1, -1)
+		$chkTHSnipeLightningDE = GUICtrlCreateCheckbox("Use lightning for DE while TH Sniping", $x, $y, -1, -1)
 			$txtTip = "Use lightning on DE storage if DE is > than Dark Elixir option above (NOT the one in the Search tab, but this tab) (This will disable lightning for non TH snipe attacks)"
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	Local $x = 260, $y = 285
+	$grpDefenseFarming = GUICtrlCreateGroup("Defense Farming", $x - 20, $y - 20, 220, 135)
+		$chkUnbreakable = GUICtrlCreateCheckbox("Enable Unbreakable Mode", $x, $y, -1, -1)
+			$TxtTip = "Enable farming Defense Wins for Unbreakable achievement." ;& @CRLF & "TIP: Set your trophy range on the Misc Tab to '600 - 800' for best results. WARNING: Doing so will DROP you Trophies!"
+			GUICtrlSetTip(-1, $TxtTip)
+			GUICtrlSetOnEvent(-1, "chkUnbreakable")
+		$y += 23
+		$lblUnbreakable1 = GUICtrlCreateLabel("Wait Time:", $x + 20 , $y+3, -1, -1)
+		$txtUnbreakable = GUICtrlCreateInput("5", $x + 75, $y, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			$TxtTip = "Set the amount of time to stop CoC and wait for enemy attacks to gain defense wins. (1-99 minutes)"
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 2)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$lblUnbreakable2 = GUICtrlCreateLabel("Minutes", $x + 110, $y+3, -1, -1)
+		$y += 26
+		$lblUnBreakableFarm = GUICtrlCreateLabel("Farm Min.", $x + 60 , $y, -1, -1)
+		$lblUnBreakableSave = GUICtrlCreateLabel("Save Min.", $x + 135 , $y, -1, -1)
+		$y += 16
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x+5, $y, 16, 16)
+		$lblUnBreakableGold = GUICtrlCreateLabel("Gold:", $x+23 , $y+3, -1, -1)
+		$txtUnBrkMinGold = GUICtrlCreateInput("50000", $x + 55, $y, 58, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Amount of Gold that stops Defense farming, switches to normal farming if below." & @CRLF & "Set this value to amount of Gold you need for searching or upgrades.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$x += 130
+		$txtUnBrkMaxGold = GUICtrlCreateInput("600000", $x, $y, 58, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Amount of Gold in Storage Required to Enable Defense Farming." & @CRLF & "Input amount of Gold you need to attract enemy or for upgrades.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$x -= 130
+		$y +=24
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x+5, $y, 16, 16)
+		$lblUnBreakableElixir = GUICtrlCreateLabel("Elixir:", $x+23, $y+3, -1, -1)
+		$txtUnBrkMinElixir = GUICtrlCreateInput("50000", $x + 55, $y, 58, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Amount of Elixir that stops Defense farming, switches to normal farming if below." & @CRLF & "Set this value to amount of Elixir you need for making troops or upgrades.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$x += 130
+		$txtUnBrkMaxElixir = GUICtrlCreateInput("600000", $x, $y, 58, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Amount of Elixir in Storage Required to Enable Defense Farming." & @CRLF & "Input amount of Elixir you need to attract enemy or for upgrades.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+    GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+
 	Local $x = 30, $y = 425
-	$grpBattleOptions = GUICtrlCreateGroup("Battle Options", $x - 20, $y - 20, 300, 100)
+	$grpBattleOptions = GUICtrlCreateGroup("Battle Options", $x - 20, $y - 20, 300, 80)
 		;$chkTimeStopAtk = GUICtrlCreateCheckbox("End Battle, if no new loot raided within:", $x, $y - 5, -1, -1)
 		$lblTimeStopAtk = GUICtrlCreateLabel("End Battle, if no new loot raided within:", $x + 17, $y, -1, -1)
 			$txtTip = "End Battle if there is no extra loot raided within this No. of seconds." & @CRLF & "Countdown is started after all Troops and Royals are deployed in battle."
@@ -613,16 +674,6 @@ GUICtrlCreateTabItem("")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 2)
 		$lblTimeStopAtk = GUICtrlCreateLabel("sec.", $x + 237, $y, -1, -1)
-		$chkUnbreakable = GUICtrlCreateCheckbox("Unbreakable Mode             Wait Time:", $x, $y + 27, -1, -1)
-			$TxtTip = "Enable mode to farm defenses for Unbreakable achievement"
-			GUICtrlSetTip(-1, $TxtTip)
-			GUICtrlSetOnEvent(-1, "chkUnbreakable")
-		$txtUnbreakable = GUICtrlCreateInput("5", $x + 202, $y + 27, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			GUICtrlSetTip(-1, $txtTip)
-			GUICtrlSetLimit(-1, 2)
-			GUICtrlSetState(-1, $GUI_DISABLE)
-		$lblUnbreakable = GUICtrlCreateLabel("minutes", $x + 237, $y + 30, -1, -1)
-		$lblUnbreakableWarning = GUICtrlCreateLabel("(WARNING: Enable Unbreakable only if you know what it is)", $x - 10, $y + 54, -1, -1)
 #cs
 		$chkEndOneStar = GUICtrlCreateCheckbox("End Battle, when One Star is won", $x, $y + 15, -1, -1)
 			$txtTip = "Will End the Battle if 1 star is won in battle"
@@ -636,10 +687,13 @@ GUICtrlCreateTabItem("")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x +=305
-	$grpLootSnapshot = GUICtrlCreateGroup("Loot Snapshot", $x - 20, $y - 20, 145, 100)
+	$grpLootSnapshot = GUICtrlCreateGroup("Loot Snapshot", $x - 20, $y - 20, 145, 80)
 		$chkTakeLootSS = GUICtrlCreateCheckbox("Take Loot Snapshot", $x - 5, $y - 5, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to save a Loot snapshot of the Village that was attacked.")
 			GUICtrlSetState(-1, $GUI_CHECKED)
+		$chkScreenshotLootInfo = GUICtrlCreateCheckbox("Include Loot Info", $x - 5, $y + 15, -1, -1)
+			GUICtrlSetTip(-1, "Include loot info into screenshot filename")
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 
@@ -1428,7 +1482,7 @@ $tabTroops = GUICtrlCreateTabItem("Troops")
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 12, $x - 5, $y - 5, 24, 24)
 		$lblDragons = GUICtrlCreateLabel("No. of Dragons:", $x + 25, $y, -1, -1)
 		$txtNumDrag = GUICtrlCreateInput("0", $x + 130, $y - 5, 55, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-			GUICtrlSetTip(-1, "Enter the No. of Wizards to make.")
+			GUICtrlSetTip(-1, "Enter the No. of Dragons to make.")
 			GUICtrlSetLimit(-1, 3)
 		$y +=25
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 39, $x - 5, $y - 5, 24, 24)
@@ -1535,9 +1589,9 @@ $tabMisc = GUICtrlCreateTabItem("Misc")
 	Local $x = 30, $y = 325
 	$grpVSDelay = GUICtrlCreateGroup("Village Search Delay ", $x - 20, $y - 20, 225, 55)
 		$txtTip = "Use this slider to change the time to wait between Next clicks when searching for a Village to Attack." & @CRLF & "This might compensate for Out of Sync errors on some PC's." & @CRLF & "NO GUARANTEES! This will not always have the same results!"
-		$lblVSDelay = GUICtrlCreateLabel("1", $x, $y, 12, 15, $SS_RIGHT)
+		$lblVSDelay = GUICtrlCreateLabel("0", $x, $y, 12, 15, $SS_RIGHT)
 			GUICtrlSetTip(-1, $txtTip)
-		$lbltxtVSDelay = GUICtrlCreateLabel("second", $x + 15, $y, 45, -1)
+		$lbltxtVSDelay = GUICtrlCreateLabel("seconds", $x + 15, $y, 45, -1)
 		$sldVSDelay = GUICtrlCreateSlider($x + 55, $y - 2, 130, 25, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
@@ -1606,7 +1660,7 @@ GUICtrlCreateTabItem("")
 ;~ -------------------------------------------------------------
 ;~ Upgrades Tab
 ;~\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-$pageUpgradeSettings = GUICtrlCreateTabItem("Upgrades")
+$tabUpgrade = GUICtrlCreateTabItem("Upgrades")
 Local $x = 30, $y = 125
 	$grpWalls = GUICtrlCreateGroup("Walls", $x - 20, $y - 15, 450, 110)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 50, $x - 10, $y - 4, 24, 24)
@@ -1860,9 +1914,9 @@ Local $x = 30, $y = 125
 ;~ -------------------------------------------------------------
 ;~ PushBullet Tab
 ;~ -------------------------------------------------------------
-$tabPushBullet = GUICtrlCreateTabItem("Push")
+$tabNotify = GUICtrlCreateTabItem("Notify")
 	Local $x = 30, $y = 130
-	  $grpPushBullet = GUICtrlCreateGroup("PushBullet Alert ", $x - 20, $y - 20, 450, 375)
+	  $grpPushBullet = GUICtrlCreateGroup("PushBullet Alert ", $x - 20, $y - 20, 450, 465)
 	  $chkPBenabled = GUICtrlCreateCheckbox("Enable", $x, $y, -1, -1)
 		 GUICtrlSetOnEvent(-1, "chkPBenabled")
 		 ;GUICtrlSetState(-1, $GUI_CHECKED)
@@ -1874,8 +1928,8 @@ $tabPushBullet = GUICtrlCreateTabItem("Push")
       $PushBTokenValue = GUICtrlCreateInput("", $x + 90, $y + 25, 260, 19)
 		 GUICtrlSetTip(-1, "Token from PushBullet.com")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $lblOrigPush = GUICtrlCreateLabel("Push from:", $x, $y + 50, 80, 17, $SS_RIGHT)
-	  $PBVillageName = GUICtrlCreateInput("", $x + 90, $y + 50, 260, 19)
+	  $lblOrigPush = GUICtrlCreateLabel("Village Name:", $x, $y + 50, 80, 17, $SS_RIGHT)
+	  $OrigPushB = GUICtrlCreateInput("", $x + 90, $y + 50, 260, 19)
 	  	 GUICtrlSetTip(-1, "Your village's name")
 	    GUICtrlSetState(-1, $GUI_DISABLE)
 	  $chkAlertPBVMFound = GUICtrlCreateCheckbox("Match Found", $x + 25, $y + 75, -1, -1)
@@ -1911,8 +1965,8 @@ $tabPushBullet = GUICtrlCreateTabItem("Push")
 		 GUICtrlSetTip(-1, "It will alert you when the unit you selected starts upgrading, or you do not have enough resources to upgrade")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
 
-	  $lblgrppushbullet = GUICtrlCreateGroup("PushBullet Remote Control", $x-10, $y + 185, 430, 160)
-	  $lblPBdesc = GUICtrlCreateLabel("You can remotely control your bot using the following command format" & @CRLF & "Enter Bot <command> in the title of the message" & @CRLF & "<command> is:" & @CRLF & "Restart or Start - to restart bot and Bluestacks" & @CRLF & "Pause - to pause bot" & @CRLF & "Resume - to resume bot" & @CRLF & "Stats - to send Village report and current troop capacity" & @CRLF & "Logs - to send the current log file" & @CRLF & "Delete - to delete all your previous Push message" & @CRLF & "LastRaid - to send last raid screenshot" & @CRLF & "Help - to send this help message", $x, $y + 200, -1, -1, $SS_LEFT)
+	  $lblgrppushbullet = GUICtrlCreateGroup("PushBullet Remote Control", $x-10, $y + 180, 430, 215)
+	  $lblPBdesc = GUICtrlCreateLabel("You can remotely control your bot sending commands following this syntax:" & @CRLF & @CRLF & "BOT HELP - send this help message" & @CRLF & "BOT DELETE  - delete all your previous Push message" & @CRLF & "BOT <Village Name> PAUSE - pause the bot named <Village Name>" & @CRLF & "BOT <Village Name> RESTART - restart the bot named <Village Name> and BlueStacks" & @CRLF & "BOT <Village Name> RESUME   - resume the bot named <Village Name>" & @CRLF & "BOT <Village Name> STATS - send Village Statistics of <Village Name>" & @CRLF & "BOT <Village Name> LOG - send the current log file of <Village Name>" & @CRLF & "BOT <Village Name> LASTRAID - send the current log file of <Village Name>" & @CRLF & "BOT <Village Name> SCREENSHOT - send a screenshot of <Village Name>"  & @CRLF &   @CRLF & "Examples:" & @CRLF & "Bot MyVillage Pause    -    Bot Delete    -    Bot MyVillage Screenshot", $x, $y + 195, -1, -1, $SS_LEFT)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
@@ -1958,22 +2012,22 @@ Local $x = 30, $y = 130
 		$lblLastAttackTemp = GUICtrlCreateLabel("Report" & @CRLF & "will update" & @CRLF & "here after" & @CRLF & "each attack.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
 		$lblGoldLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
-			$txtTip = "The amount of Gold you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the Gold cost for Searching." & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
+			$txtTip = "The amount of Gold you gained on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
 		$lblElixirLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
-			$txtTip = "The amount of Elixir you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the cost of your Troops"  & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
+			$txtTip = "The amount of Elixir you gained on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
 		$picDarkLastAttack = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
 		$lblDarkLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
-			$txtTip = "The amount of Dark Elixir you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the cost of your Dark Troops" & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
+			$txtTip = "The amount of Dark Elixir you gained on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
 		$lblTrophyLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
-			$txtTip = "The amount of Trophies you gained or lost since the last attack."
+			$txtTip = "The amount of Trophies you gained or lost on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	
@@ -2101,7 +2155,7 @@ Local $x = 30, $y = 130
 		$lblCredits = GUICtrlCreateLabel("Credits go to the following coders:", $x - 5, $y + 25, 400, 20)
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
 		$txtCredits =	"Antidote, AtoZ, Didipe, Dinobot, DixonHill, DkEd, Envyus, GkevinOD, Hervidero,"  & @CRLF & _
-                        "HungLe, ProMac, Safar46, Saviart and others"  & @CRLF & _
+                        "HungLe, knowjack, ProMac, Safar46, Sardo, Saviart and others"  & @CRLF & _
 						"" & @CRLF & _
 						"And to all forum members contributing to this software!" & @CRLF & _
 						"" & @CRLF & _
@@ -2117,6 +2171,8 @@ GUICtrlCreateTabItem("")
 ;~ -------------------------------------------------------------
 ;~ Bottom status bar
 ;~ -------------------------------------------------------------
+GUISetState(@SW_SHOW)
+
 $statLog = _GUICtrlStatusBar_Create($frmBot)
 	_ArrayConcatenate($G, $Y)
 	_GUICtrlStatusBar_SetSimple($statLog)
@@ -2127,5 +2183,4 @@ $tiExit = TrayCreateItem("Exit")
 
 ;~ -------------------------------------------------------------
 
-GUISetState(@SW_SHOW)
 CheckPrerequisites()
