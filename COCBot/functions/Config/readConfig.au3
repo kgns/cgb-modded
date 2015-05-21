@@ -16,7 +16,7 @@ Func readConfig() ;Reads config and sets it to the variables
 
 		$SFPos[0] = IniRead($building, "other", "xspellfactory", "-1")
 		$SFPos[1] = IniRead($building, "other", "yspellfactory", "-1")
-		
+
 		$KingPos[0] = IniRead($building, "other", "xKing", "0")
 		$KingPos[1] = IniRead($building, "other", "yKing", "0")
 		$QueenPos[0] = IniRead($building, "other", "xQueen", "0")
@@ -126,6 +126,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iAttackNowDelay = IniRead($config, "advanced", "attacknowdelay", "3")
 
 		$chkATH = IniRead($config, "advanced", "townhall", "0")
+		$iChkSnipeWhileTrain = IniRead($config, "advanced", "chkSnipeWhileTrain", "0") ; Snipe While Train MOD by ChiefM3
 		$iChkLightSpell = IniRead($config, "advanced", "hitDElightning", "0")
 		$SpellMinDarkStorage = IniRead($config, "advanced", "txtMinDarkStorage", "500")
         $iLSpellQ = IniRead ($config, "advanced", "QLSpell", "3")
@@ -278,7 +279,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$itxtDonateCustom2 = IniRead($config, "donate", "txtDonateCustom2", "0")
 		$icmbDonateCustom3 = IniRead($config, "donate", "cmbDonateCustom3", "0")
 		$itxtDonateCustom3 = IniRead($config, "donate", "txtDonateCustom3", "0")
-		
+
 		$sTxtBlacklist = StringReplace(IniRead($config, "donate", "txtBlacklist", "clan war|war|cw"), "|", @CRLF)
 		$aBlackList = StringSplit($sTxtBlackList, @CRLF, $STR_ENTIRESPLIT)
 
@@ -308,7 +309,7 @@ Func readConfig() ;Reads config and sets it to the variables
         $itxtBuildMinElixir = IniRead($config, "other", "minbuildelixir", "0")
         $itxtBuildMinDark = IniRead($config, "other", "minbuildark", "0")
         $itxtBuilderKeepFree = IniRead($config, "other", "builderkeepfree", "0")
-		
+
 		$ichkUpgradeKing = IniRead($config, "other", "UpKing", "0") ;==>upgradeking
 		$ichkUpgradeQueen = IniRead($config, "other", "UpQueen", "0") ;==>upgradequeen
 

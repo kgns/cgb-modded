@@ -546,6 +546,8 @@ GUICtrlCreateTabItem("")
 		$y +=22
 		$chkAttackTH = GUICtrlCreateCheckbox("Attack Townhall Outside", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, "Check this to Attack an exposed Townhall first. (Townhall outside of Walls)" & @CRLF & "TIP: Also tick 'Meet Townhall Outside' on the Search tab if you only want to search for bases with exposed Townhalls.")
+	    $chkSnipeWhileTrain = GUICtrlCreateCheckbox("TH snipe while training army", $x + 200, $y, -1, -1) ; Snipe While Train MOD by ChiefM3
+			GUICtrlSetTip(-1, "Bot will try to TH snipe while training army.")
 		$y +=22
 		$chkLightSpell = GUICtrlCreateCheckbox("Hit Dark Elixir storage with Lightning Spell", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to use lightning spells to steal Dark Elixir when bot meet Minimum Dark Elixir.")

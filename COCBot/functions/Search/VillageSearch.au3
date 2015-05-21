@@ -129,7 +129,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						If $bBtnAttackNowPressed = True Then ExitLoop
 						$msg &= ", Not TH Bully Level"
 					EndIf
-
 				EndIf
 				If $OptTrophyMode = 1 Then ;Enables Triple Mode Settings
 					If SearchTownHallLoc() Then
@@ -139,7 +138,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						;If _Sleep(1000) Then Return
 						If $bBtnAttackNowPressed = True Then ExitLoop
 						$msg &= ", Not TH Outside!"
-					EndIf
+				    EndIf
 				EndIf
 				If $iradAttackMode = 1 Then
 					_WinAPI_DeleteObject($hBitmapFirst)
@@ -159,6 +158,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				SetLog(_PadStringCenter($msg, 50, "~"), $COLOR_ORANGE)
 				Click(750, 500) ;Click Next
 				$iSkipped = $iSkipped + 1
+
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
 
@@ -170,7 +170,17 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				SetLog(_PadStringCenter(" TH Outside Found! ", 50, "~"), $COLOR_GREEN)
 				ExitLoop
 			Else
-				;If _Sleep(1000) Then Return
+
+			   ; break every 10 searches when Snipe While Train mode is active
+			   If $isSnipeWhileTrain Then
+				  If $iSkipped > 8 Then
+					 Click(62, 519) ; Click End Battle
+					 $Restart = True ; To Prevent Initiation of Attack
+					 ExitLoop
+				  EndIf
+			   EndIf
+
+			    ;If _Sleep(1000) Then Return
 				If $bBtnAttackNowPressed = True Then ExitLoop
 				Click(750, 500) ;Click Next
 				$iSkipped = $iSkipped + 1

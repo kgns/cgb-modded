@@ -141,24 +141,24 @@ Func runBot() ;Bot that runs everything in order
 			Endif
 			Laboratory()
 			    	If _Sleep(1000) Then Return
-			    
+
 			    checkMainScreen(False)
 		     	    	If $Restart = True Then ContinueLoop
 			UpgradeWall()
 				If _Sleep(1000) Then Return
-				
+
 			    checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
 			;Mow the lawn
 			RemoveTrees()
 				If _Sleep(1000) Then Return
-				
+
 			    checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
 			;End Mow the lawn
 			UpgradeHeroes()
 				If _Sleep(1000) Then Return
-				
+
 			    checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
 			UpgradeBuilding()
@@ -198,7 +198,7 @@ Func Idle() ;Sequence that runs until Full Army
 		While $iReHere < 10
 			$iReHere += 1
 			DonateCC(true)
-			If _Sleep(3000) Then ExitLoop
+			If _Sleep(2000) Then ExitLoop
 		    If $Restart = True Then ExitLoop
 		WEnd
 		If _Sleep(1500) Then ExitLoop
@@ -229,6 +229,10 @@ Func Idle() ;Sequence that runs until Full Army
 			If _Sleep(1000) Then ExitLoop
 
 			    checkMainScreen(False)
+		EndIf
+
+		If($iChkSnipeWhileTrain) Then
+		   SnipeWhileTrain() ;; snipe TH while training army by ChiefM3
 		EndIf
 
 		$TimeIdle += Round(TimerDiff($hTimer) / 1000, 2) ;In Seconds
