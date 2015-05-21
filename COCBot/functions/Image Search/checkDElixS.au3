@@ -105,6 +105,7 @@ Func DropLSpell ()
 				   If _Sleep(SetSleep(1)) Then Return
 				   Click($DESLocx, $DESLocy, $LSpellQ , 250)   ; $LSpellQ = $atkTroops[$i][1] = quantity of spells
 				   SetLog("== Attacking DE Storage with: " & $LSpellQ &" Spells ==")
+				   _Sleep(4000) ;; wait 4 seconds after casting spell
 			     Else
 				   SetLog("== Not Enough Amount of Lightning Spells  ==", $COLOR_RED)
 			     EndIf
