@@ -82,10 +82,14 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 	Return $GUI_RUNDEFMSG
 EndFunc   ;==>GUIControl
 
+Func PushBulletRemoteControl()
+    If GUICtrlRead($chkPBenabled) = $GUI_CHECKED AND GUICtrlRead($chkPBRemote) = $GUI_CHECKED Then _RemoteControl()
+EndFunc   ;==>PushBulletRemoteControl
+
 Func SetTime()
 	Local $time = _TicksToTime(Int(TimerDiff($sTimer) + $iTimePassed), $hour, $min, $sec)
 	If _GUICtrlTab_GetCurSel($tabMain) = 9 Then GUICtrlSetData($lblresultruntime, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
-    If $pEnabled = 1 AND $pRemote = 1 AND (StringFormat("%02i", $sec) = "00" OR StringFormat("%02i", $sec) = "30") Then _RemoteControl()
+    ;If $pEnabled = 1 AND $pRemote = 1 AND (StringFormat("%02i", $sec) = "00" OR StringFormat("%02i", $sec) = "30") Then _RemoteControl()
 EndFunc   ;==>SetTime
 Func Initiate()
 

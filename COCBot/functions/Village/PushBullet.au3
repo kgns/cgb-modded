@@ -42,7 +42,7 @@ Func _RemoteControl()
 					 $txtHelp &= '\n' & "BOT HELP - send this help message"
 					 $txtHelp &= '\n' & "BOT DELETE  - delete all your previous Push message"
 					 $txtHelp &= '\n' & "BOT <Village Name> RESTART - restart the bot named <Village Name> and bluestacks"
-					 ;$txtHelp &= '\n' & "BOT <Village Name> STOP - stop the bot named <Village Name>"
+					 $txtHelp &= '\n' & "BOT <Village Name> STOP - stop the bot named <Village Name>"
 					 $txtHelp &= '\n' & "BOT <Village Name> PAUSE - pause the bot named <Village Name>"
 					 $txtHelp &= '\n' & "BOT <Village Name> RESUME   - resume the bot named <Village Name>"
 					 $txtHelp &= '\n' & "BOT <Village Name> STATS - send Village Statistics of <Village Name>"
@@ -127,15 +127,15 @@ Func _RemoteControl()
 				  _Push($iOrigPushB & ": Request to Restart...", "Your bot and BS are now restarting...")
 				  SaveConfig()
 				  _Restart()
-			;Case "BOT " & StringUpper($iOrigPushB)  & " STOP"
-			;	  _DeleteMessage($iden[$x])
-			;	  SetLog("Your request has been received. " & $title[$x])
-			;	  If $Runstate = True Then
-			;		 _Push($iOrigPushB & ": Request to Stop...", "Your bot is now stopping...")
-			;		 btnStop()
-			;	  Else
-			;		 _Push($iOrigPushB & ": Request to Stop...", "Your bot is currently stopped, no action was taken")
-			;	  EndIf
+			Case "BOT " & StringUpper($iOrigPushB)  & " STOP"
+				  _DeleteMessage($iden[$x])
+				  SetLog("Your request has been received. " & $title[$x])
+				  If $Runstate = True Then
+					 _Push($iOrigPushB & ": Request to Stop...", "Your bot is now stopping...")
+					 btnStop()
+				  Else
+					 _Push($iOrigPushB & ": Request to Stop...", "Your bot is currently stopped, no action was taken")
+				  EndIf
 			EndSwitch
 				$title[$x] = ""
 				$iden[$x] = ""

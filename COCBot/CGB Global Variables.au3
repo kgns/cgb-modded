@@ -72,6 +72,7 @@ Global $icmbAtkNowDeploy, $ichkAtkNowLSpell, $ichkAtkNowMines = False
 Global $PushToken = ""
 
 ;PushBullet---------------------------------------------------------------
+Global $PBRemoteControlInterval = 30000
 GLOBAL $iOrigPushB
 Global $iAlertPBVillage
 GLOBAL $pEnabled
