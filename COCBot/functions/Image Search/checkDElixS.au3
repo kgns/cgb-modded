@@ -99,17 +99,18 @@ Func DropLSpell ()
 	   Next
 
 	    If (($DESLoc = 1) And $LSpell <> -1 ) Then
-			If (Number($searchDark) >= Number($SpellMinDarkStorage)) then
+			If (Number(getDarkElixir(51, 66 + 57)) >= Number($SpellMinDarkStorage)) then ;; check right before dropping spell, not the initial loot
 			     If $LSpellQ >= $iLSpellQ then
 				   Click(68 + (72 * $LSpell), 595) ;Select Troop
 				   If _Sleep(SetSleep(1)) Then Return
 				   Click($DESLocx, $DESLocy, $LSpellQ , 250)   ; $LSpellQ = $atkTroops[$i][1] = quantity of spells
 				   SetLog("== Attacking DE Storage with: " & $LSpellQ &" Spells ==")
+				   _Sleep(4000) ;; wait 4 seconds after casting spell
 			     Else
 				   SetLog("== Not Enough Amount of Lightning Spells  ==", $COLOR_RED)
 			     EndIf
 			Else
-			  SetLog("== Not Enough DE to waste Lightning Spells  ==", $COLOR_RED)
+			  SetLog("== Not Enough DE left to waste Lightning Spells  ==", $COLOR_RED)
 			Endif
 	    Else
 

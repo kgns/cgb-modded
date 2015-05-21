@@ -234,6 +234,12 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWrite($config, "advanced", "townhall", 0)
 	EndIf
 
+    If GUICtrlRead($chkSnipeWhileTrain) = $GUI_CHECKED Then ; Snipe While Train MOD by ChiefM3
+	   IniWrite($config, "advanced", "chkSnipeWhileTrain", 1)
+    Else
+	   IniWrite($config, "advanced", "chkSnipeWhileTrain", 0)
+    EndIf
+
 	If GUICtrlRead($chkLightSpell) = $GUI_CHECKED Then
 		IniWrite($config, "advanced", "hitDElightning", 1)
 	Else
@@ -528,7 +534,7 @@ Func saveConfig() ;Saves the controls settings to the config
 
 	IniWrite($config, "donate", "txtDonateLavaHounds", StringReplace(GUICtrlRead($txtDonateLavaHounds), @CRLF, "|"))
 	IniWrite($config, "donate", "txtBlacklistLavaHounds", StringReplace(GUICtrlRead($txtBlacklistLavaHounds), @CRLF, "|"))
-	
+
 	;;; Custom Combination Donate by ChiefM3
 	If GUICtrlRead($chkDonateCustom) = $GUI_CHECKED Then
 		IniWrite($config, "donate", "chkDonateCustom", 1)
@@ -541,7 +547,7 @@ Func saveConfig() ;Saves the controls settings to the config
 		IniWrite($config, "donate", "chkDonateAllCustom", 0)
 	EndIf
 	IniWrite($config, "donate", "txtDonateCustom", StringReplace(GUICtrlRead($txtDonateCustom), @CRLF, "|"))
-	
+
     IniWrite($config, "donate", "txtBlacklistCustom", StringReplace(GUICtrlRead($txtBlacklistCustom), @CRLF, "|"))
 
    IniWrite($config, "donate", "cmbDonateCustom1", _GUICtrlComboBox_GetCurSel($cmbDonateCustom1))
@@ -671,13 +677,13 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	IniWrite($building, "other", "BuildUpgradeY3", GUICtrlRead($txtUpgradeY3))
 	IniWrite($building, "other", "BuildUpgradeX4", GUICtrlRead($txtUpgradeX4))
 	IniWrite($building, "other", "BuildUpgradeY4", GUICtrlRead($txtUpgradeY4))
-	
+
 	If GUICtrlRead($chkUpgradeKing) = $GUI_CHECKED Then ;==>upgradeking
 		IniWrite($config, "other", "UpKing", 1)
 	Else
 		IniWrite($config, "other", "UpKing", 0)
 	EndIf
-	
+
 	If GUICtrlRead($chkUpgradeQueen) = $GUI_CHECKED Then ;==>upgradequeen
 		IniWrite($config, "other", "UpQueen", 1)
 	Else

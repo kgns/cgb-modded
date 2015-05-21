@@ -19,6 +19,7 @@
 $frmBot = GUICreate($sBotTitle, 470, 715)
 	GUISetIcon($LibDir & "\CGBBOT.dll", 10)
 	TraySetIcon($LibDir & "\CGBBOT.dll", 10)
+	GUISetFont(8.5,400,0,"Tahoma")
 $tabMain = GUICtrlCreateTab(5, 85, 461, 495, $TCS_TOOLTIPS)
 	GUICtrlSetOnEvent(-1, "tabMain")
 	GUICtrlCreatePic (@ScriptDir & "\Icons\logo.jpg", 0, 0, 470, 80)
@@ -545,6 +546,8 @@ GUICtrlCreateTabItem("")
 		$y +=22
 		$chkAttackTH = GUICtrlCreateCheckbox("Attack Townhall Outside", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, "Check this to Attack an exposed Townhall first. (Townhall outside of Walls)" & @CRLF & "TIP: Also tick 'Meet Townhall Outside' on the Search tab if you only want to search for bases with exposed Townhalls.")
+	    $chkSnipeWhileTrain = GUICtrlCreateCheckbox("TH snipe while training army", $x + 200, $y, -1, -1) ; Snipe While Train MOD by ChiefM3
+			GUICtrlSetTip(-1, "Bot will try to TH snipe while training army.")
 		$y +=22
 		$chkLightSpell = GUICtrlCreateCheckbox("Hit Dark Elixir storage with Lightning Spell", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to use lightning spells to steal Dark Elixir when bot meet Minimum Dark Elixir.")
@@ -828,7 +831,7 @@ $y += 40
 		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 35, 1)
 		GUICtrlSetOnEvent(-1, "btnDonateLavaHounds")
 		;GUICtrlSetState (-1, $GUI_DISABLE)
-		
+
 	;;; Custom Combination Donate by ChiefM3
 	$lblBtnCustom = GUICtrlCreateLabel("", $x + 263, $y - 2, 42, 42)
 		GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
@@ -1332,7 +1335,7 @@ $y += 75
 			GUICtrlSetData(-1, StringFormat("no\r\ncw\r\nwar"))
 			GUICtrlSetTip(-1, "Blacklist for donating Custom Troops")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$grpBlacklist = GUICtrlCreateGroup("General Blacklist", $x - 20, $y - 20, 450, 190)
 		GUICtrlSetState(-1, $GUI_HIDE)
 		$picDonateBlacklist = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 63, $x + 215, $y, 64, 64, $BS_ICON)
@@ -1621,7 +1624,7 @@ $tabMisc = GUICtrlCreateTabItem("Misc")
 			$txtTip = "Attack a Deadbase found on the first search while dropping Trophies."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	Local $x = 260, $y = 275
 	$grpLocateBuildings = GUICtrlCreateGroup("Locate Manually", $x - 20, $y - 20, 220, 65)
 		$btnLocateTownHall = GUICtrlCreateButton("Townhall", $x - 10, $y, 40, 40, $BS_ICON)
@@ -1703,7 +1706,7 @@ Local $x = 30, $y = 125
 			GUICtrlSetLimit(-1, 7)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$y += 115
 	$grpUpgrades = GUICtrlCreateGroup("Upgrades Queue", $x - 20, $y - 20, 220, 110)
 	$chkUpgrade1 = GUICtrlCreateCheckbox("Upgrade 1", $x-10, $y - 3, -1, 20)
@@ -1760,7 +1763,7 @@ Local $x = 30, $y = 125
 		$txtBuilderKeepFree = GUICtrlCreateInput("0", $x + 100, $y + 57, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetTip(-1, "Keep free builders to build walls or otherwise.")
 			GUICtrlSetLimit(-1, 1)
-		
+
 		$x -= 230
 		$y += 105
 		$Laboratory = GUICtrlCreateGroup("Laboratory", $x - 20, $y - 20, 500, 70)
@@ -1891,7 +1894,7 @@ Local $x = 30, $y = 125
 		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 35, 1)
 		GUICtrlSetOnEvent(-1, "btnTroopsLavaHounds")
 		;GUICtrlSetState (-1, $GUI_DISABLE)
-	
+
 		$x += 2
 		$y += 70
         $grpLocateBuildings = GUICtrlCreateGroup("Locate Heroes", $x - 20, $y - 20, 220, 65)
@@ -2030,7 +2033,7 @@ Local $x = 30, $y = 130
 			$txtTip = "The amount of Trophies you gained or lost on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x += 113
 	$y = 130
     $grpTotalLoot = GUICtrlCreateGroup("Stats: Total Loot", $x - 20, $y - 20, 108, 105)

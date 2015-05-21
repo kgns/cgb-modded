@@ -117,6 +117,8 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 				AttackTHgbarch(); good for masters+
 		EndSwitch
 
+		 If $OptTrophyModeDE Then DropLSpell() ;;; Drop Lightning spell if TH snipe DE zap checked
+
 		If $OptTrophyMode = 1 And SearchTownHallLoc() Then; Return ;Exit attacking if trophy hunting and not bullymode
 
 			For $i = 1 To 30

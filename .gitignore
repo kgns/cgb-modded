@@ -5,6 +5,7 @@ building.ini
 # Game Bot personal files
 *.log
 *.jpg
+*.zip
 
 # Windows image file caches
 Thumbs.db

@@ -192,6 +192,7 @@ Global $iradAttackMode ;Attack mode, 0 1 2
 Global $iradAttackModeString
 Global $THLoc
 Global $chkATH, $iChkLightSpell
+Global $iChkSnipeWhileTrain, $isSnipeWhileTrain ; Snipe While Train MOD by ChiefM3
 
 Global $King, $Queen, $CC, $Barb, $Arch, $LSpell , $LSpellQ
 Global $LeftTHx, $RightTHx, $BottomTHy, $TopTHy
@@ -327,7 +328,7 @@ Global $TPaused, $BlockInputPause=0
 Global $iWBMortar
 Global $iWBWizTower
 Global $iWBXbow
-Global $TroopGroup[10][6] = [["Pekk",9,25,6,-1,-1],["Drag",8,20,5,-1,-1],["Heal",7,14,3,-1,-1],["Wiza",6,4,4,-1,-1],["Ball",5,5,9,-1,-1],["Wall",4,2,8,-1,-1],["Giant",2,5,1,-1,-1],["Gobl",3,1,7,-1,-1],["Arch",1,1,0,9,1],["Barb",0,1,2,8,0]]
+Global $TroopGroup[10][6] = [["Pekk",9,25,6,-1,-1],["Drag",8,20,5,-1,-1],["Heal",7,14,3,-1,-1],["Wiza",6,4,4,-1,-1],["Ball",5,5,9,-1,-1],["Wall",4,2,8,-1,-1],["Giant",2,5,1,-1,-1],["Gobl",3,1,7,-1,0],["Arch",1,1,0,9,2],["Barb",0,1,2,8,1]]
 Global $TroopName[Ubound($TroopGroup,1)]
 Global $TroopNamePosition[Ubound($TroopGroup,1)]
 Global $TroopHeight[Ubound($TroopGroup,1)]
