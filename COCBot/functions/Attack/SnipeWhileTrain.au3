@@ -53,14 +53,18 @@ Func SnipeWhileTrain()
    $ichkMeetOne = 0
    $chkATH = 1
    $OptTrophyMode = 1
-   $THaddtiles = 0
+   If $TotalCamp * $fulltroop < 0.7 Then
+	  $THaddtiles = 0 ;; Safe TH snipe if army under 70%
+   Else
+	  $THaddtiles = 1 ;; Take a bit of risk if army over 70%
+   EndIf
 
    ; go to search for 20 times
    SetLog("Trying TH snipe while training army", $COLOR_RED)
    $isSnipeWhileTrain = True
    $Is_ClientSyncError = False
    AttackMain()
-   $Restart = False ; Sets $Restart as True to end search after 10 searches
+   $Restart = False ; Sets $Restart as True to end search after 10 attempts
    $Is_ClientSyncError = False
    $isSnipeWhileTrain = False
    SetLog("End trying TH snipe while training army", $COLOR_RED)
