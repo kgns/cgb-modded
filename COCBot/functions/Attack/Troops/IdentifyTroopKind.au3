@@ -1,66 +1,3 @@
-Func NameOfTroop($kind, $plurial = 0)
-	Switch $kind
-		Case $eBarb
-			Return "Barbarians"
-		Case $eArch
-			Return "Archers"
-		Case $eGobl
-			Return "Goblins"
-		Case $eGiant
-			Return "Giants"
-		Case $eWall
-			Return "Wall Breakers"
-		Case $eWiza
-			Return "Wizards"
-		Case $eBall
-			Return "Balloons"
-	    Case $eHeal
-			Return "Healers"
-	    Case $eDrag
-			Return "Dragons"
-	    Case $ePekk
-			Return "Pekkas"
-		Case $eMini
-			Return "Minions"
-		Case $eHogs
-			Return "Hog Riders"
-		Case $eValk
-			Return "Valkyries"
-		Case $eWitc
-			Return "Witches"
-		Case $eGole
-			Return "Golems"
-		Case $eLava
-			Return "Lava Hounds"
-		Case $eKing
-			Return "King"
-		Case $eQueen
-			Return "Queen"
-		Case $eCastle
-			Return "Clan Castle"
-		Case $eLSpell
-			Return "Lightning Spells"
-		Case $eHSpell
-			Return "Heal Spells"
-		Case $eRSpell
-			Return "Rage Spells"
-	    Case $eJSpell
-			Return "Jump Spells"
-	   Case $eFSpell
-			Return "Freeze Spells"
-		Case Else
-			Return ""
-	EndSwitch
-EndFunc   ;==>NameOfTroop
-
-Func SelectDropTroop($Troop)
-	Click(68 + (72 * $Troop), 595)
-EndFunc   ;==>SelectDropTroop
-
-; Read the quantity for a given troop
-Func ReadTroopQuantity($Troop)
-	Return Number(getNormal(40 + (72 * $Troop), 565))
-EndFunc   ;==>ReadTroopQuantity
 
 Func IdentifyTroopKind($SlotPos = 0)
 	; capture troopbar
@@ -84,25 +21,25 @@ Func IdentifyTroopKind($SlotPos = 0)
             EndSwitch
         EndIf
 
-	; Test for Troops
+; Test for Troops
 	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0xF8B020, 6), 10) Then Return $eBarb	;Check if slot is Barbarian
 	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0xD83F68, 6), 10) Then Return $eArch		;Check if slot is Archer
 	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x80CE50, 6), 10) Then Return $eGobl		;Check if slot is Goblin
 	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0xF8D8A0, 6), 10) Then Return $eGiant		;Check if slot is Giant
-	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x60A4D0, 6), 10) And _
-			_ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 610 - $y1), Hex(0x302A2A, 6), 10) Then Return $eWall;Check if slot is Wallbreaker
+	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x60A4D0, 6), 20) And _
+			_ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 610 - $y1), Hex(0x302A2A, 6), 20) Then Return $eWall    ;322c2c Check if slot is Wallbreaker
 	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0xF8F2D1, 6), 10) Then Return $eWiza		;Check if slot is Wizard # needs 2nd check?
     If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 590 - $y1), Hex(0xF8FAE0, 6), 5) Then Return $eHeal    ; Check if slot is Healers # needs 2nd check?
     If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 590 - $y1), Hex(0x791C10, 6), 10) And _
 			_ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 638 - $y1), Hex(0x42301D, 6), 10) Then Return $eBall     ; Check if slot is Balloon
-    If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 608 - $y1), Hex(0x382E50, 6), 10) And _
-	   _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 623 - $y1), Hex(0xF5A754, 6), 10) Then Return $eDrag		;Check if slot is Dragon
+    If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 611 - $y1), Hex(0x31274A, 6), 20) And _
+       _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 620 - $y1), Hex(0xF16530, 6), 20) Then Return $eDrag        ;Check if slot is Dragon
     If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 606 - $y1), Hex(0x52708E, 6), 10) Then Return $ePekk		;Check if slot is Pekka
 
 	;Test for Dark Troops
-	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x4CA0D2, 6), 10) Then Return $eMini		;Check if slot is Minion
-	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x3C76B4, 6), 10) Then Return $eMini		;Check if slot is Minion
-	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x3D7FBB, 6), 20) Then Return $eMini		;Check if slot is Minion
+	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 589 - $y1), Hex(0x121e36, 6), 10) And _              		; 121e36  Check if slot is Minion
+	   _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 620 - $y1), Hex(0x4481ae, 6), 20) Then Return $eMini		;Check if slot is Minion
+	; If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x3D7FBB, 6), 20) Then Return $eMini		;Check if slot is Minion
 	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x603A30, 6), 10) Then Return $eHogs			;Check if slot is Hog Rider
   	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 601 - $y1), Hex(0xF8BDA3, 6), 10) Then Return $eValk	;Check if slot is Valkyrie # needs 2nd check?
   	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 595 - $y1), Hex(0x49487D, 6), 10) And _
@@ -112,8 +49,8 @@ Func IdentifyTroopKind($SlotPos = 0)
 	   _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 617 - $y1), Hex(0x535145, 6), 10) Then Return $eLava	;Check if slot is Lava Hound
 
 	;Test for ClanCastle
-	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 585 - $y1), Hex(0x68ACD0, 6), 10) Then Return $eCastle		;Check if slot is Clan Castle
-	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 585 - $y1), Hex(0x68ACD4, 6), 20) Then Return $eCastle		;Check if slot is Clan Castle
+	If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 592 - $y1), Hex(0xf4d05e, 6), 10) and _
+	   _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 586 - $y1), Hex(0x69a8d1, 6), 20) Then Return $eCastle		;Check if slot is Clan Castle
 	;If _ColorCheck(_GetPixelColor(68 + $SlotComp + (72 * $SlotPos), 585 - $y1), Hex(0x68ACD2, 6), 10) Then Return $eCastle		;Check if slot is Clan Castle
 
 	;Test for Heroes

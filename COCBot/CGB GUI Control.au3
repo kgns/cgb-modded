@@ -4,7 +4,7 @@
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: None
-; Author ........:
+; Author ........: GkevinOD (2014)
 ; Modified ......: Hervidero (2015)
 ; Remarks .......: This file is part of ClashGameBot. Copyright 2015
 ;                  ClashGameBot is distributed under the terms of the GNU GPL
@@ -22,11 +22,11 @@ Opt("TrayMenuMode", 3)
 #include "functions\Other\GUICtrlGetBkColor.au3" ; Included here to use on GUI Control
 
 ;Dynamic declaration of Array controls, cannot be on global variables because the GUI has to be created first for these control-id's to be known.
-Local $aChkDonateControls[16] = [$chkDonateBarbarians, $chkDonateArchers, $chkDonateGiants, $chkDonateGoblins, $chkDonateWallBreakers, $chkDonateBalloons, $chkDonateWizards, $chkDonateHealers, $chkDonateDragons, $chkDonatePekkas, $chkDonateMinions, $chkDonateHogRiders, $chkDonateValkyries, $chkDonateGolems, $chkDonateWitches, $chkDonateLavaHounds]
-Local $aChkDonateAllControls[16] = [$chkDonateAllBarbarians, $chkDonateAllArchers, $chkDonateAllGiants, $chkDonateAllGoblins, $chkDonateAllWallBreakers, $chkDonateAllBalloons, $chkDonateAllWizards, $chkDonateAllHealers, $chkDonateAllDragons, $chkDonateAllPekkas, $chkDonateAllMinions, $chkDonateAllHogRiders, $chkDonateAllValkyries, $chkDonateAllGolems, $chkDonateAllWitches, $chkDonateAllLavaHounds]
-Local $aTxtDonateControls[16] = [$txtDonateBarbarians, $txtDonateArchers, $txtDonateGiants, $txtDonateGoblins, $txtDonateWallBreakers, $txtDonateBalloons, $txtDonateWizards, $txtDonateHealers, $txtDonateDragons, $txtDonatePekkas, $txtDonateMinions, $txtDonateHogRiders, $txtDonateValkyries, $txtDonateGolems, $txtDonateWitches, $txtDonateLavaHounds]
-Local $aTxtBlacklistControls[16] = [$txtBlacklistBarbarians, $txtBlacklistArchers, $txtBlacklistGiants, $txtBlacklistGoblins, $txtBlacklistWallBreakers, $txtBlacklistBalloons, $txtBlacklistWizards, $txtBlacklistHealers, $txtBlacklistDragons, $txtBlacklistPekkas, $txtBlacklistMinions, $txtBlacklistHogRiders, $txtBlacklistValkyries, $txtBlacklistGolems, $txtBlacklistWitches, $txtBlacklistLavaHounds]
-Local $aLblBtnControls[16] = [$lblBtnBarbarians, $lblBtnArchers, $lblBtnGiants, $lblBtnGoblins, $lblBtnWallBreakers, $lblBtnBalloons, $lblBtnWizards, $lblBtnHealers, $lblBtnDragons, $lblBtnPekkas, $lblBtnMinions, $lblBtnHogRiders, $lblBtnValkyries, $lblBtnGolems, $lblBtnWitches, $lblBtnLavaHounds]
+Local $aChkDonateControls[17] = [$chkDonateBarbarians, $chkDonateArchers, $chkDonateGiants, $chkDonateGoblins, $chkDonateWallBreakers, $chkDonateBalloons, $chkDonateWizards, $chkDonateHealers, $chkDonateDragons, $chkDonatePekkas, $chkDonateMinions, $chkDonateHogRiders, $chkDonateValkyries, $chkDonateGolems, $chkDonateWitches, $chkDonateLavaHounds, $chkDonateCustom]
+Local $aChkDonateAllControls[17] = [$chkDonateAllBarbarians, $chkDonateAllArchers, $chkDonateAllGiants, $chkDonateAllGoblins, $chkDonateAllWallBreakers, $chkDonateAllBalloons, $chkDonateAllWizards, $chkDonateAllHealers, $chkDonateAllDragons, $chkDonateAllPekkas, $chkDonateAllMinions, $chkDonateAllHogRiders, $chkDonateAllValkyries, $chkDonateAllGolems, $chkDonateAllWitches, $chkDonateAllLavaHounds, $chkDonateAllCustom]
+Local $aTxtDonateControls[17] = [$txtDonateBarbarians, $txtDonateArchers, $txtDonateGiants, $txtDonateGoblins, $txtDonateWallBreakers, $txtDonateBalloons, $txtDonateWizards, $txtDonateHealers, $txtDonateDragons, $txtDonatePekkas, $txtDonateMinions, $txtDonateHogRiders, $txtDonateValkyries, $txtDonateGolems, $txtDonateWitches, $txtDonateLavaHounds, $txtDonateCustom]
+Local $aTxtBlacklistControls[17] = [$txtBlacklistBarbarians, $txtBlacklistArchers, $txtBlacklistGiants, $txtBlacklistGoblins, $txtBlacklistWallBreakers, $txtBlacklistBalloons, $txtBlacklistWizards, $txtBlacklistHealers, $txtBlacklistDragons, $txtBlacklistPekkas, $txtBlacklistMinions, $txtBlacklistHogRiders, $txtBlacklistValkyries, $txtBlacklistGolems, $txtBlacklistWitches, $txtBlacklistLavaHounds, $txtBlacklistCustom]
+Local $aLblBtnControls[17] = [$lblBtnBarbarians, $lblBtnArchers, $lblBtnGiants, $lblBtnGoblins, $lblBtnWallBreakers, $lblBtnBalloons, $lblBtnWizards, $lblBtnHealers, $lblBtnDragons, $lblBtnPekkas, $lblBtnMinions, $lblBtnHogRiders, $lblBtnValkyries, $lblBtnGolems, $lblBtnWitches, $lblBtnLavaHounds, $lblBtnCustom]
 
 _GDIPlus_Startup()
 Global Const $64Bit = StringInStr(@OSArch, "64") > 0
@@ -113,11 +113,9 @@ Func Initiate()
 		EndIf
 
 		WinActivate($Title)
-
-		SetLog("~~~~ " & $sBotTitle & " Powered by GameBot.org~~~~", $COLOR_PURPLE)
-		SetLog($Compiled & " running on " & @OSArch & " OS", $COLOR_GREEN)
-		SetLog("Bot is starting...", $COLOR_ORANGE)
-
+		SetLog(_PadStringCenter(" " & $sBotTitle & " Powered by GameBot.org ", 50, "~"), $COLOR_PURPLE)
+		SetLog($Compiled & " running on " & @OSVersion & " " & @OSServicePack & " " & @OSArch)
+		SetLog(_PadStringCenter(" Bot Start ", 50, "="), $COLOR_GREEN)
 		$AttackNow = False
 		$FirstStart = True
 		$Checkrearm = True
@@ -126,7 +124,31 @@ Func Initiate()
 			SetLog("Delete all PushBullet...", $COLOR_BLUE)
 		EndIf
 		$sTimer = TimerInit()
+
+		$RunState = True
+		For $i = $FirstControlToHide To $LastControlToHide ; Save state of all controls on tabs
+			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
+			$iPrevState[$i] = GUICtrlGetState($i)
+		Next
+		For $i = $FirstControlToHide To $LastControlToHide ; Disable all controls in 1 go on all tabs
+			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
+			GUICtrlSetState($i, $GUI_DISABLE)
+		Next
+
+		GUICtrlSetState($chkBackground, $GUI_DISABLE)
+		GUICtrlSetState($btnStart, $GUI_HIDE)
+		GUICtrlSetState($btnStop, $GUI_SHOW)
+		GUICtrlSetState($btnPause, $GUI_SHOW)
+		GUICtrlSetState($btnResume, $GUI_HIDE)
+
+
+
 		AdlibRegister("SetTime", 1000)
+		If $restarted = 1 Then
+			$restarted = 0
+			IniWrite($config, "general", "Restarted", 0)
+			_Push($iOrigPushB & ": Bot restarted", "")
+		EndIf
 		checkMainScreen()
 		ZoomOut()
 		BotDetectFirstTime()
@@ -170,6 +192,7 @@ Func btnStart()
 	GUICtrlSetState($btnStop, $GUI_SHOW)
 	GUICtrlSetState($btnPause, $GUI_SHOW)
 	$FirstAttack = 0
+	$NoMoreWalls = 0
 	CreateLogFile()
 
 
@@ -197,7 +220,7 @@ Func btnStop()
 		EnableBS($HWnD, $SC_MINIMIZE)
 		EnableBS($HWnD, $SC_CLOSE)
 		For $i = $FirstControlToHide To $LastControlToHide ; Restore previous state of controls
-			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabPushBullet Then $i += 1 ; exclude tabs
+			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
 			GUICtrlSetState($i, $iPrevState[$i])
 		Next
 
@@ -206,7 +229,7 @@ Func btnStop()
 		GUICtrlSetState($btnStop, $GUI_HIDE)
 		GUICtrlSetState($btnPause, $GUI_HIDE)
 		GUICtrlSetState($btnResume, $GUI_HIDE)
-		
+
 		If Not $TPaused Then $iTimePassed += Int(TimerDiff($sTimer))
 		AdlibUnRegister("SetTime")
 		_BlockInputEx(0, "", "", $HWnD)
@@ -221,16 +244,9 @@ Func btnPause()
 EndFunc   ;==>btnPause
 
 Func btnResume()
+	$NoMoreWalls = 0
 	Send("{PAUSE}")
 EndFunc   ;==>btnResume
-
-Func chkUnbreakable()
-	If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
-		GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($txtUnbreakable, $GUI_DISABLE)
-	EndIf
-EndFunc   ;==>chkUnbreakable
 
 Func btnAttackNow()
 	If $RunState Then
@@ -248,6 +264,24 @@ Func btnAttackNow()
 		EndIf
 	EndIf
 EndFunc   ;==>btnAttackNow
+
+Func chkUnbreakable()
+   If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
+	  GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)
+	  GUICtrlSetState($txtUnBrkMinGold , $GUI_ENABLE)
+	  GUICtrlSetState($txtUnBrkMaxGold , $GUI_ENABLE)
+	  GUICtrlSetState($txtUnBrkMinElixir, $GUI_ENABLE)
+	  GUICtrlSetState($txtUnBrkMaxElixir, $GUI_ENABLE)
+	  $iUnbreakableMode = 1
+   ElseIf  GUICtrlRead($chkUnbreakable) = $GUI_UNCHECKED Then
+	  GUICtrlSetState($txtUnbreakable, $GUI_DISABLE)
+	  GUICtrlSetState($txtUnBrkMinGold , $GUI_DISABLE)
+	  GUICtrlSetState($txtUnBrkMaxGold , $GUI_DISABLE)
+	  GUICtrlSetState($txtUnBrkMinElixir, $GUI_DISABLE)
+	  GUICtrlSetState($txtUnBrkMaxElixir, $GUI_DISABLE)
+	  $iUnbreakableMode = 0
+   EndIf
+EndFunc
 
 Func btnLocateBarracks()
 	$RunState = True
@@ -309,6 +343,26 @@ Func btnLocateTownHall()
 	$RunState = False
 EndFunc   ;==>btnLocateTownHall
 
+Func btnLocateKing()
+	$RunState = True
+	While 1
+		ZoomOut()
+		LocateKing()
+		ExitLoop
+	WEnd
+	$RunState = False
+EndFunc   ;==>btnLocateKing
+
+Func btnLocateQueen()
+	$RunState = True
+	While 1
+		ZoomOut()
+		LocateQueen()
+		ExitLoop
+	WEnd
+	$RunState = False
+EndFunc   ;==>btnLocateQueen
+
 Func btnSearchMode()
 	While 1
 		GUICtrlSetState($btnStart, $GUI_HIDE)
@@ -339,6 +393,7 @@ Func btnSearchMode()
 EndFunc   ;==>btnSearchMode
 
 Func btnHide()
+   If IsArray(ControlGetPos($Title, "_ctl.Window", "[CLASS:BlueStacksApp; INSTANCE:1]")) Then
 	If $Hide = False Then
 		GUICtrlSetData($btnHide, "Show BS")
 		$botPos[0] = WinGetPos($Title)[0]
@@ -355,7 +410,8 @@ Func btnHide()
 			WinActivate($Title)
 		EndIf
 		$Hide = False
-	EndIf
+	 EndIf
+   EndIf
 EndFunc   ;==>btnHide
 
 Func chkDeployRedArea()
@@ -779,16 +835,6 @@ Func radNotWeakBases()
 	GUICtrlSetState($cmbWBXbow, $GUI_DISABLE)
 EndFunc   ;==>radNotWeakBases
 
-Func chkBackToAllMode()
-	If GUICtrlRead($chkBackToAllMode) = $GUI_CHECKED Then
-		GUICtrlSetState($txtBackToAllMode, $GUI_ENABLE)
-		GUICtrlSetState($lblBackToAllMode, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($txtBackToAllMode, $GUI_DISABLE)
-		GUICtrlSetState($lblBackToAllMode, $GUI_DISABLE)
-	EndIf
-EndFunc   ;==>chkBackToAllMode
-
 Func chkAttackNow()
 	If GUICtrlRead($chkAttackNow) = $GUI_CHECKED Then
 		$iChkAttackNow = 1
@@ -838,10 +884,12 @@ Func chkSnipeMode()
 		$OptTrophyMode = 1
 		GUICtrlSetState($txtTHaddtiles, $GUI_ENABLE)
 		GUICtrlSetState($cmbAttackTHType, $GUI_ENABLE)
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
 	Else
 		$OptTrophyMode = 0
 		GUICtrlSetState($txtTHaddtiles, $GUI_DISABLE)
 		GUICtrlSetState($cmbAttackTHType, $GUI_DISABLE)
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>chkSnipeMode
 
@@ -1077,6 +1125,13 @@ Func btnDonateLavaHounds()
 	EndIf
 EndFunc   ;==>btnDonateLavaHounds
 
+;;; Custom Combination Donate by ChiefM3
+Func btnDonateCustom()
+	If GUICtrlGetState($grpCustom) = BitOR($GUI_HIDE, $GUI_ENABLE) Then
+		_DonateBtn($grpCustom, $txtBlacklistCustom)
+	EndIf
+EndFunc   ;==>btnDonateCustom
+
 Func btnDonateBlacklist()
 	If GUICtrlGetState($grpBlacklist) = BitOR($GUI_HIDE, $GUI_ENABLE) Then
 		_DonateBtn($grpBlacklist, $txtBlacklist)
@@ -1211,6 +1266,15 @@ Func chkDonateAllLavaHounds()
 	EndIf
 EndFunc   ;==>chkDonateAllLavaHounds
 
+;;; Custom Combination Donate by ChiefM3
+Func chkDonateAllCustom()
+	If GUICtrlRead($chkDonateAllCustom) = $GUI_CHECKED Then
+		_DonateAllControls(16, True)
+	Else
+		_DonateAllControls(16, False)
+	EndIf
+EndFunc   ;==>chkDonateAllCustom
+
 Func chkDonateBarbarians()
 	If GUICtrlRead($chkDonateBarbarians) = $GUI_CHECKED Then
 		_DonateControls($eBarb)
@@ -1339,6 +1403,15 @@ Func chkDonateLavaHounds()
 	EndIf
 EndFunc   ;==>chkDonateLavaHounds
 
+;;; Custom Combination Donate by ChiefM3
+Func chkDonateCustom()
+	If GUICtrlRead($chkDonateCustom) = $GUI_CHECKED Then
+		_DonateControls(16)
+	Else
+		GUICtrlSetBkColor($lblBtnCustom, $GUI_BKCOLOR_TRANSPARENT)
+	EndIf
+EndFunc   ;==>chkDonateCustom
+
 Func chkWalls()
 	If GUICtrlRead($chkWalls) = $GUI_CHECKED Then
 		GUICtrlSetState($UseGold, $GUI_ENABLE)
@@ -1364,6 +1437,11 @@ Func chkTrees()
 		$ichkTrees = 1
 	Else
 		$ichkTrees = 0
+	EndIf
+	If GUICtrlRead($chkTombs) = $GUI_CHECKED Then
+		$ichkTombs = 1
+	Else
+		$ichkTombs = 0
 	EndIf
 EndFunc   ;==>chkTrees
 ;End Mow the lawn
@@ -1438,13 +1516,13 @@ Func sldVSDelay()
 	Else
 		GUICtrlSetData($lbltxtVSDelay, "seconds")
 	EndIf
-EndFunc   ;==>sldVSDelay
+ EndFunc   ;==>sldVSDelay
 
-Func chkPBenabled()
+ Func chkPBenabled()
 	If GUICtrlRead($chkPBenabled) = $GUI_CHECKED Then
 		GUICtrlSetState($chkPBRemote, $GUI_ENABLE)
 		GUICtrlSetState($PushBTokenValue, $GUI_ENABLE)
-		GUICtrlSetState($PBVillageName, $GUI_ENABLE)
+		GUICtrlSetState($OrigPushB, $GUI_ENABLE)
 		GUICtrlSetState($chkAlertPBVMFound, $GUI_ENABLE)
 		GUICtrlSetState($chkAlertPBLastRaid, $GUI_ENABLE)
 		GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_ENABLE)
@@ -1459,7 +1537,7 @@ Func chkPBenabled()
 	 Else
 		GUICtrlSetState($chkPBRemote, $GUI_DISABLE)
 		GUICtrlSetState($PushBTokenValue, $GUI_DISABLE)
-		GUICtrlSetState($PBVillageName, $GUI_DISABLE)
+		GUICtrlSetState($OrigPushB, $GUI_DISABLE)
 		GUICtrlSetState($chkAlertPBVMFound, $GUI_DISABLE)
 		GUICtrlSetState($chkAlertPBLastRaid, $GUI_DISABLE)
 		GUICtrlSetState($chkAlertPBWallUpgrade, $GUI_DISABLE)
@@ -1635,6 +1713,25 @@ Func _DonateBtn($FirstControl, $LastControl)
 		GUICtrlSetState($i, $GUI_SHOW)
 	Next
 EndFunc   ;==>_DonateBtn
+
+Func _Restart()
+	Local $sCmdFile
+	FileDelete(@TempDir & "restart.bat")
+	$sCmdFile = 'tasklist /FI "IMAGENAME eq ' & @ScriptFullPath & '" | find /i "' & @ScriptFullPath & '"' & @CRLF _
+				& 'IF ERRORLEVEL 1 GOTO LAUNCHPROGRAM' & @CRLF _
+				&' :LAUNCHPROGRAM '& @CRLF _
+				&' start "" "' & @ScriptFullPath & '" '& @CRLF _
+				& 'call :deleteSelf&exit /b '& @CRLF _
+				& ':deleteSelf '& @CRLF _
+				& 'start /b "" cmd /c del "%~f0"&exit /b'
+	FileWrite(@TempDir & "restart.bat", $sCmdFile)
+	IniWrite($config, "general", "Restarted", 1)
+	Run(@TempDir & "restart.bat", @TempDir, @SW_HIDE)
+	ProcessClose("HD-Frontend.exe")
+	ProcessClose("HD-Agent.exe")
+	ProcessClose("CGB Bot.exe")
+	Exit
+EndFunc
 
 ;---------------------------------------------------
 If FileExists($config) Then

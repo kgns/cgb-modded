@@ -52,7 +52,7 @@ EndIf
 
 Global $hBitmap; Image for pixel functions
 Global $hHBitmap; Handle Image for pixel functions
-Global $sFile = @ScriptDir & "\Icons\logo.gif"
+;Global $sFile = @ScriptDir & "\Icons\logo.gif"
 
 Global $Title = "BlueStacks App Player" ; Name of the Window
 Global $HWnD = WinGetHandle($Title) ;Handle for Bluestacks window
@@ -66,30 +66,30 @@ Global $hLogFileHandle
 Global $Restart = False
 Global $RunState = False
 Global $TakeLootSnapShot = True
+Global $ScreenshotLootInfo = False
 Global $AlertSearch = True
 Global $iChkAttackNow, $iAttackNowDelay, $bBtnAttackNowPressed = False
 Global $icmbAtkNowDeploy, $ichkAtkNowLSpell, $ichkAtkNowMines = False
 Global $PushToken = ""
-Global $iLastAttack
-Global $iAlertPBVillage
 
 ;PushBullet---------------------------------------------------------------
-Global $pEnabled
-Global $pRemote
-Global $pMatchFound
-Global $pLastRaidImg
-Global $pWallUpgrade
-Global $pOOS
-Global $pLabUpgrade
-Global $pTakeAbreak
-Global $pAnotherDevice
-Global $sLogFName
-Global $iAlertPBImageLoot
-Global $iAlertPBMatchFound
+GLOBAL $iOrigPushB
+Global $iLastAttack
+Global $iAlertPBVillage
+GLOBAL $pEnabled
+GLOBAL $pRemote
+GLOBAL $pMatchFound
+GLOBAL $pLastRaidImg
+;GLOBAL $pLastRaidTxt
+GLOBAL $pWallUpgrade
+GLOBAL $pOOS
+GLOBAL $pTakeAbreak
+GLOBAL $pAnotherDevice
+GLOBAL $sLogFName
+GLOBAL $AttackFile
+GLOBAL $RequestScreenshot = 0
 Global $iDeleteAllPushes
-Global $iImageLoot
-Global $LastLoot
-Global $iPBVillageName
+Global $pLabUpgrade
 
 Global $cmbTroopComp ;For Event change on ComboBox Troop Compositions
 Global $iCollectCounter = 0 ; Collect counter, when reaches $COLLECTATCOUNT, it will collect
@@ -115,8 +115,6 @@ Global $searchGold, $searchElixir, $searchDark, $searchTrophy, $searchTH ;Resour
 Global $SearchGold2=0, $SearchElixir2=0, $iStuck=0, $iNext=0
 Global $MinGold, $MinElixir, $MinGoldPlusElixir, $MinDark, $MinTrophy, $MaxTH ; Minimum Resources conditions
 Global $AimGold, $AimElixir, $AimGoldPlusElixir, $AimDark, $AimTrophy, $AimTHtext ; Aiming Resource values
-Global $iChkBackToAllMode ;Back to All Base
-Global $iTxtBackAllBase = 150 ;Number of searches before back to All Base
 Global $iChkSearchReduction
 Global $ReduceCount, $ReduceGold, $ReduceElixir, $ReduceGoldPlusElixir, $ReduceDark, $ReduceTrophy ; Reducing values
 Global $chkConditions[7], $ichkMeetOne ;Conditions (meet gold...)
@@ -139,10 +137,11 @@ Global $SearchTHLResult=0
 Global $BullySearchCount=0
 Global $OptBullyMode=0
 Global $OptTrophyMode
+Global $OptTrophyModeDE
 Global $ATBullyMode
 Global $YourTH
 Global $AttackTHType
-Global $chkLightSpell
+Global $chklightspell
 Global $SpellMinDarkStorage = 500
 Global $iLSpellQ
 
@@ -198,6 +197,8 @@ Global $King, $Queen, $CC, $Barb, $Arch, $LSpell , $LSpellQ
 Global $LeftTHx, $RightTHx, $BottomTHy, $TopTHy
 Global $AtkTroopTH
 Global $GetTHLoc
+Global $iUnbreakableMode = 0
+Global $iUnbreakableWait, $iUnBrkMinGold, $iUnBrkMinElixir, $iUnBrkMaxGold, $iUnBrkMaxElixir
 
 ;Boosts Settings
 Global $remainingBoosts = 0 ;  remaining boost to active during session
@@ -231,6 +232,8 @@ Global $ichkDonateAllValkyries = 0, $ichkDonateValkyries = 0, $sTxtDonateValkyri
 Global $ichkDonateAllGolems = 0, $ichkDonateGolems = 0, $sTxtDonateGolems = "", $sTxtBlacklistGolems = "", $aDonGolems, $aBlkGolems
 Global $ichkDonateAllWitches = 0, $ichkDonateWitches = 0, $sTxtDonateWitches = "", $sTxtBlacklistWitches = "", $aDonWitches, $aBlkWitches
 Global $ichkDonateAllLavaHounds = 0, $ichkDonateLavaHounds = 0, $sTxtDonateLavaHounds = "", $sTxtBlacklistLavaHounds = "", $aDonLavaHounds, $aBlkLavaHounds
+Global $ichkDonateAllCustom = 0, $ichkDonateCustom = 0, $sTxtDonateCustom = "", $sTxtBlacklistCustom = "", $aDonCustom, $aBlkCustom ;;; Custom Combination Donate by ChiefM3
+Global $icmbDonateCustom1, $itxtDonateCustom1, $icmbDonateCustom2, $itxtDonateCustom2, $icmbDonateCustom3, $itxtDonateCustom3 ;;; Custom Combination Donate by ChiefM3
 Global $sTxtBlacklist = "", $aBlacklist
 Global $B[6] = [116, 111, 98, 111, 116, 46]
 Global $F[8] = [112, 58, 47, 47, 119, 119, 119, 46]
@@ -251,6 +254,9 @@ Global $barrackTroop[10] ;Barrack troop set
 Global $ArmyPos[2]
 Global $barrackNum = 0
 Global $barrackDarkNum = 0
+Global $ichkUpgradeKing, $ichkUpgradeQueen ;==> upgrade heroes
+Global $KingPos[2]
+Global $QueenPos[2]
 ;Other Settings
 Global $ichkWalls
 Global $icmbWalls
@@ -259,8 +265,10 @@ Global $itxtWallMinGold
 Global $itxtWallMinElixir
 Global $itxtBuildMinGold
 Global $itxtBuildMinElixir
-Global $itxtBuildMinDElixir
+Global $itxtBuildMinDark
+Global $itxtBuilderKeepFree
 Global $ichkTrees
+Global $ichkTombs
 Global $iVSDelay
 Global $ichkTrap, $iChkCollect
 Global $icmbUnitDelay, $icmbWaveDelay, $iRandomspeedatk
@@ -294,7 +302,8 @@ Global $TimeToStop = -1
 
 Global $itxtMaxTrophy ; Max trophy before drop trophy
 Global $itxtdropTrophy ; trophy floor to drop to
-Global $ichkAutoStart; AutoStart mode enabled disabled
+Global $ichkAutoStart ; AutoStart mode enabled disabled
+Global $restarted
 Global $ichkBackground ; Background mode enabled disabled
 Global $collectorPos[17][2] ;Positions of each collectors
 Global $D[4] = [99, 111, 109, 47]
@@ -305,6 +314,7 @@ Global $CocStopped = @ScriptDir & "\images\CocStopped.bmp"
 Global $G[3] = [104, 116, 116]
 Global $resArmy = 0
 Global $FirstAttack = 0
+Global $FirstRun = 1
 Global $CurTrophy = 0
 Global $brrNum
 Global $sTimer, $iTimePassed, $hour, $min, $sec , $sTimeWakeUp = 120,$sTimeStopAtk
@@ -317,13 +327,15 @@ Global $TPaused, $BlockInputPause=0
 Global $iWBMortar
 Global $iWBWizTower
 Global $iWBXbow
-Global $TroopGroup[10][4] = [["Pekk",9,25,6],["Drag",8,20,5],["Heal",7,14,3],["Wiza",6,4,4],["Ball",5,5,9],["Wall",4,2,8],["Giant",2,5,2],["Gobl",3,1,7],["Arch",1,1,0],["Barb",0,1,1]]
+Global $TroopGroup[10][6] = [["Pekk",9,25,6,-1,-1],["Drag",8,20,5,-1,-1],["Heal",7,14,3,-1,-1],["Wiza",6,4,4,-1,-1],["Ball",5,5,9,-1,-1],["Wall",4,2,8,-1,-1],["Giant",2,5,1,-1,-1],["Gobl",3,1,7,-1,-1],["Arch",1,1,0,9,1],["Barb",0,1,2,8,0]]
 Global $TroopName[Ubound($TroopGroup,1)]
 Global $TroopNamePosition[Ubound($TroopGroup,1)]
 Global $TroopHeight[Ubound($TroopGroup,1)]
+Global $TroopRotateIndex[Ubound($TroopGroup,1)]
 Global $TroopTHSnipeName[Ubound($TroopGroup,1)]
 Global $TroopTHSnipeNamePosition[Ubound($TroopGroup,1)]
 Global $TroopTHSnipeHeight[Ubound($TroopGroup,1)]
+Global $TroopTHSnipeRotateIndex[Ubound($TroopGroup,1)]
 Global $TroopGroupDark[6][3] = [["Lava",5,30],["Gole",3,30],["Witc",4,12],["Valk",2,8],["Hogs",1,5],["Mini",0,2]]
 Global $TroopDarkName[Ubound($TroopGroupDark,1)]
 Global $TroopDarkNamePosition[Ubound($TroopGroupDark,1)]
@@ -339,9 +351,11 @@ for $i=0 to Ubound($TroopGroup,1) - 1
 	$TroopName[$i]         							= $TroopGroup[$i][0]
 	$TroopNamePosition[$i] 							= $TroopGroup[$i][1]
 	$TroopHeight[$i]       							= $TroopGroup[$i][2]
-	$TroopTHSnipeName[$TroopGroup[$i][3]] 			= $TroopGroup[$i][0]
-	$TroopTHSnipeNamePosition[$TroopGroup[$i][3]] 	= $TroopGroup[$i][1]
-	$TroopTHSnipeHeight[$TroopGroup[$i][3]] 		= $TroopGroup[$i][2]
+	$TroopRotateIndex[$i]       						= $TroopGroup[$i][4]
+	$TroopTHSnipeName[$TroopGroup[$i][3]]       				= $TroopGroup[$i][0]
+	$TroopTHSnipeNamePosition[$TroopGroup[$i][3]]       			= $TroopGroup[$i][1]
+	$TroopTHSnipeHeight[$TroopGroup[$i][3]]       				= $TroopGroup[$i][2]
+	$TroopTHSnipeRotateIndex[$TroopGroup[$i][3]]       			= $TroopGroup[$i][5]
 next
 for $i=0 to Ubound($TroopGroupDark,1) - 1
 	$TroopDarkName[$i]         = $TroopGroupDark[$i][0]
@@ -369,12 +383,11 @@ Global $PixelNearCollector[0]
 Global $PixelRedArea[0]
 Global $hBitmapFirst
 Global Enum $eVectorLeftTop, $eVectorRightTop, $eVectorLeftBottom, $eVectorRightBottom
-Global $debugRedArea = 0
+Global $debugRedArea = 0, $debugSetlog = 0
 
 Global $DESTOLoc = ""
 
 Global $dropAllOnSide=1
-Global $checkHeroesByHealth = False
 
 ; Info Profile
 Global $AttacksWon = 0
@@ -382,30 +395,41 @@ Global $DefensesWon = 0
 Global $TroopsDonated = 0
 Global $TroopsReceived = 0
 
+Global $LootFileName = ""
+
+Global $lootGold
+Global $lootElixir
+Global $lootDarkElixir
+Global $lootTrophies
+
+Global $debug_getdigitlarge
+
 ;UpTroops
 Global $ichkLab
 Global $icmbLaboratory
 Global $itxtLabX
 Global $itxtLabY
 Global $UpBar2X = 175
-Global $UpBar2Y = 379
-Global $UpArchX = 180
-Global $UpArchY = 468
-Global $GiantsX = 307
-Global $GiantsY = 361
-Global $WBreakerX = 373
-Global $WBreakerY = 373
-Global $WizardX = 489
-Global $WizardY = 323
-Global $UpHealX = 515
-Global $UpHealY = 431
-Global $UpDragonX = 591
-Global $UpDragonY = 388
-Global $UpPekkaX = 612
-Global $UpPekkaY = 479
-Global $SpellHealX = 527
-Global $SpellHealY = 381
-Global $SpellLightningX = 549
-Global $SpellLightningY = 461
-Global $SpellRageX = 650
-Global $SpellRageY = 372
+Global $UpBar2Y = 370
+Global $UpArchX = 175
+Global $UpArchY = 470
+Global $GiantsX = 275
+Global $GiantsY = 370
+Global $GoblinsX = 275
+Global $GoblinsY = 470
+Global $WBreakerX = 375
+Global $WBreakerY = 370
+Global $BalloonX = 375
+Global $BalloonY = 470
+Global $WizardX = 475
+Global $WizardY = 370
+Global $UpHealX = 475
+Global $UpHealY = 470
+Global $UpDragonX = 575
+Global $UpDragonY = 370
+Global $UpPekkaX = 575
+Global $UpPekkaY = 470
+Global $SpellHealX = 675
+Global $SpellHealY = 470
+Global $SpellLightningX = 675
+Global $SpellLightningY = 370

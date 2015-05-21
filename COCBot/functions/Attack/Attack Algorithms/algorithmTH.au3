@@ -207,9 +207,7 @@ If SearchTownHallLoc() And GUICtrlRead($chkAttackTH)=$GUI_CHECKED Then
 	  _CaptureRegion()
 	  If _ColorCheck(_GetPixelColor(747,497), Hex(0x0C2C8C0, 6), 20) Then Return ;exit if 1 star
 
-	  If $BoolDropHeroes=True Then
-	  ALLDropheroes($aThx,$aThy)
-	  EndIf
+	  If $BoolDropHeroes=True Then	ALLDropheroes($aThx,$aThy)
 
    Local $THtroop = -1
    Local $troopNb = 0
@@ -369,6 +367,9 @@ EndIf
 EndFunc   ;==>AttackTHGrid
 
 Func AttackTHNormal()
+		If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		EndIf
 		 Setlog("Normal Attacking TH Outside with BAM PULSE!")
 
 		 ;---1st wave 15 secs
@@ -416,6 +417,9 @@ Func AttackTHNormal()
 EndFunc   ;==>AttackTHNormal
 
 Func AttackTHXtreme()
+		If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		EndIf
 		 Setlog("Extreme Attacking TH Outside with BAM PULSE!")
 
 		 ;---1st wave 15 secs
@@ -481,6 +485,9 @@ Func AttackTHXtreme()
 EndFunc   ;==>AttackTHXtreme
 
 Func AttackTHgbarch()
+	If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+		DropLSpell()
+	EndIf
  Setlog("Sending 20 archers.")
  AttackTHGrid($eArch,4,2,2000,1,4,0) ; deploys 8 archers - take out possible bombs
  AttackTHGrid($eArch,3,4,1000,1,4,0) ; deploys 12 archers
@@ -512,9 +519,9 @@ WEnd
  AttackTHGrid($eGiant,2,1,1500,1,2,0) ;releases 2 giants in case of spring traps
  AttackTHGrid($eGiant,3,5,1500,2,2,0) ;releases up to 15 giants to take heat
  AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians 
- AttackTHGrid($eBarb,3,6,1500,1,5,0) ; deploys up to 18 barbarians
+ AttackTHGrid($eBarb,3,5,1500,1,5,0) ; deploys up to 15 barbarians
  AttackTHGrid($eArch,3,8,1500,3,4,0) ; deploys 24 archers
- AttackTHGrid($eArch,4,6,1000,3,4,0) ; deploys 24 archers
+ AttackTHGrid($eArch,4,7,1000,3,4,0) ; deploys 28 archers
  $count = 0
 While $count < 25
  _Sleep(1000)
@@ -569,7 +576,7 @@ Func ALLDropheroes($aThx,$aThy)
 				SelectDropTroop($Queen)
 			EndIf
 		EndIf
-EndFunc   ;==>ALLDropheroes
+EndFunc
 
 Func SpellTHGrid($S)
 			If $THi<=15 Or $THside=0 Or $THside=2 Then
@@ -585,7 +592,7 @@ Func SpellTHGrid($S)
 				 EndSwitch
 			 EndIf
 
-EndFunc   ;==>SpellTHGrid
+EndFunc ;---SpellTHGrid
 
 Func CastSpell($THSpell,$x,$y)
    Local $Spell = -1
@@ -607,6 +614,6 @@ Func CastSpell($THSpell,$x,$y)
 		SetLog("No "&$name&" Found")
 	EndIf
 
-EndFunc   ;==>CastSpell
+EndFunc;---CastSpell
 
 

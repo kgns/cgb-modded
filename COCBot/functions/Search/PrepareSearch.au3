@@ -9,7 +9,7 @@ Func PrepareSearch() ;Click attack button and find match button, will break shie
 	Click(217, 510);Click Find a Match Button
 	If _Sleep(3000) Then Return
 
-	If _ColorCheck(_GetPixelColor(513, 416, "Y"), Hex(0x5DAC10, 6), 50) Then
+	If _ColorCheck(_GetPixelColor(513, 416, True), Hex(0x5DAC10, 6), 50) Then
 		Click(513, 416);Click Okay To Break Shield
 	EndIf
 EndFunc   ;==>PrepareSearch

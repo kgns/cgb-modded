@@ -16,12 +16,23 @@
 ;~ ------------------------------------------------------
 ;~ Main GUI
 ;~ ------------------------------------------------------
-$frmBot = GUICreate($sBotTitle, 470, 695)
+$frmBot = GUICreate($sBotTitle, 470, 715)
 	GUISetIcon($LibDir & "\CGBBOT.dll", 10)
 	TraySetIcon($LibDir & "\CGBBOT.dll", 10)
 $tabMain = GUICtrlCreateTab(5, 85, 461, 495, $TCS_TOOLTIPS)
 	GUICtrlSetOnEvent(-1, "tabMain")
 	GUICtrlCreatePic (@ScriptDir & "\Icons\logo.jpg", 0, 0, 470, 80)
+
+;~ ------------------------------------------------------
+;~ Header Menu
+;~ ------------------------------------------------------
+$configMenu = GUICtrlCreateMenu("Load / Save Config")
+$loadConfig = GUICtrlCreateMenuItem("Load", $configMenu)
+	GUICtrlSetOnEvent(-1, "btnLoadConfig")
+	GUICtrlSetTip(-1, "Load Configuration Setting")
+$saveConfig = GUICtrlCreateMenuItem("Save", $configMenu)
+	GUICtrlSetOnEvent(-1, "btnSaveConfig")
+	GUICtrlSetTip(-1, "Save Configuration Setting")
 
 ;~ ------------------------------------------------------
 ;~ Lower part visible on all Tabs
@@ -43,15 +54,19 @@ Local $x = 15, $y = 590
 		$txtTip = "Use this to PAUSE all actions of the bot until you Resume."
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "btnPause")
- 		;GUICtrlSetState(-1, $GUI_HIDE)
+ 		IF $btnColor then GUICtrlSetBkColor(-1,  0xFFA500)
+		GUICtrlSetState(-1, $GUI_HIDE)
 	$btnResume = GUICtrlCreateButton("Resume", -1, -1, 50, 40)
  		$txtTip = "Use this to RESUME a paused Bot."
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "btnResume")
- 		GUICtrlSetState(-1, $GUI_HIDE)
+		IF $btnColor then GUICtrlSetBkColor(-1,  0xFFA500)
+		GUICtrlSetState(-1, $GUI_HIDE)
 	$btnDonate = GUICtrlCreateButton("Donate", $x + 140, -1, 40, 40, $BS_ICON)
-    GUICtrlSetImage (-1, @ScriptDir & "\Icons\donate.ico",1)
-		GUICtrlSetOnEvent(-1, "btnDonate")
+		$txtTip = "Click here if you want to DONATE to our project."
+		GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetImage (-1, @ScriptDir & "\Icons\donate.ico",1)
+		GUICtrlSetOnEvent(-1, "")
 	$chkAutoStart = GUICtrlCreateCheckbox("AS", $x + 2, $y + 48, 30, 20)
  		$txtTip = "Check this to ENABLE the Auto Start of the Bot." & @CRLF & "The bot will Auto Start after 10 seconds"
  		GUICtrlSetFont(-1, 7)
@@ -62,6 +77,7 @@ Local $x = 15, $y = 590
 		$txtTip = "Use this to move the BlueStacks Window out of sight." & @CRLF & "(Not minimized, but hidden)"
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "btnHide")
+		IF $btnColor Then GUICtrlSetBkColor(-1, 0x22C4F5)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 	$chkBackground = GUICtrlCreateCheckbox("Background" & @CRLF & "Mode", $x + 100, $y + 48, 70, 20, BITOR($BS_MULTILINE, $BS_CENTER))
 		$txtTip = "Check this to ENABLE the Background Mode of the Bot." & @CRLF & "With this you can also hide the BlueStacks window out of sight."
@@ -71,7 +87,7 @@ Local $x = 15, $y = 590
 		GUICtrlSetState(-1, $GUI_UNCHECKED)
 	$btnAttackNow = GUICtrlCreateButton("Attack!", $x + 195, $y + 2, 50, 20, $BS_MULTILINE)
 		GUICtrlSetOnEvent(-1, "btnAttackNow")
- 		GUICtrlSetState(-1, $GUI_HIDE)
+		GUICtrlSetState(-1, $GUI_HIDE)
 	$cmbAtkNowDeploy = GUICtrlCreateCombo("", $x + 195, $y + 22, 50, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 		GUICtrlSetData(-1, "1 side|2 side|3 side|4 side", "4 side")
  		GUICtrlSetState(-1, $GUI_HIDE)
@@ -149,7 +165,7 @@ GUICtrlCreateTabItem("")
 
 $tabSearch = GUICtrlCreateTabItem("Search")
 	Local $x = 30, $y = 130
-	$grpAttackMode = GUICtrlCreateGroup("Search Mode", $x - 20, $y - 20, 450, 150)
+	$grpAttackMode = GUICtrlCreateGroup("Search Mode", $x - 20, $y - 20, 450, 130)
 		$radDeadBases = GUICtrlCreateRadio("Dead Bases", $x, $y - 5, -1, -1)
 			 $txtTip = "Search for a Base with Full Collectors and meets all search conditions."
 			GUICtrlSetTip(-1, $txtTip)
@@ -215,7 +231,7 @@ $tabSearch = GUICtrlCreateTabItem("Search")
 		GUICtrlSetData(-1, "0|1|2|3", "0")
 		GUICtrlSetState(-1, $GUI_DISABLE)
 
-	Local $x = 30, $y = 230
+#cs	Local $x = 30, $y = 210
 		$chkBackToAllMode = GUICtrlCreateCheckbox("All Base after:", $x, $y, -1, -1)
 			$txtTip = "Release Dead Base or Weak Base search and switch to All Base after No. of searches."
 			GUICtrlSetTip(-1, $txtTip)
@@ -227,41 +243,41 @@ $tabSearch = GUICtrlCreateTabItem("Search")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$lblBackToAllMode = GUICtrlCreateLabel("search(es).", $x + 137, $y + 5, -1, -1)
-			GUICtrlSetState(-1, $GUI_DISABLE)
+#ce			GUICtrlSetState(-1, $GUI_DISABLE)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-Local $x = 30, $y = 285
-	$grpConditions = GUICtrlCreateGroup("Conditions", $x - 20, $y - 20, 220, 180)
+Local $x = 30, $y = 265
+	$grpConditions = GUICtrlCreateGroup("Conditions", $x - 20, $y - 20, 220, 200)
 		$y -= 5
 		$chkMeetGxE = GUICtrlCreateRadio("Meet Gold and Elixir", $x , $y, -1, -1)
 			$txtTip = "Search for a base that meets BOTH the values set for Min. Gold, Elixir."
 			GUICtrlSetTip(-1, $txtTip)
-		$y += 19
+		$y += 22
 		$chkMeetGorE = GUICtrlCreateRadio("Meet Gold or Elixir", $x, $y, -1, -1)
 			$txtTip = "Search for a base that meets ONE of the values set for Min. Gold, Elixir."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_CHECKED)
-		$y += 19
+		$y += 22
 		$chkMeetGpE = GUICtrlCreateRadio("Meet Gold + Elixir", $x, $y, -1, -1)
 			$txtTip = "Search for a base that meets sum of values set for Min. Gold + Elixir."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_CHECKED)
-		$y += 19
+		$y += 22
 		$chkMeetDE = GUICtrlCreateCheckbox("Meet Dark Elixir", $x , $y, -1, -1)
 			$txtTip = "Search for a base that meets the value set for Min. Dark Elixir."
 			GUICtrlSetOnEvent(-1, "chkMeetDE")
 			GUICtrlSetTip(-1, $txtTip)
-		$y += 19
+		$y += 22
 		$chkMeetTrophy = GUICtrlCreateCheckbox("Meet Trophy Count", $x, $y, -1, -1)
 			$txtTip = "Search for a base that meets the value set for Min. Trophies."
 			GUICtrlSetOnEvent(-1, "chkMeetTrophy")
 			GUICtrlSetTip(-1, $txtTip)
-		$y += 19
+		$y += 22
 		$chkMeetTH = GUICtrlCreateCheckbox("Meet Townhall Level", $x, $y, -1, -1)
 			$txtTip = "Search for a base that meets the value set for Max. Townhall Level."
 			GUICtrlSetOnEvent(-1, "chkMeetTH")
 			GUICtrlSetTip(-1, $txtTip)
-		$y += 19
+		$y += 22
 		$chkMeetTHO = GUICtrlCreateCheckbox("Meet Townhall Outside", $x, $y, -1, -1)
 			$txtTip = "Search for a base that has an exposed Townhall. (Outside of Walls)"
 			GUICtrlSetTip(-1, $txtTip)
@@ -280,30 +296,29 @@ Local $x = 30, $y = 285
 			GUICtrlSetOnEvent(-1, "btnSearchMode")
 			GUICtrlSetTip(-1, "Does not attack. Searches for a Village that meets conditions.")
 
-Local $x = 255, $y = 285
-	$grpResources = GUICtrlCreateGroup("Values", $x - 20, $y - 20, 225, 130)
-		$y -= 5
+Local $x = 255, $y = 265
+	$grpResources = GUICtrlCreateGroup("Values", $x - 20, $y - 20, 225, 150)
 		$lblMinGold = GUICtrlCreateLabel("Minimum Gold: ", $x, $y, -1, -1)
 			$txtTip = "Set the Min. amount of Gold to search for on a village to attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$txtMinGold = GUICtrlCreateInput("80000", $x + 130, $y - 5, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 6)
-		$y += 19
+		$y += 22
 		$lblMinElixir = GUICtrlCreateLabel("Minimum Elixir:", $x, $y, -1, -1)
 			$txtTip = "Set the Min. amount of Elixir to search for on a village to attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$txtMinElixir = GUICtrlCreateInput("80000", $x + 130, $y - 5, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 6)
-		$y += 19
+		$y += 22
 		$lblMinGoldPlusElixir = GUICtrlCreateLabel("Minimum Gold + Elixir:", $x, $y, -1, -1)
 			$txtTip = "Set the Min. amount of Gold + Elixir to search for on a village to attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$txtMinGoldPlusElixir = GUICtrlCreateInput("160000", $x + 130, $y - 5, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 6)
-		$y += 19
+		$y += 22
 		$lblMinDarkElixir = GUICtrlCreateLabel("Minimum Dark Elixir:", $x, $y, -1, -1)
 			$txtTip = "Set the Min. amount of Dark Elixir to search for on a village to attack."
 			GUICtrlSetTip(-1, $txtTip)
@@ -311,7 +326,7 @@ Local $x = 255, $y = 285
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 5)
 			_GUICtrlEdit_SetReadOnly(-1, True)
-		$y += 19
+		$y += 22
 		$lblMinTrophy = GUICtrlCreateLabel("Minimum Trophy Count:", $x, $y, -1, -1)
 			$txtTip = "Set the Min. amount of Trophies to search for on a village to attack."
 			GUICtrlSetTip(-1, $txtTip)
@@ -319,7 +334,7 @@ Local $x = 255, $y = 285
 			GUICtrlSetTip(-1, $txtTip)
 			_GUICtrlEdit_SetReadOnly(-1, True)
 			GUICtrlSetLimit(-1, 2)
-		$y += 19
+		$y += 22
 		$lblMinTH = GUICtrlCreateLabel("Maximum Townhall Level:", $x, $y, -1, -1)
 			$txtTip = "Set the Max. level of the Townhall to search for on a village to attack."
 			GUICtrlSetTip(-1, $txtTip)
@@ -330,29 +345,30 @@ Local $x = 255, $y = 285
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y = 420
-	$grpSearchReduction = GUICtrlCreateGroup("Search Reduction", $x - 20, $y - 20, 225, 85)
+	$grpSearchReduction = GUICtrlCreateGroup("Search Reduction", $x - 20, $y - 20, 225, 110)
 		$y -= 5
 		$chkSearchReduction = GUICtrlCreateCheckbox("Auto Reduce", $x , $y, -1, -1)
 			$txtTip = "Check this if you want the search values to automatically be reduced after a certain amount of searches."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_CHECKED)
 			GUICtrlSetOnEvent(-1, "chkSearchReduction")
+		$y += 22
+		$lblSearchReduceGold = GUICtrlCreateLabel("Gold:", $x, $y + 5, -1, 17)
+			$txtTip = "Reduce the Minimal Values for Gold by this amount on each step."
+			GUICtrlSetTip(-1, $txtTip)
+		$txtSearchReduceGold = GUICtrlCreateInput("2000", $x + 35, $y, 50, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 5)
 		$lblSearchReduceCount = GUICtrlCreateLabel("Search(es):", $x + 95, $y + 5, -1, 17)
 		$txtSearchReduceCount = GUICtrlCreateInput("20", $x + 155, $y, 35, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			$txtTip = "Enter the No. of searches to wait before each reduction occures."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 3)
 		$y += 22
-		$lblSearchReduceGold = GUICtrlCreateLabel("Gold:", $x - 15, $y + 5, -1, 17)
-			$txtTip = "Reduce the Minimal Values for Gold by this amount on each step."
+		$lblSearchReduceElixir = GUICtrlCreateLabel("Elixir:", $x, $y + 5, -1, 17)
+			$txtTip = "Reduce the Minimal Values for Elixir by this amount on each step."
 			GUICtrlSetTip(-1, $txtTip)
-		$txtSearchReduceGold = GUICtrlCreateInput("2000", $x + 10, $y, 40, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			GUICtrlSetTip(-1, $txtTip)
-			GUICtrlSetLimit(-1, 5)
-		$lblSearchReduceGoldPlusElixir = GUICtrlCreateLabel("G+E:", $x + 52, $y + 5, -1, 17)
-			$txtTip = "Reduce the Minimal Sum Value for G+E by this amount on each step."
-			GUICtrlSetTip(-1, $txtTip)
-		$txtSearchReduceGoldPlusElixir = GUICtrlCreateInput("4000", $x + 74, $y, 40, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$txtSearchReduceElixir = GUICtrlCreateInput("2000", $x + 35, $y, 50, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 5)
 		$lblSearchReduceDark = GUICtrlCreateLabel("Dark:", $x + 115, $y + 5, -1, 17)
@@ -362,10 +378,10 @@ Local $x = 255, $y = 285
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 3)
 		$y += 22
-		$lblSearchReduceElixir = GUICtrlCreateLabel("Elixir:", $x - 15, $y + 5, -1, 17)
-			$txtTip = "Reduce the Minimal Values for Elixir by this amount on each step."
+		$lblSearchReduceGoldPlusElixir = GUICtrlCreateLabel("G+E:", $x, $y + 5, -1, 17)
+			$txtTip = "Reduce the Minimal Sum Value for G+E by this amount on each step."
 			GUICtrlSetTip(-1, $txtTip)
-		$txtSearchReduceElixir = GUICtrlCreateInput("2000", $x + 10, $y, 40, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$txtSearchReduceGoldPlusElixir = GUICtrlCreateInput("4000", $x + 35, $y, 50, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 5)
 		$lblSearchReduceTrophy = GUICtrlCreateLabel("Trophy:", $x + 115, $y + 5, -1, 17)
@@ -381,7 +397,7 @@ GUICtrlCreateTabItem("")
 ; Attack Basics Tab
 ;~ -------------------------------------------------------------
 
-$tabAttack = GUICtrlCreateTabItem("Basics")
+$tabAttack = GUICtrlCreateTabItem("Attack")
 	Local $x = 30, $y = 130
 	$grpDeploy = GUICtrlCreateGroup("Deploy", $x - 20, $y - 20, 450, 75)
 		$y -= 5
@@ -562,43 +578,93 @@ GUICtrlCreateTabItem("")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 30, $y = 285
-	$grpAtkCombos = GUICtrlCreateGroup("Advanced Attack Combo's", $x - 20, $y - 20, 450, 135)
-		$chkBullyMode = GUICtrlCreateCheckbox("TH Bully after:", $x, $y, -1, -1)
+	$grpAtkCombos = GUICtrlCreateGroup("Advanced Attack Combo's", $x - 20, $y - 20, 225, 135)
+		$chkBullyMode = GUICtrlCreateCheckbox("TH Bully.  After:", $x, $y, -1, -1)
 			$txtTip = "Adds the TH Bully combo to the current search settings. (Example: Deadbase OR TH Bully)" & @CRLF & _
 				"TH Bully: Attacks a lower townhall level after the specified No. of searches."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "chkBullyMode")
-		$txtATBullyMode = GUICtrlCreateInput("150", $x + 100, $y, 60, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$txtATBullyMode = GUICtrlCreateInput("150", $x + 95, $y, 35, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			$txtTip = "TH Bully: No. of searches to wait before activating."
 			GUICtrlSetLimit(-1, 3)
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$lblATBullyMode = GUICtrlCreateLabel("search(es).", $x + 165, $y + 5, -1, -1)
+		$lblATBullyMode = GUICtrlCreateLabel("search(es).", $x + 135, $y + 5, -1, -1)
 		$y +=22
-		$lblATBullyMode = GUICtrlCreateLabel("Max TH lvl:", $x + 20, $y + 5, -1, -1, $SS_RIGHT)
-		$cmbYourTH = GUICtrlCreateCombo("", $x + 100, $y, 60, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$lblATBullyMode = GUICtrlCreateLabel("Max TH level:", $x + 10, $y + 5, -1, -1, $SS_RIGHT)
+		$cmbYourTH = GUICtrlCreateCombo("", $x + 95, $y, 50, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			$txtTip = "TH Bully: Max. Townhall level to bully."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetData(-1, "4-6|7|8|9|10", "4-6")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y+=27
-		$chkTrophyMode = GUICtrlCreateCheckbox("TH Snipe within:", $x, $y, -1, -1)
+		$chkTrophyMode = GUICtrlCreateCheckbox("TH Snipe. Add:", $x, $y, -1, -1)
 			$txtTip = "Adds the TH Snipe combination to the current search settings. (Example: Deadbase OR TH Snipe)"
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "chkSnipeMode")
-		$lblTHaddtiles = GUICtrlCreateLabel( "tiles.", $x + 165, $y + 5, 90, 17)
-		$txtTHaddtiles = GUICtrlCreateInput("1", $x + 100, $y, 60, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$lblTHaddtiles = GUICtrlCreateLabel( "tile(s).", $x + 135, $y + 5, -1, 17)
+		$txtTHaddtiles = GUICtrlCreateInput("1", $x + 95, $y, 35, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetLimit(-1, 3)
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y+=22
-		$lblAttackTHType = GUICtrlCreateLabel("Attack Type:", $x + 20 , $y + 5, -1, 17, $SS_RIGHT)
-		$cmbAttackTHType = GUICtrlCreateCombo("",  $x + 100, $y, 120, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$lblAttackTHType = GUICtrlCreateLabel("Attack Type:", $x + 10 , $y + 5, -1, 17, $SS_RIGHT)
+		$cmbAttackTHType = GUICtrlCreateCombo("",  $x + 95, $y, 105, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch", "Attack1:Normal")
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$y+=22
+		$chkTHSnipeLightningDE = GUICtrlCreateCheckbox("Use lightning for DE while TH Sniping", $x, $y, -1, -1)
+			$txtTip = "Use lightning on DE storage if DE is > than Dark Elixir option above (NOT the one in the Search tab, but this tab) (This will disable lightning for non TH snipe attacks)"
+			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_DISABLE)
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	Local $x = 260, $y = 285
+	$grpDefenseFarming = GUICtrlCreateGroup("Defense Farming", $x - 20, $y - 20, 220, 135)
+		$chkUnbreakable = GUICtrlCreateCheckbox("Enable Unbreakable Mode", $x, $y, -1, -1)
+			$TxtTip = "Enable farming Defense Wins for Unbreakable achievement." ;& @CRLF & "TIP: Set your trophy range on the Misc Tab to '600 - 800' for best results. WARNING: Doing so will DROP you Trophies!"
+			GUICtrlSetTip(-1, $TxtTip)
+			GUICtrlSetOnEvent(-1, "chkUnbreakable")
+		$y += 23
+		$lblUnbreakable1 = GUICtrlCreateLabel("Wait Time:", $x + 20 , $y+3, -1, -1)
+		$txtUnbreakable = GUICtrlCreateInput("5", $x + 75, $y, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			$TxtTip = "Set the amount of time to stop CoC and wait for enemy attacks to gain defense wins. (1-99 minutes)"
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 2)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$lblUnbreakable2 = GUICtrlCreateLabel("Minutes", $x + 110, $y+3, -1, -1)
+		$y += 26
+		$lblUnBreakableFarm = GUICtrlCreateLabel("Farm Min.", $x + 60 , $y, -1, -1)
+		$lblUnBreakableSave = GUICtrlCreateLabel("Save Min.", $x + 135 , $y, -1, -1)
+		$y += 16
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x+5, $y, 16, 16)
+		$lblUnBreakableGold = GUICtrlCreateLabel("Gold:", $x+23 , $y+3, -1, -1)
+		$txtUnBrkMinGold = GUICtrlCreateInput("50000", $x + 55, $y, 58, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Amount of Gold that stops Defense farming, switches to normal farming if below." & @CRLF & "Set this value to amount of Gold you need for searching or upgrades.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$x += 130
+		$txtUnBrkMaxGold = GUICtrlCreateInput("600000", $x, $y, 58, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Amount of Gold in Storage Required to Enable Defense Farming." & @CRLF & "Input amount of Gold you need to attract enemy or for upgrades.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$x -= 130
+		$y +=24
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x+5, $y, 16, 16)
+		$lblUnBreakableElixir = GUICtrlCreateLabel("Elixir:", $x+23, $y+3, -1, -1)
+		$txtUnBrkMinElixir = GUICtrlCreateInput("50000", $x + 55, $y, 58, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Amount of Elixir that stops Defense farming, switches to normal farming if below." & @CRLF & "Set this value to amount of Elixir you need for making troops or upgrades.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$x += 130
+		$txtUnBrkMaxElixir = GUICtrlCreateInput("600000", $x, $y, 58, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Amount of Elixir in Storage Required to Enable Defense Farming." & @CRLF & "Input amount of Elixir you need to attract enemy or for upgrades.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+    GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+
 	Local $x = 30, $y = 425
-	$grpBattleOptions = GUICtrlCreateGroup("Battle Options", $x - 20, $y - 20, 300, 100)
+	$grpBattleOptions = GUICtrlCreateGroup("Battle Options", $x - 20, $y - 20, 300, 80)
 		;$chkTimeStopAtk = GUICtrlCreateCheckbox("End Battle, if no new loot raided within:", $x, $y - 5, -1, -1)
 		$lblTimeStopAtk = GUICtrlCreateLabel("End Battle, if no new loot raided within:", $x + 17, $y, -1, -1)
 			$txtTip = "End Battle if there is no extra loot raided within this No. of seconds." & @CRLF & "Countdown is started after all Troops and Royals are deployed in battle."
@@ -608,16 +674,6 @@ GUICtrlCreateTabItem("")
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetLimit(-1, 2)
 		$lblTimeStopAtk = GUICtrlCreateLabel("sec.", $x + 237, $y, -1, -1)
-		$chkUnbreakable = GUICtrlCreateCheckbox("Unbreakable Mode             Wait Time:", $x, $y + 27, -1, -1)
-			$TxtTip = "Enable mode to farm defenses for Unbreakable achievement"
-			GUICtrlSetTip(-1, $TxtTip)
-			GUICtrlSetOnEvent(-1, "chkUnbreakable")
-		$txtUnbreakable = GUICtrlCreateInput("5", $x + 202, $y + 27, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			GUICtrlSetTip(-1, $txtTip)
-			GUICtrlSetLimit(-1, 2)
-			GUICtrlSetState(-1, $GUI_DISABLE)
-		$lblUnbreakable = GUICtrlCreateLabel("minutes", $x + 237, $y + 30, -1, -1)
-		$lblUnbreakableWarning = GUICtrlCreateLabel("(WARNING: Enable Unbreakable only if you know what it is)", $x - 10, $y + 54, -1, -1)
 #cs
 		$chkEndOneStar = GUICtrlCreateCheckbox("End Battle, when One Star is won", $x, $y + 15, -1, -1)
 			$txtTip = "Will End the Battle if 1 star is won in battle"
@@ -631,10 +687,13 @@ GUICtrlCreateTabItem("")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x +=305
-	$grpLootSnapshot = GUICtrlCreateGroup("Loot Snapshot", $x - 20, $y - 20, 145, 100)
+	$grpLootSnapshot = GUICtrlCreateGroup("Loot Snapshot", $x - 20, $y - 20, 145, 80)
 		$chkTakeLootSS = GUICtrlCreateCheckbox("Take Loot Snapshot", $x - 5, $y - 5, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to save a Loot snapshot of the Village that was attacked.")
 			GUICtrlSetState(-1, $GUI_CHECKED)
+		$chkScreenshotLootInfo = GUICtrlCreateCheckbox("Include Loot Info", $x - 5, $y + 15, -1, -1)
+			GUICtrlSetTip(-1, "Include loot info into screenshot filename")
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 
@@ -769,6 +828,14 @@ $y += 40
 		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 35, 1)
 		GUICtrlSetOnEvent(-1, "btnDonateLavaHounds")
 		;GUICtrlSetState (-1, $GUI_DISABLE)
+		
+	;;; Custom Combination Donate by ChiefM3
+	$lblBtnCustom = GUICtrlCreateLabel("", $x + 263, $y - 2, 42, 42)
+		GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
+		GUICtrlSetState(-1, $GUI_DISABLE)
+	$btnCustom = GUICtrlCreateButton("Custom", $x + 265, $y, 38, 38, $BS_ICON)
+		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 56, 1) ;;; temporarily use wizard icon
+		GUICtrlSetOnEvent(-1, "btnDonateCustom")
 
 $x += 2
 $y += 75
@@ -1212,6 +1279,60 @@ $y += 75
 			GUICtrlSetTip(-1, "Blacklist for donating Lava Hounds")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	;;; Custom Combination Donate by Chief M3
+	$grpCustom = GUICtrlCreateGroup("Custom", $x - 20, $y - 20, 450, 190)
+		GUICtrlSetState(-1, $GUI_HIDE)
+		;$picDonateCustom = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 56, $x + 215, $y, 64, 64, $BS_ICON)
+		;    GUICtrlSetState(-1, $GUI_HIDE)
+		$chkDonateCustom = GUICtrlCreateCheckbox("Custom Combi", $x + 205, $y, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+			GUICtrlSetTip(-1, "Check this to donate Custom Combination if keywords match the Chat Request.")
+			GUICtrlSetOnEvent(-1, "chkDonateCustom")
+		$chkDonateAllCustom = GUICtrlCreateCheckbox("Donate to All", $x + 300, $y, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+			GUICtrlSetTip(-1, "Check this to donate Custom Combination to ALL Chat Requests." & @CRLF & "This will also ignore ALL keywords.")
+			GUICtrlSetOnEvent(-1, "chkDonateAllCustom")
+		$lblDonateCustom =     GUICtrlCreateLabel("Keywords for donating Custom Combination:", $x - 5, $y + 5, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtDonateCustom = GUICtrlCreateEdit("", $x - 5, $y + 20, 205, 135, BitOR($ES_WANTRETURN, $ES_CENTER, $ES_AUTOVSCROLL))
+			GUICtrlSetState(-1, $GUI_HIDE)
+			GUICtrlSetData(-1, StringFormat("any\r\nneed"))
+			GUICtrlSetTip(-1, "Keywords for donating Custom Troops")
+
+		$lblDonateCustom1 = GUICtrlCreateLabel("Troop1", $x+215, $y+27, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$cmbDonateCustom1 = GUICtrlCreateCombo("", $x+260, $y+23, 95, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "Barbarian|Archer|Giant|Goblin|Ballon|W.Breaker|Wizard|Healer|Dragon|Pekka|Minion|HogRider|Valkyrie|Golem|Witch|Lava|Nothing", "Wizard")
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtDonateCustom1 = GUICtrlCreateInput("2", $x+365, $y+23, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetState(-1, $GUI_HIDE)
+
+		$lblDonateCustom2 = GUICtrlCreateLabel("Troop2", $x+215, $y+49, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$cmbDonateCustom2 = GUICtrlCreateCombo("", $x+260, $y+45, 95, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "Barbarian|Archer|Giant|Goblin|Ballon|W.Breaker|Wizard|Healer|Dragon|Pekka|Minion|HogRider|Valkyrie|Golem|Witch|Lava|Nothing", "Barbarian")
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtDonateCustom2 = GUICtrlCreateInput("1", $x+365, $y+45, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetState(-1, $GUI_HIDE)
+
+		$lblDonateCustom3 = GUICtrlCreateLabel("Troop3", $x+215, $y+71, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$cmbDonateCustom3 = GUICtrlCreateCombo("", $x+260, $y+67, 95, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, "Barbarian|Archer|Giant|Goblin|Ballon|W.Breaker|Wizard|Healer|Dragon|Pekka|Minion|HogRider|Valkyrie|Golem|Witch|Lava|Nothing", "Archer")
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtDonateCustom3 = GUICtrlCreateInput("8", $x+365, $y+67, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetState(-1, $GUI_HIDE)
+
+		$lblBlacklistCustom = GUICtrlCreateLabel("Do NOT donate to these keywords:", $x + 215, $y + 90, -1, -1)
+			GUICtrlSetState(-1, $GUI_HIDE)
+		$txtBlacklistCustom = GUICtrlCreateEdit("", $x + 215, $y + 105, 200, 50, BitOR($ES_WANTRETURN, $ES_CENTER, $ES_AUTOVSCROLL))
+			GUICtrlSetState(-1, $GUI_HIDE)
+			GUICtrlSetBkColor ( -1, 0x505050)
+			GUICtrlSetColor ( -1, $COLOR_WHITE)
+			GUICtrlSetData(-1, StringFormat("no\r\ncw\r\nwar"))
+			GUICtrlSetTip(-1, "Blacklist for donating Custom Troops")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
 	$grpBlacklist = GUICtrlCreateGroup("General Blacklist", $x - 20, $y - 20, 450, 190)
 		GUICtrlSetState(-1, $GUI_HIDE)
 		$picDonateBlacklist = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 63, $x + 215, $y, 64, 64, $BS_ICON)
@@ -1361,7 +1482,7 @@ $tabTroops = GUICtrlCreateTabItem("Troops")
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 12, $x - 5, $y - 5, 24, 24)
 		$lblDragons = GUICtrlCreateLabel("No. of Dragons:", $x + 25, $y, -1, -1)
 		$txtNumDrag = GUICtrlCreateInput("0", $x + 130, $y - 5, 55, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-			GUICtrlSetTip(-1, "Enter the No. of Wizards to make.")
+			GUICtrlSetTip(-1, "Enter the No. of Dragons to make.")
 			GUICtrlSetLimit(-1, 3)
 		$y +=25
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 39, $x - 5, $y - 5, 24, 24)
@@ -1416,51 +1537,7 @@ GUICtrlCreateTabItem("")
 ; Misc Tab
 ;~ -------------------------------------------------------------
 $tabMisc = GUICtrlCreateTabItem("Misc")
-Local $x = 30, $y = 130
-	$grpWalls = GUICtrlCreateGroup("Walls", $x - 20, $y - 20, 450, 120)
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 50, $x - 10, $y - 4, 24, 24)
-		$chkWalls = GUICtrlCreateCheckbox("Auto Wall Upgrade", $x + 20, $y, -1, -1)
-			GUICtrlSetTip(-1, "Check this to upgrade Walls if there are enough resources.")
-			GUICtrlSetState(-1, $GUI_ENABLE)
-			GUICtrlSetState(-1, $GUI_UNCHECKED)
-			GUICtrlSetOnEvent(-1, "chkWalls")
-			_ArrayConcatenate($G, $B)
-		$UseGold = GUICtrlCreateRadio("Use Gold", $x + 35, $y + 25, -1, -1)
-			GUICtrlSetTip(-1, "Use only Gold for Walls." & @CRLF & "Available at all Wall levels.")
-			GUICtrlSetState(-1, $GUI_CHECKED)
-			GUICtrlSetState(-1, $GUI_DISABLE)
-		$UseElixir = GUICtrlCreateRadio("Use Elixir", $x + 35, $y + 45, -1, -1)
-			GUICtrlSetTip(-1, "Use only Elixir for Walls." & @CRLF & "Available only at Wall levels upgradeable with Elixir.")
-			GUICtrlSetState(-1, $GUI_DISABLE)
-		$UseElixirGold = GUICtrlCreateRadio("Try Elixir first, Gold second", $x + 35, $y + 65, -1, -1)
-			GUICtrlSetTip(-1, "Try to use Elixir first. If not enough Elixir try to use Gold second for Walls." & @CRLF & "Available only at Wall levels upgradeable with Elixir.")
-			GUICtrlSetState(-1, $GUI_DISABLE)
-		$lblWalls = GUICtrlCreateLabel("Search for Walls level:", $x + 220, $y +5, -1, -1)
-		$cmbWalls = GUICtrlCreateCombo("", $x + 330, $y, 61, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL), $WS_EX_RIGHT)
-			GUICtrlSetTip(-1, "Search for Walls of this level and try to upgrade them one by one.")
-			GUICtrlSetData(-1, "4   |5   |6   |7   |8   |9   |10   ", "4   ")
-			GUICtrlSetState(-1, $GUI_DISABLE)
-			GUICtrlSetOnEvent(-1, "cmbWalls")
-			_ArrayConcatenate($G, $C)
-		$lblTxtWallCost = GUICtrlCreateLabel("Next Wall level costs:", $x + 220,  $y + 25, -1, -1)
-			GUICtrlSetTip(-1, "Use this value as an indicator." &@CRLF & "The value will update if you select an other wall level.")
-		$lblWallCost = GUICtrlCreateLabel("30 000", $x + 330, $y + 25, 50, -1, $SS_RIGHT)
-			GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 220, $y + 47, 16, 16)
-		$WallMinGold = GUICtrlCreateLabel("Min. Gold to save:", $x + 240, $y + 50, -1, -1)
-		$txtWallMinGold = GUICtrlCreateInput("250000", $x + 330, $y + 45, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			GUICtrlSetTip(-1, "Save at least this amount of Gold in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
-			GUICtrlSetLimit(-1, 7)
-			GUICtrlSetState(-1, $GUI_DISABLE)
-		$y +=2
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 220, $y + 67, 16, 16)
-		$WallMinElixir = GUICtrlCreateLabel("Min. Elixir to save:", $x + 240, $y + 70, -1, -1)
-		$txtWallMinElixir = GUICtrlCreateInput("250000", $x + 330, $y + 65, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
-			GUICtrlSetLimit(-1, 7)
-			GUICtrlSetState(-1, $GUI_DISABLE)
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	Local $x = 30, $y = 255
+	Local $x = 30, $y = 130
 	$grpTraps = GUICtrlCreateGroup("Traps, X-bows && Infernos", $x -20, $y - 20 , 225, 60)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 21, $x - 11, $y, 24, 24)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 57, $x + 12, $y, 24, 24)
@@ -1471,7 +1548,7 @@ Local $x = 30, $y = 130
 			_ArrayConcatenate($G, $D)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 30, $y = 320
+	Local $x = 30, $y = 200
 	$grpCollect = GUICtrlCreateGroup("Collecting Resources", $x - 20, $y - 20 , 225, 60)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 59, $x - 11, $y, 24, 24)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 16, $x + 12, $y, 24, 24)
@@ -1483,17 +1560,22 @@ Local $x = 30, $y = 130
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	;Mow the Lawn
-	Local $x = 30, $y = 385
-	GUICtrlCreateIcon(@ScriptDir & "\Icons\trees.ico", -1, $x - 10, $y - 4, 22, 28)
-	$grpOther = GUICtrlCreateGroup("Other", $x -20, $y - 20 , 225, 56)
-	$chkTrees = GUICtrlCreateCheckbox("Remove Trees", $x + 20, $y, -1, -1)
-		GUICtrlSetTip(-1, "Check this to remove shrubbery. Ni! ... and gem boxes.")
-		GUICtrlSetState(-1, $GUI_UNCHECKED)
-		GUICtrlSetOnEvent(-1, "chkTrees")
-		GUICtrlCreateGroup("", -99, -99, 1, 1)
+	Local $x = 260, $y = 200
+	$grpOther = GUICtrlCreateGroup("Other", $x -20, $y - 20 , 220, 70)
+		GUICtrlCreateIcon(@ScriptDir & "\Icons\trees.ico", -1, $x - 10, $y - 4, 18, 23)
+		$chkTrees = GUICtrlCreateCheckbox("Remove Trees", $x + 20, $y - 2, -1, -1)
+			GUICtrlSetTip(-1, "Check this to remove shrubbery. Ni! ... and gem boxes.")
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "chkTrees")
+		GUICtrlCreateIcon(@ScriptDir & "\Icons\tombs.ico", -1, $x - 10, $y + 18, 18, 23)
+		$chkTombs = GUICtrlCreateCheckbox("Remove Tombstones", $x + 20, $y + 20, -1, -1)
+			GUICtrlSetTip(-1, "Check this to remove enemy tombstones. They may obstruct shrubbery.")
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "chkTombs")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	;End Mow the Lawn
 
-	Local $x = 30, $y = 445
+	Local $x = 30, $y = 260
 	$grpTimeWakeUp = GUICtrlCreateGroup("Remote Device", $x - 20, $y - 20 , 225, 60)
 		$lblTimeWakeUp = GUICtrlCreateLabel("When 'Another Device' wait:", $x, $y + 7, -1, -1)
 		$txtTip = "Enter the time to wait (in seconds) before the Bot reconnects when another device took control."
@@ -1504,12 +1586,12 @@ Local $x = 30, $y = 130
 		$lblTimeWakeUpSec = GUICtrlCreateLabel("sec.", $x + 175, $y + 7, -1, -1)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	Local $x = 30, $y = 510
+	Local $x = 30, $y = 325
 	$grpVSDelay = GUICtrlCreateGroup("Village Search Delay ", $x - 20, $y - 20, 225, 55)
 		$txtTip = "Use this slider to change the time to wait between Next clicks when searching for a Village to Attack." & @CRLF & "This might compensate for Out of Sync errors on some PC's." & @CRLF & "NO GUARANTEES! This will not always have the same results!"
-		$lblVSDelay = GUICtrlCreateLabel("1", $x, $y, 12, 15, $SS_RIGHT)
+		$lblVSDelay = GUICtrlCreateLabel("0", $x, $y, 12, 15, $SS_RIGHT)
 			GUICtrlSetTip(-1, $txtTip)
-		$lbltxtVSDelay = GUICtrlCreateLabel("second", $x + 15, $y, 45, -1)
+		$lbltxtVSDelay = GUICtrlCreateLabel("seconds", $x + 15, $y, 45, -1)
 		$sldVSDelay = GUICtrlCreateSlider($x + 55, $y - 2, 130, 25, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
@@ -1519,8 +1601,7 @@ Local $x = 30, $y = 130
 			GUICtrlSetData(-1, 0) ; default value
 			GUICtrlSetOnEvent(-1, "sldVSDelay")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	Local $x = 260, $y = 255
+	Local $x = 260, $y = 130
 	$grpTrophy = GUICtrlCreateGroup("Trophy Settings", $x - 20, $y - 20, 220, 65)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x - 10, $y + 5, 24, 24)
 		$lblTrophyRange = GUICtrlCreateLabel("Trophy range:", $x + 20, $y, -1, -1)
@@ -1540,60 +1621,8 @@ Local $x = 30, $y = 130
 			$txtTip = "Attack a Deadbase found on the first search while dropping Trophies."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	Local $x = 260, $y = 325
-	$grpUpgrades = GUICtrlCreateGroup("Upgrades Queue", $x - 20, $y - 20, 220, 110)
-	$chkUpgrade1 = GUICtrlCreateCheckbox("Upgrade 1", $x-10, $y - 3, -1, 20)
-	$txtUpgradeX1 = GUICtrlCreateInput("", $x+62, $y-3, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-	$txtUpgradeY1 = GUICtrlCreateInput("", $x+90, $y-3, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-	$btnLocateUp1 = GUICtrlCreateButton("Locate Upg 1", $x + 118, $y-3, -1, 20)
-	GUICtrlSetOnEvent(-1, "btnLocateUp1")
-	$y +=5
-	$chkUpgrade2 = GUICtrlCreateCheckbox("Upgrade 2", $x-10, $y + 15, -1, 20)
-	$txtUpgradeX2 = GUICtrlCreateInput("", $x+62, $y+15, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-	$txtUpgradeY2 = GUICtrlCreateInput("", $x+90, $y+15, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-	$btnLocateUp2 = GUICtrlCreateButton("Locate Upg 2", $x + 118, $y+15, -1, 20)
-	GUICtrlSetOnEvent(-1, "btnLocateUp2")
-	$y +=5
-	$chkUpgrade3 = GUICtrlCreateCheckbox("Upgrade 3", $x-10, $y + 33, -1, 20)
-	$txtUpgradeX3 = GUICtrlCreateInput("", $x+62, $y+33, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-	$txtUpgradeY3 = GUICtrlCreateInput("", $x+90, $y+33, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-	$btnLocateUp3 = GUICtrlCreateButton("Locate Upg 3", $x + 118, $y+33, -1, 20)
-	GUICtrlSetOnEvent(-1, "btnLocateUp3")
-	$y +=5
-	$chkUpgrade4 = GUICtrlCreateCheckbox("Upgrade 4", $x-10, $y+51, -1, 20)
-	$txtUpgradeX4 = GUICtrlCreateInput("", $x+62, $y+51, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-	$txtUpgradeY4 = GUICtrlCreateInput("", $x+90, $y+51, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-	$btnLocateUp4 = GUICtrlCreateButton("Locate Upg 4", $x + 118, $y+51, -1, 20)
-	GUICtrlSetOnEvent(-1, "btnLocateUp4")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	Local $x = 260, $y = 440
-    $grpLocateBuildings = GUICtrlCreateGroup("Resources for Upgrade Buildings", $x - 20, $y - 20, 220, 87)
-
-      Local $x = 30, $y = 392
-      GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 220, $y + 47, 16, 16)
-      $BuildMinGold = GUICtrlCreateLabel("Min. Gold to save:", $x + 240, $y + 50, -1, -1)
-        $txtBuildMinGold = GUICtrlCreateInput("200000", $x + 330, $y + 45, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-            GUICtrlSetTip(-1, "Save at least this amount of Gold in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
-            GUICtrlSetLimit(-1, 7)
-            ;GUICtrlSetState(-1, $GUI_DISABLE)
-        $y +=2
-        GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 220, $y + 67, 16, 16)
-        $BuildMinElixir = GUICtrlCreateLabel("Min. Elixir to save:", $x + 240, $y + 70, -1, -1)
-        $txtBuildMinElixir = GUICtrlCreateInput("200000", $x + 330, $y + 65, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-            GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
-            GUICtrlSetLimit(-1, 7)
-            ;GUICtrlSetState(-1, $GUI_DISABLE)
-        $y +=2
-        GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 220, $y + 87, 16, 16)
-        $BuildMinDElixir = GUICtrlCreateLabel("Min. D. E. to save:", $x + 240, $y + 90, -1, -1)
-        $txtBuildMinDElixir = GUICtrlCreateInput("1000", $x + 330, $y + 85, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-            GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
-            GUICtrlSetLimit(-1, 7)
-            ;GUICtrlSetState(-1, $GUI_DISABLE)
 	
-	Local $x = 260, $y = 530
+	Local $x = 260, $y = 275
 	$grpLocateBuildings = GUICtrlCreateGroup("Locate Manually", $x - 20, $y - 20, 220, 65)
 		$btnLocateTownHall = GUICtrlCreateButton("Townhall", $x - 10, $y, 40, 40, $BS_ICON)
 			GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 46, 1)
@@ -1629,28 +1658,129 @@ Local $x = 30, $y = 130
 GUICtrlCreateTabItem("")
 
 ;~ -------------------------------------------------------------
-;~ Laboratory Tab
+;~ Upgrades Tab
 ;~\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-$pageUpgradeSettings = GUICtrlCreateTabItem("Lab.")
-Local $x = 30, $y = 130
-$Laboratory = GUICtrlCreateGroup("Laboratory", $x - 20, $y - 20, 500, 70)
-$chkLab = GUICtrlCreateCheckbox("Enable", $x - 15, $y - 5, 80, 17)
-$cmbLaboratory = GUICtrlCreateCombo("", $x, $y+15, 95, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-GUICtrlSetData(-1, "Barbarians|Archers|Giants|Goblin|Ballon|W.Breaker|Wizard|Healer|Dragon|Pekka|Lightning|Healing|Rage|Jump Spell|Freeze|Minion|HogRider|Valkrye|Golem|Witch|Lava|Nothing", "Archers")
-;GUICtrlSetState(-1, $GUI_ENABLE)
+$tabUpgrade = GUICtrlCreateTabItem("Upgrades")
+Local $x = 30, $y = 125
+	$grpWalls = GUICtrlCreateGroup("Walls", $x - 20, $y - 15, 450, 110)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 50, $x - 10, $y - 4, 24, 24)
+		$chkWalls = GUICtrlCreateCheckbox("Auto Wall Upgrade", $x + 20, $y, -1, -1)
+			GUICtrlSetTip(-1, "Check this to upgrade Walls if there are enough resources.")
+			GUICtrlSetState(-1, $GUI_ENABLE)
+			GUICtrlSetState(-1, $GUI_UNCHECKED)
+			GUICtrlSetOnEvent(-1, "chkWalls")
+			_ArrayConcatenate($G, $B)
+		$UseGold = GUICtrlCreateRadio("Use Gold", $x + 35, $y + 25, -1, -1)
+			GUICtrlSetTip(-1, "Use only Gold for Walls." & @CRLF & "Available at all Wall levels.")
+			GUICtrlSetState(-1, $GUI_CHECKED)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$UseElixir = GUICtrlCreateRadio("Use Elixir", $x + 35, $y + 45, -1, -1)
+			GUICtrlSetTip(-1, "Use only Elixir for Walls." & @CRLF & "Available only at Wall levels upgradeable with Elixir.")
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$UseElixirGold = GUICtrlCreateRadio("Try Elixir first, Gold second", $x + 35, $y + 65, -1, -1)
+			GUICtrlSetTip(-1, "Try to use Elixir first. If not enough Elixir try to use Gold second for Walls." & @CRLF & "Available only at Wall levels upgradeable with Elixir.")
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		$lblWalls = GUICtrlCreateLabel("Search for Walls level:", $x + 220, $y +5, -1, -1)
+		$cmbWalls = GUICtrlCreateCombo("", $x + 330, $y, 61, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL), $WS_EX_RIGHT)
+			GUICtrlSetTip(-1, "Search for Walls of this level and try to upgrade them one by one.")
+			GUICtrlSetData(-1, "4   |5   |6   |7   |8   |9   |10   ", "4   ")
+			GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "cmbWalls")
+			_ArrayConcatenate($G, $C)
+		$lblTxtWallCost = GUICtrlCreateLabel("Next Wall level costs:", $x + 220,  $y + 25, -1, -1)
+			GUICtrlSetTip(-1, "Use this value as an indicator." &@CRLF & "The value will update if you select an other wall level.")
+		$lblWallCost = GUICtrlCreateLabel("30 000", $x + 330, $y + 25, 50, -1, $SS_RIGHT)
+			GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 220, $y + 47, 16, 16)
+		$WallMinGold = GUICtrlCreateLabel("Min. Gold to save:", $x + 240, $y + 50, -1, -1)
+		$txtWallMinGold = GUICtrlCreateInput("250000", $x + 330, $y + 45, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Save at least this amount of Gold in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 220, $y + 69, 16, 16)
+		$WallMinElixir = GUICtrlCreateLabel("Min. Elixir to save:", $x + 240, $y + 72, -1, -1)
+		$txtWallMinElixir = GUICtrlCreateInput("250000", $x + 330, $y + 67, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+			GUICtrlSetLimit(-1, 7)
+			GUICtrlSetState(-1, $GUI_DISABLE)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
+	$y += 115
+	$grpUpgrades = GUICtrlCreateGroup("Upgrades Queue", $x - 20, $y - 20, 220, 110)
+	$chkUpgrade1 = GUICtrlCreateCheckbox("Upgrade 1", $x-10, $y - 3, -1, 20)
+	$txtUpgradeX1 = GUICtrlCreateInput("", $x+62, $y-3, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$txtUpgradeY1 = GUICtrlCreateInput("", $x+90, $y-3, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$btnLocateUp1 = GUICtrlCreateButton("Locate Upg 1", $x + 118, $y-3, -1, 20)
+	GUICtrlSetOnEvent(-1, "btnLocateUp1")
+	$y +=5
+	$chkUpgrade2 = GUICtrlCreateCheckbox("Upgrade 2", $x-10, $y + 15, -1, 20)
+	$txtUpgradeX2 = GUICtrlCreateInput("", $x+62, $y+15, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$txtUpgradeY2 = GUICtrlCreateInput("", $x+90, $y+15, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$btnLocateUp2 = GUICtrlCreateButton("Locate Upg 2", $x + 118, $y+15, -1, 20)
+	GUICtrlSetOnEvent(-1, "btnLocateUp2")
+	$y +=5
+	$chkUpgrade3 = GUICtrlCreateCheckbox("Upgrade 3", $x-10, $y + 33, -1, 20)
+	$txtUpgradeX3 = GUICtrlCreateInput("", $x+62, $y+33, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$txtUpgradeY3 = GUICtrlCreateInput("", $x+90, $y+33, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$btnLocateUp3 = GUICtrlCreateButton("Locate Upg 3", $x + 118, $y+33, -1, 20)
+	GUICtrlSetOnEvent(-1, "btnLocateUp3")
+	$y +=5
+	$chkUpgrade4 = GUICtrlCreateCheckbox("Upgrade 4", $x-10, $y+51, -1, 20)
+	$txtUpgradeX4 = GUICtrlCreateInput("", $x+62, $y+51, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$txtUpgradeY4 = GUICtrlCreateInput("", $x+90, $y+51, 25, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$btnLocateUp4 = GUICtrlCreateButton("Locate Upg 4", $x + 118, $y+51, -1, 20)
+	GUICtrlSetOnEvent(-1, "btnLocateUp4")
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-$btnLab = GUICtrlCreateButton("Locate Laboratory", $x+220, $y-10, 50, 45, $BS_BITMAP)
-GUICtrlSetImage($btnLab, @ScriptDir & "\Icons\Laboratory8.bmp", 0)
-$txtTip = "Relocate your Laboratory."
-GUICtrlSetTip(-1, $txtTip)
-GUICtrlSetOnEvent(-1, "btnLab")
-$lblLabPos = GUICtrlCreateLabel("LabPos:", $x+280, $y-5, 40, 18)
-$txtLabX = GUICtrlCreateInput("", $x+280, $y+8, 31, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
-$txtLabY = GUICtrlCreateInput("", $x+320, $y+8, 31, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+	$y -= 15
+	$x += 230
+	$grpLocateBuildings = GUICtrlCreateGroup("Resources for Upgrade Buildings", $x - 20, $y - 20, 220, 110)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x - 10, $y - 1, 16, 16)
+		$BuildMinGold = GUICtrlCreateLabel("Min. Gold to save:", $x + 10, $y + 2, -1, -1)
+		$txtBuildMinGold = GUICtrlCreateInput("200000", $x + 100, $y - 3, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Save at least this amount of Gold in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+			GUICtrlSetLimit(-1, 7)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+		$y +=2
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x - 10, $y + 18, 16, 16)
+		$BuildMinElixir = GUICtrlCreateLabel("Min. Elixir to save:", $x + 10, $y + 22, -1, -1)
+		$txtBuildMinElixir = GUICtrlCreateInput("200000", $x + 100, $y + 17, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Save at least this amount of Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+			GUICtrlSetLimit(-1, 7)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+		$y +=2
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x - 10, $y + 39, 16, 16)
+		$BuildMinDark = GUICtrlCreateLabel("Min. D. E. to save:", $x + 10, $y + 42, -1, -1)
+		$txtBuildMinDark = GUICtrlCreateInput("1000", $x + 100, $y + 37, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Save at least this amount of Dark Elixir in your Storages." & @CRLF & "Set this value higher if you want to upgrade other stuff.")
+			GUICtrlSetLimit(-1, 7)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+		$y +=2
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 8, $x - 10, $y + 60, 16, 16)
+		$BuilderKeepFree = GUICtrlCreateLabel("Builders Free:", $x + 10, $y + 62, -1, -1)
+		$txtBuilderKeepFree = GUICtrlCreateInput("0", $x + 100, $y + 57, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Keep free builders to build walls or otherwise.")
+			GUICtrlSetLimit(-1, 1)
+		
+		$x -= 230
+		$y += 105
+		$Laboratory = GUICtrlCreateGroup("Laboratory", $x - 20, $y - 20, 500, 70)
+		$chkLab = GUICtrlCreateCheckbox("Enable", $x - 15, $y - 5, 80, 17)
+		$cmbLaboratory = GUICtrlCreateCombo("", $x, $y+15, 95, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		GUICtrlSetData(-1, "Barbarians|Archers|Giants|Goblin|Ballon|W.Breaker|Wizard|Healer|Dragon|Pekka|Lightning|Healing|Rage|Jump Spell|Freeze|Minion|HogRider|Valkrye|Golem|Witch|Lava|Nothing", "Archers")
+		;GUICtrlSetState(-1, $GUI_ENABLE)
 
-$y += 70
-$grpTroopselection = GUICtrlCreateGroup("Upgrade Troops Selection Menu", $x - 20, $y - 20, 450, 110)
-$x -=2
+		$btnLab = GUICtrlCreateButton("Locate Laboratory", $x+220, $y-10, 50, 45, $BS_BITMAP)
+		GUICtrlSetImage($btnLab, @ScriptDir & "\Icons\Laboratory8.bmp", 0)
+		$txtTip = "Relocate your Laboratory."
+		GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetOnEvent(-1, "btnLab")
+		$lblLabPos = GUICtrlCreateLabel("LabPos:", $x+280, $y-5, 40, 18)
+		$txtLabX = GUICtrlCreateInput("", $x+280, $y+8, 31, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+		$txtLabY = GUICtrlCreateInput("", $x+320, $y+8, 31, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER, $ES_READONLY))
+
+		$y += 70
+		$grpTroopselection = GUICtrlCreateGroup("Upgrade Troops Selection Menu", $x - 20, $y - 20, 450, 110)
+		$x -=2
 	$lblBtnlabBarbarians = GUICtrlCreateLabel("", $x - 12, $y - 2, 42, 42)
 		GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 		GUICtrlSetState(-1, $GUI_DISABLE)
@@ -1718,7 +1848,7 @@ $x -=2
 		GUICtrlSetOnEvent(-1, "btnTroopsWitches")
 		;GUICtrlSetState (-1, $GUI_DISABLE)
 
-$y += 40
+	$y += 40
 	$lblBtnlabBalloons = GUICtrlCreateLabel("", $x - 12, $y - 2, 42, 42)
 		GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 		GUICtrlSetState(-1, $GUI_DISABLE)
@@ -1761,13 +1891,32 @@ $y += 40
 		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 35, 1)
 		GUICtrlSetOnEvent(-1, "btnTroopsLavaHounds")
 		;GUICtrlSetState (-1, $GUI_DISABLE)
+	
+		$x += 2
+		$y += 70
+        $grpLocateBuildings = GUICtrlCreateGroup("Locate Heroes", $x - 20, $y - 20, 220, 65)
+        $btnLocateKing = GUICtrlCreateButton("King", $x - 10, $y, 40, 40, $BS_ICON)
+            GUICtrlSetOnEvent(-1, "btnLocateKing")
+            GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 7, 1)
+            $txtTip = "Locate Your King."
+            GUICtrlSetTip(-1, $txtTip)
+        $btnLocateQueen = GUICtrlCreateButton("Queen", $x + 30, $y, 40, 40, $BS_ICON)
+            GUICtrlSetOnEvent(-1, "btnLocateQueen")
+            GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 41, 1)
+            $txtTip = "Locate Your Queen."
+            GUICtrlSetTip(-1, $txtTip)
+        $chkUpgradeKing = GUICtrlCreateCheckbox("Upgrade King", $x + 90, $y , 80, 17)
+            GUICtrlSetTip(-1, "Heroes will upgrade if you have at least 2 free builders.")
+        $chkUpgradeQueen = GUICtrlCreateCheckbox("Upgrade Queen", $x + 90, $y + 21, 95, 17)
+            GUICtrlSetTip(-1, "Heroes will upgrade if you have at least 2 free builders.")
+    GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 ;~ -------------------------------------------------------------
 ;~ PushBullet Tab
 ;~ -------------------------------------------------------------
-$tabPushBullet = GUICtrlCreateTabItem("Push")
+$tabNotify = GUICtrlCreateTabItem("Notify")
 	Local $x = 30, $y = 130
-	  $grpPushBullet = GUICtrlCreateGroup("PushBullet Alert ", $x - 20, $y - 20, 450, 375)
+	  $grpPushBullet = GUICtrlCreateGroup("PushBullet Alert ", $x - 20, $y - 20, 450, 465)
 	  $chkPBenabled = GUICtrlCreateCheckbox("Enable", $x, $y, -1, -1)
 		 GUICtrlSetOnEvent(-1, "chkPBenabled")
 		 ;GUICtrlSetState(-1, $GUI_CHECKED)
@@ -1779,8 +1928,8 @@ $tabPushBullet = GUICtrlCreateTabItem("Push")
       $PushBTokenValue = GUICtrlCreateInput("", $x + 90, $y + 25, 260, 19)
 		 GUICtrlSetTip(-1, "Token from PushBullet.com")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $lblOrigPush = GUICtrlCreateLabel("Push from:", $x, $y + 50, 80, 17, $SS_RIGHT)
-	  $PBVillageName = GUICtrlCreateInput("", $x + 90, $y + 50, 260, 19)
+	  $lblOrigPush = GUICtrlCreateLabel("Village Name:", $x, $y + 50, 80, 17, $SS_RIGHT)
+	  $OrigPushB = GUICtrlCreateInput("", $x + 90, $y + 50, 260, 19)
 	  	 GUICtrlSetTip(-1, "Your village's name")
 	    GUICtrlSetState(-1, $GUI_DISABLE)
 	  $chkAlertPBVMFound = GUICtrlCreateCheckbox("Match Found", $x + 25, $y + 75, -1, -1)
@@ -1816,8 +1965,8 @@ $tabPushBullet = GUICtrlCreateTabItem("Push")
 		 GUICtrlSetTip(-1, "It will alert you when the unit you selected starts upgrading, or you do not have enough resources to upgrade")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
 
-	  $lblgrppushbullet = GUICtrlCreateGroup("PushBullet Remote Control", $x-10, $y + 185, 430, 160)
-	  $lblPBdesc = GUICtrlCreateLabel("You can remotely control your bot using the following command format" & @CRLF & "Enter Bot <command> in the title of the message" & @CRLF & @CRLF & "<command> are:" & @CRLF & "Pause - pause the bot" & @CRLF & "Resume - resume the bot" & @CRLF & "Stats - send Village report" & @CRLF & "Logs - send the current log file" & @CRLF & "Delete - delete all your previous Push message" & @CRLF & "LastRaid - send last raid screenshot" & @CRLF & "Help - send this help message", $x, $y + 200, -1, -1, $SS_LEFT)
+	  $lblgrppushbullet = GUICtrlCreateGroup("PushBullet Remote Control", $x-10, $y + 180, 430, 215)
+	  $lblPBdesc = GUICtrlCreateLabel("You can remotely control your bot sending commands following this syntax:" & @CRLF & @CRLF & "BOT HELP - send this help message" & @CRLF & "BOT DELETE  - delete all your previous Push message" & @CRLF & "BOT <Village Name> PAUSE - pause the bot named <Village Name>" & @CRLF & "BOT <Village Name> RESTART - restart the bot named <Village Name> and BlueStacks" & @CRLF & "BOT <Village Name> RESUME   - resume the bot named <Village Name>" & @CRLF & "BOT <Village Name> STATS - send Village Statistics of <Village Name>" & @CRLF & "BOT <Village Name> LOG - send the current log file of <Village Name>" & @CRLF & "BOT <Village Name> LASTRAID - send the current log file of <Village Name>" & @CRLF & "BOT <Village Name> SCREENSHOT - send a screenshot of <Village Name>"  & @CRLF &   @CRLF & "Examples:" & @CRLF & "Bot MyVillage Pause    -    Bot Delete    -    Bot MyVillage Screenshot", $x, $y + 195, -1, -1, $SS_LEFT)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
@@ -1834,84 +1983,109 @@ Global $iPrevState[$LastControlToHide + 1]
 ;~ -------------------------------------------------------------
 $tabStatsCredits = GUICtrlCreateTabItem("Stats")
 Local $x = 30, $y = 130
-	$grpResourceOnStart = GUICtrlCreateGroup("Stats: Started with", $x - 20, $y - 20, 110, 105)
+	$grpResourceOnStart = GUICtrlCreateGroup("Stats: Started with", $x - 20, $y - 20, 108, 105)
 		$lblResultStatsTemp = GUICtrlCreateLabel("Report" & @CRLF & "will appear" & @CRLF & "here on" & @CRLF & "first run.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
 		$lblResultGoldStart = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Gold you had when the bot started."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
 		$lblResultElixirStart = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Elixir you had when the bot started."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		$picResultDEStart = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 60, $y, 16, 16)
+		$picResultDEStart = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
 		$lblResultDEStart = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Dark Elixir you had when the bot started."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
 		$lblResultTrophyStart = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies you had when the bot started."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$x = 145
+	$x += 113
 	$y = 130
-	$grpLastAttack = GUICtrlCreateGroup("Stats: Last Attack", $x - 20, $y - 20, 110, 105)
+	$grpLastAttack = GUICtrlCreateGroup("Stats: Last Attack", $x - 20, $y - 20, 108, 105)
 		$lblLastAttackTemp = GUICtrlCreateLabel("Report" & @CRLF & "will update" & @CRLF & "here after" & @CRLF & "each attack.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
 		$lblGoldLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
-			$txtTip = "The amount of Gold you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the Gold cost for Searching." & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
+			$txtTip = "The amount of Gold you gained on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
 		$lblElixirLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
-			$txtTip = "The amount of Elixir you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the cost of your Troops"  & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
+			$txtTip = "The amount of Elixir you gained on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		$picDarkLastAttack = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 60, $y, 16, 16)
+		$picDarkLastAttack = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
 		$lblDarkLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
-			$txtTip = "The amount of Dark Elixir you gained or lost since the last attack." & @CRLF & "Incl. any Division Bonus & Minus the cost of your Dark Troops" & @CRLF & "(Not compensating for manual spending of resources on upgrade of buildings)"
+			$txtTip = "The amount of Dark Elixir you gained on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 60, $y, 16, 16)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
 		$lblTrophyLastAttack = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
-			$txtTip = "The amount of Trophies you gained or lost since the last attack."
+			$txtTip = "The amount of Trophies you gained or lost on the last attack."
 			GUICtrlSetTip(-1, $txtTip)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$x = 260
+	
+	$x += 113
 	$y = 130
-    $grpTotalLoot = GUICtrlCreateGroup("Stats: Total Loot", $x - 20, $y - 20, 150, 105)
+    $grpTotalLoot = GUICtrlCreateGroup("Stats: Total Loot", $x - 20, $y - 20, 108, 105)
 		$lblTotalLootTemp = GUICtrlCreateLabel("Report" & @CRLF & "will update" & @CRLF & "here after" & @CRLF & "each attack.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 100, $y, 16, 16)
-		$lblGoldLoot =  GUICtrlCreateLabel("", $x - 30, $y + 2, 120, 17, $SS_RIGHT)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
+		$lblGoldLoot =  GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The total amount of Gold you gained or lost while the Bot is running." & @CRLF & "(This includes manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 100, $y, 16, 16)
-		$lblElixirLoot =  GUICtrlCreateLabel("", $x - 30, $y + 2, 120, 17, $SS_RIGHT)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
+		$lblElixirLoot =  GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The total amount of Elixir you gained or lost while the Bot is running." & @CRLF & "(This includes manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		$picDarkLoot = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 100, $y, 16, 16)
-        $lblDarkLoot =  GUICtrlCreateLabel("", $x - 30, $y + 2, 120, 17, $SS_RIGHT)
+		$picDarkLoot = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
+        $lblDarkLoot =  GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The total amount of Dark Elixir you gained or lost while the Bot is running." & @CRLF & "(This includes manual spending of resources on upgrade of buildings)"
 			GUICtrlSetTip(-1, $txtTip)
 		$y +=20
-		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 100, $y, 16, 16)
-		$lblTrophyLoot = GUICtrlCreateLabel("", $x - 30, $y + 2, 120, 17, $SS_RIGHT)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
+		$lblTrophyLoot = GUICtrlCreateLabel("", $x, $y + 2, 55, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies you gained or lost while the Bot is running."
 			GUICtrlSetTip(-1, $txtTip)
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$x = 395
-	$y = 115
+	$x += 113
+	$y = 130
+	$grpHourlyStats = GUICtrlCreateGroup("Stats: Hourly", $x - 20, $y - 20, 108, 105)
+	$lblHourlyStatsTemp = GUICtrlCreateLabel("Report" & @CRLF & "will update" & @CRLF & "here after" & @CRLF & "each attack.", $x - 5, $y + 5, 100, 65, BITOR($SS_LEFT, $BS_MULTILINE))
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 24, $x + 65, $y, 16, 16)
+		$lblHourlyStatsGold = GUICtrlCreateLabel("", $x - 10, $y + 2, 65, 17, $SS_RIGHT)
+			$txtTip = "Net Gold gain per hour"
+			GUICtrlSetTip(-1, $txtTip)
+		$y +=20
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 15, $x + 65, $y, 16, 16)
+		$lblHourlyStatsElixir = GUICtrlCreateLabel("", $x - 10, $y + 2, 65, 17, $SS_RIGHT)
+			$txtTip = "Net Elixir gain per hour"
+			GUICtrlSetTip(-1, $txtTip)
+		$y +=20
+		$picHourlyStatsDark = GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 11, $x + 65, $y, 16, 16)
+		$lblHourlyStatsDark = GUICtrlCreateLabel("", $x - 10, $y + 2, 65, 17, $SS_RIGHT)
+			$txtTip = "Net Dark Elixir gain per hour"
+			GUICtrlSetTip(-1, $txtTip)
+		$y +=20
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x + 65, $y, 16, 16)
+		$lblHourlyStatsTrophy = GUICtrlCreateLabel("", $x - 10, $y + 2, 65, 17, $SS_RIGHT)
+			$txtTip = "Net Trophy gain per hour"
+			GUICtrlSetTip(-1, $txtTip)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$x = 330
+	$y = 235
 	$btnMoreStats = GUICtrlCreateButton ("More Stats", $x, $y, 60,21)
 		GUICtrlSetState(-1, $GUI_DISABLE)
-	$y +=25
+	$x +=65
 	$btnExportCSV = GUICtrlCreateButton ("Export CSV", $x, $y, 60,21)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 #cs    $y +=25
@@ -1923,43 +2097,43 @@ Local $x = 30, $y = 130
 #ce
 
 	$x = 30
-	$y = 265
-    $grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 75)
-	   $y -=2
-	   GUICtrlCreatePic (@ScriptDir & "\Icons\TH1.jpg", $x - 15, $y + 7, 20, 20)
-	   GUICtrlCreatePic (@ScriptDir & "\Icons\TH10.jpg", $x + 6, $y + 7, 20, 20)
-	   $lblvillagesattacked = GUICtrlCreateLabel("Attacked:", $x + 28, $y + 2, -1, 17)
-	   $lblresultvillagesattacked = GUICtrlCreateLabel("0", $x + 50, $y + 2, 60, 17, $SS_RIGHT)
+	$y = 280
+	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 80)
+		$y -=2
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 45, $x - 10, $y + 7, 24, 24)
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 46, $x + 16, $y + 7, 24, 24)
+        $lblvillagesattacked = GUICtrlCreateLabel("Attacked:", $x + 45, $y + 2, -1, 17)
+        $lblresultvillagesattacked = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The No. of Villages that were attacked by the Bot."
 			GUICtrlSetTip(-1, $txtTip)
-	   $y += 17
-	   $lblvillagesskipped = GUICtrlCreateLabel("Skipped:", $x + 28, $y + 2, -1, 17)
-	   $lblresultvillagesskipped = GUICtrlCreateLabel("0", $x + 50, $y + 2, 60, 17, $SS_RIGHT)
+		$y += 17
+        $lblvillagesskipped = GUICtrlCreateLabel("Skipped:", $x + 45, $y + 2, -1, 17)
+        $lblresultvillagesskipped = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The No. of Villages that were skipped during search by the Bot."
 			GUICtrlSetTip(-1, $txtTip)
-	   $x = 180
-	   $y = 263
-	   GUICtrlCreatePic (@ScriptDir & "\Icons\Trophy.jpg", $x, $y, 15, 15)
-	   $lbltrophiesdropped = GUICtrlCreateLabel("Dropped:", $x + 20, $y + 2, -1, 17)
-	   $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 80, $y + 2, 30, 17, $SS_RIGHT)
+		$x += 155
+		$y -= 17
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x, $y, 16, 16)
+        $lbltrophiesdropped = GUICtrlCreateLabel("Dropped:", $x + 20, $y + 2, -1, 17)
+        $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 80, $y + 2, 30, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies dropped by the Bot due to Trophy Settings (on Misc Tab)."
 			GUICtrlSetTip(-1, $txtTip)
-	   $y += 17
-	   GUICtrlCreatePic (@ScriptDir & "\Icons\Clock.jpg", $x, $y, 15, 15)
-	   $lblruntime = GUICtrlCreateLabel("Runtime:", $x + 20, $y + 2, -1, 17)
-	   $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 50, $y + 2, 60, 17, $SS_RIGHT)
+        $y += 17
+        GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 44, $x, $y, 16, 16)
+        $lblruntime = GUICtrlCreateLabel("Runtime:", $x + 20, $y + 2, -1, 17)
+        $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 50, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The total Running Time of the Bot."
 			GUICtrlSetTip(-1, $txtTip)
-	   $x = 330
-	   $y = 263
-	   GUICtrlCreatePic (@ScriptDir & "\Icons\Wall.jpg", $x - 3, $y + 7, 20, 20)
-	   $lblwallbygold = GUICtrlCreateLabel("Upg. by Gold:", $x + 20, $y + 2, -1, 17)
-	   $lblWallgoldmake =  GUICtrlCreateLabel("0", $x + 55, $y + 2, 60, 17, $SS_RIGHT)
+		$x += 145
+		$y -= 17
+		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 50, $x - 7, $y + 7, 24, 24)
+        $lblwallbygold = GUICtrlCreateLabel("Upg. by Gold:", $x + 20, $y + 2, -1, 17)
+		$lblWallgoldmake =  GUICtrlCreateLabel("0", $x + 55, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The No. of Walls upgraded by Gold."
 			GUICtrlSetTip(-1, $txtTip)
-	   $y += 17
-	   $lblwallbyelixir = GUICtrlCreateLabel("Upg. by Elixir:", $x + 20, $y + 2, -1, 17)
-	   $lblWallelixirmake =  GUICtrlCreateLabel("0", $x + 55, $y + 2, 60, 17, $SS_RIGHT)
+		$y += 17
+		$lblwallbyelixir = GUICtrlCreateLabel("Upg. by Elixir:", $x + 20, $y + 2, -1, 17)
+		$lblWallelixirmake =  GUICtrlCreateLabel("0", $x + 55, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The No. of Walls upgraded by Elixir."
 			GUICtrlSetTip(-1, $txtTip)
 	   $y += 17
@@ -1970,7 +2144,7 @@ Local $x = 30, $y = 130
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 30
-	$y = 340
+	$y = 375
 	$grpCredits = GUICtrlCreateGroup("Credits", $x - 20, $y - 20, 450, 170)
 		$labelGameBotURL = GUICtrlCreateLabel("https://GameBot.org", $x - 5, $y + 5, 430, 20)
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
@@ -1981,7 +2155,7 @@ Local $x = 30, $y = 130
 		$lblCredits = GUICtrlCreateLabel("Credits go to the following coders:", $x - 5, $y + 25, 400, 20)
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
 		$txtCredits =	"Antidote, AtoZ, Didipe, Dinobot, DixonHill, DkEd, Envyus, GkevinOD, Hervidero,"  & @CRLF & _
-                        "HungLe, ProMac, Safar46, Saviart and others"  & @CRLF & _
+                        "HungLe, knowjack, ProMac, Safar46, Sardo, Saviart and others"  & @CRLF & _
 						"" & @CRLF & _
 						"And to all forum members contributing to this software!" & @CRLF & _
 						"" & @CRLF & _
@@ -1997,6 +2171,8 @@ GUICtrlCreateTabItem("")
 ;~ -------------------------------------------------------------
 ;~ Bottom status bar
 ;~ -------------------------------------------------------------
+GUISetState(@SW_SHOW)
+
 $statLog = _GUICtrlStatusBar_Create($frmBot)
 	_ArrayConcatenate($G, $Y)
 	_GUICtrlStatusBar_SetSimple($statLog)
@@ -2007,5 +2183,4 @@ $tiExit = TrayCreateItem("Exit")
 
 ;~ -------------------------------------------------------------
 
-GUISetState(@SW_SHOW)
 CheckPrerequisites()

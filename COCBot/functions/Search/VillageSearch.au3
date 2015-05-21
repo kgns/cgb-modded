@@ -15,8 +15,8 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 	If _Sleep(1000) Then Return
 
-	_CaptureRegion() ; Check Break Shield button again
-	If _ColorCheck(_GetPixelColor(513, 416,"Y"), Hex(0x5DAC10, 6), 50) Then
+	; Check Break Shield button again
+	If _ColorCheck(_GetPixelColor(513, 416, True), Hex(0x5DAC10, 6), 50) Then
 		Click(513, 416);Click Okay To Break Shield
 	EndIf
 
@@ -95,16 +95,16 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 	While 1
 		$bBtnAttackNowPressed = False
-		if $iVSDelay > 0 then
+		If $iVSDelay > 0 Then
 			If _Sleep(1000 * $iVSDelay) Then Return
-		endif
+		EndIf
 
 		GetResources() ;Reads Resource Values
 		If $Restart = True Then Return ; exit func
 		If $iChkAttackNow = 1 Then
-			If _Sleep(1000 * $iAttackNowDelay) then Return ; add human reaction time on AttackNow button function
+			If _Sleep(1000 * $iAttackNowDelay) Then Return ; add human reaction time on AttackNow button function
 		EndIf
-		If $bBtnAttackNowPressed = True then ExitLoop
+		If $bBtnAttackNowPressed = True Then ExitLoop
 
 		If Mod(($iSkipped + 1), 100) = 0 Then
 			_WinAPI_EmptyWorkingSet(WinGetProcess($Title)) ; reduce BS memory
@@ -113,31 +113,21 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 
 		If CompareResources() Then
-			If $bBtnAttackNowPressed = True then ExitLoop
-			If $iradAttackMode = 0 or $iradAttackMode = 1 Then
+			If $bBtnAttackNowPressed = True Then ExitLoop
+			If $iradAttackMode = 0 Or $iradAttackMode = 1 Then
 				If checkDeadBase() Then
 					SetLog(_PadStringCenter(" Dead Base Found! ", 50, "~"), $COLOR_GREEN)
 					ExitLoop
 				EndIf
-				Local $msg =  "Not a Dead Base"
+				Local $msg = "Not a Dead Base"
 				If $OptBullyMode = 1 And ($SearchCount >= $ATBullyMode) Then
 					If $SearchTHLResult = 1 Then
 						SetLog(_PadStringCenter(" Not a Dead Base, but TH Bully Level Found! ", 50, "~"), $COLOR_GREEN)
 						ExitLoop
 					Else
 						;If _Sleep(1000) Then Return
-						If $bBtnAttackNowPressed = True then ExitLoop
-
-						If $iChkBackToAllMode = 1 And Number($iSkipped) > Number($iTxtBackAllBase) Then ExitLoop
-						SetLog(_PadStringCenter(" Not a Dead Base, Not TH Bully Level, Skipping ", 50, "~"), $COLOR_ORANGE)
-						Click(750, 500) ;Click Next
-						$iSkipped = $iSkipped + 1
-						If $iChkBackToAllMode = 1 And Number($iSkipped) = Number($iTxtBackAllBase) Then
-							SetLog(_PadStringCenter(" Max " & $iTxtBackAllBase & " searches, switch to All Base! ", 50, "~"), $COLOR_RED)
-						EndIf
-						GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
-						ContinueLoop
-
+						If $bBtnAttackNowPressed = True Then ExitLoop
+						$msg &= ", Not TH Bully Level"
 					EndIf
 
 				EndIf
@@ -147,55 +137,25 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						ExitLoop
 					Else
 						;If _Sleep(1000) Then Return
-						If $bBtnAttackNowPressed = True then ExitLoop
-
-						If $iChkBackToAllMode = 1 And Number($iSkipped) > Number($iTxtBackAllBase) Then ExitLoop
-						SetLog(_PadStringCenter(" Not a Dead base, Not TH Outside!, Skipping ", 50, "~"), $COLOR_ORANGE)
-						Click(750, 500) ;Click Next
-						$iSkipped = $iSkipped + 1
-						If $iChkBackToAllMode = 1 And Number($iSkipped) = Number($iTxtBackAllBase) Then
-							SetLog(_PadStringCenter(" Max " & $iTxtBackAllBase & " searches, switch to All Base! ", 50, "~"), $COLOR_RED)
-						EndIf
-						GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
-						ContinueLoop
-
+						If $bBtnAttackNowPressed = True Then ExitLoop
+						$msg &= ", Not TH Outside!"
 					EndIf
 				EndIf
 				If $iradAttackMode = 1 Then
 					_WinAPI_DeleteObject($hBitmapFirst)
 					$hBitmapFirst = _CaptureRegion2()
-					Local $resultHere = DllCall($LibDir & "\CGBfunctions.dll", "str", "CheckConditionForWeakBase", "ptr", $hBitmapFirst ,"int",($iWBMortar+1),"int",($iWBWizTower+1),"int",10)
-					if $resultHere[0] = "Y" then
+					Local $resultHere = DllCall($LibDir & "\CGBfunctions.dll", "str", "CheckConditionForWeakBase", "ptr", $hBitmapFirst, "int", ($iWBMortar + 1), "int", ($iWBWizTower + 1), "int", 10)
+					If $resultHere[0] = "Y" Then
 						SetLog(_PadStringCenter(" Weak Base Found! ", 50, "~"), $COLOR_GREEN)
 						ExitLoop
-					else
-						If $bBtnAttackNowPressed = True then ExitLoop
-						If $iChkBackToAllMode = 1 And Number($iSkipped) > Number($iTxtBackAllBase) Then ExitLoop
-						SetLog(_PadStringCenter(" Not a Weak Base, Skipping ", 50, "~"), $COLOR_ORANGE)
-						Click(750, 500) ;Click Next
-						$iSkipped = $iSkipped + 1
-						If $iChkBackToAllMode = 1 And Number($iSkipped) = Number($iTxtBackAllBase) Then
-							SetLog(_PadStringCenter(" Max " & $iTxtBackAllBase & " searches, switch to All Base! ", 50, "~"), $COLOR_RED)
-						EndIf
-						GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
-						ContinueLoop
-					endif
-				Else
-					;If _Sleep(1000) Then Return
-					If $bBtnAttackNowPressed = True then ExitLoop
-					If $iChkBackToAllMode = 1 And Number($iSkipped) > Number($iTxtBackAllBase) Then ExitLoop
-					SetLog(_PadStringCenter(" Not a Dead Base, Skipping ", 50, "~"), $COLOR_ORANGE)
-					Click(750, 500) ;Click Next
-					$iSkipped = $iSkipped + 1
-					If $iChkBackToAllMode = 1 And Number($iSkipped) = Number($iTxtBackAllBase) Then
-						SetLog(_PadStringCenter(" Max " & $iTxtBackAllBase & " searches, switch to All Base! ", 50, "~"), $COLOR_RED)
+					Else
+						If $bBtnAttackNowPressed = True Then ExitLoop
+						$msg &= ", Not a Weak Base"
 					EndIf
-					GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
-					ContinueLoop
 				EndIf
 
 				;If _Sleep(1000) Then Return
-				If $bBtnAttackNowPressed = True then ExitLoop
+				If $bBtnAttackNowPressed = True Then ExitLoop
 				SetLog(_PadStringCenter($msg, 50, "~"), $COLOR_ORANGE)
 				Click(750, 500) ;Click Next
 				$iSkipped = $iSkipped + 1
@@ -211,30 +171,23 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				ExitLoop
 			Else
 				;If _Sleep(1000) Then Return
-				If $bBtnAttackNowPressed = True then ExitLoop
-				If $iChkBackToAllMode = 1 And Number($iSkipped) > Number($iTxtBackAllBase) Then ExitLoop
+				If $bBtnAttackNowPressed = True Then ExitLoop
 				Click(750, 500) ;Click Next
 				$iSkipped = $iSkipped + 1
-				If $iChkBackToAllMode = 1 And Number($iSkipped) = Number($iTxtBackAllBase) Then
-					SetLog(_PadStringCenter(" Max " & $iTxtBackAllBase & " searches, switch to All Base! ", 50, "~"), $COLOR_RED)
-				EndIf
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
 			EndIf
 		Else
 			;If _Sleep(1000) Then Return
-			If $bBtnAttackNowPressed = True then ExitLoop
+			If $bBtnAttackNowPressed = True Then ExitLoop
 			Click(750, 500) ;Click Next
 			$iSkipped = $iSkipped + 1
-			If $iChkBackToAllMode = 1 And Number($iSkipped) = Number($iTxtBackAllBase) Then
-				SetLog(_PadStringCenter(" Max " & $iTxtBackAllBase & " searches, switch to All Base! ", 50, "~"), $COLOR_RED)
-			EndIf
 			GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 			ContinueLoop
 		EndIf
 	WEnd
 
-	If $bBtnAttackNowPressed = True then
+	If $bBtnAttackNowPressed = True Then
 		Setlog(_PadStringCenter(" JVS MOD v1.1 Attack Now Pressed! ", 50, "~"), $COLOR_GREEN)
 	EndIf
 
@@ -247,10 +200,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		GUICtrlSetState($lblVersion, $GUI_SHOW)
 	EndIf
 
-	If $iChkBackToAllMode = 1 And Number($iSkipped) > Number($iTxtBackAllBase) Then
-		SetLog(_PadStringCenter(" Attacking All Base! ", 50, "~"), $COLOR_RED)
-	EndIf
-
 	If GUICtrlRead($chkAlertSearch) = $GUI_CHECKED Then
 		TrayTip("Match Found! after " & StringFormat("%3s", $SearchCount) & " skip(s)" , "Gold: " & _NumberFormat($searchGold) & "; Elixir: " & _NumberFormat($searchElixir) & "; Dark: " & _NumberFormat($searchDark) & "; Trophy: " & $searchTrophy, "", 0)
 		If FileExists(@WindowsDir & "\media\Festival\Windows Exclamation.wav") Then
@@ -259,8 +208,9 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			SoundPlay(@WindowsDir & "\media\Windows Exclamation.wav", 1)
 		EndIf
 	EndIf
-	ReportMatchFound()
+
 	SetLog(_PadStringCenter(" Search Complete ", 50, "="), $COLOR_BLUE)
+	PushMsg("MatchFound")
 
 	; TH Detection Check Once Conditions
 	If $OptBullyMode = 0 And $OptTrophyMode = 0 And $chkConditions[4] = 0 And $chkConditions[5] = 0 And $chkATH = 1 Then

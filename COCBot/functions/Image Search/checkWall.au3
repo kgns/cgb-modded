@@ -4,7 +4,7 @@
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .:
-; Author ........: ProMac (2015)
+; Author ........: ProMac (2015), HungLe (2015)
 ; Modified ......:
 ; Remarks .......: This file is part of ClashGameBot. Copyright 2015
 ;                  ClashGameBot is distributed under the terms of the GNU GPL
@@ -13,8 +13,8 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Global $checkwalllogic
 Global $Wall[7][3]
+Global $NoMoreWalls = 0
 
 $Wall[0][0] = @ScriptDir & "\images\Walls\4_1.bmp"
 $Wall[0][1] = @ScriptDir & "\images\Walls\4_2.bmp"
@@ -44,141 +44,61 @@ $Wall[6][0] = @ScriptDir & "\images\Walls\10_1.bmp"
 $Wall[6][1] = @ScriptDir & "\images\Walls\10_2.bmp"
 $Wall[6][2] = @ScriptDir & "\images\Walls\10.png"
 
-Global $WallPos[4], $WallxLOC, $WallyLOC
-Global $WallX[4], $WallY[4]
-Global $HitPoints
-Global $HitPointsWall[7]=[900, 1400, 2000, 2500, 3000, 4000, 5500] ; HitPoint of each walls level
+Local $WallPos
+Local $WallX, $WallY
+Local $HitPoints
+Local $HitPointsWall[7] = [900, 1400, 2000, 2500, 3000, 4000, 5500] ; HitPoint of each walls level
 
 Func CheckWall()
 
-	$WallLoc = 0
 	If _Sleep(500) Then Return
-	Local $y1, $y2, $y3
 
-	$y = 0
-	SetLog("Initial Position of $y :" & $y)
-	_CaptureRegion(0, $y, 860, 720) ; Detection for Position 1
-	For $Tolerance2 = 0 To 90
-		For $x = 0 To 2
-			$WallPos[0] = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX[0], $WallY[0], $Tolerance2) ; Getting Wall Location
-			If $WallPos[0] = 1 Then
-				Sleep(500)
-				PureClick($WallX[0], $WallY[0])
-				Sleep(500)
-				If  HitPoints()= true Then ; CheckWallLv() = 1 And CheckWallWord() = 1
-					SetLog("Wall segment Position 1 Correct •[" & $WallX[0] & "," & $WallY[0] & "]")
-					$checkwalllogic = True
-					$WallLoc = 1
-					Return True
-					ExitLoop (2)
-				Else
-					$WallLoc = 0
-					Sleep(500)
-					 Click(1, 1, 2)
-					;ContinueLoop
+	Local $listArrayPoint = ""
+	$ToleranceHere = 20
+	While $ToleranceHere < 91
+		$ToleranceHere = $ToleranceHere + 10
+		For $icount = 0 To 9
+			_CaptureRegion(86 * $icount, 0 , 86 * ($icount + 1), 720)
+			For $x = 0 To 2
+				$WallPos = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX, $WallY, $ToleranceHere) ; Getting Wall Location
+				If $WallPos = 1 Then
+					If Not checkPointDouble($listArrayPoint, $WallX, $WallY) Then
+						$listArrayPoint = $listArrayPoint & $WallX & ";" & $WallY & "|"
+					EndIf
+					$WallX += 86 * $icount
+					$icount += 1
+
+					If $WallX < 112 Or $WallX > 748 Or $WallY < 95 Or $WallY > 558 Then ContinueLoop ; exclude area
+
+					If $debugSetlog = 1 Then
+						SetLog("Wall level: " & $icmbWalls + 4 & " • Region: " & $icount - 1 & " • Position: [" & $WallX & "," & $WallY & "], Verifying..")
+					Else
+						SetLog("Wall level: " & $icmbWalls + 4 & ", Verifying..", $COLOR_GREEN)
+					EndIf
+					Click($WallX, $WallY)
+					If _Sleep(500) Then Return
+					If HitPoints() Then Return True; CheckWallLv() = 1 And CheckWallWord() = 1
 				EndIf
-			EndIf
+			Next
 		Next
-	Next
-	$WallY[0] += $y
-	;SetLog("Wall segment Position 1 •[" & $WallX[0] & "," & $WallY[0] & "]", $COLOR_GREEN)
+	WEnd
 
-
-	$y1 = Ceiling($WallY[0] + 5)
-	SetLog("Initial Position of $y :" & $y1)
-	_CaptureRegion(0, $y1, 860, 720) ; Detection for Position 2
-	For $Tolerance2 = 0 To 90
-		For $x = 0 To 2
-			$WallPos[1] = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX[1], $WallY[1], $Tolerance2) ; Getting Wall Location
-			If $WallPos[1] = 1 Then
-				Sleep(500)
-				PureClick($WallX[1], $WallY[1])
-				Sleep(500)
-				If  HitPoints()= true Then ; CheckWallLv() = 1 And CheckWallWord() = 1
-					SetLog("Wall segment Position 2 Correct •[" & $WallX[1] & "," & $WallY[1] & "]")
-					$checkwalllogic = True
-					$WallLoc = 1
-					Return True
-					ExitLoop (2)
-				Else
-					$WallLoc = 0
-					Sleep(500)
-					 Click(1, 1, 2)
-					;ContinueLoop
-				EndIf
-			EndIf
-		Next
-	Next
-	$WallY[1] += $y1
-	;SetLog("Wall segment Position 2 •[" & $WallX[1] & "," & $WallY[1] & "]", $COLOR_GREEN)
-
-
-	$y2 = Ceiling($WallY[1] + 5)
-	SetLog("Initial Position of $y :" & $y2)
-	_CaptureRegion(0, $y2, 860, 720) ; Detection for Position 3
-	For $Tolerance2 = 0 To 90
-		For $x = 0 To 2
-			$WallPos[2] = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX[2], $WallY[2], $Tolerance2) ; Getting Wall Location
-			If $WallPos[2] = 1 Then
-				Sleep(500)
-				PureClick($WallX[2], $WallY[2])
-				Sleep(500)
-				If  HitPoints()= true Then ; CheckWallLv() = 1 And CheckWallWord() = 1
-					SetLog("Wall segment Position 3 Correct •[" & $WallX[2] & "," & $WallY[2] & "]")
-					$checkwalllogic = True
-					$WallLoc = 1
-					Return True
-					ExitLoop (2)
-				Else
-					$WallLoc = 0
-					Sleep(500)
-					 Click(1, 1, 2)
-					;ContinueLoop
-				EndIf
-			EndIf
-		Next
-	Next
-	$WallY[2] += $y2
-	;SetLog("Wall segment Position 3 •[" & $WallX[2] & "," & $WallY[2] & "]", $COLOR_GREEN)
-
-
-	$y3 = Ceiling($WallY[2] + 5)
-	SetLog("Initial Position of $y :" & $y3)
-	_CaptureRegion(0, $y3, 860, 720) ; Detection for Position 4
-	For $Tolerance2 = 0 To 90
-		For $x = 0 To 2
-			$WallPos[3] = _ImageSearch($Wall[$icmbWalls][$x], 1, $WallX[3], $WallY[3], $Tolerance2) ; Getting Wall Location
-			If $WallPos[3] = 1 Then
-				Sleep(500)
-				PureClick($WallX[3], $WallY[3])
-				Sleep(500)
-				If  HitPoints()= true Then ; CheckWallLv() = 1 And CheckWallWord() = 1
-					SetLog("Wall segment Position 4 Correct •[" & $WallX[4] & "," & $WallY[4] & "]")
-					$checkwalllogic = True
-					$WallLoc = 1
-					ReportWallUpgrade()
-					Return True
-					ExitLoop (2)
-				Else
-					$WallLoc = 0
-					Sleep(500)
-					 Click(1, 1, 2)
-					;ContinueLoop
-				EndIf
-			EndIf
-		Next
-	Next
-	$WallY[3] += $y3
-
-	If $WallLoc = 0 Then
-		$checkwalllogic = False
-		SetLog("Cannot find Walls level " & $icmbWalls + 4 & ", Skip upgrade...", $COLOR_RED)
-		ReportWallUpgradeFailed()
-		Return False
-	EndIf
+	SetLog("Cannot find Walls level " & $icmbWalls + 4 & ", function disabled ...", $COLOR_RED)
+	$NoMoreWalls = 1
+	Return False
 
 EndFunc   ;==>CheckWall
 
+Func checkPointDouble($listArrayPoint, $xPoint, $yPoint)
+	Local $ArrayPoints = StringSplit($listArrayPoint, "|")
+	For $i = 1 To $ArrayPoints[0]
+		If $ArrayPoints[$i] <> "" Then
+			$pixel = StringSplit($ArrayPoints[$i], ";")
+			If (Abs($xPoint - $pixel[1]) < 5 Or Abs($yPoint - $pixel[2]) < 5) Then Return True
+		EndIf
+	Next
+	Return False
+EndFunc   ;==>checkPointDouble
 
 Func HitPoints()
 
@@ -190,23 +110,23 @@ Func HitPoints()
 		If _Sleep(1000) Then Return
 		_CaptureRegion()
 		$HitPoints = Number(getOther(504, 193, "Hitpoints"))
-		SetLog("~ Get HitPoints :" &  _NumberFormat($HitPoints) )
+		SetLog("~ Verify HitPoints:" & _NumberFormat($HitPoints))
 
-		If $HitPointsWall[$icmbWalls] = $HitPoints then
-			SetLog("~ Wall HitPoints is correct.",$COLOR_GREEN)
-			Click(1, 1, 2)
-			Sleep(500)
+		If $HitPointsWall[$icmbWalls] = $HitPoints Then
+			SetLog("~ Wall HitPoints Correct.", $COLOR_GREEN)
+			Click(1, 1)
+			If _Sleep(500) Then Return
 			Return True
 		Else
-		    SetLog ("~ Wall HitPoint not match...", $COLOR_RED)
+			SetLog("~ Wall HitPoints Incorrect! Not a Wall or wrong level.", $COLOR_RED)
 			Click(1, 1, 2)
-			Sleep(500)
+			If _Sleep(500) Then Return
 			Return False
 		EndIf
 	Else
 		Setlog("No Upgrade Gold Button to check HitPoints, is not a Wall...", $COLOR_RED)
 		Click(1, 1, 2)
-		Sleep(500)
+		If _Sleep(500) Then Return
 		Return False
 	EndIf
 

@@ -36,18 +36,19 @@ Global $TrainArch[4]  = [ 369, 366, 0x39D8E0,     100] ;
 Global $TrainGiant[4] = [ 475, 366, 0x3DD8E0,     20] ;
 Global $TrainWiza[4]  = [ 325, 425, 0xA56052,     20] ;
 Global $TrainGobl[4]  = [ 581, 366, 0x39D8E0,     20] ;
-Global $TrainHogs[4]  = [ 369, 366, 0x39CBDA,     20] 
+;Global $TrainHogs[4]  = [ 369, 366, 0x39CBDA,     20]
+Global $TrainHogs[4]  = [ 367, 366, 0x56D6DF,     20]
 Global $TrainMini[4]  = [ 225, 324, 0x4E91B0,     20]
 Global $TrainWall[4]  = [ 688, 366, 0x3AD8E0,     20] ;
 
 
 Global $TrainHeal[4]  = [ 437, 425, 0xf8ddc6,     20]
-Global $TrainPekk[4]  = [ 648, 425, 0x506e8a,     20] 
-Global $TrainBall[4]  = [ 225, 425, 0xa4713e,     20] 
-Global $TrainDrag[4]  = [ 541, 425, 0x382c50,     20] 
+Global $TrainPekk[4]  = [ 648, 425, 0x506e8a,     20]
+Global $TrainBall[4]  = [ 225, 425, 0xa4713e,     20]
+Global $TrainDrag[4]  = [ 541, 425, 0x382c50,     20]
 Global $TrainLava[4]  = [ 225, 425, 0x58564d,     20]
-Global $TrainValk[4]  = [ 437, 324, 0xf89888,     20] 
-Global $TrainGole[4]  = [ 544, 331, 0xDDC2A5,     20] 
+Global $TrainValk[4]  = [ 437, 324, 0xf89888,     20]
+Global $TrainGole[4]  = [ 544, 331, 0xDDC2A5,     20]
 Global $TrainWitc[4]  = [ 648, 324, 0x312a50,     20]
 
 Global $NextBtn[2]        = [ 750, 500]

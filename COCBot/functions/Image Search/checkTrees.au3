@@ -1,21 +1,21 @@
 ; check for trees, bushes, etc
 Global $mush, $bush, $bark, $trunk, $tree1, $tree2, $tree3
 $mush = @ScriptDir & "\images\Trees\mush1c.png"
-$bush = @ScriptDir & "\images\Trees\bush1b.png"
+$bush = @ScriptDir & "\images\Trees\bush1c.png"
 $bark = @ScriptDir & "\images\Trees\bark4.png"
 $trunk = @ScriptDir & "\images\Trees\trunk1c.png"
 $tree1 = @ScriptDir & "\images\Trees\tree1b.png"
 $tree2 = @ScriptDir & "\images\Trees\tree2b.png"
 $tree3 = @ScriptDir & "\images\Trees\tree3.png"
-$gembox = @ScriptDir & "\images\Trees\gembox.png"
+$gembox = @ScriptDir & "\images\Trees\gembox6.png"
 
-Global $TreeX = 0, $TreeY = 0, $TreeLoc = 0
+Global $TreeX = 0, $TreeY = 0, $TreeLoc = 0, $TombX = 0, $TombY = 0, $TombLoc = 0
 
 Func CheckTrees()
 If FileExists($mush) Then ;mushroom
 	$TreeLoc = 0
 	If _Sleep(500) Then Return
-	For $TreeTol = 0 To 27
+	For $TreeTol = 0 To 23
 		If $TreeLoc = 0 Then
 			_CaptureRegion()
 			$TreeLoc = _ImageSearch($mush, 1, $TreeX, $TreeY, $TreeTol) ; Getting Tree Location
@@ -30,7 +30,7 @@ EndIf
 If FileExists($bush) Then ;bush
 	$TreeLoc = 0
 	If _Sleep(500) Then Return
-	For $TreeTol = 0 To 15
+	For $TreeTol = 0 To 18
 		If $TreeLoc = 0 Then
 			_CaptureRegion()
 			$TreeLoc = _ImageSearch($bush, 1, $TreeX, $TreeY, $TreeTol) ; Getting Tree Location
@@ -120,7 +120,7 @@ EndIf
 If FileExists($gembox) Then ;gembox
 	$TreeLoc = 0
 	If _Sleep(500) Then Return
-	For $TreeTol = 0 To 30
+	For $TreeTol = 0 To 58
 		If $TreeLoc = 0 Then
 			_CaptureRegion()
 			$TreeLoc = _ImageSearch($gembox, 1, $TreeX, $TreeY, $TreeTol) ; Getting Tree Location

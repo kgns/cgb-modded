@@ -15,11 +15,9 @@ Func GetResources() ;Reads resources
 			$searchGold = getGold(51, 66)
 		endif
 		$i += 1
-
-		If $i >= 40 or isProblemAffect(true) Then ; wait max 20 sec then Restart Bot
-		    If $pEnabled = 1 AND $pOOS = 1 Then _Push($iPBVillageName & ": Disconnected after " & StringFormat("%3s", $SearchCount) & " skip(s)", "Cannot locate Next button, Restarting Bot...")
+		If $i >= 100 or isProblemAffect(true) Then ; wait max 20 sec then Restart Bot
 			SetLog("Cannot locate Next button, Restarting Bot..." , $COLOR_RED)
-
+		    Pushmsg("OoSResources")
 			$Is_ClientSyncError = True
 			GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
 			$iStuck = 0
@@ -38,8 +36,8 @@ Func GetResources() ;Reads resources
 
 	$searchGold2 = $searchGold
 	If $iStuck >= 5 Then
-	    If $pEnabled = 1 AND $pOOS = 1 Then _Push($iPBVillageName & ": Disconnected after " & StringFormat("%3s", $SearchCount) & " skip(s)", "Stuck...")
 		SetLog("Cannot locate Next button, Restarting Bot", $COLOR_RED)
+		Pushmsg("OoSResources")
 		$Is_ClientSyncError = True
 		GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
 		$iStuck = 0
@@ -77,5 +75,5 @@ Func GetResources() ;Reads resources
 	EndIf
 	$SearchCount += 1 ; Counter for number of searches
 	SetLog(StringFormat("%3s", $SearchCount) & "> [G]:" & StringFormat("%7s", $searchGold) & " [E]:" & StringFormat("%7s", $searchElixir) & " [D]:" & StringFormat("%5s", $searchDark) & " [T]:" & StringFormat("%2s", $searchTrophy) & $THString, $COLOR_BLACK, "Lucida Console", 7.5)
-	$LastLoot = StringFormat("%3s", $SearchCount) & "> [G]:" & StringFormat("%7s", $searchGold) & " [E]:" & StringFormat("%7s", $searchElixir) & " [D]:" & StringFormat("%5s", $searchDark) & " [T]:" & StringFormat("%2s", $searchTrophy) & $THString
+
 EndFunc   ;==>GetResources
