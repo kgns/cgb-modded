@@ -327,15 +327,12 @@ Global $TPaused, $BlockInputPause=0
 Global $iWBMortar
 Global $iWBWizTower
 Global $iWBXbow
-Global $TroopGroup[10][6] = [["Pekk",9,25,6,-1,-1],["Drag",8,20,5,-1,-1],["Heal",7,14,3,-1,-1],["Wiza",6,4,4,-1,-1],["Ball",5,5,9,-1,-1],["Wall",4,2,8,-1,-1],["Giant",2,5,1,-1,-1],["Gobl",3,1,7,-1,-1],["Arch",1,1,0,9,1],["Barb",0,1,2,8,0]]
+Global $TroopGroup[10][4] = [["Pekk",9,25,-1],["Drag",8,20,-1],["Heal",7,14,-1],["Wiza",6,4,-1],["Ball",5,5,-1],["Wall",4,2,-1],["Giant",2,5,-1],["Gobl",3,1,-1],["Arch",1,1,9],["Barb",0,1,8]]
+Global $THSnipeTroopGroup[10][4] = [["Arch",1,1,2],["Giant",2,5,-1],["Barb",0,1,0],["Heal",7,14,-1],["Wiza",6,4,-1],["Drag",8,20,-1],["Pekk",9,25,-1],["Gobl",3,1,-1],["Wall",4,2,-1],["Ball",5,5,-1]]
 Global $TroopName[Ubound($TroopGroup,1)]
 Global $TroopNamePosition[Ubound($TroopGroup,1)]
 Global $TroopHeight[Ubound($TroopGroup,1)]
 Global $TroopRotateIndex[Ubound($TroopGroup,1)]
-Global $TroopTHSnipeName[Ubound($TroopGroup,1)]
-Global $TroopTHSnipeNamePosition[Ubound($TroopGroup,1)]
-Global $TroopTHSnipeHeight[Ubound($TroopGroup,1)]
-Global $TroopTHSnipeRotateIndex[Ubound($TroopGroup,1)]
 Global $TroopGroupDark[6][3] = [["Lava",5,30],["Gole",3,30],["Witc",4,12],["Valk",2,8],["Hogs",1,5],["Mini",0,2]]
 Global $TroopDarkName[Ubound($TroopGroupDark,1)]
 Global $TroopDarkNamePosition[Ubound($TroopGroupDark,1)]
@@ -351,11 +348,7 @@ for $i=0 to Ubound($TroopGroup,1) - 1
 	$TroopName[$i]         							= $TroopGroup[$i][0]
 	$TroopNamePosition[$i] 							= $TroopGroup[$i][1]
 	$TroopHeight[$i]       							= $TroopGroup[$i][2]
-	$TroopRotateIndex[$i]       						= $TroopGroup[$i][4]
-	$TroopTHSnipeName[$TroopGroup[$i][3]]       				= $TroopGroup[$i][0]
-	$TroopTHSnipeNamePosition[$TroopGroup[$i][3]]       			= $TroopGroup[$i][1]
-	$TroopTHSnipeHeight[$TroopGroup[$i][3]]       				= $TroopGroup[$i][2]
-	$TroopTHSnipeRotateIndex[$TroopGroup[$i][3]]       			= $TroopGroup[$i][5]
+	$TroopRotateIndex[$i]       					= $TroopGroup[$i][3]
 next
 for $i=0 to Ubound($TroopGroupDark,1) - 1
 	$TroopDarkName[$i]         = $TroopGroupDark[$i][0]

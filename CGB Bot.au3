@@ -96,7 +96,9 @@ Func runBot() ;Bot that runs everything in order
 			DonateCC()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+			SetTroops()
 			Train()
+			RevertTroops()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
 			BoostBarracks()
@@ -174,7 +176,9 @@ Func Idle() ;Sequence that runs until Full Army
 		EndIf
 		$iCollectCounter = $iCollectCounter + 1
 		If $CommandStop <> 3 Then
+			SetTroops()
 			Train()
+			RevertTroops()
 			If _Sleep(1000) Then ExitLoop
 
 			    checkMainScreen(False)
