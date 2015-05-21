@@ -100,7 +100,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 
 		GetResources() ;Reads Resource Values
-		If $Restart = True Then Return ; exit func
 		If $iChkAttackNow = 1 Then
 			If _Sleep(1000 * $iAttackNowDelay) Then Return ; add human reaction time on AttackNow button function
 		EndIf

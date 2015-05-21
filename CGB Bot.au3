@@ -20,10 +20,10 @@
 #pragma compile(ProductName, Clash Game Bot)
 
 #pragma compile(ProductVersion, 3.0)
-#pragma compile(FileVersion, 3.1)
+#pragma compile(FileVersion, 3.1.1)
 #pragma compile(LegalCopyright, © http://gamebot.org)
 
-$sBotVersion = "v3.1"
+$sBotVersion = "v3.1.1"
 $sBotTitle = "Clash Game Bot " & $sBotVersion
 Global $sBotDll = @ScriptDir & "\CGBPlugin.dll"
 
@@ -65,77 +65,47 @@ WEnd
 
 Func runBot() ;Bot that runs everything in order
 	While 1
-		$Restart = False
 		$fullArmy = False
 		$CommandStop = -1
 		If _Sleep(1000) Then Return
 		checkMainScreen()
 		If $Is_ClientSyncError = False Then
 				If _Sleep(1000) Then Return
-
-
-				If $Restart = True Then ContinueLoop
 			If BotCommand() Then btnStop()
 				If _Sleep(1000) Then Return
-
-				If $Restart = True Then ContinueLoop
-;			BotDetectFirstTime()
-;				If _Sleep(1000) Then Return
-;
-;				If $Restart = True Then ContinueLoop
-
-			;launch profilereport() only if option balance D/R it's activated
 			If $checkUseClanCastleBalanced = 1 then
 			    ProfileReport()
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
-			    If $Restart = True Then ContinueLoop
 			EndIf
 			if $RequestScreenshot = 1 then PushMsg("RequestScreenshot")
 				If _Sleep(1000) Then Return
 			Collect()
 				If _Sleep(1000) Then Return
-
-				If $Restart = True Then ContinueLoop
 			ReArm()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			VillageReport()
 		     	If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			ReportPushBullet()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			DonateCC()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			Train()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			BoostBarracks()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			BoostSpellFactory()
 			    If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			RequestCC()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			If $iUnbreakableMode >= 1 Then
 				If Unbreakable() = True Then ContinueLoop
 			Endif
@@ -143,46 +113,36 @@ Func runBot() ;Bot that runs everything in order
 			    	If _Sleep(1000) Then Return
 			    
 			    checkMainScreen(False)
-		     	    	If $Restart = True Then ContinueLoop
 			UpgradeWall()
 				If _Sleep(1000) Then Return
 				
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			;Mow the lawn
 			RemoveTrees()
 				If _Sleep(1000) Then Return
 				
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			;End Mow the lawn
 			UpgradeHeroes()
 				If _Sleep(1000) Then Return
 				
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			UpgradeBuilding()
 				If _Sleep(1000) Then Return
 
 			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
 			Idle()
 				If _Sleep(1000) Then Return
-				If $Restart = True Then ContinueLoop
 			If $CommandStop <> 0 And $CommandStop <> 3 Then
 				AttackMain()
 					If _Sleep(1000) Then Return
-
-					If $Restart = True Then ContinueLoop
 			EndIf
 				;
-				Else ;When error occours directly goes to attack
+		Else ;When error occours directly goes to attack
 			SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
 			PushMsg("OutOfSync")
 			AttackMain()
-				If _Sleep(1000) Then Return
-
-				If $Restart = True Then ContinueLoop
+			If _Sleep(1000) Then Return
 		EndIf
 	WEnd
 EndFunc   ;==>runBot
@@ -199,7 +159,6 @@ Func Idle() ;Sequence that runs until Full Army
 			$iReHere += 1
 			DonateCC(true)
 			If _Sleep(3000) Then ExitLoop
-		    If $Restart = True Then ExitLoop
 		WEnd
 		If _Sleep(1500) Then ExitLoop
 
@@ -245,7 +204,6 @@ Func AttackMain() ;Main control for attack functions
 
 	PrepareSearch()
 	VillageSearch()
-		If $Restart = True Then Return
 	PrepareAttack()
 	;checkDarkElix()
 	DEAttack()

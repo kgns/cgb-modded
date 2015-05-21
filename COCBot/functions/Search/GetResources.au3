@@ -22,7 +22,6 @@ Func GetResources() ;Reads resources
 			GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
 			$iStuck = 0
 			checkMainScreen()
-			$Restart = True
 			Return
 		EndIf
 	WEnd
@@ -42,7 +41,6 @@ Func GetResources() ;Reads resources
 		GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
 		$iStuck = 0
 		checkMainScreen()
-		$Restart = True
 		Return
 	EndIf
 

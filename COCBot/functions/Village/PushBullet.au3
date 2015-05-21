@@ -183,7 +183,7 @@ Func _PushFile($File, $Folder, $FileType, $title, $body)
 	  Local $pPush = '{"file_name": "' & $File & '", "file_type": "' & $FileType & '"}'
 	  $oHTTP.Send($pPush)
 	  $Result = $oHTTP.ResponseText
-	  ;SetLog("risposta: " & $Result , $COLOR_RED)
+
 	  Local $upload_url = _StringBetween($Result, 'upload_url":"', '"')
 	  Local $awsaccesskeyid = _StringBetween($Result, 'awsaccesskeyid":"', '"')
 	  Local $acl = _StringBetween($Result, 'acl":"', '"')
