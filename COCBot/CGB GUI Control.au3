@@ -496,10 +496,6 @@ Func SetComboTroopComp()
 				GUICtrlSetState(Eval("txtNum" & $TroopDarkName[$i]), $GUI_ENABLE)
 			Next
 
-			GUICtrlSetData($txtNumBarb, "0")
-			GUICtrlSetData($txtNumArch, "100")
-			GUICtrlSetData($txtNumGobl, "0")
-
 			For $i = 0 To UBound($TroopName) - 1
 				_GUICtrlEdit_SetReadOnly(Eval("txtNum" & $TroopName[$i]), True)
 			Next
@@ -513,6 +509,7 @@ Func SetComboTroopComp()
 			For $i = 0 To UBound($TroopDarkName) - 1
 				GUICtrlSetData(Eval("txtNum" & $TroopDarkName[$i]), "0")
 			Next
+			GUICtrlSetData($txtNumArch, "100")
 		Case 1
 			GUICtrlSetState($cmbBarrack1, $GUI_DISABLE)
 			GUICtrlSetState($cmbBarrack2, $GUI_DISABLE)
