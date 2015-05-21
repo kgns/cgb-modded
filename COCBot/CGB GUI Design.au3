@@ -19,6 +19,7 @@
 $frmBot = GUICreate($sBotTitle, 470, 715)
 	GUISetIcon($LibDir & "\CGBBOT.dll", 10)
 	TraySetIcon($LibDir & "\CGBBOT.dll", 10)
+	GUISetFont(8.5,400,0,"Tahoma")
 $tabMain = GUICtrlCreateTab(5, 85, 461, 495, $TCS_TOOLTIPS)
 	GUICtrlSetOnEvent(-1, "tabMain")
 	GUICtrlCreatePic (@ScriptDir & "\Icons\logo.jpg", 0, 0, 470, 80)
