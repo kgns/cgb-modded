@@ -1,5 +1,5 @@
 ; #FUNCTION# ====================================================================================================================
-; Name ..........: PushBulle
+; Name ..........: PushBullet
 ; Description ...: This function will report to your mobile phone your values and last attack
 ; Syntax ........:
 ; Parameters ....: None
@@ -37,7 +37,6 @@ Func _RemoteControl()
 
 			Switch $title[$x]
 			Case "BOT HELP"
-					_DeleteMessage($iden[$x])
 					 Local $txtHelp = "You can remotely control your bot sending commands following this syntax:"
 					 $txtHelp &= '\n' & "BOT HELP - send this help message"
 					 $txtHelp &= '\n' & "BOT DELETE  - delete all your previous Push message"
@@ -47,42 +46,42 @@ Func _RemoteControl()
 					 $txtHelp &= '\n' & "BOT <Village Name> RESUME   - resume the bot named <Village Name>"
 					 $txtHelp &= '\n' & "BOT <Village Name> STATS - send Village Statistics of <Village Name>"
 					 $txtHelp &= '\n' & "BOT <Village Name> LOG - send the current log file of <Village Name>"
-					 $txtHelp &= '\n' & "BOT <Village Name> LASTRAID - send the current log file of <Village Name>"
+					 $txtHelp &= '\n' & "BOT <Village Name> LASTRAID - send the last raid loot screenshot of <Village Name>"
+					 $txtHelp &= '\n' & "BOT <Village Name> LASTRAIDTXT - send the last raid loot values of <Village Name>"
 					 $txtHelp &= '\n' & "BOT <Village Name> SCREENSHOT - send a screenshot of <Village Name>"
  					 $txtHelp &= '\n'
 					 $txtHelp &= '\n' & "Examples:"
 					 $txtHelp &= '\n' & "Bot MyVillage Pause"
 					 $txtHelp &= '\n' & "Bot Delete "
 					 $txtHelp &= '\n' & "Bot MyVillage ScreenShot"
-					_Push($iOrigPushB & ": Request for Help", $txtHelp )
-					SetLog("Your request has been received from ' " & $iOrigPushB  & ". Help has been sent")
-			Case "BOT " & StringUpper($iOrigPushB)  & " PAUSE"
+					_Push($iOrigPushB & " | Request for Help", $txtHelp )
+					SetLog("Pushbullet: Your request has been received from ' " & $iOrigPushB  & ". Help has been sent", $COLOR_GREEN)
 					_DeleteMessage($iden[$x])
+			Case "BOT " & StringUpper($iOrigPushB)  & " PAUSE"
 				    If $TPaused = false  and $Runstate = True Then
 						TogglePauseImpl("Push")
 					Else
-						SetLog("Your bot is currently paused, no action was taken")
-						_Push($iOrigPushB & ": Request to Pause", "Your bot is currently paused, no action was taken")
+						SetLog("Pushbullet: Your bot is currently paused, no action was taken", $COLOR_GREEN)
+						_Push($iOrigPushB & " | Request to Pause", "Your bot is currently paused, no action was taken")
 					EndIf
-			Case "BOT " & StringUpper($iOrigPushB)  & " RESUME"
 					_DeleteMessage($iden[$x])
+			Case "BOT " & StringUpper($iOrigPushB)  & " RESUME"
 				    If $TPaused = true  and $Runstate = True Then
 						TogglePauseImpl("Push")
 					Else
-						SetLog("Your bot is currently resumed, no action was taken")
-						_Push($iOrigPushB & ": Request to Resume", "Your bot is currently resumed, no action was taken")
+						SetLog("Pushbullet: Your bot is currently resumed, no action was taken", $COLOR_GREEN)
+						_Push($iOrigPushB & " | Request to Resume", "Your bot is currently resumed, no action was taken")
 					EndIf
+					_DeleteMessage($iden[$x])
 			Case "BOT DELETE"
-					_DeleteMessage($iden[$x])
 					_DeletePush()
-					SetLog("Your request has been received.")
+					SetLog("Pushbullet: Your request has been received.", $COLOR_GREEN)
 			Case "BOT " & StringUpper($iOrigPushB)  & " LOG"
-					_DeleteMessage($iden[$x])
-					SetLog("Your request has been received from " & $iOrigPushB & ". Log is now sent")
-					_PushFile(  $sLogFName, "logs", "text/plain; charset=utf-8", $iOrigPushB & ": Current Log", "Cannot open log with app, open from browser.")
+					SetLog("Pushbullet: Your request has been received from " & $iOrigPushB & ". Log is now sent", $COLOR_GREEN)
+					_PushFile(  $sLogFName, "logs", "text/plain; charset=utf-8", $iOrigPushB & " | Current Log", "Cannot open log with app, open from browser.")
+				   _DeleteMessage($iden[$x])
 ;			Case "BOT " & StringUpper($iOrigPushB)  & " LOG1"
-;					_DeleteMessage($iden[$x])
-;					SetLog("Your request has been received from " & $iOrigPushB & ". Log is now sent")
+;					SetLog("Your request has been received from " & $iOrigPushB & ". Log is now sent", $COLOR_GREEN)
 ;				    Local $file = $DirLogs & $sLogFName
 ;					Local $i = 0
 ;					Local $line = ""
@@ -93,23 +92,46 @@ Func _RemoteControl()
 ;						$line = $line & FileReadLine($file, $i)
 ;						Next
 ;				    FileClose($file)
-;				    _Push ($iOrigPushB & ": Current Log1 " & $sLogFName , $line)
+;				    _Push ($iOrigPushB & " | Current Log1 " & $sLogFName , $line)
+;					_DeleteMessage($iden[$x])
 			Case "BOT " & StringUpper($iOrigPushB)  & " LASTRAID"
-					_DeleteMessage($iden[$x])
 				    If $AttackFile <> "" Then
-						_PushFile($AttackFile, "Loots", "image/jpeg", "Last Raid for " &$iOrigPushB & " Village", $AttackFile)
+						_PushFile($AttackFile, "Loots", "image/jpeg",  $iOrigPushB & " | Last Raid", $AttackFile)
  				    Else
- 						_Push($iOrigPushB &": There is no last raid screenshot." , "")
+ 						_Push($iOrigPushB &" | There is no last raid screenshot." , "")
 					EndIf
-				    SetLog("Push: Last Raid snapshot...", $COLOR_GREEN)
+				    SetLog("Pushbullet: Push Last Raid Snapshot...", $COLOR_GREEN)
+					_DeleteMessage($iden[$x])
+			Case "BOT " & StringUpper($iOrigPushB)  & " LASTRAIDTXT"
+					SetLog("Pusbullet: Your request has been received. Last Raid txt sent", $COLOR_GREEN)
+					_Push($iOrigPushB & " | Last Raid txt", "[G]: " & _NumberFormat($lootGold) & " [E]: " & _NumberFormat($lootElixir) & " [D]: " & _NumberFormat($lootDarkElixir) & " [T]: " & $lootTrophies )
+					_DeleteMessage($iden[$x])
 			Case "BOT " & StringUpper($iOrigPushB)  & " STATS"
+					SetLog("Pushbullet: Your request has been received. Statistics sent", $COLOR_GREEN)
+					Local $txtVillageReport = "Total Army Camp capacity: " & $CurCamp & "/" & $TotalCamp
+					$txtVillageReport &= "\n\n" & "At Start"
+					$txtVillageReport &= "\n" & "-[G]: " & _NumberFormat($GoldStart)
+					$txtVillageReport &= "\n" & "-[E]: " & _NumberFormat($ElixirStart)
+					$txtVillageReport &= "\n" & "-[D]: " & _NumberFormat($DarkStart)
+					$txtVillageReport &= "\n" & "-[T]: " & $TrophyStart
+					$txtVillageReport &= "\n\n" & "Now (Current Resources)"
+					$txtVillageReport &= "\n" & "-[G]: " & _NumberFormat($GoldVillage)
+					$txtVillageReport &= "\n" & "-[E]: " & _NumberFormat($ElixirVillage)
+					$txtVillageReport &= "\n" & "-[D]: " & _NumberFormat($DarkVillage)
+					$txtVillageReport &= "\n" & "-[T]: " & $TrophyVillage
+					$txtVillageReport &= "\n\n" & "-[GEM]: " & $GemCount
+					$txtVillageReport &= "\n" & "-[No. of Free Builders]: " & $FreeBuilder
+					$txtVillageReport &= "\n" & "-[No. of Wall Up]: G: " & $wallgoldmake & "/ E: " & $wallelixirmake
+					$txtVillageReport &= "\n" & "-[No. of Free Builders]: " & $FreeBuilder
+					$txtVillageReport &= "\n\n" & "Attacked: " & GUICtrlRead($lblresultvillagesattacked)
+					$txtVillageReport &= "\n" & "Skipped: " & GUICtrlRead($lblresultvillagesskipped)
+					$txtVillageReport &= "\n" & "Nbr of OOS: " & GUICtrlRead($lblresultoutofsync)
+					_Push($iOrigPushB & " | Stats Village Report", $txtVillageReport)
 					_DeleteMessage($iden[$x])
-					SetLog("Your request has been received. Statistics sent")
-					_Push($iOrigPushB & ": Village Report", "Total Army Camp capacity: " & $CurCamp & "/" & $TotalCamp & "\n\nYour starting resources\n-[G]: " & _NumberFormat($GoldStart) & "\n-[E]: " & _NumberFormat($ElixirStart) & "\n-[D]: " & _NumberFormat($DarkStart) & " \n-[T]: " & $TrophyStart & "\n\nNow (Current Resources)\n-[G]: " & _NumberFormat($GoldVillage) & "\n-[E]: " & _NumberFormat($ElixirVillage) & "\n-[D]: " & _NumberFormat($DarkVillage) & "\n-[T]: " & $TrophyVillage & "\n\n-[GEM]: " & $GemCount & "\n [No. of Free Builders]: " & $FreeBuilder & "\n [No. of Wall Up]: G: " & $wallgoldmake & "/ E: " & $wallelixirmake & "\n\nAttacked: " & GUICtrlRead($lblresultvillagesattacked) & "\nSkipped: " & GUICtrlRead($lblresultvillagesskipped))
 			Case "BOT " & StringUpper($iOrigPushB)  & " SCREENSHOT"
-					_DeleteMessage($iden[$x])
-				    SetLog("ScreenShot request received", $COLOR_GREEN)
+				    SetLog("Pushbullet: ScreenShot request received", $COLOR_GREEN)
 					$RequestScreenshot=1
+					_DeleteMessage($iden[$x])
 			;Case "BOT " & StringUpper($iOrigPushB)  & " RESTART"
 			;		SetLog("Restart Bluestacks!", $COLOR_GREEN)
 			;		Local $RestartApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "Restart")
@@ -118,25 +140,31 @@ Func _RemoteControl()
 			;		Do
 			;		If _Sleep(5000) Then Return
 			;		Until ControlGetHandle($Title, "", "BlueStacksApp1") <> 0
-			;Case Else
-			;		SetLog("Read message " &  $title[$x]& ". " &  $created  & ". SKIPPED " & $iden[$x])
-
 			Case "BOT " & StringUpper($iOrigPushB)  & " RESTART"
 				  _DeleteMessage($iden[$x])
 				  SetLog("Your request has been received. " & $title[$x])
-				  _Push($iOrigPushB & ": Request to Restart...", "Your bot and BS are now restarting...")
+				  _Push($iOrigPushB & " | Request to Restart...", "Your bot and BS are now restarting...")
 				  SaveConfig()
 				  _Restart()
 			Case "BOT " & StringUpper($iOrigPushB)  & " STOP"
 				  _DeleteMessage($iden[$x])
 				  SetLog("Your request has been received. " & $title[$x])
 				  If $Runstate = True Then
-					 _Push($iOrigPushB & ": Request to Stop...", "Your bot is now stopping...")
+					 _Push($iOrigPushB & " | Request to Stop...", "Your bot is now stopping...")
 					 btnStop()
 				  Else
-					 _Push($iOrigPushB & ": Request to Stop...", "Your bot is currently stopped, no action was taken")
+					 _Push($iOrigPushB & " | Request to Stop...", "Your bot is currently stopped, no action was taken")
 				  EndIf
+		 Case Else
+		    Local $lenstr = stringlen("BOT " & StringUpper($iOrigPushB) & " "  )
+		    local $teststr = StringLeft ($title[$x] , $lenstr )
+			if $teststr = ( "BOT " & StringUpper($iOrigPushB) & " " ) then
+					SetLog("Pushbullet: received command syntax wrong, command ignored.", $COLOR_RED)
+					_Push($iOrigPushB & " | Command not recognized", "please push BOT HELP to obtain a complete command list.")
+					_DeleteMessage($iden[$x])
+					endif
 			EndSwitch
+
 				$title[$x] = ""
 				$iden[$x] = ""
 			EndIf
@@ -201,12 +229,12 @@ Func _PushFile($File, $Folder, $FileType, $title, $body)
 		 Local $pPush = '{"type": "file", "file_name": "' & $File & '", "file_type": "' & $FileType & '", "file_url": "' & $file_url[0] & '", "title": "' & $title & '", "body": "' & $body & '"}'
 		 $oHTTP.Send($pPush)
 	  Else
-		 SetLog("Unable to send file " & $File, $COLOR_RED)
-		 _Push($iOrigPushB & ": Unable to Upload File" , "Occured an error type 1 uploading file to PushBullet server...")
+		 SetLog("Pusbullet: Unable to send file " & $File, $COLOR_RED)
+		 _Push($iOrigPushB & "| Unable to Upload File" , "Occured an error type 1 uploading file to PushBullet server...")
 	  EndIf
    Else
-		 SetLog("Unable to send file " & $File, $COLOR_RED)
-		 _Push($iOrigPushB & ": Unable to Upload File" , "Occured an error type 2 uploading file to PushBullet server...")
+		 SetLog("Pushbullet: Unable to send file " & $File, $COLOR_RED)
+		 _Push($iOrigPushB & "| Unable to Upload File" , "Occured an error type 2 uploading file to PushBullet server...")
    EndIF
 EndFunc   ;==>_PushFile
 
@@ -235,64 +263,69 @@ EndFunc   ;==>_DeleteMessage
 Func PushMsg($Message, $Source = "")
 	Switch $Message
 	Case "OutOfSync"
-		If $pEnabled = 1 AND $pOOS = 1 Then _Push($iOrigPushB  & ": Restarted after Out of Sync Error", "Attacking now...")
+		If $pEnabled = 1 AND $pOOS = 1 Then _Push($iOrigPushB  & " | Restarted after Out of Sync Error", "Attacking now...")
 	Case "LastRaid"
 		If $pEnabled = 1 And $pLastRaidImg = 1 Then
-					SetLog("Last Raid screenshot has been sent!")
-					;create a temporary file to send with pushbullet...
-				    ;Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
-				    ;Local $Time = @HOUR & "." & @MIN
-					;$AttackFile = $Date & "__" & $Time & ".jpg" ; separator __ is need  to not have conflict with saving other files if $TakeSS = 1 and $chkScreenshotLootInfo = 0
-				    ;$hBitmap_Scaled = _GDIPlus_ImageResize($hBitmap, _GDIPlus_ImageGetWidth($hBitmap) / 2, _GDIPlus_ImageGetHeight($hBitmap) / 2) ;resize image
-					;_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $AttackFile  )
+;		   			_CaptureRegion(0, 0, 860, 675)
+;					;create a temporary file to send with pushbullet...
+;				    Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
+;				    Local $Time = @HOUR & "." & @MIN
+;
+;				    If $ScreenshotLootInfo = 1 Then
+;						$AttackFile = $Date & "__" & $Time & " G" & $lootGold & " E" & $lootElixir & " DE" & $lootDarkElixir & " T" & $lootTrophies & " S" & StringFormat("%s", $SearchCount) & ".jpg" ; separator __ is need  to not have conflict with saving other files if $TakeSS = 1 and $chkScreenshotLootInfo = 0
+;				    Else
+;						$AttackFile = $Date & "__" & $Time & ".jpg" ; separator __ is need  to not have conflict with saving other files if $TakeSS = 1 and $chkScreenshotLootInfo = 0
+;				    EndIf
+;				    $hBitmap_Scaled = _GDIPlus_ImageResize($hBitmap, _GDIPlus_ImageGetWidth($hBitmap) / 2, _GDIPlus_ImageGetHeight($hBitmap) / 2) ;resize image
+;					_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $AttackFile  )
 					;push the file
-				    _PushFile($LootFileName, "Loots", "image/jpeg", $iOrigPushB  & ": Last Raid", $LootFileName)
+					SetLog("Pushbullet: Last Raid screenshot has been sent!", $COLOR_GREEN)
+				    _PushFile($LootFileName, "Loots", "image/jpeg", $iOrigPushB  & " | Last Raid", $LootFileName)
 					;wait a second and then delete the file
-					;If _Sleep(1000) Then Return
-				    ;Local $iDelete = FileDelete($dirLoots & $AttackFile)
-				    ;If not($iDelete) Then SetLog("An error occurred deleting the file." )
-					;_DeleteMessage($iden[$x])
+;					If _Sleep(500) Then Return
+;				    Local $iDelete = FileDelete($dirLoots & $AttackFile)
+;				    If not($iDelete) Then SetLog("Pushbullet: An error occurred deleting temporary screenshot file." , $COLOR_RED)
 	  EndIf
 	Case "LastRaidTxt"
-		If $pEnabled = 1 And $pLastRaidTxt = 1 Then _Push($iOrigPushB & ": Last Raid", " [G]: " &  _NumberFormat($lootGold) & " [E]: " &  _NumberFormat($lootElixir) & " [D]: " &  _NumberFormat($lootDarkElixir) & "  [T]: " & _NumberFormat($lootTrophies))
+		If $pEnabled = 1 And $pLastRaidTxt = 1 Then _Push($iOrigPushB & " | Last Raid", " [G]: " &  _NumberFormat($lootGold) & " [E]: " &  _NumberFormat($lootElixir) & " [D]: " &  _NumberFormat($lootDarkElixir) & "  [T]: " & _NumberFormat($lootTrophies))
 	Case "MyVillage"
-		If $pEnabled = 1 AND $iAlertPBVillage = 1 Then _Push($iOrigPushB & ": My Village", " [G]: " &  _NumberFormat($GoldCount) & " [E]: " &  _NumberFormat($ElixirCount) & " [D]: " &  _NumberFormat($DarkCount) & "  [T]: " &  _NumberFormat($TrophyCount) & " [FB]: " &  _NumberFormat($FreeBuilder))
+		If $pEnabled = 1 AND $iAlertPBVillage = 1 Then _Push($iOrigPushB & " | My Village", " [G]: " &  _NumberFormat($GoldCount) & " [E]: " &  _NumberFormat($ElixirCount) & " [D]: " &  _NumberFormat($DarkCount) & "  [T]: " &  _NumberFormat($TrophyCount) & " [FB]: " &  _NumberFormat($FreeBuilder))
 	Case "FoundWalls"
-		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & ": Found Wall level " & $icmbWalls+4 , " Wall segment has been located...\nUpgrading ...")
+		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & " | Found Wall level " & $icmbWalls+4 , " Wall segment has been located...\nUpgrading ...")
 	Case "SkypWalls"
-		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & ": Cannot find Wall level " & $icmbWalls+4 , "Skip upgrade ...")
+		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & " | Cannot find Wall level " & $icmbWalls+4 , "Skip upgrade ...")
 	Case "AnotherDevice3600"
-		If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iOrigPushB & ": Another Device has connected", "Another Device has connected, waiting " & Floor(Floor($sTimeWakeUp / 60) / 60) & " hours " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
+		If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iOrigPushB & " | Another Device has connected", "Another Device has connected, waiting " & Floor(Floor($sTimeWakeUp / 60) / 60) & " hours " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
 	Case "AnotherDevice60"
-		If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iOrigPushB & ": Another Device has connected", "Another Device has connected, waiting " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
+		If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iOrigPushB & " | Another Device has connected", "Another Device has connected, waiting " & Floor(Mod(Floor($sTimeWakeUp / 60), 60)) & " minutes " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
 	Case "AnotherDevice"
-		If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iOrigPushB & ": Another Device has connected", "Another Device has connected, waiting " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
+		If $pEnabled = 1 AND $pAnotherDevice = 1 Then _Push($iOrigPushB & " | Another Device has connected", "Another Device has connected, waiting " & Floor(Mod($sTimeWakeUp, 60)) & " seconds")
 	Case "TakeBreak"
-		If $pEnabled = 1 AND $pTakeAbreak = 1 Then _Push($iOrigPushB & ": Chief, we need some rest!", "Village must take a break..")
+		If $pEnabled = 1 AND $pTakeAbreak = 1 Then _Push($iOrigPushB & " | Chief, we need some rest!", "Village must take a break..")
 	Case "CocError"
-	   If $pEnabled = 1 AND $pOOS = 1 Then _Push($iOrigPushB & ": CoC Has Stopped Error .....", ".....")
+	   If $pEnabled = 1 AND $pOOS = 1 Then _Push($iOrigPushB & " | CoC Has Stopped Error .....", ".....")
 	Case "Pause"
-		If $pEnabled = 1 AND $pRemote = 1 AND $Source = "Push" Then _Push($iOrigPushB & ": Request to Pause...", "Your request has been received. Bot is now paused")
+		If $pEnabled = 1 AND $pRemote = 1 AND $Source = "Push" Then _Push($iOrigPushB & " | Request to Pause...", "Your request has been received. Bot is now paused")
 	Case "Resume"
-		If $pEnabled = 1 AND $pRemote = 1 AND $Source = "Push" Then _Push($iOrigPushB & ": Request to Resume...", "Your request has been received. Bot is now resumed")
+		If $pEnabled = 1 AND $pRemote = 1 AND $Source = "Push" Then _Push($iOrigPushB & " | Request to Resume...", "Your request has been received. Bot is now resumed")
 	Case "OsSResources"
-		If $pEnabled = 1 AND $pOOS = 1 Then _Push($iOrigPushB & ": Disconnected after " & StringFormat("%3s", $SearchCount) & " skip(s)", "Cannot locate Next button, Restarting Bot...")
+		If $pEnabled = 1 AND $pOOS = 1 Then _Push($iOrigPushB & " | Disconnected after " & StringFormat("%3s", $SearchCount) & " skip(s)", "Cannot locate Next button, Restarting Bot...")
 	Case "MatchFound"
-		If $pEnabled = 1 AND $pMatchFound = 1 Then _Push($iOrigPushB & ": Match Found! after " & StringFormat("%3s", $SearchCount) & " skip(s)" , "[G]: " & _NumberFormat($searchGold) & "; [E]: " & _NumberFormat($searchElixir) & "; [D]: " & _NumberFormat($searchDark) & "; [T]: " & $searchTrophy)
+		If $pEnabled = 1 AND $pMatchFound = 1 Then _Push($iOrigPushB & " | Match Found! after " & StringFormat("%3s", $SearchCount) & " skip(s)" , "[G]: " & _NumberFormat($searchGold) & "; [E]: " & _NumberFormat($searchElixir) & "; [D]: " & _NumberFormat($searchDark) & "; [T]: " & $searchTrophy)
 	Case "UpgradeWithWallGold"
-		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & ": Upgrade completed by using GOLD" , "Complete by using GOLD ...")
+		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & " | Upgrade completed by using GOLD" , "Complete by using GOLD ...")
 	Case "UpgradeWithWallElixir"
-		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & ": Upgrade completed by using ELIXIR" , "Complete by using ELIXIR ...")
+		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & " | Upgrade completed by using ELIXIR" , "Complete by using ELIXIR ...")
 	Case "NoUpgradeWallButton"
-		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & ": No Upgrade Gold Button" , "Cannot find gold upgrade button ...")
+		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & " | No Upgrade Gold Button" , "Cannot find gold upgrade button ...")
 	Case "NoUpgradeElixirButton"
-		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & ": No Upgrade Elixir Button" , "Cannot find elixir upgrade button ...")
+		If $pEnabled = 1 AND $pWallUpgrade = 1 Then _Push($iOrigPushB & " | No Upgrade Elixir Button" , "Cannot find elixir upgrade button ...")
 	Case "LabFailedElixir"
-		If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iOrigPushB & ": " & GUICtrlRead($cmbLaboratory) & " upgrade failed to start", "Not enough Elixir to upgrade troops "&GUICtrlRead($cmbLaboratory))
+		If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iOrigPushB & " | " & GUICtrlRead($cmbLaboratory) & " upgrade failed to start", "Not enough Elixir to upgrade troops "&GUICtrlRead($cmbLaboratory))
 	Case "LabFailedDElixir"
-		If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iOrigPushB & ": " & GUICtrlRead($cmbLaboratory) & " upgrade failed to start", "Not enough Dark Elixir to upgrade troops "&GUICtrlRead($cmbLaboratory))
+		If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iOrigPushB & " | " & GUICtrlRead($cmbLaboratory) & " upgrade failed to start", "Not enough Dark Elixir to upgrade troops "&GUICtrlRead($cmbLaboratory))
 	Case "LabSuccess"
-		If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iOrigPushB & ": " & GUICtrlRead($cmbLaboratory) & " upgrade has started", "")
+		If $pEnabled = 1 AND $pLabUpgrade = 1 Then _Push($iOrigPushB & " | " & GUICtrlRead($cmbLaboratory) & " upgrade has started", "")
     Case "RequestScreenshot"
 		Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
 		Local $Time = @HOUR & "." & @MIN
@@ -300,13 +333,13 @@ Func PushMsg($Message, $Source = "")
 		$hBitmap_Scaled = _GDIPlus_ImageResize($hBitmap, _GDIPlus_ImageGetWidth($hBitmap) / 2, _GDIPlus_ImageGetHeight($hBitmap) / 2) ;resize image
 		Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
 		_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $Screnshotfilename)
-		_PushFile($Screnshotfilename, "Loots" , "image/jpeg", "Screenshot", $Screnshotfilename)
-		SetLog("Push: Screenshot sent!", $COLOR_GREEN)
+		_PushFile($Screnshotfilename, "Loots" , "image/jpeg", $iOrigPushB & " | Screenshot of your village", $Screnshotfilename)
+		SetLog("Pushbullet: Screenshot sent!", $COLOR_GREEN)
 		$RequestScreenshot = 0
 		;wait a second and then delete the file
 		If _Sleep(1000) Then Return
 	    Local $iDelete = FileDelete($dirLoots &  $Screnshotfilename)
-	    If not($iDelete) Then SetLog("An error occurred deleting the screenshot file." )
+	    If not($iDelete) Then SetLog("Pushbullet: An error occurred deleting the temporary screenshot file." , $COLOR_RED)
 
     EndSwitch
 EndFunc   ; ==>PushMsg

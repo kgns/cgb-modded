@@ -1,6 +1,9 @@
 ;Returns home when in battle, will take screenshot and check for gold/elixir change unless specified not to.
 
 Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
+
+	Local $counter = 0
+
 	If $GoldChangeCheck = True Then
 		While GoldElixirChange()
 			If _Sleep(1000) Then Return
@@ -34,7 +37,13 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	If _Sleep(500) Then Return
 
 	If $GoldChangeCheck = True Then
-		If _Sleep(2500) Then Return
+		$counter = 0
+		While _ColorCheck(_GetPixelColor(363, 548, True), Hex(0x78C11C, 6), 20) = False And _ColorCheck(_GetPixelColor(497, 548, True), Hex(0x79C326, 6), 20) = False ; test for Return Home Button
+			If _Sleep(500) Then ExitLoop
+			$counter += 1
+			If $counter > 40 Then ExitLoop
+		WEnd
+		If _Sleep(2500) Then Return ; wait for all report details
 		_CaptureRegion(0, 0, 860, 675)
 		AttackReport()
 		PushMsg("LastRaidTxt")
@@ -49,22 +58,23 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			_CaptureRegion(0, 0, 860, 675)
 		EndIf
 		$hBitmap_Scaled = _GDIPlus_ImageResize($hBitmap, _GDIPlus_ImageGetWidth($hBitmap) / 2, _GDIPlus_ImageGetHeight($hBitmap) / 2) ;resize image
-	    ; screenshot filename according with new options around filenames
-	    If GUICtrlRead($chkScreenshotLootInfo) = $GUI_CHECKED Then
+		; screenshot filename according with new options around filenames
+		If $ScreenshotLootInfo = 1 Then
 			$LootFileName = $iOrigPushB & "_" & $Date & "_" & $Time & " G" & $lootGold & " E" & $lootElixir & " DE" & $lootDarkElixir & " T" & $lootTrophies & " S" & StringFormat("%s", $SearchCount) & ".jpg"
 		Else
 			$LootFileName = $iOrigPushB & "_" & $Date & "_" & $Time & ".jpg"
 		EndIf
-		_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $LootFileName  )
+		_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $LootFileName)
 	EndIf
 
-    ;push images if requested..
-	PushMsg("LastRaid")
-
+	;push images if requested..
+	If $GoldChangeCheck = True Then
+	  PushMsg("LastRaid")
+   EndIf
 
 	Click(428, 544) ;Click Return Home Button
 
-	Local $counter = 0
+	$counter = 0
 	While 1
 		If _Sleep(2000) Then Return
 		_CaptureRegion()
