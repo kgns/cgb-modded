@@ -19,11 +19,11 @@
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://gamebot.org)
 #pragma compile(ProductName, Clash Game Bot)
 
-#pragma compile(ProductVersion, 3.0)
-#pragma compile(FileVersion, 3.1.1)
+#pragma compile(ProductVersion, 3.1)
+#pragma compile(FileVersion, 3.1.3)
 #pragma compile(LegalCopyright, © http://gamebot.org)
 
-$sBotVersion = "v3.1.1"
+$sBotVersion = "v3.1.3"
 $sBotTitle = "Clash Game Bot " & $sBotVersion
 Global $sBotDll = @ScriptDir & "\CGBPlugin.dll"
 
@@ -67,86 +67,108 @@ WEnd
 
 Func runBot() ;Bot that runs everything in order
 	While 1
+		$Restart = False
 		$fullArmy = False
 		$CommandStop = -1
 		If _Sleep(1000) Then Return
 		checkMainScreen()
 		If $Is_ClientSyncError = False Then
 				If _Sleep(1000) Then Return
+
+
+				If $Restart = True Then ContinueLoop
 			If BotCommand() Then btnStop()
 				If _Sleep(1000) Then Return
+
+				If $Restart = True Then ContinueLoop
 			If $checkUseClanCastleBalanced = 1 then
 			    ProfileReport()
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+			    If $Restart = True Then ContinueLoop
 			EndIf
 			if $RequestScreenshot = 1 then PushMsg("RequestScreenshot")
 				If _Sleep(1000) Then Return
 			Collect()
 				If _Sleep(1000) Then Return
+
+				If $Restart = True Then ContinueLoop
 			ReArm()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			VillageReport()
 		     	If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			ReportPushBullet()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			DonateCC()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			SetTroops()
 			Train()
 			RevertTroops()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			BoostBarracks()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			BoostSpellFactory()
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			RequestCC()
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			If $iUnbreakableMode >= 1 Then
 				If Unbreakable() = True Then ContinueLoop
 			Endif
 			Laboratory()
 			    	If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			UpgradeWall()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			;Mow the lawn
 			RemoveTrees()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			;End Mow the lawn
 			UpgradeHeroes()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			UpgradeBuilding()
 				If _Sleep(1000) Then Return
-
 			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			Idle()
 				If _Sleep(1000) Then Return
+				If $Restart = True Then ContinueLoop
 			If $CommandStop <> 0 And $CommandStop <> 3 Then
 				AttackMain()
 					If _Sleep(1000) Then Return
+
+					If $Restart = True Then ContinueLoop
 			EndIf
 				;
 		Else ;When error occours directly goes to attack
 			SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
 			PushMsg("OutOfSync")
 			AttackMain()
-			If _Sleep(1000) Then Return
+				If _Sleep(1000) Then Return
+
+				If $Restart = True Then ContinueLoop
 		EndIf
 	WEnd
 EndFunc   ;==>runBot
@@ -163,6 +185,7 @@ Func Idle() ;Sequence that runs until Full Army
 			$iReHere += 1
 			DonateCC(true)
 			If _Sleep(1500) Then ExitLoop
+		    If $Restart = True Then ExitLoop
 		WEnd
 		If _Sleep(1500) Then ExitLoop
 
@@ -170,6 +193,7 @@ Func Idle() ;Sequence that runs until Full Army
 		If _Sleep(1000) Then ExitLoop
 		If $iCollectCounter > $COLLECTATCOUNT Then ; This is prevent from collecting all the time which isn't needed anyway
 			Collect()
+		    If $Restart = True Then ExitLoop
 			If _Sleep(1000) Or $RunState = False Then ExitLoop
 
 			$iCollectCounter = 0
@@ -179,6 +203,7 @@ Func Idle() ;Sequence that runs until Full Army
 			SetTroops()
 			Train()
 			RevertTroops()
+		    If $Restart = True Then ExitLoop
 			If _Sleep(1000) Then ExitLoop
 
 			    checkMainScreen(False)
@@ -190,6 +215,7 @@ Func Idle() ;Sequence that runs until Full Army
 		EndIf
 		If $CommandStop = -1 Then
 			   DropTrophy()
+		    If $Restart = True Then ExitLoop
 			If $fullArmy Then ExitLoop
 			If _Sleep(1000) Then ExitLoop
 
@@ -200,6 +226,7 @@ Func Idle() ;Sequence that runs until Full Army
 			SnipeWhileTrain() ;; Initiate at the end of Idle() loop ; Snipe While Train MOD by ChiefM3
 		 EndIf
 
+		    If $Restart = True Then ExitLoop
 		$TimeIdle += Round(TimerDiff($hTimer) / 1000, 2) ;In Seconds
 		SetLog("Time Idle: " & StringFormat("%02i", Floor(Floor($TimeIdle / 60) / 60)) & ":" & StringFormat("%02i", Floor(Mod(Floor($TimeIdle / 60), 60))) & ":" & StringFormat("%02i", Floor(Mod($TimeIdle, 60))), $COLOR_GREEN)
 	WEnd
@@ -212,13 +239,19 @@ Func AttackMain() ;Main control for attack functions
 		If _Sleep(1000) Then Return
     EndIf
 
+		If $Restart = True Then Return
 	PrepareSearch()
+		If $Restart = True Then Return
 	VillageSearch()
 	If $haltSearch = True Then Return ; Return without initiating attack for Snipe While Train MOD by ChiefM3
+		If $Restart = True Then Return
 	PrepareAttack()
+		If $Restart = True Then Return
 	;checkDarkElix()
 	DEAttack()
+		If $Restart = True Then Return
 	Attack()
+		If $Restart = True Then Return
 	ReturnHome($TakeLootSnapShot)
 		If _Sleep(1500) Then Return
 EndFunc   ;==>AttackMain

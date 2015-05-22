@@ -6,7 +6,7 @@ Func checkMainScreen($Check = True) ;Checks if in main screen
 		SetLog("Trying to locate Main Screen")
 		_WinAPI_EmptyWorkingSet(WinGetProcess($Title)) ; Reduce BlueStacks Memory Usage
 	EndIf
-	$isCheck = false
+
 	While _ColorCheck(_GetPixelColor(284, 28, True), Hex(0x41B1CD, 6), 20) = False
 		$HWnD = WinGetHandle($Title)
 
@@ -15,15 +15,11 @@ Func checkMainScreen($Check = True) ;Checks if in main screen
 			Click(126, 700, 1, 500)
 			Local $RunApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "RunApp")
 			Run($RunApp & " Android com.supercell.clashofclans com.supercell.clashofclans.GameApp")
-		else
-			$isCheck = true
+		Else
+			$Restart = True
 		EndIf
 		waitMainScreen()
 	WEnd
 	ZoomOut()
 	If $Check = True Then SetLog("Main Screen Located", $COLOR_GREEN)
-	if $isCheck then
-		runBot()
-		return
-	endif
 EndFunc   ;==>checkMainScreen

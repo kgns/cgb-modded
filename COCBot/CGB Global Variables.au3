@@ -63,6 +63,7 @@ Global $dirLogs = @ScriptDir & "\logs\"
 Global $dirLoots = @ScriptDir & "\Loots\"
 Global $sLogPath ; `Will create a new log file every time the start button is pressed
 Global $hLogFileHandle
+Global $Restart = False
 Global $RunState = False
 Global $TakeLootSnapShot = True
 Global $ScreenshotLootInfo = False
@@ -349,7 +350,7 @@ for $i=0 to Ubound($TroopGroup,1) - 1
 	$TroopName[$i]         							= $TroopGroup[$i][0]
 	$TroopNamePosition[$i] 							= $TroopGroup[$i][1]
 	$TroopHeight[$i]       							= $TroopGroup[$i][2]
-	$TroopRotateIndex[$i]       					= $TroopGroup[$i][3]
+	$TroopRotateIndex[$i]   						= $TroopGroup[$i][3]
 next
 for $i=0 to Ubound($TroopGroupDark,1) - 1
 	$TroopDarkName[$i]         = $TroopGroupDark[$i][0]
