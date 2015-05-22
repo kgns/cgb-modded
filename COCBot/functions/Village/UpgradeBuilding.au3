@@ -179,8 +179,8 @@ Func UpgradeHeroes()
 	If $ichkUpgradeKing = 0 And $ichkUpgradeQueen = 0 Then Return
 
 	VillageReport()
-	If $FreeBuilder <2 Then
-		SetLog("Only 1 builder (or) No Builders available, skip Heroes upgrade to enable Wall upgrade.", $COLOR_RED)
+	If $FreeBuilder <= $itxtBuilderKeepFree Then
+		SetLog("No Builders available, skip Heroes upgrade.", $COLOR_RED)
 		ClickP($TopLeftClient) ; Click Away
 		Return
 	EndIf
@@ -229,8 +229,8 @@ Func UpgradeHeroes()
 
 		VillageReport()
 		If _Sleep(1000) Then Return
-		If $FreeBuilder <2 Then
-			SetLog("Only 1 builder (or) No Builders available, skip Heroes upgrade to enable Wall upgrade.", $COLOR_RED)
+		If $FreeBuilder <= $itxtBuilderKeepFree Then
+			SetLog("No Builders available, skip Heroes upgrade.", $COLOR_RED)
 			ClickP($TopLeftClient) ; Click Away
 			Return
 		EndIf
@@ -284,8 +284,8 @@ Func UpgradeHeroes()
 
 		VillageReport()
 		If _Sleep(1000) Then Return
-		If $FreeBuilder <2 Then
-			SetLog("Only 1 builder (or) No Builders available, skip Heroes upgrade to enable Wall upgrade.", $COLOR_RED)
+		If $FreeBuilder <= $itxtBuilderKeepFree Then
+			SetLog("No Builders available, skip Heroes upgrade.", $COLOR_RED)
 			ClickP($TopLeftClient) ; Click Away
 			Return
 		EndIf
