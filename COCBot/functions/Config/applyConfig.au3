@@ -210,8 +210,8 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 
 	GUICtrlSetData($txtRatioNumeratorDonated, $ratioNumeratorDonated)
 	GUICtrlSetData($txtRatioDenominatorReceived, $ratioDenominatorReceived)
-	
-	
+
+
 	Switch $iActivateKQCondition
 		Case "Manual"
 			GUICtrlSetState($radManAbilities, $GUI_CHECKED)
@@ -249,9 +249,15 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkAttackTH, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkAttackTH, $GUI_UNCHECKED)
+    EndIf
+
+    If $iChkSnipeWhileTrain = 1 Then ; Snipe While Train MOD by ChiefM3
+		GUICtrlSetState($chkSnipeWhileTrain, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkSnipeWhileTrain, $GUI_UNCHECKED)
 	EndIf
 
-	If $iChkLightSpell = 1 Then
+    If $iChkLightSpell = 1 Then
 		GUICtrlSetState($chkLightSpell, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkLightSpell, $GUI_UNCHECKED)
@@ -450,7 +456,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	chkDonateLavaHounds()
 	GUICtrlSetData($txtDonateLavaHounds, $sTxtDonateLavaHounds)
 	GUICtrlSetData($txtBlacklistLavaHounds, $sTxtBlacklistLavaHounds)
-	
+
 	;;; Custom Combination Donate by ChiefM3
 	If $ichkDonateCustom = 1 Then
 		GUICtrlSetState($chkDonateCustom, $GUI_CHECKED)
@@ -466,7 +472,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtDonateCustom2, $itxtDonateCustom2)
 	_GUICtrlComboBox_SetCurSel($cmbDonateCustom3, $icmbDonateCustom3)
 	GUICtrlSetData($txtDonateCustom3, $itxtDonateCustom3)
-	
+
 	GUICtrlSetData($txtBlacklist, $sTxtBlacklist)
 
 	If $ichkDonateAllBarbarians = 1 Then
@@ -748,13 +754,13 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
     GUICtrlSetData($txtBuildMinElixir, $itxtBuildMinElixir)
     GUICtrlSetData($txtBuildMinDark, $itxtBuildMinDark)
     GUICtrlSetData($txtBuilderKeepFree, $itxtBuilderKeepFree)
-	
+
 	If $ichkUpgradeKing = 1 Then ;==>upgradeking
 		GUICtrlSetState($chkUpgradeKing, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkUpgradeKing, $GUI_UNCHECKED)
 	EndIf
-	
+
 	If $ichkUpgradeQueen = 1 Then ;==>upgradequeen
 		GUICtrlSetState($chkUpgradeQueen, $GUI_CHECKED)
 	Else
