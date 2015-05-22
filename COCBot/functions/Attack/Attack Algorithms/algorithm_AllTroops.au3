@@ -14,7 +14,8 @@
 ; ===============================================================================================================================
 
 Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
-	If ($chkRedArea) Then
+	
+		If ($chkRedArea) and ($OptTrophyMode <> 1)  Then
 		SetLog("Calculating Smart Attack Strategy", $COLOR_BLUE)
 		Local $hTimer = TimerInit()
 		_WinAPI_DeleteObject($hBitmapFirst)
@@ -88,21 +89,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 
 	EndIf
-	$King = -1
-	$Queen = -1
-	$CC = -1
-	For $i = 0 To 8
-		If $atkTroops[$i][0] = $eCastle Then
-			$CC = $i
-		ElseIf $atkTroops[$i][0] = $eKing Then
-			$King = $i
-		ElseIf $atkTroops[$i][0] = $eQueen Then
-			$Queen = $i
-		EndIf
-	Next
-
-	If _Sleep(2000) Then Return
-
+	
 	If SearchTownHallLoc() And GUICtrlRead($chkAttackTH) = $GUI_CHECKED Then
 		Switch $AttackTHType
 			Case 0
@@ -131,6 +118,22 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			Return
 		EndIf
 	EndIf
+	
+	$King = -1
+	$Queen = -1
+	$CC = -1
+	For $i = 0 To 8
+		If $atkTroops[$i][0] = $eCastle Then
+			$CC = $i
+		ElseIf $atkTroops[$i][0] = $eKing Then
+			$King = $i
+		ElseIf $atkTroops[$i][0] = $eQueen Then
+			$Queen = $i
+		EndIf
+	Next
+
+	If _Sleep(2000) Then Return
+
 
 	;############################################# LSpell Attack ############################################################
 	If $OptTrophyMode <> 1 OR $OptTrophyModeDE <> 1 Then
