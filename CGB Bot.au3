@@ -222,7 +222,7 @@ Func Idle() ;Sequence that runs until Full Army
 			    checkMainScreen(False)
 		EndIf
 
-		 If($iChkSnipeWhileTrain) Then
+		 If $iChkSnipeWhileTrain = 1 Then
 			SnipeWhileTrain() ;; Initiate at the end of Idle() loop ; Snipe While Train MOD by ChiefM3
 		 EndIf
 
