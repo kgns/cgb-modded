@@ -20,6 +20,7 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 		$iTimeTroops = 0
 		PureClick(416, 399);Check for "Another device" message
 		If _Sleep(2000) Then Return
+        Return True
 	Endif
     If _ImageSearch($break, 0, $x, $y, 80) Then
         SetLog("Village must take a break, wait ...", $COLOR_RED)

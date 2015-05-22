@@ -20,10 +20,10 @@
 #pragma compile(ProductName, Clash Game Bot)
 
 #pragma compile(ProductVersion, 3.1)
-#pragma compile(FileVersion, 3.1.3)
+#pragma compile(FileVersion, 3.1.4)
 #pragma compile(LegalCopyright, © http://gamebot.org)
 
-$sBotVersion = "v3.1.3"
+$sBotVersion = "v3.1.4"
 $sBotTitle = "Clash Game Bot " & $sBotVersion
 Global $sBotDll = @ScriptDir & "\CGBPlugin.dll"
 
