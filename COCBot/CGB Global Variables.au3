@@ -192,6 +192,7 @@ Global $iradAttackMode ;Attack mode, 0 1 2
 Global $iradAttackModeString
 Global $THLoc
 Global $chkATH, $iChkLightSpell
+Global $iChkSnipeWhileTrain, $isSnipeWhileTrain, $tempSnipeWhileTrain[14], $haltSearch ; Snipe While Train MOD by ChiefM3
 
 Global $King, $Queen, $CC, $Barb, $Arch, $LSpell , $LSpellQ
 Global $LeftTHx, $RightTHx, $BottomTHy, $TopTHy

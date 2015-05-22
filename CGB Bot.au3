@@ -115,21 +115,21 @@ Func runBot() ;Bot that runs everything in order
 			Endif
 			Laboratory()
 			    	If _Sleep(1000) Then Return
-			    
+
 			    checkMainScreen(False)
 			UpgradeWall()
 				If _Sleep(1000) Then Return
-				
+
 			    checkMainScreen(False)
 			;Mow the lawn
 			RemoveTrees()
 				If _Sleep(1000) Then Return
-				
+
 			    checkMainScreen(False)
 			;End Mow the lawn
 			UpgradeHeroes()
 				If _Sleep(1000) Then Return
-				
+
 			    checkMainScreen(False)
 			UpgradeBuilding()
 				If _Sleep(1000) Then Return
@@ -162,7 +162,7 @@ Func Idle() ;Sequence that runs until Full Army
 		While $iReHere < 10
 			$iReHere += 1
 			DonateCC(true)
-			If _Sleep(3000) Then ExitLoop
+			If _Sleep(1500) Then ExitLoop
 		WEnd
 		If _Sleep(1500) Then ExitLoop
 
@@ -196,6 +196,10 @@ Func Idle() ;Sequence that runs until Full Army
 			    checkMainScreen(False)
 		EndIf
 
+		 If($iChkSnipeWhileTrain) Then
+			SnipeWhileTrain() ;; Initiate at the end of Idle() loop ; Snipe While Train MOD by ChiefM3
+		 EndIf
+
 		$TimeIdle += Round(TimerDiff($hTimer) / 1000, 2) ;In Seconds
 		SetLog("Time Idle: " & StringFormat("%02i", Floor(Floor($TimeIdle / 60) / 60)) & ":" & StringFormat("%02i", Floor(Mod(Floor($TimeIdle / 60), 60))) & ":" & StringFormat("%02i", Floor(Mod($TimeIdle, 60))), $COLOR_GREEN)
 	WEnd
@@ -210,6 +214,7 @@ Func AttackMain() ;Main control for attack functions
 
 	PrepareSearch()
 	VillageSearch()
+	If $haltSearch = True Then Return ; Return without initiating attack for Snipe While Train MOD by ChiefM3
 	PrepareAttack()
 	;checkDarkElix()
 	DEAttack()
