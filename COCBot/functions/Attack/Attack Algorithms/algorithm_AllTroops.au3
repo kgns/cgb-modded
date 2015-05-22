@@ -332,36 +332,7 @@ EndFunc   ;==>LaunchTroop2
 
 Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	
-	If SearchTownHallLoc() And GUICtrlRead($chkAttackTH) = $GUI_CHECKED Then
-		Switch $AttackTHType
-			Case 0
-				algorithmTH()
-				_CaptureRegion()
-				If _ColorCheck(_GetPixelColor(746, 498), Hex(0x0E1306, 6), 20) Then AttackTHNormal() ;if 'no star' use another attack mode.
-			Case 1
-				AttackTHNormal();Good for Masters
-			Case 2
-				AttackTHXtreme();Good for Champ
-			Case 3
-				AttackTHgbarch(); good for masters+
-		EndSwitch
-
-		If $OptTrophyMode = 1 And SearchTownHallLoc() Then; Return ;Exit attacking if trophy hunting and not bullymode
-
-			For $i = 1 To 30
-				_CaptureRegion()
-				If _ColorCheck(_GetPixelColor(746, 498), Hex(0x0E1306, 6), 20) = False Then ExitLoop ;exit if not 'no star'
-				_Sleep(1000)
-			Next
-
-			Click(62, 519) ;Click Surrender
-			If _Sleep(3000) Then Return
-			Click(512, 394) ;Click Confirm
-			Return
-		EndIf
-	EndIf
-	
-	If ($chkRedArea) Then
+		If ($chkRedArea) and ($OptTrophyMode <> 1)  Then
 		SetLog("Calculating Smart Attack Strategy", $COLOR_BLUE)
 		Local $hTimer = TimerInit()
 		_WinAPI_DeleteObject($hBitmapFirst)
@@ -434,6 +405,36 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 
 	EndIf
+	
+	If SearchTownHallLoc() And GUICtrlRead($chkAttackTH) = $GUI_CHECKED Then
+		Switch $AttackTHType
+			Case 0
+				algorithmTH()
+				_CaptureRegion()
+				If _ColorCheck(_GetPixelColor(746, 498), Hex(0x0E1306, 6), 20) Then AttackTHNormal() ;if 'no star' use another attack mode.
+			Case 1
+				AttackTHNormal();Good for Masters
+			Case 2
+				AttackTHXtreme();Good for Champ
+			Case 3
+				AttackTHgbarch(); good for masters+
+		EndSwitch
+
+		If $OptTrophyMode = 1 And SearchTownHallLoc() Then; Return ;Exit attacking if trophy hunting and not bullymode
+
+			For $i = 1 To 30
+				_CaptureRegion()
+				If _ColorCheck(_GetPixelColor(746, 498), Hex(0x0E1306, 6), 20) = False Then ExitLoop ;exit if not 'no star'
+				_Sleep(1000)
+			Next
+
+			Click(62, 519) ;Click Surrender
+			If _Sleep(3000) Then Return
+			Click(512, 394) ;Click Confirm
+			Return
+		EndIf
+	EndIf
+	
 	$King = -1
 	$Queen = -1
 	$CC = -1
