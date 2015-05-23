@@ -373,11 +373,11 @@ Func Train()
 			;if  _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20) then
 			if  _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20) or $troopNameCooking = "" then 
 				$BarrackStatus[$brrNum-1] = false
-			elseif StringSplit($troopNameCooking,";")[0]  = 2 then 
-				$troopIndexRemain = Number(StringSplit($troopNameCooking,";")[1])
-				if $TroopHeight[$troopIndexRemain] = 1 then	
-					$BarrackStatus[$brrNum-1] = false	
-				endif
+;			elseif StringSplit($troopNameCooking,";")[0]  = 2 then 
+;				$troopIndexRemain = Number(StringSplit($troopNameCooking,";")[1])
+;				if $TroopHeight[$troopIndexRemain] = 1 then	
+;					$BarrackStatus[$brrNum-1] = false	
+;				endif
 			else
 				$BarrackStatus[$brrNum-1] = true
 			endif
@@ -410,12 +410,12 @@ Func Train()
 		   If $brrNum >= $barrackNum Then ExitLoop ; make sure no more infiniti loop
 		wend
 
-		if $isNormalBuild and $BarrackStatus[0] = false and $BarrackStatus[1] = false and $BarrackStatus[2] = false and $BarrackStatus[3] = false and not $FirstStart then
-			if not $isDarkBuild or ($BarrackDarkStatus[0] = false and $BarrackDarkStatus[1] = false) then
-				train()
-				return
-			endif
-		endif
+;		if $isNormalBuild and $BarrackStatus[0] = false and $BarrackStatus[1] = false and $BarrackStatus[2] = false and $BarrackStatus[3] = false and not $FirstStart then
+;			if not $isDarkBuild or ($BarrackDarkStatus[0] = false and $BarrackDarkStatus[1] = false) then
+;				train()
+;				return
+;			endif
+;		endif
 
  EndIf
  
