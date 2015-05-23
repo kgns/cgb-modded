@@ -21,7 +21,7 @@
 
 #pragma compile(ProductVersion, 3.1)
 #pragma compile(FileVersion, 3.1.4)
-#pragma compile(LegalCopyright, © http://gamebot.org)
+#pragma compile(LegalCopyright, Â© http://gamebot.org)
 
 $sBotVersion = "v3.1.4"
 $sBotTitle = "Clash Game Bot " & $sBotVersion
@@ -107,6 +107,7 @@ Func runBot() ;Bot that runs everything in order
 				If $Restart = True Then ContinueLoop
 			If $IAmSelfish = False Then
 				DonateCC()
+				RequestCC()
 					If _Sleep(1000) Then Return
 					checkMainScreen(False)
 					If $Restart = True Then ContinueLoop
