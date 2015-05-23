@@ -1571,6 +1571,16 @@ Func sldVSDelay()
 	EndIf
  EndFunc   ;==>sldVSDelay
 
+ Func RandomSpeedSearch()
+	If GUICtrlRead($RandomSpeedSearch) = $GUI_CHECKED Then
+		$iRandomspeedSearch = 1
+		GUICtrlSetState($sldVSDelay, $GUI_DISABLE)
+	Else
+		$iRandomSpeedSearch = 0
+		GUICtrlSetState($sldVSDelay, $GUI_ENABLE)
+	EndIf
+ EndFunc   ;==>RandomSpeedSearch
+
  Func chkPBenabled()
 	If GUICtrlRead($chkPBenabled) = $GUI_CHECKED Then
 		GUICtrlSetState($chkPBRemote, $GUI_ENABLE)
