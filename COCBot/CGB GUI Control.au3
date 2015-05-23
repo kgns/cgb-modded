@@ -54,6 +54,8 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 					ShellExecute("https://www.ClashGameBot.com") ;open web site when clicking label
 				Case $labelForumURL
 					ShellExecute("https://GameBot.org/forums/forumdisplay.php?fid=2") ;open web site when clicking label
+				Case $labelModForumURL
+					ShellExecute("https://GameBot.org/forums/thread-2682.html") ;open web site when clicking label
 				Case $btnStop
 					If $RunState Then btnStop()
 				Case $btnPause

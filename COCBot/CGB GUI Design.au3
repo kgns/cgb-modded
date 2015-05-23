@@ -2088,8 +2088,8 @@ Local $x = 30, $y = 130
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 265
-	$y = 235
-	$btnResetStats = GUICtrlCreateButton ("Reset Stats", $x, $y, 60,21)
+	$y = 300
+	$btnResetStats = GUICtrlCreateButton ("Reset Stats", $x-5, $y, 65,21)
 		GUICtrlSetOnEvent(-1, "btnResetStats")
 		GUICtrlSetTip(-1, "Reset statistics without closing the bot")
 		GUICtrlSetState(-1, $GUI_DISABLE)
@@ -2108,7 +2108,7 @@ Local $x = 30, $y = 130
 #ce
 
 	$x = 30
-	$y = 280
+	$y = 235
 	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 80)
 		$y -=2
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 45, $x - 10, $y + 7, 24, 24)
@@ -2155,7 +2155,7 @@ Local $x = 30, $y = 130
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 30
-	$y = 375
+	$y = 340
 	$grpCredits = GUICtrlCreateGroup("Credits", $x - 20, $y - 20, 450, 170)
 		$labelGameBotURL = GUICtrlCreateLabel("https://GameBot.org", $x - 5, $y + 5, 430, 20)
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
@@ -2174,6 +2174,19 @@ Local $x = 30, $y = 130
 		$lbltxtCredits = GUICtrlCreateEdit($txtCredits, $x - 5, $y + 40, 400, 85, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 		$labelForumURL = GUICtrlCreateLabel("https://GameBot.org/latest", $x - 5, $y + 125, 450, 20)
+;~			GUICtrlSetFont(-1, 11, 100, 4)
+			GUICtrlSetColor(-1, 0x0000FF)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
+	$x = 30
+	$y = 510
+	$grpModCredits = GUICtrlCreateGroup("Mod Credits", $x - 20, $y - 20, 450, 85)
+		$lblModCredits = GUICtrlCreateLabel("Credits go to the following modders:", $x - 5, $y - 5, 400, 20)
+			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
+		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts"
+		$lbltxtModCredits = GUICtrlCreateEdit($txtModCredits, $x - 5, $y + 10, 434, 39, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
+			GUICtrlSetBkColor(-1, $COLOR_WHITE)
+		$labelModForumURL = GUICtrlCreateLabel("https://GameBot.org/forums/thread-2682.html", $x - 5, $y + 50, 450, 20)
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
 			GUICtrlSetColor(-1, 0x0000FF)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
