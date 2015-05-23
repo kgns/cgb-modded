@@ -524,7 +524,7 @@ GUICtrlCreateTabItem("")
 ;~ -------------------------------------------------------------
  $tabAttackAdv = GUICtrlCreateTabItem("Adv.")
 	Local $x = 30, $y = 130
-	$grpAtkOptions = GUICtrlCreateGroup("Attack Options", $x - 20, $y - 20, 450, 150)
+	$grpAtkOptions = GUICtrlCreateGroup("Attack Options", $x - 20, $y - 20, 450, 155)
 		$chkAttackNow = GUICtrlCreateCheckbox("Attack Now! option.", $x, $y, -1, -1)
 			$txtTip = "Check this if you want the option to have an 'Attack Now!' button next to" & @CRLF & _
 				"the Start and Pause buttons to bypass the dead base or all base search values." & @CRLF & _
@@ -569,6 +569,11 @@ GUICtrlCreateTabItem("")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$lbliLSpellQ2 = GUICtrlCreateLabel("Lightning Spells ready before using this type of Attack.", $x + 90, $y + 4, -1, -1)
 			GUICtrlSetTip(-1, $txtTip)
+		 $y += 22
+	    $chkZapAndRun = GUICtrlCreateCheckbox("Allow Zap && Run", $x, $y, -1, -1)
+		GUICtrlSetTip(-1, "Allow Zap and Run behavior. If a live base has enough Dark Elixir, we will zap the storage and return.")
+		GUICtrlSetState(-1, $GUI_DISABLE)
+
 #cs		$y +=27
 		$chkWithKing = GUICtrlCreateCheckbox("Attack their King", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, $txtTip)

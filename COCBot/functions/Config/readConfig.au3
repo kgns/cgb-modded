@@ -130,6 +130,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iChkLightSpell = IniRead($config, "advanced", "hitDElightning", "0")
 		$SpellMinDarkStorage = IniRead($config, "advanced", "txtMinDarkStorage", "500")
         $iLSpellQ = IniRead ($config, "advanced", "QLSpell", "3")
+		$OptZapAndRun = IniRead($config, "advanced","chkZapAndRun","0")
 
 		$OptBullyMode = IniRead($config, "advanced", "BullyMode", "0")
 		$ATBullyMode = IniRead($config, "advanced", "ATBullyMode", "0")

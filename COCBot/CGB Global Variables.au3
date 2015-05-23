@@ -143,6 +143,9 @@ Global $ATBullyMode
 Global $YourTH
 Global $AttackTHType
 Global $chklightspell
+Global $chkZapAndRun
+Global $OptZapAndRun
+Global $zapandrunAvoidAttack = 0
 Global $SpellMinDarkStorage = 500
 Global $iLSpellQ
 

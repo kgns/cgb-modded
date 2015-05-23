@@ -250,7 +250,13 @@ Func AttackMain() ;Main control for attack functions
 	;checkDarkElix()
 	DEAttack()
 		If $Restart = True Then Return
-	Attack()
+    if $zapandrunAvoidAttack = 1 Then
+	  DropLSpell()
+	  SetLog("Avoiding troop attack with Zap & Run")
+    Else
+	  Attack()
+    EndIf
+
 		If $Restart = True Then Return
 	ReturnHome($TakeLootSnapShot)
 		If _Sleep(1500) Then Return

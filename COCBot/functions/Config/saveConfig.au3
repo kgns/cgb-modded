@@ -247,6 +247,7 @@ Func saveConfig() ;Saves the controls settings to the config
 	EndIf
 	IniWrite($config, "advanced", "txtMinDarkStorage", GUICtrlRead($txtMinDarkStorage))
 	IniWrite($config, "advanced", "QLSpell", _GUICtrlComboBox_GetCurSel($cmbiLSpellQ) + 1)
+	IniWrite($config, "advanced", "chkZapAndRun", GUICtrlRead($chkZapAndRun))
 
 	If GUICtrlRead($chkBullyMode) = $GUI_CHECKED Then
 		IniWrite($config, "advanced", "BullyMode", 1)

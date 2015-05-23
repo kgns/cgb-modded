@@ -893,6 +893,7 @@ Func GUILightSpell()
 		GUICtrlSetState($lbliLSpellQ, $GUI_ENABLE)
 		GUICtrlSetState($cmbiLSpellQ, $GUI_ENABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_ENABLE)
+		GUICtrlSetState($chkZapAndRun, $GUI_ENABLE)
 	Else
 		$iChkLightSpell = 0
 		GUICtrlSetState($txtMinDarkStorage, $GUI_DISABLE)
@@ -900,6 +901,7 @@ Func GUILightSpell()
 		GUICtrlSetState($lbliLSpellQ, $GUI_DISABLE)
 		GUICtrlSetState($cmbiLSpellQ, $GUI_DISABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_DISABLE)
+		GUICtrlSetState($chkZapAndRun, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>GUILightSpell
 
