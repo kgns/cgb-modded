@@ -421,6 +421,9 @@ $tabAttack = GUICtrlCreateTabItem("Attack")
 		$Randomspeedatk = GUICtrlCreateCheckbox("Random", $x + 250, $y, -1, -1)
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "Randomspeedatk")
+		$chkDESideAtk = GUICtrlCreateCheckbox("DE Storage Side", $x + 315, $y, -1, -1)
+			GUICtrlSetTip(-1, "Changes deployment to single side and attacks from edge closest to De Storage")
+			GUICtrlSetOnEvent(-1, "chkDESideAtk")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y = 210

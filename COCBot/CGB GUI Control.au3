@@ -459,6 +459,7 @@ EndFunc   ;==>btnResetStats
 Func chkDeployRedArea()
 	If GUICtrlRead($chkDeployRedArea) = $GUI_CHECKED Then
 		$chkRedArea = 1
+		GUICtrlSetState($chkDESideAtk, $GUI_UNCHECKED)
 		For $i = $lblSmartDeploy To $chkAttackNearDarkElixirDrill
 			GUICtrlSetState($i, $GUI_SHOW)
 		Next
@@ -800,7 +801,19 @@ Func Randomspeedatk()
 		GUICtrlSetState($cmbUnitDelay, $GUI_ENABLE)
 		GUICtrlSetState($cmbWaveDelay, $GUI_ENABLE)
 	EndIf
-EndFunc   ;==>Randomspeedatk
+ EndFunc   ;==>Randomspeedatk
+
+ Func chkDESideAtk()
+	If GUICtrlRead($chkDESideAtk) = $GUI_CHECKED Then
+		$DESideAtk = 1
+		GUICtrlSetState($cmbDeploy, $GUI_DISABLE)
+		GUICtrlSetState($chkDeployRedArea, $GUI_UNCHECKED)
+
+	Else
+		$DESideAtk = 0
+		GUICtrlSetState($cmbDeploy, $GUI_ENABLE)
+	EndIf
+EndFunc   ;==>chkDESideAtk
 
 Func chkSearchReduction()
 	If GUICtrlRead($chkSearchReduction) = $GUI_CHECKED Then

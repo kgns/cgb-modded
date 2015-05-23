@@ -88,6 +88,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 
 	EndIf
+	If $DESideAtk = 1 Then GetDEEdge()
 	$King = -1
 	$Queen = -1
 	$CC = -1

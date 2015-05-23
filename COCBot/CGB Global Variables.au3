@@ -182,6 +182,7 @@ Global $atkTroops[9][2] ;9 Slots of troops -  Name, Amount
 Global $fullArmy ;Check for full army or not
 Global $deploySettings ;Method of deploy found in attack settings
 Global $chkRedArea, $iCmbSmartDeploy, $chkSmartAttack[3]
+Global $DESideAtk, $chkDESideAtk, $DEEdge
 
 Global $KingAttack[3] ;King attack settings
 Global $QueenAttack[3] ;Queen attack settings

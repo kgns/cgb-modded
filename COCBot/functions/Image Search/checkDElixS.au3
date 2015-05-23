@@ -127,7 +127,7 @@ Func DEAttack()
 	Else
 		$DESpellProcede = $iChkLightSpell
 	EndIf
-	If $DESpellProcede = 1 Then
+	If $DESpellProcede = 1 Or ($DESideAtk = 1) Then
 		;SetLog("Start Function ")
 		_WinAPI_DeleteObject($hBitmapFirst)
 		$hBitmapFirst = _CaptureRegion2(230, 170, 630, 440)
@@ -160,3 +160,27 @@ Func DEAttack()
 	EndIf
 
 EndFunc   ;==>DEAttack
+
+Func GetDEEdge() ;Using $DESLoc x y we are finding which side de is located.
+   If $DESLoc = 1 Then
+	  If ($DESLocx = 430) And  ($DESLocy = 313) Then
+		 SetLog ("DE Storage Located in Middle... Attacking Bottom Right", $COLOR_BLUE)
+		 $DEEdge = 1
+	  ElseIf ($DESLocx >= 430) And  ($DESLocy >= 313) Then
+		 SetLog ("DE Storage Located Bottom Right... Attacking Bottom Right", $COLOR_BLUE)
+		 $DEEdge = 1
+	  ElseIf ($DESLocx > 430) And  ($DESLocy < 313) Then
+		 SetLog ("DE Storage Located Top Right... Attacking Top Right", $COLOR_BLUE)
+		 $DEEdge = 4
+	  ElseIf ($DESLocx <= 430) And  ($DESLocy <= 313) Then
+		 SetLog ("DE Storage Located Top Left... Attacking Top Left", $COLOR_BLUE)
+		 $DEEdge = 2
+	  ElseIf ($DESLocx < 430) And  ($DESLocy > 313) Then
+		 SetLog ("DE Storage Located Bottom Left... Attacking Bottom Left", $COLOR_BLUE)
+		 $DEEdge = 3
+	  EndIf
+   ElseIf $DESLoc = 0 Then
+	  SetLog ("DE Storage Not Located... Attacking Bottom Right", $COLOR_BLUE)
+	  $DEEdge = 0
+   EndIf
+EndFunc   ;==>GetDEEdge
