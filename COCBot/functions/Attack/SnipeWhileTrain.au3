@@ -63,6 +63,10 @@ Func TurnOnSnipeWhileTrain()
    $MinElixir = 1
    $ichkMeetOne = 0
    $chkATH = 1
+   GUICtrlSetState($chkAttackTH, $GUI_CHECKED) ;;; For some reason town hall snipe function reads from GUI directly instead of using $chkATH
+   ;;; in algorithmTH.au3 and algorithm_AllTroops.au3
+   ;;; This is a must be fixed in the official release since it is a waste of resources
+
    $OptTrophyMode = 1
    If $CurCamp / $TotalCamp < 0.6 Then
 	  $THaddtiles = 0 ;; Safe TH snipe if army under 60%
@@ -92,6 +96,11 @@ Func TurnOffSnipeWhileTrain()
    $MinElixir = $tempSnipeWhileTrain[9]
    $ichkMeetOne = $tempSnipeWhileTrain[10]
    $chkATH = $tempSnipeWhileTrain[11]
+   If $chkATH = 1 Then ;;; revert GUI checked status to original settings
+	  GUICtrlSetState($chkAttackTH, $GUI_CHECKED)
+   Else
+	  GUICtrlSetState($chkAttackTH, $GUI_UNCHECKED)
+   EndIf
    $OptTrophyMode = $tempSnipeWhileTrain[12]
    $THaddtiles = $tempSnipeWhileTrain[13]
    SetLog("[[[End trying TH snipe while training army]]]", $COLOR_RED)
