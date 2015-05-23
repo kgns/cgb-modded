@@ -99,7 +99,7 @@ Func DropLSpell ()
 	   Next
 
 	    If (($DESLoc = 1) And $LSpell <> -1 ) Then
-			If (Number($searchDark) >= Number($SpellMinDarkStorage)) then
+			If (Number(getDarkElixir(51, 66 + 57)) >= Number($SpellMinDarkStorage)) then
 			     If $LSpellQ >= $iLSpellQ then
 				   Click(68 + (72 * $LSpell), 595) ;Select Troop
 				   If _Sleep(SetSleep(1)) Then Return

@@ -132,11 +132,6 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 	EndIf
 
-	;############################################# LSpell Attack ############################################################
-	If $OptZapAndRun <> 1 AND ($OptTrophyMode <> 1 OR $OptTrophyModeDE <> 1) Then
-		DropLSpell()
-	EndIf
-	;########################################################################################################################
 	Local $nbSides = 0
 	If $bBtnAttackNowPressed = True Then
 		$nbSides = ($icmbAtkNowDeploy + 1)
