@@ -909,6 +909,9 @@ Func GUILightSpell()
 		GUICtrlSetState($cmbiLSpellQ, $GUI_ENABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_ENABLE)
 		GUICtrlSetState($chkZapAndRun, $GUI_ENABLE)
+		If GUICtrlRead($chkTrophyMode) = $GUI_CHECKED Then
+			GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		EndIf
 	Else
 		$iChkLightSpell = 0
 		GUICtrlSetState($txtMinDarkStorage, $GUI_DISABLE)
@@ -917,6 +920,7 @@ Func GUILightSpell()
 		GUICtrlSetState($cmbiLSpellQ, $GUI_DISABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_DISABLE)
 		GUICtrlSetState($chkZapAndRun, $GUI_DISABLE)
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>GUILightSpell
 
@@ -937,7 +941,9 @@ Func chkSnipeMode()
 		$OptTrophyMode = 1
 		GUICtrlSetState($txtTHaddtiles, $GUI_ENABLE)
 		GUICtrlSetState($cmbAttackTHType, $GUI_ENABLE)
-		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		If GUICtrlRead($chkLightSpell) = $GUI_CHECKED Then
+			GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		EndIf
 	Else
 		$OptTrophyMode = 0
 		GUICtrlSetState($txtTHaddtiles, $GUI_DISABLE)
