@@ -72,6 +72,9 @@ Global $iChkAttackNow, $iAttackNowDelay, $bBtnAttackNowPressed = False
 Global $icmbAtkNowDeploy, $ichkAtkNowLSpell, $ichkAtkNowMines = False
 Global $PushToken = ""
 
+Global $DontTouchMe=False
+Global $IAmSelfish=False
+
 ;PushBullet---------------------------------------------------------------
 Global $PBRemoteControlInterval = 30000
 GLOBAL $iOrigPushB

@@ -199,6 +199,9 @@ Func btnStart()
 	GUICtrlSetState($btnPause, $GUI_SHOW)
 	$FirstAttack = 0
 	$NoMoreWalls = 0
+	$DontTouchMe = False
+	$IAmSelfish = False
+	$MeetCondStop = False
 	CreateLogFile()
 
 
