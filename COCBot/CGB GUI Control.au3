@@ -463,6 +463,7 @@ Func chkDeployRedArea()
 		For $i = $lblSmartDeploy To $chkAttackNearDarkElixirDrill
 			GUICtrlSetState($i, $GUI_SHOW)
 		Next
+		GUICtrlSetState($cmbDeploy, $GUI_ENABLE)
 	Else
 		$chkRedArea = 0
 		For $i = $lblSmartDeploy To $chkAttackNearDarkElixirDrill
@@ -806,9 +807,12 @@ Func Randomspeedatk()
  Func chkDESideAtk()
 	If GUICtrlRead($chkDESideAtk) = $GUI_CHECKED Then
 		$DESideAtk = 1
+		$deploySettings = 0
 		GUICtrlSetState($cmbDeploy, $GUI_DISABLE)
 		GUICtrlSetState($chkDeployRedArea, $GUI_UNCHECKED)
-
+		For $i = $lblSmartDeploy To $chkAttackNearDarkElixirDrill
+			GUICtrlSetState($i, $GUI_HIDE)
+		Next
 	Else
 		$DESideAtk = 0
 		GUICtrlSetState($cmbDeploy, $GUI_ENABLE)
