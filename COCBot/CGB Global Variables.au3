@@ -277,7 +277,7 @@ Global $itxtBuildMinDark
 Global $itxtBuilderKeepFree
 Global $ichkTrees
 Global $ichkTombs
-Global $iVSDelay
+Global $iVSDelay, $iRandomSpeedSearch
 Global $ichkTrap, $iChkCollect
 Global $icmbUnitDelay, $icmbWaveDelay, $iRandomspeedatk
 Global $iTimeTroops = 0

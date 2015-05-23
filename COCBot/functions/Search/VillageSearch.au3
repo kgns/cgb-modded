@@ -117,10 +117,12 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 	EndIf
 
 	While 1
-		$bBtnAttackNowPressed = False
-		If $iVSDelay > 0 Then
-			If _Sleep(1000 * $iVSDelay) Then Return
-		EndIf
+	  $bBtnAttackNowPressed = False
+	  If $iRandomSpeedSearch = 1 Then
+		 If _Sleep(100 * (Random(Round(30,80)))) Then Return
+	  ElseIf $iRandomSpeedSearch = 0 Then
+		 If _Sleep(1000 * $iVSDelay) Then Return
+	  EndIf
 
 		If $Restart = True Then Return ; exit func
 		GetResources() ;Reads Resource Values
