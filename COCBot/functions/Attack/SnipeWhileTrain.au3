@@ -20,7 +20,7 @@
 
 Func SnipeWhileTrain()
    ; Attempt only when 30% army full to prevent failure of TH snipe
-   If $TotalCamp * $fulltroop < 0.3 Then
+   If $CurCamp / $TotalCamp < 0.3 Then
 	  Return False
    EndIf
 
@@ -64,7 +64,7 @@ Func TurnOnSnipeWhileTrain()
    $ichkMeetOne = 0
    $chkATH = 1
    $OptTrophyMode = 1
-   If $TotalCamp * $fulltroop < 0.6 Then
+   If $CurCamp / $TotalCamp < 0.6 Then
 	  $THaddtiles = 0 ;; Safe TH snipe if army under 60%
    Else
 	  $THaddtiles = 1 ;; Take a bit of risk if army over 60%
