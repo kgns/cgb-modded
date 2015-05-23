@@ -88,6 +88,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 
 	EndIf
+	If $DESideAtk = 1 Then GetDEEdge()
 	$King = -1
 	$Queen = -1
 	$CC = -1
@@ -142,7 +143,8 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		$nbSides = ($icmbAtkNowDeploy + 1)
 	Else
 		$nbSides = ($deploySettings + 1)
-	EndIf
+	 EndIf
+
 	Switch $nbSides
 		Case 1 ;Single sides ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			SetLog("Attacking on a single side", $COLOR_BLUE)

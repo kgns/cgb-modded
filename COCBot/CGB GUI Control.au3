@@ -199,9 +199,6 @@ Func btnStart()
 	GUICtrlSetState($btnPause, $GUI_SHOW)
 	$FirstAttack = 0
 	$NoMoreWalls = 0
-	$DontTouchMe = False
-	$IAmSelfish = False
-	$MeetCondStop = False
 	CreateLogFile()
 
 
@@ -800,7 +797,17 @@ Func Randomspeedatk()
 		GUICtrlSetState($cmbUnitDelay, $GUI_ENABLE)
 		GUICtrlSetState($cmbWaveDelay, $GUI_ENABLE)
 	EndIf
-EndFunc   ;==>Randomspeedatk
+ EndFunc   ;==>Randomspeedatk
+
+Func chkDESideAtk()
+	If GUICtrlRead($chkDESideAtk) = $GUI_CHECKED Then
+		$DESideAtk = 1
+		GUICtrlSetState($cmbDeploy, $GUI_DISABLE)
+	Else
+		$DESideAtk = 0
+		GUICtrlSetState($cmbDeploy, $GUI_ENABLE)
+	EndIf
+EndFunc   ;==>DEStorageAtk
 
 Func chkSearchReduction()
 	If GUICtrlRead($chkSearchReduction) = $GUI_CHECKED Then

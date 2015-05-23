@@ -137,6 +137,13 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	EndIf
 	Randomspeedatk()
 
+	If $DESideAtk = 1 Then
+		GUICtrlSetState($chkDESideAtk, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDESideAtk, $GUI_UNCHECKED)
+	EndIf
+	chkDESideAtk()
+
 	If $chkRedArea = 1 Then
 		GUICtrlSetState($chkDeployRedArea, $GUI_CHECKED)
 	Else

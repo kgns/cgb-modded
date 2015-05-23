@@ -92,6 +92,7 @@ Func readConfig() ;Reads config and sets it to the variables
 	    $icmbUnitDelay = IniRead($config, "attack", "UnitD", "0")
 	    $icmbWaveDelay = IniRead($config, "attack", "WaveD", "0")
 	    $iRandomspeedatk = IniRead($config, "attack", "randomatk", "0")
+		$DESideAtk = IniRead($config, "attack", "DeSide", "0")
 
 		$chkRedArea = IniRead($config, "attack", "deployRedArea", "1")
 		$iCmbSmartDeploy = IniRead($config, "attack", "smartAttackDeploy", "0")
