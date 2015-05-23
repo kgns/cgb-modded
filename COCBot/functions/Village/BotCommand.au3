@@ -51,13 +51,6 @@ Func BotCommand()
 				If Round(TimerDiff($sTimer)) > $TimeToStop Then $MeetCondStop = True
 		    Case 14
 			    $MeetCondStop = True
-		    Case 15
-			    $MeetCondStop = True
-				$DontTouchMe = True
-		    Case 16
-			    $MeetCondStop = True
-				$DontTouchMe = True
-				$IAmSelfish = True
 		EndSwitch
 
 		If $MeetCondStop Then
@@ -67,13 +60,7 @@ Func BotCommand()
 			EndIf
 			Switch $icmbBotCommand
 				Case 0
-					If $IAmSelfish Then
-						SetLog("Halt Attack, Stay Online/Collect...", $COLOR_BLUE)
-					ElseIf $DontTouchMe Then
-						SetLog("Halt Attack, Stay Online/Collect/Donate...", $COLOR_BLUE)
-					Else
-						SetLog("Halt Attack, Stay Online/Train/Collect/Donate...", $COLOR_BLUE)
-					EndIf
+					SetLog("Halt Attack, Stay Online/Train/Collect/Donate...", $COLOR_BLUE)
 					$CommandStop = 0 ; Halt Attack
 					If _Sleep(500) Then Return
 				Case 1

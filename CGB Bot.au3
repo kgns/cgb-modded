@@ -81,7 +81,7 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep(1000) Then Return
 
 				If $Restart = True Then ContinueLoop
-			If $IAmSelfish = False AND $checkUseClanCastleBalanced = 1 then
+			If $checkUseClanCastleBalanced = 1 then
 			    ProfileReport()
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
@@ -105,32 +105,28 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
-			If $IAmSelfish = False Then
-				DonateCC()
-					If _Sleep(1000) Then Return
-					checkMainScreen(False)
-					If $Restart = True Then ContinueLoop
-			EndIf
-			If $DontTouchMe = False Then
-				SetTroops()
-				Train()
-				RevertTroops()
-					If _Sleep(1000) Then Return
-					checkMainScreen(False)
-					If $Restart = True Then ContinueLoop
-				BoostBarracks()
-					If _Sleep(1000) Then Return
-					checkMainScreen(False)
-					If $Restart = True Then ContinueLoop
-				BoostSpellFactory()
-					If _Sleep(1000) Then Return
-					checkMainScreen(False)
-					If $Restart = True Then ContinueLoop
-				RequestCC()
-					If _Sleep(1000) Then Return
-					checkMainScreen(False)
-					If $Restart = True Then ContinueLoop
-			EndIf
+			DonateCC()
+				If _Sleep(1000) Then Return
+			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
+			SetTroops()
+			Train()
+			RevertTroops()
+				If _Sleep(1000) Then Return
+			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
+			BoostBarracks()
+				If _Sleep(1000) Then Return
+			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
+			BoostSpellFactory()
+			    If _Sleep(1000) Then Return
+			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
+			RequestCC()
+				If _Sleep(1000) Then Return
+			    checkMainScreen(False)
+				If $Restart = True Then ContinueLoop
 			If $iUnbreakableMode >= 1 Then
 				If Unbreakable() = True Then ContinueLoop
 			Endif
@@ -187,9 +183,7 @@ Func Idle() ;Sequence that runs until Full Army
 		Local $iReHere = 0
 		While $iReHere < 10
 			$iReHere += 1
-			If $IAmSelfish = False Then
-				DonateCC(true)
-			EndIf
+			DonateCC(true)
 			If _Sleep(1500) Then ExitLoop
 		    If $Restart = True Then ExitLoop
 		WEnd
@@ -205,7 +199,7 @@ Func Idle() ;Sequence that runs until Full Army
 			$iCollectCounter = 0
 		EndIf
 		$iCollectCounter = $iCollectCounter + 1
-		If $CommandStop <> 3 AND $DontTouchMe = False Then
+		If $CommandStop <> 3 Then
 			SetTroops()
 			Train()
 			RevertTroops()
@@ -228,7 +222,7 @@ Func Idle() ;Sequence that runs until Full Army
 			    checkMainScreen(False)
 		EndIf
 
-		 If $DontTouchMe = False AND $iChkSnipeWhileTrain = 1 Then
+		 If $iChkSnipeWhileTrain = 1 Then
 			SnipeWhileTrain() ;; Initiate at the end of Idle() loop ; Snipe While Train MOD by ChiefM3
 		 EndIf
 
