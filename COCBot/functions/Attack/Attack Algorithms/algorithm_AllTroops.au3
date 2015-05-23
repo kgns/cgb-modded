@@ -133,7 +133,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	EndIf
 
 	;############################################# LSpell Attack ############################################################
-	If $OptTrophyMode <> 1 OR $OptTrophyModeDE <> 1 Then
+	If $OptZapAndRun <> 1 AND ($OptTrophyMode <> 1 OR $OptTrophyModeDE <> 1) Then
 		DropLSpell()
 	EndIf
 	;########################################################################################################################
