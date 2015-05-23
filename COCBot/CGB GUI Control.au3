@@ -407,6 +407,15 @@ Func btnHide()
 		GUICtrlSetData($btnHide, "Show BS")
 		$botPos[0] = WinGetPos($Title)[0]
 		$botPos[1] = WinGetPos($Title)[1]
+		;giuppi hide from taskbar -HIDE
+		Global $iWindowStyle
+		$iWindowStyle = DllCall("user32.dll","long","GetWindowLong","hwnd", $HWnD,"int",-20)
+		$style = BitAND(BitOR($iWindowStyle, 0x80) , BitNOT(0x40000))
+		$pWindow = WinGetHandle('Program Manager')
+		DllCall("user32.dll", "int", "SetParent", "hwnd", $HWnD, "hwnd", $pWindow)
+		DllCall("user32.dll","long","SetWindowLong","hwnd", $HWnD,"int",-20,"long",$style)
+		DllCall("user32.dll", "int", "SetParent", "hwnd", $HWnD, "hwnd", 0)
+		;==> end giuppi hide from taskbar -HIDE
 		WinMove($Title, "", -32000, -32000)
 		$Hide = True
 	Else
@@ -418,6 +427,9 @@ Func btnHide()
 			WinMove($Title, "", $botPos[0], $botPos[1])
 			WinActivate($Title)
 		EndIf
+		;giuppi hide from taskbar -SHOW
+		DllCall("user32.dll","long","SetWindowLong","hwnd", $HWnD,"int",-20,"long",$iWindowStyle)
+		;==> end giuppi hide from taskbar -SHOW
 		$Hide = False
 	 EndIf
    EndIf
