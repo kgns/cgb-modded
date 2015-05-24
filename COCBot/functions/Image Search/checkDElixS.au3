@@ -99,12 +99,15 @@ Func DropLSpell ()
 	   Next
 
 	    If (($DESLoc = 1) And $LSpell <> -1 ) Then
-			If (Number($searchDark) >= Number($SpellMinDarkStorage)) then
+			If (Number(getDarkElixir(51, 66 + 57)) >= Number($SpellMinDarkStorage)) then
 			     If $LSpellQ >= $iLSpellQ then
 				   Click(68 + (72 * $LSpell), 595) ;Select Troop
 				   If _Sleep(SetSleep(1)) Then Return
 				   Click($DESLocx, $DESLocy, $LSpellQ , 250)   ; $LSpellQ = $atkTroops[$i][1] = quantity of spells
 				   SetLog("== Attacking DE Storage with: " & $LSpellQ &" Spells ==")
+				   If $zapandrunAvoidAttack = 1 Then
+				     $zapandrunAvoidAttack = 2 ; 2 means zapandrun was successful
+				   EndIf
 			     Else
 				   SetLog("== Not Enough Amount of Lightning Spells  ==", $COLOR_RED)
 			     EndIf
@@ -127,7 +130,7 @@ Func DEAttack()
 	Else
 		$DESpellProcede = $iChkLightSpell
 	EndIf
-	If $DESpellProcede = 1 Then
+	If $DESpellProcede = 1 Or ($DESideAtk = 1) Then
 		;SetLog("Start Function ")
 		_WinAPI_DeleteObject($hBitmapFirst)
 		$hBitmapFirst = _CaptureRegion2(230, 170, 630, 440)
@@ -160,3 +163,28 @@ Func DEAttack()
 	EndIf
 
 EndFunc   ;==>DEAttack
+
+Func GetDEEdge() ;Using $DESLoc x y we are finding which side de is located.
+   If $DESLoc = 1 Then
+	  If ($DESLocx = 430) And  ($DESLocy = 313) Then
+		 SetLog ("DE Storage Located in Middle... Attacking Bottom Right", $COLOR_BLUE)
+		 $DEEdge = 0
+	  ElseIf ($DESLocx >= 430) And  ($DESLocy >= 313) Then
+		 SetLog ("DE Storage Located Bottom Right... Attacking Bottom Right", $COLOR_BLUE)
+		 $DEEdge = 0
+	  ElseIf ($DESLocx > 430) And  ($DESLocy < 313) Then
+		 SetLog ("DE Storage Located Top Right... Attacking Top Right", $COLOR_BLUE)
+		 $DEEdge = 3
+	  ElseIf ($DESLocx <= 430) And  ($DESLocy <= 313) Then
+		 SetLog ("DE Storage Located Top Left... Attacking Top Left", $COLOR_BLUE)
+		 $DEEdge = 1
+	  ElseIf ($DESLocx < 430) And  ($DESLocy > 313) Then
+		 SetLog ("DE Storage Located Bottom Left... Attacking Bottom Left", $COLOR_BLUE)
+		 $DEEdge = 2
+	  EndIf
+   ElseIf $DESLoc = 0 Then
+	  SetLog ("DE Storage Not Located... Attacking Bottom Right", $COLOR_BLUE)
+	  $DEEdge = 0
+   EndIf
+EndFunc   ;==>GetDEEdge
+

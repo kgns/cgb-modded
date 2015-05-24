@@ -88,6 +88,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 
 	EndIf
+	If $DESideAtk = 1 Then GetDEEdge()
 	$King = -1
 	$Queen = -1
 	$CC = -1
@@ -132,11 +133,6 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		EndIf
 	EndIf
 
-	;############################################# LSpell Attack ############################################################
-	If $OptTrophyMode <> 1 OR $OptTrophyModeDE <> 1 Then
-		DropLSpell()
-	EndIf
-	;########################################################################################################################
 	Local $nbSides = 0
 	If $bBtnAttackNowPressed = True Then
 		$nbSides = ($icmbAtkNowDeploy + 1)

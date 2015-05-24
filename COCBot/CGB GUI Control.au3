@@ -54,6 +54,8 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 					ShellExecute("https://www.ClashGameBot.com") ;open web site when clicking label
 				Case $labelForumURL
 					ShellExecute("https://GameBot.org/forums/forumdisplay.php?fid=2") ;open web site when clicking label
+				Case $labelModForumURL
+					ShellExecute("https://GameBot.org/forums/thread-2682.html") ;open web site when clicking label
 				Case $btnStop
 					If $RunState Then btnStop()
 				Case $btnPause
@@ -407,6 +409,15 @@ Func btnHide()
 		GUICtrlSetData($btnHide, "Show BS")
 		$botPos[0] = WinGetPos($Title)[0]
 		$botPos[1] = WinGetPos($Title)[1]
+		;giuppi hide from taskbar -HIDE
+		Global $iWindowStyle
+		$iWindowStyle = DllCall("user32.dll","long","GetWindowLong","hwnd", $HWnD,"int",-20)
+		$style = BitAND(BitOR($iWindowStyle, 0x80) , BitNOT(0x40000))
+		$pWindow = WinGetHandle('Program Manager')
+		DllCall("user32.dll", "int", "SetParent", "hwnd", $HWnD, "hwnd", $pWindow)
+		DllCall("user32.dll","long","SetWindowLong","hwnd", $HWnD,"int",-20,"long",$style)
+		DllCall("user32.dll", "int", "SetParent", "hwnd", $HWnD, "hwnd", 0)
+		;==> end giuppi hide from taskbar -HIDE
 		WinMove($Title, "", -32000, -32000)
 		$Hide = True
 	Else
@@ -418,6 +429,9 @@ Func btnHide()
 			WinMove($Title, "", $botPos[0], $botPos[1])
 			WinActivate($Title)
 		EndIf
+		;giuppi hide from taskbar -SHOW
+		DllCall("user32.dll","long","SetWindowLong","hwnd", $HWnD,"int",-20,"long",$iWindowStyle)
+		;==> end giuppi hide from taskbar -SHOW
 		$Hide = False
 	 EndIf
    EndIf
@@ -427,6 +441,11 @@ Func btnResetStats()
 	GUICtrlSetState($btnResetStats, $GUI_DISABLE)
 	$FirstRun = 1
 	$FirstAttack = 0
+	$totalLootGold = 0
+	$totalLootElixir = 0
+	$totalLootDarkElixir = 0
+	$totalLootTrophies = 0
+	$totalLootZapAndRun = 0
 	GUICtrlSetState($lblLastAttackTemp, $GUI_SHOW)
 	GUICtrlSetState($lblTotalLootTemp, $GUI_SHOW)
 	GUICtrlSetState($lblHourlyStatsTemp, $GUI_SHOW) ;; added for hourly stats
@@ -439,6 +458,9 @@ Func btnResetStats()
 	GUICtrlSetData($lblresulttrophiesdropped, "0")
 	GUICtrlSetData($lblresultvillagesskipped, "0")
 	GUICtrlSetData($lblresultvillagesattacked, "0")
+	GUICtrlSetData($lblZapAndRunHitCount, "0")
+	GUICtrlSetData($lblZapAndRunUsedLSpell, "0")
+	GUICtrlSetData($lblZapAndRunTotalDE, "0")
 	GUICtrlSetData($lblGoldLastAttack, "")
 	GUICtrlSetData($lblElixirLastAttack, "")
 	GUICtrlSetData($lblDarkLastAttack, "")
@@ -459,6 +481,8 @@ EndFunc   ;==>btnResetStats
 Func chkDeployRedArea()
 	If GUICtrlRead($chkDeployRedArea) = $GUI_CHECKED Then
 		$chkRedArea = 1
+		GUICtrlSetState($chkDESideAtk, $GUI_UNCHECKED)
+		GUICtrlSetState($cmbDeploy, $GUI_ENABLE)
 		For $i = $lblSmartDeploy To $chkAttackNearDarkElixirDrill
 			GUICtrlSetState($i, $GUI_SHOW)
 		Next
@@ -468,7 +492,22 @@ Func chkDeployRedArea()
 			GUICtrlSetState($i, $GUI_HIDE)
 		Next
 	EndIf
-EndFunc   ;==>chkDeployRedArea
+ EndFunc   ;==>chkDeployRedArea
+
+  Func chkDESideAtk()
+	If GUICtrlRead($chkDESideAtk) = $GUI_CHECKED Then
+		$DESideAtk = 1
+		$deploySettings = 0
+		GUICtrlSetState($cmbDeploy, $GUI_DISABLE)
+		GUICtrlSetState($chkDeployRedArea, $GUI_UNCHECKED)
+		For $i = $lblSmartDeploy To $chkAttackNearDarkElixirDrill
+			GUICtrlSetState($i, $GUI_HIDE)
+		Next
+	Else
+		$DESideAtk = 0
+		GUICtrlSetState($cmbDeploy, $GUI_ENABLE)
+	EndIf
+EndFunc   ;==>chkDESideAtk
 
 Func cmbTroopComp()
 	If _GUICtrlComboBox_GetCurSel($cmbTroopComp) <> $icmbTroopComp Then
@@ -800,7 +839,9 @@ Func Randomspeedatk()
 		GUICtrlSetState($cmbUnitDelay, $GUI_ENABLE)
 		GUICtrlSetState($cmbWaveDelay, $GUI_ENABLE)
 	EndIf
-EndFunc   ;==>Randomspeedatk
+ EndFunc   ;==>Randomspeedatk
+
+
 
 Func chkSearchReduction()
 	If GUICtrlRead($chkSearchReduction) = $GUI_CHECKED Then
@@ -897,6 +938,9 @@ Func GUILightSpell()
 		GUICtrlSetState($cmbiLSpellQ, $GUI_ENABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_ENABLE)
 		GUICtrlSetState($chkZapAndRun, $GUI_ENABLE)
+		If GUICtrlRead($chkTrophyMode) = $GUI_CHECKED Then
+			GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		EndIf
 	Else
 		$iChkLightSpell = 0
 		GUICtrlSetState($txtMinDarkStorage, $GUI_DISABLE)
@@ -905,6 +949,7 @@ Func GUILightSpell()
 		GUICtrlSetState($cmbiLSpellQ, $GUI_DISABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_DISABLE)
 		GUICtrlSetState($chkZapAndRun, $GUI_DISABLE)
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>GUILightSpell
 
@@ -925,7 +970,9 @@ Func chkSnipeMode()
 		$OptTrophyMode = 1
 		GUICtrlSetState($txtTHaddtiles, $GUI_ENABLE)
 		GUICtrlSetState($cmbAttackTHType, $GUI_ENABLE)
-		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		If GUICtrlRead($chkLightSpell) = $GUI_CHECKED Then
+			GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		EndIf
 	Else
 		$OptTrophyMode = 0
 		GUICtrlSetState($txtTHaddtiles, $GUI_DISABLE)

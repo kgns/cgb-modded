@@ -124,6 +124,7 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "attack", "UnitD", _GUICtrlComboBox_GetCurSel($cmbUnitDelay))
 	IniWrite($config, "attack", "WaveD", _GUICtrlComboBox_GetCurSel($cmbWaveDelay))
 	IniWrite($config, "attack", "randomatk", GUICtrlRead($Randomspeedatk))
+	IniWrite($config, "attack", "DeSide", GUICtrlRead($chkDESideAtk))
 
 	If GUICtrlRead($chkDeployRedArea) = $GUI_CHECKED Then
 		IniWrite($config, "attack", "deployRedArea", 1)
