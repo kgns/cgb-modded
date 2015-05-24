@@ -408,7 +408,7 @@ $tabAttack = GUICtrlCreateTabItem("Attack")
 			GUICtrlSetData(-1, "one side, penetrates through base|two sides, penetrates through base|three sides, gets outer and some inside of base|all sides equally, gets most of outer base", "all sides equally, gets most of outer base")
 		$y += 25
 		$lblUnitDelay = GUICtrlCreateLabel("Unit Delay:", $x + 20, $y + 5, -1, -1)
-			$txtTip = "This delays the deployment of troops, 1 (fast) = like a Bot, 10 (slow) = Like a Human." & @CRLF & "Random will make bot more varied and closer to a person."
+			$txtTip = "This delays the deployment of troops, 1 (fast) = like a Bot, 10 (slow) = Like a Human." & @CRLF & "z will make bot more varied and closer to a person."
 			GUICtrlSetTip(-1, $txtTip)
 		$cmbUnitDelay = GUICtrlCreateCombo("", $x + 75, $y, 40, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
@@ -555,10 +555,10 @@ GUICtrlCreateTabItem("")
 		$chkLightSpell = GUICtrlCreateCheckbox("Hit Dark Elixir storage with Lightning Spell", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to use lightning spells to steal Dark Elixir when bot meet Minimum Dark Elixir.")
 			GUICtrlSetOnEvent(-1, "GUILightSpell")
-	    	$txtMinDarkStorage = GUICtrlCreateInput("500", $x + 280, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	    $txtMinDarkStorage = GUICtrlCreateInput("2000", $x + 275, $y, 35, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetLimit(-1, 4)
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$lblSpellDarkStorage = GUICtrlCreateLabel("Dark Elixir", $x + 315, $y + 4, -1, -1)
+		$lblSpellDarkStorage = GUICtrlCreateLabel("min. Dark Elixir", $x + 315, $y + 4, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to use Lightning Spells to steal Dark Elixir when bot meet Minimum Dark Elixir.")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y +=22
@@ -2091,8 +2091,8 @@ Local $x = 30, $y = 130
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 265
-	$y = 235
-	$btnResetStats = GUICtrlCreateButton ("Reset Stats", $x, $y, 60,21)
+	$y = 300
+	$btnResetStats = GUICtrlCreateButton ("Reset Stats", $x-5, $y, 65,21)
 		GUICtrlSetOnEvent(-1, "btnResetStats")
 		GUICtrlSetTip(-1, "Reset statistics without closing the bot")
 		GUICtrlSetState(-1, $GUI_DISABLE)
@@ -2111,8 +2111,8 @@ Local $x = 30, $y = 130
 #ce
 
 	$x = 30
-	$y = 280
-	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 80)
+	$y = 235
+	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 85)
 		$y -=2
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 45, $x - 10, $y + 7, 24, 24)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 46, $x + 16, $y + 7, 24, 24)
@@ -2125,21 +2125,36 @@ Local $x = 30, $y = 130
         $lblresultvillagesskipped = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The No. of Villages that were skipped during search by the Bot."
 			GUICtrlSetTip(-1, $txtTip)
+		$y += 17
+        GUICtrlCreateLabel("Zap&&Run Villages:", $x - 10, $y + 2, -1, 17)
+        $lblZapAndRunHitCount = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
+			$txtTip = "The No. of Villages that were zapped for DE and ran by the Bot."
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 17
+        GUICtrlCreateLabel("Zap&&Run Nbr. LSpell:", $x - 10, $y + 2, -1, 17)
+        $lblZapAndRunUsedLSpell = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
+			$txtTip = "The No. of Lightning Spells used for Zap&Run villages by the Bot."
+			GUICtrlSetTip(-1, $txtTip)
 		$x += 155
-		$y -= 17
+		$y -= 51
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x, $y, 16, 16)
         $lbltrophiesdropped = GUICtrlCreateLabel("Dropped:", $x + 20, $y + 2, -1, 17)
-        $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 80, $y + 2, 30, 17, $SS_RIGHT)
+        $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 100, $y + 2, 30, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies dropped by the Bot due to Trophy Settings (on Misc Tab)."
 			GUICtrlSetTip(-1, $txtTip)
         $y += 17
         GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 44, $x, $y, 16, 16)
         $lblruntime = GUICtrlCreateLabel("Runtime:", $x + 20, $y + 2, -1, 17)
-        $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 50, $y + 2, 60, 17, $SS_RIGHT)
+        $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 70, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The total Running Time of the Bot."
 			GUICtrlSetTip(-1, $txtTip)
+        $y += 17
+        GUICtrlCreateLabel("Zap&&Run DE gain:", $x, $y + 2, -1, 17)
+        $lblZapAndRunTotalDE = GUICtrlCreateLabel("0", $x + 60, $y + 2, 70, 17, $SS_RIGHT)
+			$txtTip = "The total amount of DE gained from only Zap&Run attacks."
+			GUICtrlSetTip(-1, $txtTip)
 		$x += 145
-		$y -= 17
+		$y -= 34
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 50, $x - 7, $y + 7, 24, 24)
         $lblwallbygold = GUICtrlCreateLabel("Upg. by Gold:", $x + 20, $y + 2, -1, 17)
 		$lblWallgoldmake =  GUICtrlCreateLabel("0", $x + 55, $y + 2, 60, 17, $SS_RIGHT)
@@ -2158,7 +2173,7 @@ Local $x = 30, $y = 130
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 30
-	$y = 375
+	$y = 340
 	$grpCredits = GUICtrlCreateGroup("Credits", $x - 20, $y - 20, 450, 170)
 		$labelGameBotURL = GUICtrlCreateLabel("https://GameBot.org", $x - 5, $y + 5, 430, 20)
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
@@ -2177,6 +2192,19 @@ Local $x = 30, $y = 130
 		$lbltxtCredits = GUICtrlCreateEdit($txtCredits, $x - 5, $y + 40, 400, 85, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 		$labelForumURL = GUICtrlCreateLabel("https://GameBot.org/latest", $x - 5, $y + 125, 450, 20)
+;~			GUICtrlSetFont(-1, 11, 100, 4)
+			GUICtrlSetColor(-1, 0x0000FF)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$x = 30
+	$y = 510
+	$grpModCredits = GUICtrlCreateGroup("Mod Credits", $x - 20, $y - 20, 450, 85)
+		$lblModCredits = GUICtrlCreateLabel("Credits go to the following modders:", $x - 5, $y - 5, 400, 20)
+			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
+		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts"
+		$lbltxtModCredits = GUICtrlCreateEdit($txtModCredits, $x - 5, $y + 10, 434, 39, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
+			GUICtrlSetBkColor(-1, $COLOR_WHITE)
+		$labelModForumURL = GUICtrlCreateLabel("https://GameBot.org/forums/thread-2682.html", $x - 5, $y + 50, 450, 20)
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
 			GUICtrlSetColor(-1, 0x0000FF)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

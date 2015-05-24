@@ -149,15 +149,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						SetLog(_PadStringCenter(" Not a Dead Base, but TH Bully Level Found! ", 50, "~"), $COLOR_GREEN)
 						ExitLoop
 					Else
-						;; Zap And Run
-						;If $OptZapAndRun = 1 And $LSpellQ >= $iLSpellQ Then
-						;	If (Number($searchDark) >= Number($SpellMinDarkStorage)) Then
-						;		$zapandrunAvoidAttack = 1
-						;		SetLog(_PadStringCenter(" Zap and Run base Found! ", 50, "~"), $COLOR_GREEN)
-						;		ExitLoop
-						;	EndIf
-						;Endif
-						;If _Sleep(1000) Then Return
 						If $bBtnAttackNowPressed = True Then ExitLoop
 						$msg &= ", Not TH Bully Level"
 					EndIf
@@ -168,15 +159,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						SetLog(_PadStringCenter(" Not a Dead Base, but TH Outside Found! ", 50, "~"), $COLOR_GREEN)
 						ExitLoop
 					Else
-						;; Zap And Run
-						;If $OptZapAndRun = 1 And $LSpellQ >= $iLSpellQ Then
-						;	If (Number($searchDark) >= Number($SpellMinDarkStorage)) Then
-						;		$zapandrunAvoidAttack = 1
-						;		SetLog(_PadStringCenter(" Zap and Run base Found!", 50, "~"), $COLOR_GREEN)
-						;		ExitLoop
-						;	EndIf
-						;Endif
-						;If _Sleep(1000) Then Return
 						If $bBtnAttackNowPressed = True Then ExitLoop
 						$msg &= ", Not TH Outside!"
 					EndIf
@@ -189,25 +171,9 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						SetLog(_PadStringCenter(" Weak Base Found! ", 50, "~"), $COLOR_GREEN)
 						ExitLoop
 					Else
-						;; Zap And Run
-						;If $OptZapAndRun = 1 And $LSpellQ >= $iLSpellQ Then
-						;	If (Number($searchDark) >= Number($SpellMinDarkStorage)) Then
-						;		$zapandrunAvoidAttack = 1
-						;		SetLog(_PadStringCenter(" Zap and Run base Found!", 50, "~"), $COLOR_GREEN)
-						;		ExitLoop
-						;	EndIf
-						;Endif
 						If $bBtnAttackNowPressed = True Then ExitLoop
 						$msg &= ", Not a Weak Base"
 					EndIf
-					;; Zap And Run
-					;If $OptZapAndRun = 1 And $LSpellQ >= $iLSpellQ Then
-					;	If (Number($searchDark) >= Number($SpellMinDarkStorage)) Then
-					;		$zapandrunAvoidAttack = 1
-					;		SetLog(_PadStringCenter(" Zap and Run base Found!", 50, "~"), $COLOR_GREEN)
-					;		ExitLoop
-					;	EndIf
-					;Endif
 				EndIf
 
 				;If _Sleep(1000) Then Return

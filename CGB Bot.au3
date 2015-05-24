@@ -72,7 +72,7 @@ Func runBot() ;Bot that runs everything in order
 		$CommandStop = -1
 		If _Sleep(1000) Then Return
 		checkMainScreen()
-		If $Is_ClientSyncError = False Then
+		If $Is_ClientSyncError = False AND $zapandrunAvoidAttack = 0 Then
 				If _Sleep(1000) Then Return
 
 
@@ -167,8 +167,12 @@ Func runBot() ;Bot that runs everything in order
 			EndIf
 				;
 		Else ;When error occours directly goes to attack
-			SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
-			PushMsg("OutOfSync")
+			If $zapandrunAvoidAttack <> 0 Then
+				SetLog("Last attack was Zap&Run: Attack Now", $COLOR_RED)
+			Else
+				SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
+				PushMsg("OutOfSync")
+			EndIf
 			AttackMain()
 				If _Sleep(1000) Then Return
 
@@ -256,12 +260,12 @@ Func AttackMain() ;Main control for attack functions
 	;checkDarkElix()
 	DEAttack()
 		If $Restart = True Then Return
-    if $zapandrunAvoidAttack = 1 Then
-	  DropLSpell()
-	  SetLog("Avoiding troop attack with Zap & Run")
-    Else
-	  Attack()
-    EndIf
+	if $zapandrunAvoidAttack = 1 Then
+		DropLSpell()
+		SetLog("Avoiding troop attack with Zap & Run")
+	Else
+		Attack()
+	EndIf
 
 		If $Restart = True Then Return
 	ReturnHome($TakeLootSnapShot)

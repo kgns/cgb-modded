@@ -53,6 +53,14 @@ Func UpdateStats()
 	  EndIf
 
 	  ; Last Attack stats
+	  If $zapandrunAvoidAttack = 2 Then ; if zap&run successful
+		 $totalLootZapAndRun += $lootDarkElixir
+		 GUICtrlSetData($lblZapAndRunHitCount, GUICtrlRead($lblZapAndRunHitCount) + 1)
+		 GUICtrlSetData($lblZapAndRunUsedLSpell, GUICtrlRead($lblZapAndRunUsedLSpell) + $LSpellQ)
+		 GUICtrlSetData($lblZapAndRunTotalDE, _NumberFormat($totalLootZapAndRun))
+	  ElseIf $zapandrunAvoidAttack = 1 Then ; unsuccessful zap&run
+		 GUICtrlSetData($lblZapAndRunHitCount, GUICtrlRead($lblZapAndRunHitCount) + 1)
+	  EndIf
 	  GUICtrlSetData($lblGoldLastAttack, _NumberFormat($lootGold))
 	  GUICtrlSetData($lblElixirLastAttack, _NumberFormat($lootElixir))
 	  If $DarkStart <> "" Then

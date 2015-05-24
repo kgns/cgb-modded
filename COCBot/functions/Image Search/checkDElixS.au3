@@ -99,12 +99,15 @@ Func DropLSpell ()
 	   Next
 
 	    If (($DESLoc = 1) And $LSpell <> -1 ) Then
-			If (Number($searchDark) >= Number($SpellMinDarkStorage)) then
+			If (Number(getDarkElixir(51, 66 + 57)) >= Number($SpellMinDarkStorage)) then
 			     If $LSpellQ >= $iLSpellQ then
 				   Click(68 + (72 * $LSpell), 595) ;Select Troop
 				   If _Sleep(SetSleep(1)) Then Return
 				   Click($DESLocx, $DESLocy, $LSpellQ , 250)   ; $LSpellQ = $atkTroops[$i][1] = quantity of spells
 				   SetLog("== Attacking DE Storage with: " & $LSpellQ &" Spells ==")
+				   If $zapandrunAvoidAttack = 1 Then
+				     $zapandrunAvoidAttack = 2 ; 2 means zapandrun was successful
+				   EndIf
 			     Else
 				   SetLog("== Not Enough Amount of Lightning Spells  ==", $COLOR_RED)
 			     EndIf
@@ -184,3 +187,4 @@ Func GetDEEdge() ;Using $DESLoc x y we are finding which side de is located.
 	  $DEEdge = 0
    EndIf
 EndFunc   ;==>GetDEEdge
+
