@@ -105,6 +105,9 @@ Func DropLSpell ()
 				   If _Sleep(SetSleep(1)) Then Return
 				   Click($DESLocx, $DESLocy, $LSpellQ , 250)   ; $LSpellQ = $atkTroops[$i][1] = quantity of spells
 				   SetLog("== Attacking DE Storage with: " & $LSpellQ &" Spells ==")
+				   If $zapandrunAvoidAttack = 1 Then
+				     $zapandrunAvoidAttack = 2 ; 2 means zapandrun was successful
+				   EndIf
 			     Else
 				   SetLog("== Not Enough Amount of Lightning Spells  ==", $COLOR_RED)
 			     EndIf
