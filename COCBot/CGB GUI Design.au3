@@ -2210,11 +2210,6 @@ Local $x = 30, $y = 130
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
 			GUICtrlSetColor(-1, 0x0000FF)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> df00b1cefb158ef641c0b8b5a5976ddd36a8511a
 	$x = 30
 	$y = 510
 	$grpModCredits = GUICtrlCreateGroup("Mod Credits", $x - 20, $y - 20, 450, 85)
