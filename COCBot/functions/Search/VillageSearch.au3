@@ -75,6 +75,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
     If $OptZapAndRun = 1 Then
 	  GetResources() ;Reads Resource Values ;waits until it can read army
+	  $searchGold2 = 0
       ; Zap & Run requires to know the number of Lightning spells available
 	  ; In case there are not enough spells ready, we avoid avoid Zap & Run mode.
 	  PrepareAttack(True)
