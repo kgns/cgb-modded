@@ -1,9 +1,20 @@
+<<<<<<< HEAD
 Mods Integrated to default CBG v3.1.4:
+=======
+Mods Integrated to default CBG v3.1.6:
+>>>>>>> df00b1cefb158ef641c0b8b5a5976ddd36a8511a
 
 Changelog:
 
 UPDATED 24.05.2015
 
+<<<<<<< HEAD
+=======
+- Merged to CGB v3.1.6
+
+- Merged to CGB v3.1.5
+
+>>>>>>> df00b1cefb158ef641c0b8b5a5976ddd36a8511a
 - Added 3 new stats for Zap&Run which will show the effectiveness of the mod:
 Zap&Run village count
 Zap&Run used Lightning Spell count

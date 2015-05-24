@@ -20,10 +20,10 @@
 #pragma compile(ProductName, Clash Game Bot)
 
 #pragma compile(ProductVersion, 3.1)
-#pragma compile(FileVersion, 3.1.4)
+#pragma compile(FileVersion, 3.1.6)
 #pragma compile(LegalCopyright, © http://gamebot.org)
 
-$sBotVersion = "v3.1.4"
+$sBotVersion = "v3.1.6"
 $sBotTitle = "Clash Game Bot " & $sBotVersion
 Global $sBotDll = @ScriptDir & "\CGBPlugin.dll"
 
@@ -73,10 +73,13 @@ Func runBot() ;Bot that runs everything in order
 		If _Sleep(1000) Then Return
 		checkMainScreen()
 		If $Is_ClientSyncError = False AND $zapandrunAvoidAttack = 0 Then
+<<<<<<< HEAD
 				If _Sleep(1000) Then Return
 
 
 				If $Restart = True Then ContinueLoop
+=======
+>>>>>>> df00b1cefb158ef641c0b8b5a5976ddd36a8511a
 			If BotCommand() Then btnStop()
 				If _Sleep(1000) Then Return
 
@@ -158,6 +161,7 @@ Func runBot() ;Bot that runs everything in order
 				If $Restart = True Then ContinueLoop
 			Idle()
 				If _Sleep(1000) Then Return
+			    checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
 			If $CommandStop <> 0 And $CommandStop <> 3 Then
 				AttackMain()
@@ -173,6 +177,10 @@ Func runBot() ;Bot that runs everything in order
 				SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
 				PushMsg("OutOfSync")
 			EndIf
+<<<<<<< HEAD
+=======
+			    checkMainScreen(False)
+>>>>>>> df00b1cefb158ef641c0b8b5a5976ddd36a8511a
 			AttackMain()
 				If _Sleep(1000) Then Return
 
@@ -218,6 +226,15 @@ Func Idle() ;Sequence that runs until Full Army
 
 			    checkMainScreen(False)
 		EndIf
+		if $CommandStop <> 0 then
+			while (not $fullArmy) and ($CurCamp >= ($TotalCamp * 90/100))		
+				If _Sleep(5000) Then ExitLoop	
+				Train()
+				If $Restart = True Then ExitLoop
+				checkMainScreen(False)			
+			wend
+		endif
+		
 		If $CommandStop = 0 And $fullArmy Then
 			SetLog("Army Camp and Barracks are full, stop Training...", $COLOR_ORANGE)
 			$CommandStop = 3
@@ -249,6 +266,7 @@ Func AttackMain() ;Main control for attack functions
 		If _Sleep(1000) Then Return
     EndIf
 
+			    checkMainScreen(False)
 		If $Restart = True Then Return
 	PrepareSearch()
 		If $Restart = True Then Return

@@ -16,18 +16,27 @@ Func GetResources() ;Reads resources
 		endif
 		$i += 1
 		If $i >= 100 or isProblemAffect(true) Then ; wait max 20 sec then Restart Bot
-			SetLog("Cannot locate Next button, Restarting Bot..." , $COLOR_RED)
-		    Pushmsg("OoSResources")
-			$Is_ClientSyncError = True
-			GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
-			$iStuck = 0
-			If $isSnipeWhileTrain Then ; When OoS occured during Snipe While Train MOD no need to go to search
-			   TurnOffSnipeWhileTrain()
-			EndIf
 			checkMainScreen()
-			Return
+			if $Restart then
+				SetLog("Cannot locate Next button, Restarting Bot..." , $COLOR_RED)
+				Pushmsg("OoSResources")
+				$Is_ClientSyncError = True
+				GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
+				$iStuck = 0
+				If $isSnipeWhileTrain Then ; When OoS occured during Snipe While Train MOD no need to go to search
+			   		TurnOffSnipeWhileTrain()
+				EndIf
+				Return		
+			else				
+				SetLog("Have strange problem can not determine, Restarting Bot..." , $COLOR_RED)
+				$Is_ClientSyncError = True
+				$iStuck = 0
+				$Restart = true
+				Return	
+			endif
 		EndIf
 	WEnd
+
 
 	$searchElixir = getElixir(51, 66 + 29)
 
@@ -38,16 +47,24 @@ Func GetResources() ;Reads resources
 
 	$searchGold2 = $searchGold
 	If $iStuck >= 5 Then
-		SetLog("Cannot locate Next button, Restarting Bot", $COLOR_RED)
-		Pushmsg("OoSResources")
-		$Is_ClientSyncError = True
-		GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
-		$iStuck = 0
-		If $isSnipeWhileTrain Then ; When OoS occured during Snipe While Train MOD no need to go to search
-		  TurnOffSnipeWhileTrain()
-		EndIf
 		checkMainScreen()
-		Return
+		if $Restart then
+			SetLog("Cannot locate Next button, Restarting Bot..." , $COLOR_RED)
+			Pushmsg("OoSResources")
+			$Is_ClientSyncError = True
+			GUICtrlSetData($lblresultoutofsync, GUICtrlRead($lblresultoutofsync)+ 1)
+			$iStuck = 0
+			If $isSnipeWhileTrain Then ; When OoS occured during Snipe While Train MOD no need to go to search
+		  		TurnOffSnipeWhileTrain()
+			EndIf
+			Return		
+		else				
+			SetLog("Have strange problem can not determine, Restarting Bot..." , $COLOR_RED)
+			$Is_ClientSyncError = True
+			$iStuck = 0
+			$Restart = true
+			Return	
+		endif
 	EndIf
 
 	If $searchTrophy <> "" Then
@@ -77,6 +94,7 @@ Func GetResources() ;Reads resources
 		EndIf
 		$THString = " [TH]:" & StringFormat("%2s", $searchTH) & ", " & $THLoc
 	EndIf
+
 	$SearchCount += 1 ; Counter for number of searches
 	SetLog(StringFormat("%3s", $SearchCount) & "> [G]:" & StringFormat("%7s", $searchGold) & " [E]:" & StringFormat("%7s", $searchElixir) & " [D]:" & StringFormat("%5s", $searchDark) & " [T]:" & StringFormat("%2s", $searchTrophy) & $THString, $COLOR_BLACK, "Lucida Console", 7.5)
 

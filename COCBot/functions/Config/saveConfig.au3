@@ -745,7 +745,13 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
         IniWrite($config, "pushbullet", "PBRemote", 1)
     Else
 	    IniWrite($config, "pushbullet", "PBRemote", 0)
-	 EndIf
+	EndIf
+
+	If GUICtrlRead($chkDeleteAllPushes) = $GUI_CHECKED Then
+		IniWrite($config, "pushbullet", "DeleteAllPBPushes", 1)
+	Else
+		IniWrite($config, "pushbullet", "DeleteAllPBPushes", 0)
+	EndIf
 
     If  GUICtrlRead($chkAlertPBVMFound) = $GUI_CHECKED Then
         IniWrite($config, "pushbullet", "AlertPBVMFound", 1)
@@ -789,10 +795,12 @@ If GUICtrlRead($chkLab) = $GUI_CHECKED Then
 	    IniWrite($config, "pushbullet", "AlertPBOtherDevice", 0)
     EndIf
 
-	If GUICtrlRead($chkDeleteAllPushes) = $GUI_CHECKED Then
-		IniWrite($config, "pushbullet", "DeleteAllPBPushes", 1)
-	Else
-		IniWrite($config, "pushbullet", "DeleteAllPBPushes", 0)
-	EndIf
+	IniWrite($config, "pushbullet", "HoursPushBullet", _GUICtrlComboBox_GetCurSel($cmbHoursPushBullet) +1 )
+
+	If  GUICtrlRead($chkDeleteOldPushes) = $GUI_CHECKED Then
+        IniWrite($config, "pushbullet", "DeleteOldPushes", 1)
+    Else
+	    IniWrite($config, "pushbullet", "DeleteOldPushes", 0)
+    EndIf
 
 EndFunc   ;==>saveConfig

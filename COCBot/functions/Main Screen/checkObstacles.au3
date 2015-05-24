@@ -28,19 +28,19 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
         If _Sleep(120000) Then Return ; 2 Minutes
         PureClick(416, 399);Check for "Take a break" message
         Return True
-	 EndIf
-	  If _ImageSearchArea($CocStopped, 0, 250, 328, 618, 402, $x, $y, 70) Then
-	 SetLog("CoC Has Stopped Error .....", $COLOR_RED)
-	 PushMsg("CoCError")
-        If _Sleep(1000) Then Return
-        PureClick(250+$x, 328+$y, 2, 100);Check for "CoC has stopped error, looking for OK message" on screen
-If _Sleep(2000) Then Return
-  PureClick(126, 700, 1, 500)
-   Local $RunApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "RunApp")
-   Run($RunApp & " Android com.supercell.clashofclans com.supercell.clashofclans.GameApp")
-  Return True
-  EndIf
-  $Message = _PixelSearch(457, 300, 458, 330, Hex(0x33B5E5, 6), 10)
+	EndIf
+	If _ImageSearchArea($CocStopped, 0, 250, 328, 618, 402, $x, $y, 70) Then
+		SetLog("CoC Has Stopped Error .....", $COLOR_RED)
+		PushMsg("CoCError")
+		If _Sleep(1000) Then Return
+		PureClick(250+$x, 328+$y);Check for "CoC has stopped error, looking for OK message" on screen
+		If _Sleep(2000) Then Return
+		PureClick(126, 700, 1, 500)
+		Local $RunApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "RunApp")
+		Run($RunApp & " Android com.supercell.clashofclans com.supercell.clashofclans.GameApp")
+		Return True
+	EndIf
+	$Message = _PixelSearch(457, 300, 458, 330, Hex(0x33B5E5, 6), 10)
 	If IsArray($Message) Then
 		PureClick(416, 399);Check for out of sync or inactivity
 		If _Sleep(5000) Then Return

@@ -3,6 +3,7 @@
 Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 
 	Local $counter = 0
+	Local $hBitmap_Scaled
 
 	If $GoldChangeCheck = True Then
 		While GoldElixirChange()
@@ -72,6 +73,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 			$LootFileName = $iOrigPushB & "_" & $Date & "_" & $Time & ".jpg"
 		EndIf
 		_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $LootFileName)
+		_GDIPlus_ImageDispose($hBitmap_Scaled)
 	EndIf
 
 	;push images if requested..

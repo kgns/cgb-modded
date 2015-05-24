@@ -10,7 +10,6 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkAutoStart, $GUI_UNCHECKED)
 	EndIf
-
 	If $ichkBackground = 1 Then
 		GUICtrlSetState($chkBackground, $GUI_CHECKED)
 	Else
@@ -68,7 +67,6 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkMeetGorE, $GUI_UNCHECKED)
 	EndIf
-
 	If $chkConditions[6] = 1 Then
 		GUICtrlSetState($chkMeetGpE, $GUI_CHECKED)
 	Else
@@ -217,8 +215,6 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 
 	GUICtrlSetData($txtRatioNumeratorDonated, $ratioNumeratorDonated)
 	GUICtrlSetData($txtRatioDenominatorReceived, $ratioDenominatorReceived)
-
-
 	Switch $iActivateKQCondition
 		Case "Manual"
 			GUICtrlSetState($radManAbilities, $GUI_CHECKED)
@@ -256,21 +252,21 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkAttackTH, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkAttackTH, $GUI_UNCHECKED)
-    EndIf
+	EndIf
 
     If $iChkSnipeWhileTrain = 1 Then ; Snipe While Train MOD by ChiefM3
 		GUICtrlSetState($chkSnipeWhileTrain, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkSnipeWhileTrain, $GUI_UNCHECKED)
 	EndIf
-
-    If $iChkLightSpell = 1 Then
+	If $iChkLightSpell = 1 Then
 		GUICtrlSetState($chkLightSpell, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkLightSpell, $GUI_UNCHECKED)
 	EndIf
 	GUILightSpell()
 	GUICtrlSetData($txtMinDarkStorage, $SpellMinDarkStorage)
+
 	_GUICtrlComboBox_SetCurSel($cmbiLSpellQ, $iLSpellQ - 1)
 	if $OptZapAndRun = 1 Then
 	   GUICtrlSetState($chkZapAndRun, $GUI_CHECKED)
@@ -294,12 +290,12 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	EndIf
 	GUICtrlSetData($txtTHaddTiles, $THaddTiles)
 	_GUICtrlComboBox_SetCurSel($cmbAttackTHType, $AttackTHType)
+	chkSnipeMode()
 	If $OptTrophyModeDE = 1 Then
 		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_CHECKED)
 	ElseIf $OptTrophyModeDE = 0 Then
 		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_UNCHECKED)
 	EndIf
-	chkSnipeMode()
 
 ;	If $iUnbreakableMode = 1 Then
 ;		GUICtrlSetState($chkUnbreakable, $GUI_CHECKED)
@@ -475,7 +471,9 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkDonateCustom, $GUI_UNCHECKED)
 	EndIf
+	
 	chkDonateCustom()
+	
 	GUICtrlSetData($txtDonateCustom, $sTxtDonateCustom)
 	GUICtrlSetData($txtBlacklistCustom, $sTxtBlacklistCustom)
 	_GUICtrlComboBox_SetCurSel($cmbDonateCustom1, $icmbDonateCustom1)
@@ -633,11 +631,6 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	   GUICtrlSetState($chkAlertPBVillage, $GUI_UNCHECKED)
     EndIf
 
-	If $pLastRaidTxt  = 1 Then
-	   GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_CHECKED)
-	Elseif $pLastRaidTxt = 0 Then
-	   GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_UNCHECKED)
-    EndIf
 
 	If $pEnabled = 1 Then
 	   GUICtrlSetState($chkPBenabled, $GUI_CHECKED)
@@ -653,6 +646,14 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	   GUICtrlSetState($chkPBRemote, $GUI_UNCHECKED)
     EndIf
 
+	If $iDeleteAllPushes = 1 Then
+		GUICtrlSetState($chkDeleteAllPushes, $GUI_CHECKED)
+	ElseIf $iDeleteAllPushes = 0 Then
+		GUICtrlSetState($chkDeleteAllPushes, $GUI_UNCHECKED)
+    EndIf
+
+	_GUICtrlComboBox_SetCurSel($cmbHoursPushBullet, $icmbHoursPushBullet -1)
+
 	If $pMatchFound = 1 Then
 	   GUICtrlSetState($chkAlertPBVMFound, $GUI_CHECKED)
 	Elseif $pMatchFound = 0 Then
@@ -663,6 +664,12 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	   GUICtrlSetState($chkAlertPBLastRaid, $GUI_CHECKED)
 	Elseif $pLastRaidImg = 0 Then
 	   GUICtrlSetState($chkAlertPBLastRaid, $GUI_UNCHECKED)
+    EndIf
+
+	If $iAlertPBLastRaidTxt  = 1 Then
+	   GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_CHECKED)
+	Else
+	   GUICtrlSetState($chkAlertPBLastRaidTxt, $GUI_UNCHECKED)
     EndIf
 
 	If $pWallUpgrade = 1 Then
@@ -695,19 +702,22 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	   GUICtrlSetState($chkAlertPBOtherDevice, $GUI_UNCHECKED)
     EndIf
 
-	If $iDeleteAllPushes = 1 Then
-		GUICtrlSetState($chkDeleteAllPushes, $GUI_CHECKED)
-	ElseIf $iDeleteAllPushes = 0 Then
-		GUICtrlSetState($chkDeleteAllPushes, $GUI_UNCHECKED)
+	If $ichkDeleteOldPushes = 1 Then
+		GUICtrlSetState($chkDeleteOldPushes, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDeleteOldPushes, $GUI_UNCHECKED)
 	EndIf
-
-; laboratory tab
-;Lab
+	chkDeleteOldPushes()
+	
+	; laboratory tab
+	;Lab
 		If $ichkLab = 1 Then
 		GUICtrlSetState($chkLab, $GUI_CHECKED)
 	Else
 		GUICtrlSetState($chkLab, $GUI_UNCHECKED)
 	EndIf
+
+
 	_GUICtrlComboBox_SetCurSel($cmbLaboratory, $icmbLaboratory)
 	GUICtrlSetData($txtLabX, $itxtLabX)
 	GUICtrlSetData($txtLabY, $itxtLabY)
@@ -762,10 +772,10 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	GUICtrlSetData($txtUpgradeX4, $itxtUpgradeX4)
 	GUICtrlSetData($txtUpgradeY4, $itxtUpgradeY4)
 
-    GUICtrlSetData($txtBuildMinGold, $itxtBuildMinGold)
-    GUICtrlSetData($txtBuildMinElixir, $itxtBuildMinElixir)
-    GUICtrlSetData($txtBuildMinDark, $itxtBuildMinDark)
-    GUICtrlSetData($txtBuilderKeepFree, $itxtBuilderKeepFree)
+	GUICtrlSetData($txtBuildMinGold, $itxtBuildMinGold)
+	GUICtrlSetData($txtBuildMinElixir, $itxtBuildMinElixir)
+	GUICtrlSetData($txtBuildMinDark, $itxtBuildMinDark)
+	GUICtrlSetData($txtBuilderKeepFree, $itxtBuilderKeepFree)
 
 	If $ichkUpgradeKing = 1 Then ;==>upgradeking
 		GUICtrlSetState($chkUpgradeKing, $GUI_CHECKED)
