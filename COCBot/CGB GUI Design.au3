@@ -2109,7 +2109,7 @@ Local $x = 30, $y = 130
 
 	$x = 30
 	$y = 235
-	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 80)
+	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 85)
 		$y -=2
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 45, $x - 10, $y + 7, 24, 24)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 46, $x + 16, $y + 7, 24, 24)
@@ -2122,21 +2122,36 @@ Local $x = 30, $y = 130
         $lblresultvillagesskipped = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The No. of Villages that were skipped during search by the Bot."
 			GUICtrlSetTip(-1, $txtTip)
+		$y += 17
+        GUICtrlCreateLabel("Zap&&Run Villages:", $x - 10, $y + 2, -1, 17)
+        $lblZapAndRunHitCount = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
+			$txtTip = "The No. of Villages that were zapped for DE and ran by the Bot."
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 17
+        GUICtrlCreateLabel("Zap&&Run Nbr. LSpell:", $x - 10, $y + 2, -1, 17)
+        $lblZapAndRunUsedLSpell = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
+			$txtTip = "The No. of Lightning Spells used for Zap&Run villages by the Bot."
+			GUICtrlSetTip(-1, $txtTip)
 		$x += 155
-		$y -= 17
+		$y -= 51
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x, $y, 16, 16)
         $lbltrophiesdropped = GUICtrlCreateLabel("Dropped:", $x + 20, $y + 2, -1, 17)
-        $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 80, $y + 2, 30, 17, $SS_RIGHT)
+        $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 100, $y + 2, 30, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies dropped by the Bot due to Trophy Settings (on Misc Tab)."
 			GUICtrlSetTip(-1, $txtTip)
         $y += 17
         GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 44, $x, $y, 16, 16)
         $lblruntime = GUICtrlCreateLabel("Runtime:", $x + 20, $y + 2, -1, 17)
-        $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 50, $y + 2, 60, 17, $SS_RIGHT)
+        $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 70, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The total Running Time of the Bot."
 			GUICtrlSetTip(-1, $txtTip)
+        $y += 17
+        GUICtrlCreateLabel("Zap&&Run DE gain:", $x, $y + 2, -1, 17)
+        $lblZapAndRunTotalDE = GUICtrlCreateLabel("0", $x + 60, $y + 2, 70, 17, $SS_RIGHT)
+			$txtTip = "The total amount of DE gained from only Zap&Run attacks."
+			GUICtrlSetTip(-1, $txtTip)
 		$x += 145
-		$y -= 17
+		$y -= 34
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 50, $x - 7, $y + 7, 24, 24)
         $lblwallbygold = GUICtrlCreateLabel("Upg. by Gold:", $x + 20, $y + 2, -1, 17)
 		$lblWallgoldmake =  GUICtrlCreateLabel("0", $x + 55, $y + 2, 60, 17, $SS_RIGHT)

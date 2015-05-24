@@ -441,6 +441,11 @@ Func btnResetStats()
 	GUICtrlSetState($btnResetStats, $GUI_DISABLE)
 	$FirstRun = 1
 	$FirstAttack = 0
+	$totalLootGold = 0
+	$totalLootElixir = 0
+	$totalLootDarkElixir = 0
+	$totalLootTrophies = 0
+	$totalLootZapAndRun = 0
 	GUICtrlSetState($lblLastAttackTemp, $GUI_SHOW)
 	GUICtrlSetState($lblTotalLootTemp, $GUI_SHOW)
 	GUICtrlSetState($lblHourlyStatsTemp, $GUI_SHOW) ;; added for hourly stats
@@ -453,6 +458,9 @@ Func btnResetStats()
 	GUICtrlSetData($lblresulttrophiesdropped, "0")
 	GUICtrlSetData($lblresultvillagesskipped, "0")
 	GUICtrlSetData($lblresultvillagesattacked, "0")
+	GUICtrlSetData($lblZapAndRunHitCount, "0")
+	GUICtrlSetData($lblZapAndRunUsedLSpell, "0")
+	GUICtrlSetData($lblZapAndRunTotalDE, "0")
 	GUICtrlSetData($lblGoldLastAttack, "")
 	GUICtrlSetData($lblElixirLastAttack, "")
 	GUICtrlSetData($lblDarkLastAttack, "")

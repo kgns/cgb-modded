@@ -108,7 +108,7 @@ Global $FreeBuilder, $TotalBuilders, $GemCount
 Global $GoldStart, $ElixirStart, $DarkStart, $TrophyStart
 Global $GoldVillage, $ElixirVillage, $DarkVillage, $TrophyVillage
 ;Global $GoldLast, $ElixirLast, $DarkLast, $TrophyLast
-Global $totalLootGold, $totalLootElixir, $totalLootDarkElixir, $totalLootTrophies
+Global $totalLootGold, $totalLootElixir, $totalLootDarkElixir, $totalLootTrophies, $totalLootZapAndRun
 ;Global $CostGoldWall, $CostElixirWall
 
 ;Global $costspell
