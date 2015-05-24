@@ -165,19 +165,19 @@ Func GetDEEdge() ;Using $DESLoc x y we are finding which side de is located.
    If $DESLoc = 1 Then
 	  If ($DESLocx = 430) And  ($DESLocy = 313) Then
 		 SetLog ("DE Storage Located in Middle... Attacking Bottom Right", $COLOR_BLUE)
-		 $DEEdge = 1
+		 $DEEdge = 0
 	  ElseIf ($DESLocx >= 430) And  ($DESLocy >= 313) Then
 		 SetLog ("DE Storage Located Bottom Right... Attacking Bottom Right", $COLOR_BLUE)
-		 $DEEdge = 1
+		 $DEEdge = 0
 	  ElseIf ($DESLocx > 430) And  ($DESLocy < 313) Then
 		 SetLog ("DE Storage Located Top Right... Attacking Top Right", $COLOR_BLUE)
-		 $DEEdge = 4
+		 $DEEdge = 3
 	  ElseIf ($DESLocx <= 430) And  ($DESLocy <= 313) Then
 		 SetLog ("DE Storage Located Top Left... Attacking Top Left", $COLOR_BLUE)
-		 $DEEdge = 2
+		 $DEEdge = 1
 	  ElseIf ($DESLocx < 430) And  ($DESLocy > 313) Then
 		 SetLog ("DE Storage Located Bottom Left... Attacking Bottom Left", $COLOR_BLUE)
-		 $DEEdge = 3
+		 $DEEdge = 2
 	  EndIf
    ElseIf $DESLoc = 0 Then
 	  SetLog ("DE Storage Not Located... Attacking Bottom Right", $COLOR_BLUE)
