@@ -20,10 +20,10 @@
 #pragma compile(ProductName, Clash Game Bot)
 
 #pragma compile(ProductVersion, 3.1)
-#pragma compile(FileVersion, 3.1.5)
+#pragma compile(FileVersion, 3.1.6)
 #pragma compile(LegalCopyright, © http://gamebot.org)
 
-$sBotVersion = "v3.1.5"
+$sBotVersion = "v3.1.6"
 $sBotTitle = "Clash Game Bot " & $sBotVersion
 Global $sBotDll = @ScriptDir & "\CGBPlugin.dll"
 
@@ -216,12 +216,15 @@ Func Idle() ;Sequence that runs until Full Army
 
 			    checkMainScreen(False)
 		EndIf
-		while (not $fullArmy) and ($CurCamp >= ($TotalCamp * 90/100))		
-			If _Sleep(5000) Then ExitLoop	
-			Train()
-		    If $Restart = True Then ExitLoop
-			checkMainScreen(False)			
-		wend
+		if $CommandStop <> 0 then
+			while (not $fullArmy) and ($CurCamp >= ($TotalCamp * 90/100))		
+				If _Sleep(5000) Then ExitLoop	
+				Train()
+				If $Restart = True Then ExitLoop
+				checkMainScreen(False)			
+			wend
+		endif
+		
 		If $CommandStop = 0 And $fullArmy Then
 			SetLog("Army Camp and Barracks are full, stop Training...", $COLOR_ORANGE)
 			$CommandStop = 3

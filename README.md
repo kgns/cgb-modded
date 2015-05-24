@@ -1,8 +1,10 @@
-Mods Integrated to default CBG v3.1.5:
+Mods Integrated to default CBG v3.1.6:
 
 Changelog:
 
 UPDATED 24.05.2015
+
+- Merged to CGB v3.1.6
 
 - Merged to CGB v3.1.5
 
