@@ -1593,13 +1593,14 @@ $tabMisc = GUICtrlCreateTabItem("Misc")
 			GUICtrlSetLimit(-1, 3)
 		$lblTimeWakeUpSec = GUICtrlCreateLabel("sec.", $x + 175, $y + 7, -1, -1)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
 	Local $x = 30, $y = 325
-	$grpVSDelay = GUICtrlCreateGroup("Village Search Delay ", $x - 20, $y - 20, 225, 85)
-		$txtTip = "Random speed search 3-8 seconds." & @CRLF & "Or use the slider to change the time to wait between Next clicks when searching for a Village to Attack." & @CRLF & "This might compensate for Out of Sync errors on some PC's." & @CRLF & "NO GUARANTEES! This will not always have the same results!"
-		$lblVSDelay = GUICtrlCreateLabel("1", $x, $y + 30, 12, 15, $SS_RIGHT)
+	$grpVSDelay = GUICtrlCreateGroup("Village Search Delay ", $x - 20, $y - 20, 225, 55)
+		$txtTip = "Use this slider to change the time to wait between Next clicks when searching for a Village to Attack." & @CRLF & "This might compensate for Out of Sync errors on some PC's." & @CRLF & "NO GUARANTEES! This will not always have the same results!"
+		$lblVSDelay = GUICtrlCreateLabel("0", $x, $y, 12, 15, $SS_RIGHT)
 			GUICtrlSetTip(-1, $txtTip)
-		$lbltxtVSDelay = GUICtrlCreateLabel("second", $x + 15, $y + 30, 45, -1)
-		$sldVSDelay = GUICtrlCreateSlider($x + 55, $y + 28, 130, 25, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
+		$lbltxtVSDelay = GUICtrlCreateLabel("seconds", $x + 15, $y, 45, -1)
+		$sldVSDelay = GUICtrlCreateSlider($x + 55, $y - 2, 130, 25, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 			_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
@@ -1607,9 +1608,6 @@ $tabMisc = GUICtrlCreateTabItem("Misc")
 			GUICtrlSetLimit(-1, 10, 0) ; change max/min value
 			GUICtrlSetData(-1, 0) ; default value
 			GUICtrlSetOnEvent(-1, "sldVSDelay")
-		$RandomSpeedSearch = GUICtrlCreateCheckbox("Random Search Speed", $x, $y, -1, -1)
-			GUICtrlSetTip(-1, $txtTip)
-			GUICtrlSetOnEvent(-1, "RandomSpeedSearch")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 	Local $x = 260, $y = 130
 	$grpTrophy = GUICtrlCreateGroup("Trophy Settings", $x - 20, $y - 20, 220, 65)
