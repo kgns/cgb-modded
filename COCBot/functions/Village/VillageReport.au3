@@ -54,12 +54,12 @@ Func VillageReport()
 	If $FirstRun = 1 Then UpdateStats()
 	ReportCurrent()
 
-	_CaptureRegion()
+;	_CaptureRegion()
 	Local $i = 0
-	While _ColorCheck(_GetPixelColor(819, 39), Hex(0xF8FCFF, 6), 20) = True ; wait for Builder/shop to close
+	While _ColorCheck(_GetPixelColor(819, 39, True), Hex(0xF8FCFF, 6), 20) = True ; wait for Builder/shop to close
 		$i += 1
 		If _Sleep(500) Then Return
-		_CaptureRegion()
+;		_CaptureRegion()
 		If $i >= 20 Then ExitLoop
 	WEnd
 

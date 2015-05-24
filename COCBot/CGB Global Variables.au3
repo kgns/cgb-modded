@@ -83,7 +83,7 @@ GLOBAL $pEnabled
 GLOBAL $pRemote
 GLOBAL $pMatchFound
 GLOBAL $pLastRaidImg
-GLOBAL $pLastRaidTxt
+GLOBAL $iAlertPBLastRaidTxt
 GLOBAL $pWallUpgrade
 GLOBAL $pOOS
 GLOBAL $pTakeAbreak
@@ -91,7 +91,11 @@ GLOBAL $pAnotherDevice
 GLOBAL $sLogFName
 GLOBAL $AttackFile
 GLOBAL $RequestScreenshot = 0
-Global $iDeleteAllPushes
+Global $iDeleteAllPushes = 0
+Global $iDeleteAllPushesNow = False
+Global $ichkDeleteOldPushes
+Global $icmbHoursPushBullet
+Global $chkDeleteAllPushes
 Global $pLabUpgrade
 
 Global $cmbTroopComp ;For Event change on ComboBox Troop Compositions
