@@ -1,8 +1,10 @@
-Mods Integrated to default CBG v3.1.4:
+Mods Integrated to default CBG v3.1.5:
 
 Changelog:
 
 UPDATED 24.05.2015
+
+- Merged to CGB v3.1.5
 
 - Added 3 new stats for Zap&Run which will show the effectiveness of the mod:
 Zap&Run village count
