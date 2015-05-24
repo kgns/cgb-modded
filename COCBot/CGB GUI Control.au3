@@ -213,7 +213,6 @@ Func btnStart()
 	GUICtrlSetState($btnStart, $GUI_HIDE)
 	GUICtrlSetState($btnStop, $GUI_SHOW)
 	GUICtrlSetState($btnPause, $GUI_SHOW)
-	$FirstAttack = 0
 	$NoMoreWalls = 0
 	$DontTouchMe = False
 	$IAmSelfish = False
@@ -443,7 +442,6 @@ EndFunc   ;==>btnHide
 Func btnResetStats()
 	GUICtrlSetState($btnResetStats, $GUI_DISABLE)
 	$FirstRun = 1
-	$FirstAttack = 0
 	$totalLootGold = 0
 	$totalLootElixir = 0
 	$totalLootDarkElixir = 0

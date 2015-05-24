@@ -46,7 +46,7 @@ Func UpdateStats()
 	  $totalLootTrophies += $lootTrophies
 
 	  If $FirstAttack = 1 Then
-		 $FirstAttack = 2
+		 $FirstAttack = 0
 		 GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
 		 GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
 		 GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE) ;; added for hourly stats
