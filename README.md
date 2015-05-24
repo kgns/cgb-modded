@@ -1,7 +1,67 @@
-Mods Integrated to default CBG v3.0.4:
+Mods Integrated to default CBG v3.1.4:
 
 Changelog:
+
+UPDATED 24.05.2015
+
+- Added 3 new stats for Zap&Run which will show the effectiveness of the mod:
+Zap&Run village count
+Zap&Run used Lightning Spell count
+Zap&Run gained DE amount
+
+- After Zap&Run attack, bot will not waste time and go to search immediately
+
+- If you do not use Zap&Run mode or TH Snipe with zapping, but still want to use Lightning for DE on your farming, bot now uses Lightning after the attack is finished, right before it ends battle
+
+- Additional TH images by @barracoda (https://gamebot.org/forums/thread-2989.html)
+
+- Added Modder Credits pane on Stats tab under Credits pane
+
+UPDATED 23.05.2015
+
+- Prevent usage of Lightning Spell on normal attacks, if Zap&Run is enabled
+
+- Hide Bluestacks icon from Windows Taskbar by @indy (https://gamebot.org/forums/thread-3271.html)
+
+- Added Donate Only mode, and Stay Online mode to Halt Attack combobox.
+
+- Better Barbarians Deployment in Smart Attack by @papaismurf (https://gamebot.org/forums/thread-3232.html)
+
+- Allow Zap and Run by @lekter (https://gamebot.org/forums/thread-3180.html)
+
+- Snipe While Train bugfixes
+
+- Infinite loop error while training troops fix by @HungLe (https://gamebot.org/forums/thread-3234-post-22369.html#pid22369)
+
+UPDATED 22.05.2015
+
+- Merged to CGB v3.1.4
+
+- Fixed the bug with Snipe While Train mod. It will only happen if you checked its option.
+
+- Merged to CGB v3.1.3
+
+- TH Snipe While Train by @ChiefM3
+
+UPDATED 21.05.2015
+
+- Fixed Preset: Archers combo for troops. Not that anyone uses it.
+
+- Changed GUI font to Tahoma suggested by @ChiefM3 for non-English people with their non-English locales and such. Also it looks nicer Smile
+
+- Fixed troop training for TH snipe. Barbs and Archers will rotate in odd and even numbered barracks. If you do not tell bot to train Barbs, it will ignore this rotation and will train Archers first always.
+
+- Enabled the push option for Last Raid as txt
+
+- Added Reset Stats button to reset statistics without closing the bot. Also total loot numbers are now the sum of the loot from every attack bot has done. This does not include resources from mines/pumps, search cost, wall/building upgrades. Only attack loots.
+
+- Merged to CGB v3.1.1
+
+- Fixed AutoStart mod to work with 3.1 , thx for the fix @Sm0kE
+
 UPDATED 20.05.2015
+
+- Merged to CGB v3.1
 
 - Donate Custom Combination of Troops by @ChiefM3 (https://gamebot.org/forums/thread-3066.html)
 
