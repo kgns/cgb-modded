@@ -246,7 +246,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		GUICtrlSetState($lblVersion, $GUI_SHOW)
 	EndIf
 
-	If GUICtrlRead($chkAlertSearch) = $GUI_CHECKED Then
+	If GUICtrlRead($chkAlertSearch) = $GUI_CHECKED And $isSnipeWhileTrain = False Then
 		TrayTip("Match Found! after " & StringFormat("%3s", $SearchCount) & " skip(s)" , "Gold: " & _NumberFormat($searchGold) & "; Elixir: " & _NumberFormat($searchElixir) & "; Dark: " & _NumberFormat($searchDark) & "; Trophy: " & $searchTrophy, "", 0)
 		If FileExists(@WindowsDir & "\media\Festival\Windows Exclamation.wav") Then
 			SoundPlay(@WindowsDir & "\media\Festival\Windows Exclamation.wav", 1)

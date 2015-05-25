@@ -26,13 +26,16 @@ Func GetResources() ;Reads resources
 				If $isSnipeWhileTrain Then ; When OoS occured during Snipe While Train MOD no need to go to search
 			   		TurnOffSnipeWhileTrain()
 				EndIf
-				Return		
-			else				
+				Return
+			else
 				SetLog("Have strange problem can not determine, Restarting Bot..." , $COLOR_RED)
 				$Is_ClientSyncError = True
 				$iStuck = 0
 				$Restart = true
-				Return	
+				If $isSnipeWhileTrain Then ; When OoS occured during Snipe While Train MOD no need to go to search
+			   		TurnOffSnipeWhileTrain()
+				EndIf
+				Return
 			endif
 		EndIf
 	WEnd
@@ -57,13 +60,16 @@ Func GetResources() ;Reads resources
 			If $isSnipeWhileTrain Then ; When OoS occured during Snipe While Train MOD no need to go to search
 		  		TurnOffSnipeWhileTrain()
 			EndIf
-			Return		
-		else				
+			Return
+		else
 			SetLog("Have strange problem can not determine, Restarting Bot..." , $COLOR_RED)
 			$Is_ClientSyncError = True
 			$iStuck = 0
 			$Restart = true
-			Return	
+				If $isSnipeWhileTrain Then ; When OoS occured during Snipe While Train MOD no need to go to search
+			   		TurnOffSnipeWhileTrain()
+				EndIf
+			Return
 		endif
 	EndIf
 

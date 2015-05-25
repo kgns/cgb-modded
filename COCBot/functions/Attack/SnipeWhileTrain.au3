@@ -23,6 +23,10 @@ Func SnipeWhileTrain()
    If $CurCamp / $TotalCamp < 0.3 Then
 	  Return False
    EndIf
+   ; If army is 90% full of user defined full army then don't attempt TH snipe to prevent delay of full attack (ex: if user defined 90% don't snipe after 81% is full)
+   If $CurCamp / $TotalCamp > $fulltroop / 100 * 0.9 Then
+	  Return False
+   EndIf
 
    TurnOnSnipeWhileTrain()
 
