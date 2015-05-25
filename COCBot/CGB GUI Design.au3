@@ -151,7 +151,7 @@ $tabGeneral = GUICtrlCreateTabItem("General")
 		$lblBotCond = GUICtrlCreateLabel("When...", 155, 545, 45, 17)
 		$cmbBotCond = GUICtrlCreateCombo("", 205, 542, 160, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
-			GUICtrlSetData(-1, "G and E Full and Max.Trophy|(G and E) Full or Max.Trophy|(G or E) Full and Max.Trophy|G or E Full or Max.Trophy|Gold and Elixir Full|Gold or Elixir Full|Gold Full and Max.Trophy|Elixir Full and Max.Trophy|Gold Full or Max.Trophy|Elixir Full or Max.Trophy|Gold Full|Elixir Full|Reach Max. Trophy|Bot running for...|Now (Train/Donate Only)", "Now (Train/Donate Only)")
+			GUICtrlSetData(-1, "G and E Full and Max.Trophy|(G and E) Full or Max.Trophy|(G or E) Full and Max.Trophy|G or E Full or Max.Trophy|Gold and Elixir Full|Gold or Elixir Full|Gold Full and Max.Trophy|Elixir Full and Max.Trophy|Gold Full or Max.Trophy|Elixir Full or Max.Trophy|Gold Full|Elixir Full|Reach Max. Trophy|Bot running for...|Now (Train/Donate Only)|Now (Donate Only)|Now (Only stay online)", "Now (Train/Donate Only)")
 			GUICtrlSetOnEvent(-1, "cmbBotCond")
 		$cmbHoursStop = GUICtrlCreateCombo("", 365, 542, 80, 35, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, $txtTip)
@@ -524,7 +524,7 @@ GUICtrlCreateTabItem("")
 ;~ -------------------------------------------------------------
  $tabAttackAdv = GUICtrlCreateTabItem("Adv.")
 	Local $x = 30, $y = 130
-	$grpAtkOptions = GUICtrlCreateGroup("Attack Options", $x - 20, $y - 20, 450, 150)
+	$grpAtkOptions = GUICtrlCreateGroup("Attack Options", $x - 20, $y - 20, 450, 155)
 		$chkAttackNow = GUICtrlCreateCheckbox("Attack Now! option.", $x, $y, -1, -1)
 			$txtTip = "Check this if you want the option to have an 'Attack Now!' button next to" & @CRLF & _
 				"the Start and Pause buttons to bypass the dead base or all base search values." & @CRLF & _
@@ -552,10 +552,10 @@ GUICtrlCreateTabItem("")
 		$chkLightSpell = GUICtrlCreateCheckbox("Hit Dark Elixir storage with Lightning Spell", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to use lightning spells to steal Dark Elixir when bot meet Minimum Dark Elixir.")
 			GUICtrlSetOnEvent(-1, "GUILightSpell")
-	    	$txtMinDarkStorage = GUICtrlCreateInput("500", $x + 280, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+	    $txtMinDarkStorage = GUICtrlCreateInput("2000", $x + 275, $y, 35, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			GUICtrlSetLimit(-1, 4)
 			GUICtrlSetState(-1, $GUI_DISABLE)
-		$lblSpellDarkStorage = GUICtrlCreateLabel("Dark Elixir", $x + 315, $y + 4, -1, -1)
+		$lblSpellDarkStorage = GUICtrlCreateLabel("min. Dark Elixir", $x + 315, $y + 4, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to use Lightning Spells to steal Dark Elixir when bot meet Minimum Dark Elixir.")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y +=22
@@ -569,6 +569,11 @@ GUICtrlCreateTabItem("")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$lbliLSpellQ2 = GUICtrlCreateLabel("Lightning Spells ready before using this type of Attack.", $x + 90, $y + 4, -1, -1)
 			GUICtrlSetTip(-1, $txtTip)
+		 $y += 22
+	    $chkZapAndRun = GUICtrlCreateCheckbox("Allow Zap && Run", $x, $y, -1, -1)
+		GUICtrlSetTip(-1, "Allow Zap and Run behavior. If a live base has enough Dark Elixir, we will zap the storage and return.")
+		GUICtrlSetState(-1, $GUI_DISABLE)
+
 #cs		$y +=27
 		$chkWithKing = GUICtrlCreateCheckbox("Attack their King", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, $txtTip)
@@ -1919,55 +1924,70 @@ Local $x = 30, $y = 125
 ;~ -------------------------------------------------------------
 $tabNotify = GUICtrlCreateTabItem("Notify")
 	Local $x = 30, $y = 130
-	  $grpPushBullet = GUICtrlCreateGroup("PushBullet Alert ", $x - 20, $y - 20, 450, 465)
-	  $chkPBenabled = GUICtrlCreateCheckbox("Enable", $x, $y, -1, -1)
+	  $grpPushBullet = GUICtrlCreateGroup("PushBullet Alert ", $x - 20, $y - 20, 450, 375)
+	  $chkPBenabled = GUICtrlCreateCheckbox("Enable", $x, $y - 5 , -1, -1)
 		 GUICtrlSetOnEvent(-1, "chkPBenabled")
 		 ;GUICtrlSetState(-1, $GUI_CHECKED)
 		 GUICtrlSetTip(-1, "Enable pushbullet notification")
-	  $chkPBRemote = GUICtrlCreateCheckbox("Remote Control", $x + 70, $y, -1, -1)
+	  $chkPBRemote = GUICtrlCreateCheckbox("Remote Control", $x , $y + 20 , -1, -1)
 		 GUICtrlSetTip(-1, "Enables pushbullet remote function")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $lblPushBTokenValue = GUICtrlCreateLabel("Access Token:", $x, $y + 25, 80, 17, $SS_RIGHT)
-      $PushBTokenValue = GUICtrlCreateInput("", $x + 90, $y + 25, 260, 19)
+	  $chkDeleteAllPushes = GUICtrlCreateCheckbox("Delete Msg on Start", $x + 140, $y - 5 , -1, -1)
+		 GUICtrlSetTip(-1, "It will delete all previous push notification when you start bot")
+		 GUICtrlSetState(-1, $GUI_DISABLE)
+	  $btnDeletePBmessages = GUICtrlCreateButton("Delete all msg now", $x +269, $y -8 , 102,25)
+		 GUICtrlSetTip(-1, "Click here to delete all Pushbullet messages.")
+		 GUICtrlSetOnEvent(-1, "btnDeletePBMessages")
+		 IF $btnColor then GUICtrlSetBkColor(-1, 0x5CAD85)
+		 GUICtrlSetState(-1, $GUI_DISABLE)
+
+
+	  $chkDeleteOldPushes = GUICtrlCreateCheckbox("Delete Msg older than", $x + 140, $y + 20 , -1, -1)
+		 GUICtrlSetTip(-1, "It will delete all previous push notification older than specified hour")
+		 GUICtrlSetState(-1, $GUI_DISABLE)
+		 GUICtrlSetOnEvent(-1, "chkDeleteOldPushes")
+  	  $cmbHoursPushBullet = GUICtrlCreateCombo("", $x + 270, $y + 20, 100, 35, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		 GUICtrlSetTip(-1, "Set the interval for messages to be deleted.")
+		 GUICtrlSetData(-1, "1 Hour|2 Hours|3 Hours|4 Hours|5 Hours|6 Hours|7 Hours|8 Hours|9 Hours|10 Hours|11 Hours|12 Hours|13 Hours|14 Hours|15 Hours|16 Hours|17 Hours|18 Hours|19 Hours|20 Hours|21 Hours|22 Hours|23 Hours|24 Hours", "-")
+		 GUICtrlSetState (-1, $GUI_DISABLE)
+	  $lblPushBTokenValue = GUICtrlCreateLabel("Access Token:", $x, $y + 45, 80, 17, $SS_RIGHT)
+      $PushBTokenValue = GUICtrlCreateInput("", $x + 90, $y + 45, 280, 19)
 		 GUICtrlSetTip(-1, "Token from PushBullet.com")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $lblOrigPush = GUICtrlCreateLabel("Village Name:", $x, $y + 50, 80, 17, $SS_RIGHT)
-	  $OrigPushB = GUICtrlCreateInput("", $x + 90, $y + 50, 260, 19)
+	  $lblOrigPush = GUICtrlCreateLabel("Village Name:", $x, $y + 70, 80, 17, $SS_RIGHT)
+	  $OrigPushB = GUICtrlCreateInput("", $x + 90, $y + 70, 280, 19)
 	  	 GUICtrlSetTip(-1, "Your village's name")
 	    GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkAlertPBVMFound = GUICtrlCreateCheckbox("Match Found", $x + 25, $y + 75, -1, -1)
+	  $chkAlertPBVMFound = GUICtrlCreateCheckbox("Match Found", $x + 25, $y + 95, -1, -1)
 		 GUICtrlSetTip(-1, "It will send you the amount of available loot when bot found dead base")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkAlertPBLastRaid = GUICtrlCreateCheckbox("Last raid as image", $x + 130, $y + 75, -1, -1)
+	  $chkAlertPBLastRaid = GUICtrlCreateCheckbox("Last raid as image", $x + 125, $y + 95, -1, -1)
 		 GUICtrlSetTip(-1, "Last raid screenshot will be sent")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkAlertPBWallUpgrade = GUICtrlCreateCheckbox("Wall upgrade", $x + 25, $y + 100, -1, -1)
+	  $chkAlertPBWallUpgrade = GUICtrlCreateCheckbox("Wall upgrade", $x + 25, $y + 120, -1, -1)
 		 GUICtrlSetTip(-1, "It will altert you about wall upgrade whether fail or successful")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkAlertPBLastRaidTxt = GUICtrlCreateCheckbox("Last raid as Text", $x + 250, $y + 75, -1, -1)
-		 GUICtrlSetTip(-1, "Last raid result will be sent as text")
+	  $chkAlertPBLastRaidTxt = GUICtrlCreateCheckbox("Last raid as Text", $x + 250, $y + 95, -1, -1)
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkAlertPBOOS = GUICtrlCreateCheckbox("Error: Out Of Sync", $x + 130, $y + 100, -1, -1)
+		 GUICtrlSetTip(-1, "Last raid result will be sent as text")
+	  $chkAlertPBOOS = GUICtrlCreateCheckbox("Error: Out Of Sync", $x + 125, $y + 120, -1, -1)
 		 GUICtrlSetTip(-1, "It will alert you when Error: Server out of sync")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkAlertPBVBreak = GUICtrlCreateCheckbox("Take a break", $x + 250, $y + 100, -1, -1)
+	  $chkAlertPBVBreak = GUICtrlCreateCheckbox("Take a break", $x + 250, $y + 120, -1, -1)
 		 GUICtrlSetTip(-1, "It will notify you when you have been playing for too long and your villagers need to rest")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
 
-	  $chkAlertPBVillage = GUICtrlCreateCheckbox("Alert My Village", $x + 25, $y + 125, -1, -1)
+	  $chkAlertPBVillage = GUICtrlCreateCheckbox("Alert My Village", $x + 25, $y + 145, -1, -1)
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkDeleteAllPushes = GUICtrlCreateCheckbox("Delete all Pushes", $x + 130, $y + 125, -1, -1)
-		 GUICtrlSetTip(-1, "It will delete all previous push notification when you start bot")
-		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkAlertPBOtherDevice = GUICtrlCreateCheckbox("Another device has connected", $x + 250, $y + 125, -1, -1)
+	  $chkAlertPBOtherDevice = GUICtrlCreateCheckbox("Another device has connected", $x + 250, $y + 145, -1, -1)
 		 GUICtrlSetTip(-1, "It will notify you when your village is connected from another device")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
-	  $chkAlertPBLab = GUICtrlCreateCheckbox("Laboratory Upgrades", $x + 25, $y + 150, -1, -1)
+	  $chkAlertPBLab = GUICtrlCreateCheckbox("Laboratory Upgrades", $x + 125, $y + 145, -1, -1)
 		 GUICtrlSetTip(-1, "It will alert you when the unit you selected starts upgrading, or you do not have enough resources to upgrade")
 		 GUICtrlSetState(-1, $GUI_DISABLE)
 
-	  $lblgrppushbullet = GUICtrlCreateGroup("PushBullet Remote Control", $x-10, $y + 180, 430, 250)
-	  $lblPBdesc = GUICtrlCreateLabel("You can remotely control your bot sending commands following this syntax:" & @CRLF & @CRLF & "BOT HELP - send this help message" & @CRLF & "BOT DELETE  - delete all your previous Push message" & @CRLF & "BOT <Village Name> PAUSE - pause the bot named <Village Name>" & @CRLF & "BOT <Village Name> RESTART - restart the bot named <Village Name> and BlueStacks" & @CRLF & "BOT <Village Name> STOP - stop the bot named <Village Name>" & @CRLF & "BOT <Village Name> RESUME - resume the bot named <Village Name>" & @CRLF & "BOT <Village Name> STATS - send Village Statistics of <Village Name>" & @CRLF & "BOT <Village Name> LOG - send the current log file of <Village Name>" & @CRLF & "BOT <Village Name> LASTRAID - send the last raid loot screenshot of <Village Name>" & @CRLF & "BOT <Village Name> LASTRAIDTXT - send the last raid loot values of <Village Name>" & @CRLF & "BOT <Village Name> SCREENSHOT - send a screenshot of <Village Name>"  & @CRLF &   @CRLF & "Examples:" & @CRLF & "Bot MyVillage Pause    -    Bot Delete    -    Bot MyVillage Screenshot", $x, $y + 195, -1, -1, $SS_LEFT)
+	  $lblgrppushbullet = GUICtrlCreateGroup("PushBullet Remote Control", $x-10, $y + 170, 430, 180)
+	  $lblPBdesc = GUICtrlCreateLabel("You can remotely control your bot sending commands following this syntax:" & @CRLF & "BOT HELP - send this help message" & @CRLF & "BOT DELETE  - delete all your previous Push message" & @CRLF & "BOT <Village Name> PAUSE - pause the bot named <Village Name>" & @CRLF & "BOT <Village Name> RESUME   - resume the bot named <Village Name>" & @CRLF & "BOT <Village Name> STATS - send Village Statistics of <Village Name>" & @CRLF & "BOT <Village Name> LOG - send the current log file of <Village Name>" & @CRLF & "BOT <Village Name> LASTRAID -  send the last raid loot screenshot of <Village Name>" & @CRLF & "BOT <Village Name> LASTRAIDTXT - send the last raid loot values of <Village Name>" & @CRLF & "BOT <Village Name> SCREENSHOT - send a screenshot of <Village Name>"  & @CRLF &  @CRLF &   "Examples:   Bot MyVillage Pause    -    Bot Delete    -    Bot MyVillage Screenshot", $x, $y + 190, -1, -1, $SS_LEFT)
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
@@ -2083,8 +2103,8 @@ Local $x = 30, $y = 130
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 265
-	$y = 235
-	$btnResetStats = GUICtrlCreateButton ("Reset Stats", $x, $y, 60,21)
+	$y = 300
+	$btnResetStats = GUICtrlCreateButton ("Reset Stats", $x-5, $y, 65,21)
 		GUICtrlSetOnEvent(-1, "btnResetStats")
 		GUICtrlSetTip(-1, "Reset statistics without closing the bot")
 		GUICtrlSetState(-1, $GUI_DISABLE)
@@ -2103,8 +2123,8 @@ Local $x = 30, $y = 130
 #ce
 
 	$x = 30
-	$y = 280
-	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 80)
+	$y = 235
+	$grpStatsMisc = GUICtrlCreateGroup("Stats: Misc", $x - 20, $y - 20, 450, 85)
 		$y -=2
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 45, $x - 10, $y + 7, 24, 24)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 46, $x + 16, $y + 7, 24, 24)
@@ -2117,21 +2137,36 @@ Local $x = 30, $y = 130
         $lblresultvillagesskipped = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The No. of Villages that were skipped during search by the Bot."
 			GUICtrlSetTip(-1, $txtTip)
+		$y += 17
+        GUICtrlCreateLabel("Zap&&Run Villages:", $x - 10, $y + 2, -1, 17)
+        $lblZapAndRunHitCount = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
+			$txtTip = "The No. of Villages that were zapped for DE and ran by the Bot."
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 17
+        GUICtrlCreateLabel("Zap&&Run Nbr. LSpell:", $x - 10, $y + 2, -1, 17)
+        $lblZapAndRunUsedLSpell = GUICtrlCreateLabel("0", $x + 65, $y + 2, 60, 17, $SS_RIGHT)
+			$txtTip = "The No. of Lightning Spells used for Zap&Run villages by the Bot."
+			GUICtrlSetTip(-1, $txtTip)
 		$x += 155
-		$y -= 17
+		$y -= 51
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 47, $x, $y, 16, 16)
         $lbltrophiesdropped = GUICtrlCreateLabel("Dropped:", $x + 20, $y + 2, -1, 17)
-        $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 80, $y + 2, 30, 17, $SS_RIGHT)
+        $lblresulttrophiesdropped = GUICtrlCreateLabel("0", $x + 100, $y + 2, 30, 17, $SS_RIGHT)
 			$txtTip = "The amount of Trophies dropped by the Bot due to Trophy Settings (on Misc Tab)."
 			GUICtrlSetTip(-1, $txtTip)
         $y += 17
         GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 44, $x, $y, 16, 16)
         $lblruntime = GUICtrlCreateLabel("Runtime:", $x + 20, $y + 2, -1, 17)
-        $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 50, $y + 2, 60, 17, $SS_RIGHT)
+        $lblresultruntime = GUICtrlCreateLabel("00:00:00", $x + 70, $y + 2, 60, 17, $SS_RIGHT)
 			$txtTip = "The total Running Time of the Bot."
 			GUICtrlSetTip(-1, $txtTip)
+        $y += 17
+        GUICtrlCreateLabel("Zap&&Run DE gain:", $x, $y + 2, -1, 17)
+        $lblZapAndRunTotalDE = GUICtrlCreateLabel("0", $x + 60, $y + 2, 70, 17, $SS_RIGHT)
+			$txtTip = "The total amount of DE gained from only Zap&Run attacks."
+			GUICtrlSetTip(-1, $txtTip)
 		$x += 145
-		$y -= 17
+		$y -= 34
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 50, $x - 7, $y + 7, 24, 24)
         $lblwallbygold = GUICtrlCreateLabel("Upg. by Gold:", $x + 20, $y + 2, -1, 17)
 		$lblWallgoldmake =  GUICtrlCreateLabel("0", $x + 55, $y + 2, 60, 17, $SS_RIGHT)
@@ -2150,7 +2185,7 @@ Local $x = 30, $y = 130
     GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x = 30
-	$y = 375
+	$y = 340
 	$grpCredits = GUICtrlCreateGroup("Credits", $x - 20, $y - 20, 450, 170)
 		$labelGameBotURL = GUICtrlCreateLabel("https://GameBot.org", $x - 5, $y + 5, 430, 20)
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
@@ -2169,6 +2204,19 @@ Local $x = 30, $y = 130
 		$lbltxtCredits = GUICtrlCreateEdit($txtCredits, $x - 5, $y + 40, 400, 85, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 		$labelForumURL = GUICtrlCreateLabel("https://GameBot.org/latest", $x - 5, $y + 125, 450, 20)
+;~			GUICtrlSetFont(-1, 11, 100, 4)
+			GUICtrlSetColor(-1, 0x0000FF)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+	
+	$x = 30
+	$y = 510
+	$grpModCredits = GUICtrlCreateGroup("Mod Credits", $x - 20, $y - 20, 450, 85)
+		$lblModCredits = GUICtrlCreateLabel("Credits go to the following modders:", $x - 5, $y - 5, 400, 20)
+			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
+		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts"
+		$lbltxtModCredits = GUICtrlCreateEdit($txtModCredits, $x - 5, $y + 10, 434, 39, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
+			GUICtrlSetBkColor(-1, $COLOR_WHITE)
+		$labelModForumURL = GUICtrlCreateLabel("https://GameBot.org/forums/thread-2682.html", $x - 5, $y + 50, 450, 20)
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
 			GUICtrlSetColor(-1, 0x0000FF)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)

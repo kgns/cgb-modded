@@ -127,10 +127,10 @@ Func DropTroop2($troop, $nbSides, $number, $slotsPerEdge = 0, $name = "")
 			If ($number > 0 And $nbTroopsPerEdge = 0) Then $nbTroopsPerEdge = 1
 			Local $maxElementNearCollector = UBound($PixelNearCollector) - 1
 			Local $startIndex = 0
-			Local $troopFurther = False
-			If ($troop = $eArch Or $troop = $eWiza Or $troop = $eMini) Then
-				$troopFurther = True
-			EndIf
+			Local $troopFurther = True ; was False, but due to errors changed this to true for all units, mod by @papaismurf
+			;If ($troop = $eArch Or $troop = $eWiza Or $troop = $eMini) Then
+			;	$troopFurther = True
+			;EndIf
 			Local $centerPixel[2] = [430, 313]
 			For $i = $startIndex To $maxElementNearCollector
 				$pixel = $PixelNearCollector[$i]

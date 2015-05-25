@@ -1,6 +1,7 @@
 ;Searches for a village that until meets conditions
 
 Func VillageSearch() ;Control for searching a village that meets conditions
+    $zapandrunAvoidAttack = 0
 	$iSkipped = 0
 	$haltSearch = False ; to halt searches after 10 attempts ; Snipe While Train Mod by ChiefM3
 
@@ -72,6 +73,29 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		If $OptTrophyMode = 1 Or $chkATH = 1 Then Setlog($OptTrophyModeText & $chkATHText & $AttackTHTypeText)
 	EndIf
 
+    If $OptZapAndRun = 1 Then
+	  GetResources() ;Reads Resource Values ;waits until it can read army
+	  $searchGold2 = 0
+      ; Zap & Run requires to know the number of Lightning spells available
+	  ; In case there are not enough spells ready, we avoid avoid Zap & Run mode.
+	  PrepareAttack(True)
+      $LSpell = -1
+	  $LSpellQ = 0
+      For $i = 0 To 8
+        ;############## LSpell Slot and Quantity ###########
+        If $atkTroops[$i][0] = $eLSpell Then
+		  $LSpell = $i
+		  $LSpellQ = Number ($atkTroops[$i][1])
+		  ;############## LSpell detection and Quantity ###########
+	    EndIf
+      Next
+	  if $LSpellQ >= $iLSpellQ Then
+		 SetLog(_PadStringCenter("Zap & Run active!", 54, "="), $COLOR_BLUE)
+	  Else
+		 SetLog(_PadStringCenter("Zap & Run NOT active. Not enough spells.", 54, "="), $COLOR_BLUE)
+	  Endif
+	EndIf
+
 	SetLog(_StringRepeat("=", 50), $COLOR_BLUE)
 
 	If $iChkAttackNow = 1 Then
@@ -127,7 +151,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						SetLog(_PadStringCenter(" Not a Dead Base, but TH Bully Level Found! ", 50, "~"), $COLOR_GREEN)
 						ExitLoop
 					Else
-						;If _Sleep(1000) Then Return
 						If $bBtnAttackNowPressed = True Then ExitLoop
 						$msg &= ", Not TH Bully Level"
 					EndIf
@@ -138,7 +161,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						SetLog(_PadStringCenter(" Not a Dead Base, but TH Outside Found! ", 50, "~"), $COLOR_GREEN)
 						ExitLoop
 					Else
-						;If _Sleep(1000) Then Return
 						If $bBtnAttackNowPressed = True Then ExitLoop
 						$msg &= ", Not TH Outside!"
 					EndIf
@@ -158,6 +180,14 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 
 				;If _Sleep(1000) Then Return
 				If $bBtnAttackNowPressed = True Then ExitLoop
+				; Zap And Run
+				If $OptZapAndRun = 1 And $LSpellQ >= $iLSpellQ Then
+					If (Number($searchDark) >= Number($SpellMinDarkStorage)) Then
+						$zapandrunAvoidAttack = 1
+						SetLog(_PadStringCenter(" Zap and Run base Found!", 50, "~"), $COLOR_GREEN)
+						ExitLoop
+					EndIf
+				Endif
 				SetLog(_PadStringCenter($msg, 50, "~"), $COLOR_ORANGE)
 				Click(750, 500) ;Click Next
 				$iSkipped = $iSkipped + 1
@@ -172,12 +202,12 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				SetLog(_PadStringCenter(" TH Outside Found! ", 50, "~"), $COLOR_GREEN)
 				ExitLoop
 			Else
-			   ; break every 10 searches when Snipe While Train MOD is activated
-			   If $isSnipeWhileTrain And $iSkipped > 8 Then
-				  Click(62, 519) ; Click End Battle to return home
-				  $haltSearch = True ; To Prevent Initiation of Attack
-				  ExitLoop
-			   EndIf
+				; break every 10 searches when Snipe While Train MOD is activated
+				If $isSnipeWhileTrain And $iSkipped > 8 Then
+					Click(62, 519) ; Click End Battle to return home
+					$haltSearch = True ; To Prevent Initiation of Attack
+					ExitLoop
+				EndIf
 				;If _Sleep(1000) Then Return
 				If $bBtnAttackNowPressed = True Then ExitLoop
 				Click(750, 500) ;Click Next
@@ -186,6 +216,14 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				ContinueLoop
 			EndIf
 		Else
+			; Zap And Run
+			If $OptZapAndRun = 1 And $LSpellQ >= $iLSpellQ Then
+				If (Number($searchDark) >= Number($SpellMinDarkStorage)) Then
+					$zapandrunAvoidAttack = 1
+					SetLog(_PadStringCenter(" Zap and Run base Found!", 50, "~"), $COLOR_GREEN)
+					ExitLoop
+				EndIf
+			Endif
 			;If _Sleep(1000) Then Return
 			If $bBtnAttackNowPressed = True Then ExitLoop
 			Click(750, 500) ;Click Next

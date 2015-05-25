@@ -74,7 +74,7 @@ Func _RemoteControl()
 					EndIf
 					_DeleteMessage($iden[$x])
 			Case "BOT DELETE"
-					_DeletePush()
+					_DeletePush($PushToken)
 					SetLog("Pushbullet: Your request has been received.", $COLOR_GREEN)
 			Case "BOT " & StringUpper($iOrigPushB)  & " LOG"
 					SetLog("Pushbullet: Your request has been received from " & $iOrigPushB & ". Log is now sent", $COLOR_GREEN)
@@ -95,8 +95,8 @@ Func _RemoteControl()
 ;				    _Push ($iOrigPushB & " | Current Log1 " & $sLogFName , $line)
 ;					_DeleteMessage($iden[$x])
 			Case "BOT " & StringUpper($iOrigPushB)  & " LASTRAID"
-				    If $AttackFile <> "" Then
-						_PushFile($AttackFile, "Loots", "image/jpeg",  $iOrigPushB & " | Last Raid", $AttackFile)
+				    If $LootFileName <> "" Then
+						_PushFile($LootFileName, "Loots", "image/jpeg",  $iOrigPushB & " | Last Raid", $LootFileName)
  				    Else
  						_Push($iOrigPushB &" | There is no last raid screenshot." , "")
 					EndIf
@@ -242,9 +242,10 @@ Func ReportPushBullet()
 	PushMsg("MyVillage")
 EndFunc   ;==>ReportPushBullet
 
-Func _DeletePush()
+
+Func _DeletePush($token)
 	$oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
-	$access_token = $PushToken
+	$access_token = $token
 	$oHTTP.Open("Delete", "https://api.pushbullet.com/v2/pushes", False)
 	$oHTTP.SetCredentials($access_token, "", 0)
 	$oHTTP.SetRequestHeader("Content-Type", "application/json")
@@ -261,6 +262,7 @@ Func _DeleteMessage($iden)
 EndFunc   ;==>_DeleteMessage
 
 Func PushMsg($Message, $Source = "")
+	Local $hBitmap_Scaled
 	Switch $Message
 	Case "OutOfSync"
 		If $pEnabled = 1 AND $pOOS = 1 Then _Push($iOrigPushB  & " | Restarted after Out of Sync Error", "Attacking now...")
@@ -278,6 +280,7 @@ Func PushMsg($Message, $Source = "")
 ;				    EndIf
 ;				    $hBitmap_Scaled = _GDIPlus_ImageResize($hBitmap, _GDIPlus_ImageGetWidth($hBitmap) / 2, _GDIPlus_ImageGetHeight($hBitmap) / 2) ;resize image
 ;					_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $AttackFile  )
+;					_GDIPlus_ImageDispose($hBitmap_Scaled)
 					;push the file
 					SetLog("Pushbullet: Last Raid screenshot has been sent!", $COLOR_GREEN)
 				    _PushFile($LootFileName, "Loots", "image/jpeg", $iOrigPushB  & " | Last Raid", $LootFileName)
@@ -287,7 +290,7 @@ Func PushMsg($Message, $Source = "")
 ;				    If not($iDelete) Then SetLog("Pushbullet: An error occurred deleting temporary screenshot file." , $COLOR_RED)
 	  EndIf
 	Case "LastRaidTxt"
-		If $pEnabled = 1 And $pLastRaidTxt = 1 Then _Push($iOrigPushB & " | Last Raid", " [G]: " &  _NumberFormat($lootGold) & " [E]: " &  _NumberFormat($lootElixir) & " [D]: " &  _NumberFormat($lootDarkElixir) & "  [T]: " & _NumberFormat($lootTrophies))
+		If $pEnabled = 1 And $iAlertPBLastRaidTxt = 1 Then _Push($iOrigPushB & " | Last Raid", " [G]: " &  _NumberFormat($lootGold) & " [E]: " &  _NumberFormat($lootElixir) & " [D]: " &  _NumberFormat($lootDarkElixir) & "  [T]: " & _NumberFormat($lootTrophies))
 	Case "MyVillage"
 		If $pEnabled = 1 AND $iAlertPBVillage = 1 Then _Push($iOrigPushB & " | My Village", " [G]: " &  _NumberFormat($GoldCount) & " [E]: " &  _NumberFormat($ElixirCount) & " [D]: " &  _NumberFormat($DarkCount) & "  [T]: " &  _NumberFormat($TrophyCount) & " [FB]: " &  _NumberFormat($FreeBuilder))
 	Case "FoundWalls"
@@ -333,6 +336,7 @@ Func PushMsg($Message, $Source = "")
 		$hBitmap_Scaled = _GDIPlus_ImageResize($hBitmap, _GDIPlus_ImageGetWidth($hBitmap) / 2, _GDIPlus_ImageGetHeight($hBitmap) / 2) ;resize image
 		Local $Screnshotfilename = "Screenshot_" & $Date & "_" & $Time & ".jpg"
 		_GDIPlus_ImageSaveToFile($hBitmap_Scaled, $dirLoots & $Screnshotfilename)
+		_GDIPlus_ImageDispose($hBitmap_Scaled)
 		_PushFile($Screnshotfilename, "Loots" , "image/jpeg", $iOrigPushB & " | Screenshot of your village", $Screnshotfilename)
 		SetLog("Pushbullet: Screenshot sent!", $COLOR_GREEN)
 		$RequestScreenshot = 0
@@ -340,6 +344,86 @@ Func PushMsg($Message, $Source = "")
 		If _Sleep(1000) Then Return
 	    Local $iDelete = FileDelete($dirLoots &  $Screnshotfilename)
 	    If not($iDelete) Then SetLog("Pushbullet: An error occurred deleting the temporary screenshot file." , $COLOR_RED)
-
+    Case "DeleteAllPBMessages"
+		_DeletePush( GUICtrlRead($PushBTokenValue))
+		SetLog("PushBullet: All messages deleted.", $COLOR_GREEN)
+		$iDeleteAllPushesNow = False ; reset value
     EndSwitch
-EndFunc   ; ==>PushMsg
+ EndFunc   ; ==>PushMsg
+
+
+Func _DeleteOldPushes()
+	$oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
+	$access_token = $PushToken
+	$oHTTP.Open("Get", "https://api.pushbullet.com/v2/pushes?active=true", False)
+	$oHTTP.SetCredentials($access_token, "", 0)
+	$oHTTP.SetRequestHeader("Content-Type", "application/json")
+	$oHTTP.Send()
+	$Result = $oHTTP.ResponseText
+    Local $findstr = StringRegExp($Result, ',"created":')
+	Local $msgdeleted = 0
+	If $findstr = 1 Then
+		Local $title   = _StringBetween($Result, '"title":"' , '"' , "", False)
+		Local $iden    = _StringBetween($Result, '"iden":"'  , '"' , "", False)
+		Local $created = _StringBetween($Result, '"created":', ',' , "", False)
+		if isarray($title) and isarray($iden) and isarray($created) then
+			For $x = 0 To UBound($created) - 1
+				If $iden <> ""  and  $created <>"" Then
+					local $tLocal = _Date_Time_GetLocalTime()
+					local $tSystem = _Date_Time_TzSpecificLocalTimeToSystemTime(DllStructGetPtr($tLocal))
+					local $timeUTC = _Date_Time_SystemTimeToDateTimeStr($tSystem,1)
+					Local $hdif = _DateDiff('h', _GetDateFromUnix ($created[$x]),$timeUTC )
+					if $hdif >= $icmbHoursPushBullet  then
+					;	setlog("Pushbullet, deleted message: (+" & $hdif & "h)" & $title[$x] )
+						$msgdeleted += 1
+						_DeleteMessage($iden[$x])
+					;else
+					;	setlog("Pushbullet, skypped message: (+" & $hdif & "h)" & $title[$x] )
+					endif
+				endif
+				$title[$x] = ""
+				$iden[$x] = ""
+			Next
+		endif
+	EndIf
+	if $msgdeleted >0 then
+		setlog("Pushbullet: removed " & $msgdeleted & " messages older than " & $icmbHoursPushBullet & " h ", $COLOR_GREEN)
+		_Push($iOrigPushB & "| removed " & $msgdeleted & " messages older than " & $icmbHoursPushBullet & " h ","")
+	endif
+EndFunc   ; ==>_DeleteOldPushes
+
+
+Func _GetDateFromUnix ($nPosix)
+   Local $nYear = 1970, $nMon = 1, $nDay = 1, $nHour = 00, $nMin = 00, $nSec = 00, $aNumDays = StringSplit ("31,28,31,30,31,30,31,31,30,31,30,31", ",")
+   While 1
+	  If (Mod ($nYear + 1, 400) = 0) Or (Mod ($nYear + 1, 4) = 0 And Mod ($nYear + 1, 100) <> 0) Then; is leap year
+		 If $nPosix < 31536000 + 86400 Then ExitLoop
+		 $nPosix -= 31536000 + 86400
+		 $nYear += 1
+	  Else
+		 If $nPosix < 31536000 Then ExitLoop
+		 $nPosix -= 31536000
+		 $nYear += 1
+	  EndIf
+   WEnd
+   While $nPosix > 86400
+	  $nPosix -= 86400
+	  $nDay += 1
+   WEnd
+   While $nPosix > 3600
+	  $nPosix -= 3600
+	  $nHour += 1
+   WEnd
+   While $nPosix > 60
+	  $nPosix -= 60
+	  $nMin += 1
+   WEnd
+   $nSec = $nPosix
+   For $i = 1 to 12
+	  If $nDay < $aNumDays[$i] Then ExitLoop
+	  $nDay -= $aNumDays[$i]
+	  $nMon += 1
+   Next
+;   Return $nDay & "/" & $nMon & "/" & $nYear & " " & $nHour & ":" & $nMin & ":" & $nSec
+   Return  $nYear & "-" &  $nMon & "-" &  $nDay & " " & $nHour & ":" & $nMin & ":" & StringFormat("%02i",$nSec)
+EndFunc; ==> _GetDateFromUnix

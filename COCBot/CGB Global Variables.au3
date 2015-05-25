@@ -72,6 +72,9 @@ Global $iChkAttackNow, $iAttackNowDelay, $bBtnAttackNowPressed = False
 Global $icmbAtkNowDeploy, $ichkAtkNowLSpell, $ichkAtkNowMines = False
 Global $PushToken = ""
 
+Global $DontTouchMe=False
+Global $IAmSelfish=False
+
 ;PushBullet---------------------------------------------------------------
 Global $PBRemoteControlInterval = 30000
 GLOBAL $iOrigPushB
@@ -80,15 +83,19 @@ GLOBAL $pEnabled
 GLOBAL $pRemote
 GLOBAL $pMatchFound
 GLOBAL $pLastRaidImg
-GLOBAL $pLastRaidTxt
+GLOBAL $iAlertPBLastRaidTxt
 GLOBAL $pWallUpgrade
 GLOBAL $pOOS
 GLOBAL $pTakeAbreak
 GLOBAL $pAnotherDevice
 GLOBAL $sLogFName
-GLOBAL $AttackFile
+;GLOBAL $AttackFile
 GLOBAL $RequestScreenshot = 0
-Global $iDeleteAllPushes
+Global $iDeleteAllPushes = 0
+Global $iDeleteAllPushesNow = False
+Global $ichkDeleteOldPushes
+Global $icmbHoursPushBullet
+Global $chkDeleteAllPushes
 Global $pLabUpgrade
 
 Global $cmbTroopComp ;For Event change on ComboBox Troop Compositions
@@ -105,7 +112,7 @@ Global $FreeBuilder, $TotalBuilders, $GemCount
 Global $GoldStart, $ElixirStart, $DarkStart, $TrophyStart
 Global $GoldVillage, $ElixirVillage, $DarkVillage, $TrophyVillage
 ;Global $GoldLast, $ElixirLast, $DarkLast, $TrophyLast
-Global $totalLootGold, $totalLootElixir, $totalLootDarkElixir, $totalLootTrophies
+Global $totalLootGold, $totalLootElixir, $totalLootDarkElixir, $totalLootTrophies, $totalLootZapAndRun
 ;Global $CostGoldWall, $CostElixirWall
 
 ;Global $costspell
@@ -143,6 +150,9 @@ Global $ATBullyMode
 Global $YourTH
 Global $AttackTHType
 Global $chklightspell
+Global $chkZapAndRun
+Global $OptZapAndRun
+Global $zapandrunAvoidAttack = 0
 Global $SpellMinDarkStorage = 500
 Global $iLSpellQ
 

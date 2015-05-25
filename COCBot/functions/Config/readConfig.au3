@@ -130,6 +130,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iChkLightSpell = IniRead($config, "advanced", "hitDElightning", "0")
 		$SpellMinDarkStorage = IniRead($config, "advanced", "txtMinDarkStorage", "500")
         $iLSpellQ = IniRead ($config, "advanced", "QLSpell", "3")
+		$OptZapAndRun = IniRead($config, "advanced","chkZapAndRun","0")
 
 		$OptBullyMode = IniRead($config, "advanced", "BullyMode", "0")
 		$ATBullyMode = IniRead($config, "advanced", "ATBullyMode", "0")
@@ -336,19 +337,23 @@ Func readConfig() ;Reads config and sets it to the variables
 	    ;PushBullet Settings ---------------------------------------------
 		$PushToken = IniRead($config, "pushbullet", "AccountToken", "")
 		$iOrigPushB = IniRead($config, "pushbullet", "OrigPushB", "")
-		$iDeleteAllPushes = IniRead($config, "pushbullet", "DeleteAllPBPushes", "0")
 
 		$iAlertPBVillage = IniRead($config, "pushbullet", "AlertPBVillage", "0")
 		$pEnabled = IniRead($config, "pushbullet", "PBEnabled", "0")
 		$pRemote = IniRead($config, "pushbullet", "PBRemote", "0")
+		$iDeleteAllPushes = IniRead($config, "pushbullet", "DeleteAllPBPushes", "0")
 	    $pMatchFound = IniRead($config, "pushbullet", "AlertPBVMFound", "0")
 	    $pLastRaidImg = IniRead($config, "pushbullet", "AlertPBLastRaid", "0")
-        $pLastRaidTxt = IniRead($config, "pushbullet", "AlertPBLastRaidTxt", "0")
+        $iAlertPBLastRaidTxt = IniRead($config, "pushbullet", "AlertPBLastRaidTxt", "0")
 	    $pWallUpgrade = IniRead($config, "pushbullet", "AlertPBWallUpgrade", "0")
 	    $pOOS = IniRead($config, "pushbullet", "AlertPBOOS", "0")
 	    $pLabUpgrade = IniRead($config, "pushbullet", "AlertPBLab", "0")
 	    $pTakeAbreak = IniRead($config, "pushbullet", "AlertPBVBreak", "0")
 	    $pAnotherDevice = IniRead($config, "pushbullet", "AlertPBOtherDevice", "0")
+		$icmbHoursPushBullet = IniRead($config, "pushbullet", "HoursPushBullet", "4")
+		$ichkDeleteOldPushes = IniRead($config, "pushbullet", "DeleteOldPushes", "0")
+
+
 
 
 	    $debug_getdigitlarge = IniRead($config, "debug", "debug_getdigitlarge", "0")

@@ -44,6 +44,9 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 		Case 273
 			Switch $nID
 				Case $GUI_EVENT_CLOSE
+					; Clean up resources
+					_GDIPlus_ImageDispose($hBitmap)
+					_WinAPI_DeleteObject($hHBitmap)
 					_GDIPlus_Shutdown()
 					_GUICtrlRichEdit_Destroy($txtLog)
 					SaveConfig()
@@ -54,6 +57,8 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 					ShellExecute("https://www.ClashGameBot.com") ;open web site when clicking label
 				Case $labelForumURL
 					ShellExecute("https://GameBot.org/forums/forumdisplay.php?fid=2") ;open web site when clicking label
+				Case $labelModForumURL
+					ShellExecute("https://GameBot.org/forums/thread-2682.html") ;open web site when clicking label
 				Case $btnStop
 					If $RunState Then btnStop()
 				Case $btnPause
@@ -66,6 +71,12 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 					If $RunState Then btnAttackNow()
 				Case $btnDonate
 					ShellExecute("https://gamebot.org/forums/misc.php?action=mydonations")
+				Case $btnDeletePBMessages
+					If $RunState Then
+						btnDeletePBMessages() ; call with flag when bot is running to execute on _sleep() idle
+					Else
+						PushMsg("DeleteAllPBMessages") ; call directly when bot is stopped
+					EndIf
 				Case $btnResetStats
 					btnResetStats()
 			EndSwitch
@@ -88,7 +99,8 @@ EndFunc   ;==>PushBulletRemoteControl
 Func SetTime()
 	Local $time = _TicksToTime(Int(TimerDiff($sTimer) + $iTimePassed), $hour, $min, $sec)
 	If _GUICtrlTab_GetCurSel($tabMain) = 9 Then GUICtrlSetData($lblresultruntime, StringFormat("%02i:%02i:%02i", $hour, $min, $sec))
-    ;If $pEnabled = 1 AND $pRemote = 1 AND (StringFormat("%02i", $sec) = "00" OR StringFormat("%02i", $sec) = "30") Then _RemoteControl()
+	;If $pEnabled = 1 And $pRemote = 1 And StringFormat("%02i", $sec) = "50" Then _RemoteControl()
+	If $pEnabled = 1 And $ichkDeleteOldPushes = 1 And Mod($min + 1, 20) = 0 And $sec = "0" Then _DeleteOldPushes() ; check every 20 min if must to delete old pushbullet messages
 EndFunc   ;==>SetTime
 
 Func Initiate()
@@ -125,19 +137,23 @@ Func Initiate()
 		$AttackNow = False
 		$FirstStart = True
 		$Checkrearm = True
+
 		If $iDeleteAllPushes = 1 Then
-			_DeletePush()
-			SetLog("Delete all PushBullet...", $COLOR_BLUE)
+			_DeletePush($PushToken)
+			SetLog("Delete all previous PushBullet messages...", $COLOR_BLUE)
 		EndIf
+
 		$sTimer = TimerInit()
 
 		$RunState = True
 		For $i = $FirstControlToHide To $LastControlToHide ; Save state of all controls on tabs
 			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
+			If $pEnabled And $i = $btnDeletePBmessages Then $i += 1 ; exclude the DeleteAllMesages button when PushBullet is enabled
 			$iPrevState[$i] = GUICtrlGetState($i)
 		Next
 		For $i = $FirstControlToHide To $LastControlToHide ; Disable all controls in 1 go on all tabs
 			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
+			If $pEnabled And $i = $btnDeletePBmessages Then $i += 1 ; exclude the DeleteAllMesages button when PushBullet is enabled
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
 
@@ -197,8 +213,10 @@ Func btnStart()
 	GUICtrlSetState($btnStart, $GUI_HIDE)
 	GUICtrlSetState($btnStop, $GUI_SHOW)
 	GUICtrlSetState($btnPause, $GUI_SHOW)
-	$FirstAttack = 0
 	$NoMoreWalls = 0
+	$DontTouchMe = False
+	$IAmSelfish = False
+	$MeetCondStop = False
 	CreateLogFile()
 
 
@@ -227,6 +245,7 @@ Func btnStop()
 		EnableBS($HWnD, $SC_CLOSE)
 		For $i = $FirstControlToHide To $LastControlToHide ; Restore previous state of controls
 			If $i = $tabGeneral Or $i = $tabSearch Or $i = $tabAttack Or $i = $tabAttackAdv Or $i = $tabDonate Or $i = $tabTroops Or $i = $tabMisc Or $i = $tabNotify Or $i = $tabUpgrade Then $i += 1 ; exclude tabs
+			If $pEnabled And $i = $btnDeletePBmessages Then $i += 1 ; exclude the DeleteAllMesages button when PushBullet is enabled
 			GUICtrlSetState($i, $iPrevState[$i])
 		Next
 
@@ -235,11 +254,11 @@ Func btnStop()
 		GUICtrlSetState($btnStop, $GUI_HIDE)
 		GUICtrlSetState($btnPause, $GUI_HIDE)
 		GUICtrlSetState($btnResume, $GUI_HIDE)
-
+		;GUICtrlSetState($btnDeletePBmessages, $GUI_ENABLE)
 		If Not $TPaused Then $iTimePassed += Int(TimerDiff($sTimer))
 		AdlibUnRegister("SetTime")
 		_BlockInputEx(0, "", "", $HWnD)
-
+		$Restart = True
 		FileClose($hLogFileHandle)
 		SetLog(_PadStringCenter(" Bot Stop ", 50, "="), $COLOR_ORANGE)
 	EndIf
@@ -272,22 +291,22 @@ Func btnAttackNow()
 EndFunc   ;==>btnAttackNow
 
 Func chkUnbreakable()
-   If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
-	  GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)
-	  GUICtrlSetState($txtUnBrkMinGold , $GUI_ENABLE)
-	  GUICtrlSetState($txtUnBrkMaxGold , $GUI_ENABLE)
-	  GUICtrlSetState($txtUnBrkMinElixir, $GUI_ENABLE)
-	  GUICtrlSetState($txtUnBrkMaxElixir, $GUI_ENABLE)
-	  $iUnbreakableMode = 1
-   ElseIf  GUICtrlRead($chkUnbreakable) = $GUI_UNCHECKED Then
-	  GUICtrlSetState($txtUnbreakable, $GUI_DISABLE)
-	  GUICtrlSetState($txtUnBrkMinGold , $GUI_DISABLE)
-	  GUICtrlSetState($txtUnBrkMaxGold , $GUI_DISABLE)
-	  GUICtrlSetState($txtUnBrkMinElixir, $GUI_DISABLE)
-	  GUICtrlSetState($txtUnBrkMaxElixir, $GUI_DISABLE)
-	  $iUnbreakableMode = 0
-   EndIf
-EndFunc
+	If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
+		GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)
+		GUICtrlSetState($txtUnBrkMinGold, $GUI_ENABLE)
+		GUICtrlSetState($txtUnBrkMaxGold, $GUI_ENABLE)
+		GUICtrlSetState($txtUnBrkMinElixir, $GUI_ENABLE)
+		GUICtrlSetState($txtUnBrkMaxElixir, $GUI_ENABLE)
+		$iUnbreakableMode = 1
+	ElseIf GUICtrlRead($chkUnbreakable) = $GUI_UNCHECKED Then
+		GUICtrlSetState($txtUnbreakable, $GUI_DISABLE)
+		GUICtrlSetState($txtUnBrkMinGold, $GUI_DISABLE)
+		GUICtrlSetState($txtUnBrkMaxGold, $GUI_DISABLE)
+		GUICtrlSetState($txtUnBrkMinElixir, $GUI_DISABLE)
+		GUICtrlSetState($txtUnBrkMaxElixir, $GUI_DISABLE)
+		$iUnbreakableMode = 0
+	EndIf
+EndFunc   ;==>chkUnbreakable
 
 Func btnLocateBarracks()
 	$RunState = True
@@ -416,14 +435,18 @@ Func btnHide()
 			WinActivate($Title)
 		EndIf
 		$Hide = False
-	 EndIf
+	EndIf
    EndIf
 EndFunc   ;==>btnHide
 
 Func btnResetStats()
 	GUICtrlSetState($btnResetStats, $GUI_DISABLE)
 	$FirstRun = 1
-	$FirstAttack = 0
+	$totalLootGold = 0
+	$totalLootElixir = 0
+	$totalLootDarkElixir = 0
+	$totalLootTrophies = 0
+	$totalLootZapAndRun = 0
 	GUICtrlSetState($lblLastAttackTemp, $GUI_SHOW)
 	GUICtrlSetState($lblTotalLootTemp, $GUI_SHOW)
 	GUICtrlSetState($lblHourlyStatsTemp, $GUI_SHOW) ;; added for hourly stats
@@ -436,6 +459,9 @@ Func btnResetStats()
 	GUICtrlSetData($lblresulttrophiesdropped, "0")
 	GUICtrlSetData($lblresultvillagesskipped, "0")
 	GUICtrlSetData($lblresultvillagesattacked, "0")
+	GUICtrlSetData($lblZapAndRunHitCount, "0")
+	GUICtrlSetData($lblZapAndRunUsedLSpell, "0")
+	GUICtrlSetData($lblZapAndRunTotalDE, "0")
 	GUICtrlSetData($lblGoldLastAttack, "")
 	GUICtrlSetData($lblElixirLastAttack, "")
 	GUICtrlSetData($lblDarkLastAttack, "")
@@ -893,6 +919,10 @@ Func GUILightSpell()
 		GUICtrlSetState($lbliLSpellQ, $GUI_ENABLE)
 		GUICtrlSetState($cmbiLSpellQ, $GUI_ENABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_ENABLE)
+		GUICtrlSetState($chkZapAndRun, $GUI_ENABLE)
+		If GUICtrlRead($chkTrophyMode) = $GUI_CHECKED Then
+			GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		EndIf
 	Else
 		$iChkLightSpell = 0
 		GUICtrlSetState($txtMinDarkStorage, $GUI_DISABLE)
@@ -900,6 +930,8 @@ Func GUILightSpell()
 		GUICtrlSetState($lbliLSpellQ, $GUI_DISABLE)
 		GUICtrlSetState($cmbiLSpellQ, $GUI_DISABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_DISABLE)
+		GUICtrlSetState($chkZapAndRun, $GUI_DISABLE)
+		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>GUILightSpell
 
@@ -920,7 +952,9 @@ Func chkSnipeMode()
 		$OptTrophyMode = 1
 		GUICtrlSetState($txtTHaddtiles, $GUI_ENABLE)
 		GUICtrlSetState($cmbAttackTHType, $GUI_ENABLE)
-		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		If GUICtrlRead($chkLightSpell) = $GUI_CHECKED Then
+			GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
+		EndIf
 	Else
 		$OptTrophyMode = 0
 		GUICtrlSetState($txtTHaddtiles, $GUI_DISABLE)
@@ -1552,10 +1586,11 @@ Func sldVSDelay()
 	Else
 		GUICtrlSetData($lbltxtVSDelay, "seconds")
 	EndIf
- EndFunc   ;==>sldVSDelay
+EndFunc   ;==>sldVSDelay
 
- Func chkPBenabled()
+Func chkPBenabled()
 	If GUICtrlRead($chkPBenabled) = $GUI_CHECKED Then
+		$pEnabled = 1
 		GUICtrlSetState($chkPBRemote, $GUI_ENABLE)
 		GUICtrlSetState($PushBTokenValue, $GUI_ENABLE)
 		GUICtrlSetState($OrigPushB, $GUI_ENABLE)
@@ -1569,7 +1604,14 @@ Func sldVSDelay()
 		GUICtrlSetState($chkAlertPBVillage, $GUI_ENABLE)
 		GUICtrlSetState($chkAlertPBOtherDevice, $GUI_ENABLE)
 		GUICtrlSetState($chkDeleteAllPushes, $GUI_ENABLE)
-	 Else
+		GUICtrlSetState($chkDeleteOldPushes, $GUI_ENABLE)
+		GUICtrlSetState($btnDeletePBmessages, $GUI_ENABLE)
+
+		If $ichkDeleteOldPushes = 1 Then
+			GUICtrlSetState($cmbHoursPushBullet, $GUI_ENABLE)
+		EndIf
+	Else
+		$pEnabled = 0
 		GUICtrlSetState($chkPBRemote, $GUI_DISABLE)
 		GUICtrlSetState($PushBTokenValue, $GUI_DISABLE)
 		GUICtrlSetState($OrigPushB, $GUI_DISABLE)
@@ -1583,8 +1625,27 @@ Func sldVSDelay()
 		GUICtrlSetState($chkAlertPBVillage, $GUI_DISABLE)
 		GUICtrlSetState($chkAlertPBOtherDevice, $GUI_DISABLE)
 		GUICtrlSetState($chkDeleteAllPushes, $GUI_DISABLE)
+		GUICtrlSetState($chkDeleteOldPushes, $GUI_DISABLE)
+		GUICtrlSetState($btnDeletePBmessages, $GUI_DISABLE)
+
+		GUICtrlSetState($cmbHoursPushBullet, $GUI_DISABLE)
+
 	EndIf
-EndFunc   ;==>$chkPBenabled
+EndFunc   ;==>chkPBenabled
+
+Func chkDeleteOldPushes()
+	If GUICtrlRead($chkDeleteOldPushes) = $GUI_CHECKED Then
+		$ichkDeleteOldPushes = 1
+		If $pEnabled Then GUICtrlSetState($cmbHoursPushBullet, $GUI_ENABLE)
+	Else
+		$ichkDeleteOldPushes = 0
+		GUICtrlSetState($cmbHoursPushBullet, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>chkDeleteOldPushes
+
+Func btnDeletePBMessages()
+	$iDeleteAllPushesNow = True
+EndFunc   ;==>btnDeletePBMessages
 
 Func tabMain()
 	If GUICtrlRead($tabMain, 1) = $tabGeneral Then

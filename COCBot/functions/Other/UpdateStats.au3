@@ -46,13 +46,21 @@ Func UpdateStats()
 	  $totalLootTrophies += $lootTrophies
 
 	  If $FirstAttack = 1 Then
-		 $FirstAttack = 2
+		 $FirstAttack = 0
 		 GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
 		 GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
 		 GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE) ;; added for hourly stats
 	  EndIf
 
 	  ; Last Attack stats
+	  If $zapandrunAvoidAttack = 2 Then ; if zap&run successful
+		 $totalLootZapAndRun += $lootDarkElixir
+		 GUICtrlSetData($lblZapAndRunHitCount, GUICtrlRead($lblZapAndRunHitCount) + 1)
+		 GUICtrlSetData($lblZapAndRunUsedLSpell, GUICtrlRead($lblZapAndRunUsedLSpell) + $LSpellQ)
+		 GUICtrlSetData($lblZapAndRunTotalDE, _NumberFormat($totalLootZapAndRun))
+	  ElseIf $zapandrunAvoidAttack = 1 Then ; unsuccessful zap&run
+		 GUICtrlSetData($lblZapAndRunHitCount, GUICtrlRead($lblZapAndRunHitCount) + 1)
+	  EndIf
 	  GUICtrlSetData($lblGoldLastAttack, _NumberFormat($lootGold))
 	  GUICtrlSetData($lblElixirLastAttack, _NumberFormat($lootElixir))
 	  If $DarkStart <> "" Then

@@ -20,10 +20,10 @@
 #pragma compile(ProductName, Clash Game Bot)
 
 #pragma compile(ProductVersion, 3.1)
-#pragma compile(FileVersion, 3.1.4)
+#pragma compile(FileVersion, 3.1.6)
 #pragma compile(LegalCopyright, © http://gamebot.org)
 
-$sBotVersion = "v3.1.4"
+$sBotVersion = "v3.1.6"
 $sBotTitle = "Clash Game Bot " & $sBotVersion
 Global $sBotDll = @ScriptDir & "\CGBPlugin.dll"
 
@@ -72,16 +72,12 @@ Func runBot() ;Bot that runs everything in order
 		$CommandStop = -1
 		If _Sleep(1000) Then Return
 		checkMainScreen()
-		If $Is_ClientSyncError = False Then
-				If _Sleep(1000) Then Return
-
-
-				If $Restart = True Then ContinueLoop
+		If $Is_ClientSyncError = False AND $zapandrunAvoidAttack = 0 Then
 			If BotCommand() Then btnStop()
 				If _Sleep(1000) Then Return
 
 				If $Restart = True Then ContinueLoop
-			If $checkUseClanCastleBalanced = 1 then
+			If $IAmSelfish = False AND $checkUseClanCastleBalanced = 1 then
 			    ProfileReport()
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
@@ -105,28 +101,32 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
-			DonateCC()
-				If _Sleep(1000) Then Return
-			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
-			SetTroops()
-			Train()
-			RevertTroops()
-				If _Sleep(1000) Then Return
-			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
-			BoostBarracks()
-				If _Sleep(1000) Then Return
-			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
-			BoostSpellFactory()
-			    If _Sleep(1000) Then Return
-			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
-			RequestCC()
-				If _Sleep(1000) Then Return
-			    checkMainScreen(False)
-				If $Restart = True Then ContinueLoop
+			If $IAmSelfish = False Then
+				DonateCC()
+					If _Sleep(1000) Then Return
+					checkMainScreen(False)
+					If $Restart = True Then ContinueLoop
+			EndIf
+			If $DontTouchMe = False Then
+				SetTroops()
+				Train()
+				RevertTroops()
+					If _Sleep(1000) Then Return
+					checkMainScreen(False)
+					If $Restart = True Then ContinueLoop
+				BoostBarracks()
+					If _Sleep(1000) Then Return
+					checkMainScreen(False)
+					If $Restart = True Then ContinueLoop
+				BoostSpellFactory()
+					If _Sleep(1000) Then Return
+					checkMainScreen(False)
+					If $Restart = True Then ContinueLoop
+				RequestCC()
+					If _Sleep(1000) Then Return
+					checkMainScreen(False)
+					If $Restart = True Then ContinueLoop
+			EndIf
 			If $iUnbreakableMode >= 1 Then
 				If Unbreakable() = True Then ContinueLoop
 			Endif
@@ -154,6 +154,7 @@ Func runBot() ;Bot that runs everything in order
 				If $Restart = True Then ContinueLoop
 			Idle()
 				If _Sleep(1000) Then Return
+			    checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
 			If $CommandStop <> 0 And $CommandStop <> 3 Then
 				AttackMain()
@@ -163,8 +164,13 @@ Func runBot() ;Bot that runs everything in order
 			EndIf
 				;
 		Else ;When error occours directly goes to attack
-			SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
-			PushMsg("OutOfSync")
+			If $zapandrunAvoidAttack <> 0 Then
+				SetLog("Last attack was Zap&Run: Attack Now", $COLOR_RED)
+			Else
+				SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
+				PushMsg("OutOfSync")
+			EndIf
+			    checkMainScreen(False)
 			AttackMain()
 				If _Sleep(1000) Then Return
 
@@ -183,7 +189,9 @@ Func Idle() ;Sequence that runs until Full Army
 		Local $iReHere = 0
 		While $iReHere < 10
 			$iReHere += 1
-			DonateCC(true)
+			If $IAmSelfish = False Then
+				DonateCC(true)
+			EndIf
 			If _Sleep(1500) Then ExitLoop
 		    If $Restart = True Then ExitLoop
 		WEnd
@@ -199,7 +207,7 @@ Func Idle() ;Sequence that runs until Full Army
 			$iCollectCounter = 0
 		EndIf
 		$iCollectCounter = $iCollectCounter + 1
-		If $CommandStop <> 3 Then
+		If $CommandStop <> 3 AND $DontTouchMe = False Then
 			SetTroops()
 			Train()
 			RevertTroops()
@@ -208,6 +216,15 @@ Func Idle() ;Sequence that runs until Full Army
 
 			    checkMainScreen(False)
 		EndIf
+		if $CommandStop <> 0 then
+			while (not $fullArmy) and ($CurCamp >= ($TotalCamp * 90/100))		
+				If _Sleep(5000) Then ExitLoop	
+				Train()
+				If $Restart = True Then ExitLoop
+				checkMainScreen(False)			
+			wend
+		endif
+		
 		If $CommandStop = 0 And $fullArmy Then
 			SetLog("Army Camp and Barracks are full, stop Training...", $COLOR_ORANGE)
 			$CommandStop = 3
@@ -222,7 +239,7 @@ Func Idle() ;Sequence that runs until Full Army
 			    checkMainScreen(False)
 		EndIf
 
-		 If $iChkSnipeWhileTrain = 1 Then
+		 If $DontTouchMe = False AND $iChkSnipeWhileTrain = 1 Then
 			SnipeWhileTrain() ;; Initiate at the end of Idle() loop ; Snipe While Train MOD by ChiefM3
 		 EndIf
 
@@ -239,6 +256,7 @@ Func AttackMain() ;Main control for attack functions
 		If _Sleep(1000) Then Return
     EndIf
 
+			    checkMainScreen(False)
 		If $Restart = True Then Return
 	PrepareSearch()
 		If $Restart = True Then Return
@@ -250,7 +268,13 @@ Func AttackMain() ;Main control for attack functions
 	;checkDarkElix()
 	DEAttack()
 		If $Restart = True Then Return
-	Attack()
+	if $zapandrunAvoidAttack = 1 Then
+		DropLSpell()
+		SetLog("Avoiding troop attack with Zap & Run")
+	Else
+		Attack()
+	EndIf
+
 		If $Restart = True Then Return
 	ReturnHome($TakeLootSnapShot)
 		If _Sleep(1500) Then Return
