@@ -95,8 +95,8 @@ Func _RemoteControl()
 ;				    _Push ($iOrigPushB & " | Current Log1 " & $sLogFName , $line)
 ;					_DeleteMessage($iden[$x])
 			Case "BOT " & StringUpper($iOrigPushB)  & " LASTRAID"
-				    If $AttackFile <> "" Then
-						_PushFile($AttackFile, "Loots", "image/jpeg",  $iOrigPushB & " | Last Raid", $AttackFile)
+				    If $LootFileName <> "" Then
+						_PushFile($LootFileName, "Loots", "image/jpeg",  $iOrigPushB & " | Last Raid", $LootFileName)
  				    Else
  						_Push($iOrigPushB &" | There is no last raid screenshot." , "")
 					EndIf

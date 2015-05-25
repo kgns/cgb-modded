@@ -89,7 +89,7 @@ GLOBAL $pOOS
 GLOBAL $pTakeAbreak
 GLOBAL $pAnotherDevice
 GLOBAL $sLogFName
-GLOBAL $AttackFile
+;GLOBAL $AttackFile
 GLOBAL $RequestScreenshot = 0
 Global $iDeleteAllPushes = 0
 Global $iDeleteAllPushesNow = False
