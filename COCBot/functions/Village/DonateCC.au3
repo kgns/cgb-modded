@@ -400,18 +400,18 @@ Func DonateTroopType($Type)
 		For $i = 0 To UBound($TroopName) - 1
 			If Eval("e" & $TroopName[$i]) = $Type Then
 				If $TroopHeight[$i] <= 6 Then
-					Assign(Eval("Cur" & $TroopName[$i]), Eval("Cur" & $TroopName[$i]) + 5)
+					Assign("Cur" & $TroopName[$i], Eval("Cur" & $TroopName[$i]) + 5)
 				Else
-					Assign(Eval("Cur" & $TroopName[$i]), Eval("Cur" & $TroopName[$i]) + 1)
+					Assign("Cur" & $TroopName[$i], Eval("Cur" & $TroopName[$i]) + 1)
 				EndIf
 			EndIf
 		Next
 		For $i = 0 To UBound($TroopDarkName) - 1
 			If Eval("e" & $TroopDarkName[$i]) = $Type Then
 				If $TroopDarkHeight[$i] <= 6 Then
-					Assign(Eval("Cur" & $TroopDarkName[$i]), Eval("Cur" & $TroopDarkName[$i]) + 5)
+					Assign("Cur" & $TroopDarkName[$i], Eval("Cur" & $TroopDarkName[$i]) + 5)
 				Else
-					Assign(Eval("Cur" & $TroopDarkName[$i]), Eval("Cur" & $TroopDarkName[$i]) + 1)
+					Assign("Cur" & $TroopDarkName[$i], Eval("Cur" & $TroopDarkName[$i]) + 1)
 				EndIf
 			EndIf
 		Next
