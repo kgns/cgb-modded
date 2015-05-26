@@ -189,7 +189,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 					EndIf
 				Endif
 				SetLog(_PadStringCenter($msg, 50, "~"), $COLOR_ORANGE)
-				Click(750, 500) ;Click Next
+				Click(825, 527) ;Click Next
 				$iSkipped = $iSkipped + 1
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
@@ -210,7 +210,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				EndIf
 				;If _Sleep(1000) Then Return
 				If $bBtnAttackNowPressed = True Then ExitLoop
-				Click(750, 500) ;Click Next
+				Click(825, 527) ;Click Next
 				$iSkipped = $iSkipped + 1
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
@@ -226,7 +226,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			Endif
 			;If _Sleep(1000) Then Return
 			If $bBtnAttackNowPressed = True Then ExitLoop
-			Click(750, 500) ;Click Next
+			Click(825, 527) ;Click Next
 			$iSkipped = $iSkipped + 1
 			GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 			ContinueLoop
