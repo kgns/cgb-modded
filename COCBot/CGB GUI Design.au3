@@ -842,7 +842,7 @@ $y += 40
 		GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 	$btnCustom = GUICtrlCreateButton("Custom", $x + 265, $y, 38, 38, $BS_ICON)
-		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 56, 1) ;;; temporarily use wizard icon
+		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 43, 1) ;;; cross swords icon
 		GUICtrlSetOnEvent(-1, "btnDonateCustom")
 
 $x += 2
