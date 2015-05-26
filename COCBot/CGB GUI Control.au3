@@ -163,8 +163,6 @@ Func Initiate()
 		GUICtrlSetState($btnPause, $GUI_SHOW)
 		GUICtrlSetState($btnResume, $GUI_HIDE)
 
-
-
 		AdlibRegister("SetTime", 1000)
 		If $restarted = 1 Then
 			$restarted = 0
@@ -492,6 +490,36 @@ Func chkDeployRedArea()
 		Next
 	EndIf
 EndFunc   ;==>chkDeployRedArea
+
+
+Func chkDropInBattle()
+if GUICtrlRead($chkUseClanCastle) = $GUI_CHECKED Then
+   GUICtrlSetState($chkUseClanCastleBalanced, $GUI_ENABLE)
+   if GUICtrlRead($chkUseClanCastleBalanced) = $GUI_CHECKED Then
+	  GUICtrlSetState($cmbRatioNumeratorDonated, $GUI_ENABLE)
+	  GUICtrlSetState($cmbRatioDenominatorReceived, $GUI_ENABLE)
+   Else
+	  GUICtrlSetState($cmbRatioNumeratorDonated, $GUI_DISABLE)
+	  GUICtrlSetState($cmbRatioDenominatorReceived, $GUI_DISABLE)
+   EndIf
+ Else
+   GUICtrlSetState($chkUseClanCastleBalanced, $GUI_DISABLE)
+   GUICtrlSetState($cmbRatioNumeratorDonated, $GUI_DISABLE)
+   GUICtrlSetState($cmbRatioDenominatorReceived, $GUI_DISABLE)
+ EndIf
+EndFunc   ;==>chkDropInBattle
+
+Func chkBalanceDR()
+  if GUICtrlRead($chkUseClanCastleBalanced) =  $GUI_CHECKED and   GUICtrlRead($chkUseClanCastle) = $GUI_CHECKED Then
+	 GUICtrlSetState($cmbRatioNumeratorDonated, $GUI_ENABLE)
+	 GUICtrlSetState($cmbRatioDenominatorReceived, $GUI_ENABLE)
+  Else
+	 GUICtrlSetState($cmbRatioNumeratorDonated, $GUI_DISABLE)
+	 GUICtrlSetState($cmbRatioDenominatorReceived, $GUI_DISABLE)
+  EndIf
+
+EndFunc   ;==>chkBalanceDR
+
 
 Func cmbTroopComp()
 	If _GUICtrlComboBox_GetCurSel($cmbTroopComp) <> $icmbTroopComp Then
