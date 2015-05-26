@@ -81,10 +81,20 @@ Func DonateCC($Check = False)
 
 				;;; Custom Combination Donate by ChiefM3
 				If $iChkDonateCustom = 1 Then
-					If CheckDonateTroop($eWiza, $aDonCustom, $aBlkCustom, $aBlackList, $ClanString) Then
-						DonateTroopType2($icmbDonateCustom1, $itxtDonateCustom1) ;;; Donate Custom Troop 1
-						DonateTroopType2($icmbDonateCustom2, $itxtDonateCustom2) ;;; Donate Custom Troop 2
-						DonateTroopType2($icmbDonateCustom3, $itxtDonateCustom3) ;;; Donate Custom Troop 3 (8 troops is recommended)
+					If CheckDonateTroop($eLava + 1, $aDonCustom, $aBlkCustom, $aBlackList, $ClanString) Then
+						For $i = 0 To 2
+						   If $varDonateCustom[$i][0] < $eBarb Then
+							  $varDonateCustom[$i][0] = $eArch ; Change strange small numbers to archer
+						   ElseIf $varDonateCustom[$i][0] > $eLava Then
+							  ContinueLoop ; If "Nothing" is selected then continue
+						   EndIf
+						   If $varDonateCustom[$i][1] < 1 Then
+							  ContinueLoop ; If donate number is smaller than 1 then continue
+						   ElseIf $varDonateCustom[$i][1] > 8 Then
+							  $varDonateCustom[$i][1] = 8 ; Number larger than 8 is unnecessary
+						   EndIf
+						   DonateTroopType2($varDonateCustom[$i][0], $varDonateCustom[$i][1]) ;;; Donate Custom Troop using DonateTroopType2
+						Next
 						Click(1, 1)
 					EndIf
 					If $Donate Then
@@ -92,7 +102,7 @@ Func DonateCC($Check = False)
 						ContinueLoop
 					EndIf
 				EndIf
-				
+
 				If $iChkDonateLavaHounds = 1 Then
 					If CheckDonateTroop($eLava, $aDonLavaHounds, $aBlkLavaHounds, $aBlackList, $ClanString) Then
 						DonateTroopType($eLava)
@@ -322,7 +332,11 @@ Func CheckDonateTroop($Type, $aDonTroop, $aBlkTroop, $aBlackList, $ClanString)
 
 	For $i = 1 To UBound($aDonTroop) - 1
 		If CheckDonateString($aDonTroop[$i], $ClanString) Then
-			Setlog(NameOfTroop($Type) & " Keyword found: " & $aDonTroop[$i], $COLOR_GREEN)
+			If $Type > $eLava Then
+			   Setlog("Combination Keyword found: " & $aDonTroop[$i], $COLOR_GREEN)
+			Else
+			   Setlog(NameOfTroop($Type) & " Keyword found: " & $aDonTroop[$i], $COLOR_GREEN)
+			EndIf
 			Return True
 		EndIf
 	Next

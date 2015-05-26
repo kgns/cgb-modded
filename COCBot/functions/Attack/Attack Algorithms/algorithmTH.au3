@@ -501,7 +501,7 @@ While $count < 25
  EndIf
  $count+=1
 WEnd
- 
+
  Setlog("No star yet? Sending 20 more archers.")
  AttackTHGrid($eArch,4,5,1000,2,4,0) ;releases 20 archers
   $count = 0
@@ -518,7 +518,7 @@ WEnd
  Setlog("I smell a trap! Let's send in more diverse troops...")
  AttackTHGrid($eGiant,2,1,1500,1,2,0) ;releases 2 giants in case of spring traps
  AttackTHGrid($eGiant,3,5,1500,2,2,0) ;releases up to 15 giants to take heat
- AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians 
+ AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians
  AttackTHGrid($eBarb,3,5,1500,1,5,0) ; deploys up to 15 barbarians
  AttackTHGrid($eArch,3,8,1500,3,4,0) ; deploys 24 archers
  AttackTHGrid($eArch,4,7,1000,3,4,0) ; deploys 28 archers
@@ -535,7 +535,7 @@ WEnd
 
  Setlog("Hope the rest of your troops can finish the job!")
  AttackTHGrid($eGiant,2,9,1500,3,2,0) ;releases up to 18 giants (in case numbers are off)
- AttackTHGrid($eBarb,4,8,1200,2,5,1) ; deploys Heroes/CC + up to 32 barbarians 
+ AttackTHGrid($eBarb,4,8,1200,2,5,1) ; deploys Heroes/CC + up to 32 barbarians
  AttackTHGrid($eBarb,3,11,1200,2,5,0) ; deploys up to 33 barbarians
  AttackTHGrid($eBarb,4,8,1500,2,5,0) ; deploys up to 32 barbarians
  AttackTHGrid($eArch,3,13,1200,4,4,0) ;releases up to 39 archers
@@ -554,6 +554,81 @@ WEnd
  SetLog("~Finished Attacking, waiting to finish", $COLOR_GREEN)
 
 EndFunc   ;==>AttackTHgbarch
+
+Func AttackTHSmartBarch()
+		 ; Zap DE
+		 If $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		 EndIf
+
+   		 Setlog("Sniping TH with SmartBarch")
+
+		 ; 1st wave 30 secs, total 4 barbs 8 archers, works for totally unprotected TH
+		 SetLog("Attacking TH with 1st wave of BARCH", $COLOR_BLUE)
+		 AttackTHGrid($eBarb,4,1,2000,1,4,0) ; deploys 4 barbarians to take out traps waits 2 seconds for bombs to go off
+		 AttackTHGrid($eArch,2,4,28000,1,4,0) ; deploys 8 archers and wait additional 28sec
+
+		 _Sleep(200)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Easy 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+
+		 ; 2nd wave 25 secs total 16 barbs, 22 archers, works for TH partially covered by defenses
+ 		 SetLog("Attacking TH with 2nd wave of BARCH", $COLOR_BLUE)
+		 AttackTHGrid($eBarb,4,2,200,2,4,0) ; deploys 8 barbarians
+		 AttackTHGrid($eArch,2,5,2000,2,4,0) ; deploys 10 archers and waits 2 seconds
+		 AttackTHGrid($eBarb,4,2,200,2,4,0) ; deploys 8 barbarians
+		 AttackTHGrid($eArch,4,3,22000,2,4,0) ; deploys 12 archers and wait additional 22sec
+
+		 _Sleep(200)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Cheap 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+
+		 ;---3nd wave 17 secs (rather short interval until ALL IN) total 2 giants, 30 barbs, 57 archers
+		 SetLog("Oh Shit! Seems like a trapped TH!", $COLOR_BLUE)
+		 AttackTHGrid($eBarb,3,3,200,3,4,0) ; deploys 9 barbarians
+		 AttackTHGrid($eGiant,2,1,200,3,4,0) ; deploys 2 giants as meat shield
+		 AttackTHGrid($eArch,3,5,200,3,4,0) ; deploys 15 archers
+		 AttackTHGrid($eBarb,3,3,200,3,4,0) ; deploys 9 barbarians
+		 AttackTHGrid($eArch,3,6,200,3,4,0) ; deploys 18 archers
+		 AttackTHGrid($eBarb,4,3,200,3,4,0) ; deploys 12 barbarians
+		 AttackTHGrid($eArch,4,6,16000,3,4,0) ; deploys 24 archers and wait additional 16sec
+
+		 _Sleep(200)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Phew, got that 1 star!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+
+		 ;---4th wave 20 secs throw in everything
+		 Setlog("Dammit! ALL IN!", $COLOR_BLUE)
+		 AttackTHGrid($eArch,2,10,100,4,4,0) ; deploys 20 archers
+		 AttackTHGrid($eBarb,2,10,100,4,4,0) ; deploys 20 barbarians
+		 AttackTHGrid($eGiant,3,10,100,4,4,0) ; deploys 30 giants
+		 AttackTHGrid($eGobl,2,10,100,4,4,0) ; deploys 20 goblins
+		 AttackTHGrid($eWall,2,10,100,4,4,0) ; deploys 20 wallbreakers
+		 AttackTHGrid($eWiza,2,10,100,4,4,0) ; deploys 20 wizards
+		 AttackTHGrid($eMini,2,10,100,4,4,1) ; deploys 20 minions and Heroes
+		 AttackTHGrid($eArch,2,10,100,4,4,1) ; deploys 20 archers and Heroes
+		 AttackTHGrid($eBarb,2,10,100,4,4,0) ; deploys 20 barbarians
+		 AttackTHGrid($eArch,2,10,100,4,4,0) ; deploys 20 archers
+		 AttackTHGrid($eBarb,2,10,100,4,4,0) ; deploys 20 barbarians
+		 AttackTHGrid($eArch,4,10,100,4,4,0) ; deploys 40 archers
+		 AttackTHGrid($eBarb,4,10,100,4,4,0) ; deploys 40 barbarians
+		 AttackTHGrid($eArch,4,10,60000,4,4,1) ; deploys 40 archers and Heroes (again just in case) and waits for a minute
+
+	SetLog("All troops deployed and waiting for a star...", $COLOR_GREEN)
+
+EndFunc   ;==>AttackTHSmartBarch
 
 Func ALLDropheroes($aThx,$aThy)
    		 dropHeroes($aThx,$aThy, $King, $Queen)
@@ -615,5 +690,3 @@ Func CastSpell($THSpell,$x,$y)
 	EndIf
 
 EndFunc;---CastSpell
-
-

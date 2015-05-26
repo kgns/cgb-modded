@@ -617,7 +617,7 @@ GUICtrlCreateTabItem("")
 		$y+=22
 		$lblAttackTHType = GUICtrlCreateLabel("Attack Type:", $x + 10 , $y + 5, -1, 17, $SS_RIGHT)
 		$cmbAttackTHType = GUICtrlCreateCombo("",  $x + 95, $y, 105, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch", "Attack1:Normal")
+			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch|Attack4:SmartBarch", "Attack1:Normal")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y+=22
 		$chkTHSnipeLightningDE = GUICtrlCreateCheckbox("Use lightning for DE while TH Sniping", $x, $y, -1, -1)
@@ -842,7 +842,7 @@ $y += 40
 		GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 		GUICtrlSetState(-1, $GUI_DISABLE)
 	$btnCustom = GUICtrlCreateButton("Custom", $x + 265, $y, 38, 38, $BS_ICON)
-		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 56, 1) ;;; temporarily use wizard icon
+		GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 43, 1) ;;; cross swords icon
 		GUICtrlSetOnEvent(-1, "btnDonateCustom")
 
 $x += 2
@@ -2207,7 +2207,7 @@ Local $x = 30, $y = 130
 ;~			GUICtrlSetFont(-1, 11, 100, 4)
 			GUICtrlSetColor(-1, 0x0000FF)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-	
+
 	$x = 30
 	$y = 510
 	$grpModCredits = GUICtrlCreateGroup("Mod Credits", $x - 20, $y - 20, 450, 85)

@@ -189,7 +189,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 					EndIf
 				Endif
 				SetLog(_PadStringCenter($msg, 50, "~"), $COLOR_ORANGE)
-				Click(750, 500) ;Click Next
+				Click(825, 527) ;Click Next
 				$iSkipped = $iSkipped + 1
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
@@ -210,7 +210,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				EndIf
 				;If _Sleep(1000) Then Return
 				If $bBtnAttackNowPressed = True Then ExitLoop
-				Click(750, 500) ;Click Next
+				Click(825, 527) ;Click Next
 				$iSkipped = $iSkipped + 1
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
@@ -226,7 +226,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 			Endif
 			;If _Sleep(1000) Then Return
 			If $bBtnAttackNowPressed = True Then ExitLoop
-			Click(750, 500) ;Click Next
+			Click(825, 527) ;Click Next
 			$iSkipped = $iSkipped + 1
 			GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 			ContinueLoop
@@ -246,7 +246,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		GUICtrlSetState($lblVersion, $GUI_SHOW)
 	EndIf
 
-	If GUICtrlRead($chkAlertSearch) = $GUI_CHECKED Then
+	If GUICtrlRead($chkAlertSearch) = $GUI_CHECKED And $haltSearch = False Then
 		TrayTip("Match Found! after " & StringFormat("%3s", $SearchCount) & " skip(s)" , "Gold: " & _NumberFormat($searchGold) & "; Elixir: " & _NumberFormat($searchElixir) & "; Dark: " & _NumberFormat($searchDark) & "; Trophy: " & $searchTrophy, "", 0)
 		If FileExists(@WindowsDir & "\media\Festival\Windows Exclamation.wav") Then
 			SoundPlay(@WindowsDir & "\media\Festival\Windows Exclamation.wav", 1)
@@ -255,8 +255,10 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 	EndIf
 
-	SetLog(_PadStringCenter(" Search Complete ", 50, "="), $COLOR_BLUE)
-	PushMsg("MatchFound")
+    If $haltSearch = False Then
+	   SetLog(_PadStringCenter(" Search Complete ", 50, "="), $COLOR_BLUE)
+	   PushMsg("MatchFound")
+    EndIf
 
 	; TH Detection Check Once Conditions
 	If $OptBullyMode = 0 And $OptTrophyMode = 0 And $chkConditions[4] = 0 And $chkConditions[5] = 0 And $chkATH = 1 Then

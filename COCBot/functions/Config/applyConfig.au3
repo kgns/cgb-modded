@@ -464,17 +464,17 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkDonateCustom, $GUI_UNCHECKED)
 	EndIf
-	
+
 	chkDonateCustom()
-	
+
 	GUICtrlSetData($txtDonateCustom, $sTxtDonateCustom)
 	GUICtrlSetData($txtBlacklistCustom, $sTxtBlacklistCustom)
-	_GUICtrlComboBox_SetCurSel($cmbDonateCustom1, $icmbDonateCustom1)
-	GUICtrlSetData($txtDonateCustom1, $itxtDonateCustom1)
-	_GUICtrlComboBox_SetCurSel($cmbDonateCustom2, $icmbDonateCustom2)
-	GUICtrlSetData($txtDonateCustom2, $itxtDonateCustom2)
-	_GUICtrlComboBox_SetCurSel($cmbDonateCustom3, $icmbDonateCustom3)
-	GUICtrlSetData($txtDonateCustom3, $itxtDonateCustom3)
+	_GUICtrlComboBox_SetCurSel($cmbDonateCustom1, $varDonateCustom[0][0])
+	GUICtrlSetData($txtDonateCustom1, $varDonateCustom[0][1])
+	_GUICtrlComboBox_SetCurSel($cmbDonateCustom2, $varDonateCustom[1][0])
+	GUICtrlSetData($txtDonateCustom2, $varDonateCustom[1][1])
+	_GUICtrlComboBox_SetCurSel($cmbDonateCustom3, $varDonateCustom[2][0])
+	GUICtrlSetData($txtDonateCustom3, $varDonateCustom[2][1])
 
 	GUICtrlSetData($txtBlacklist, $sTxtBlacklist)
 
@@ -701,7 +701,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkDeleteOldPushes, $GUI_UNCHECKED)
 	EndIf
 	chkDeleteOldPushes()
-	
+
 	; laboratory tab
 	;Lab
 		If $ichkLab = 1 Then
