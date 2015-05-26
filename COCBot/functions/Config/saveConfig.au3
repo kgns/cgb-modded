@@ -195,8 +195,8 @@ Func saveConfig() ;Saves the controls settings to the config
 	    IniWrite($config, "attack", "use-cc-balanced", 0)
     EndIf
 
-	IniWrite($config, "attack", "use-cc-balanced-ratio-donated", GUICtrlRead($txtRatioNumeratorDonated))
-	IniWrite($config, "attack", "use-cc-balanced-ratio-received", GUICtrlRead($txtRatioDenominatorReceived))
+	IniWrite($config, "attack", "use-cc-balanced-ratio-donated",  _GUICtrlComboBox_GetCurSel($cmbRatioNumeratorDonated   )     )
+	IniWrite($config, "attack", "use-cc-balanced-ratio-received", _GUICtrlComboBox_GetCurSel($cmbRatioDenominatorReceived) + 1 )
 
 	If GUICtrlRead($radManAbilities) = $GUI_CHECKED Then
 		IniWrite($config, "attack", "ActivateKQ", "Manual")
