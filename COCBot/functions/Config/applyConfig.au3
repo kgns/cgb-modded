@@ -611,7 +611,18 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	_GUICtrlComboBox_SetCurSel($cmbBarrack4, $barrackTroop[3])
 
 	GUICtrlSetData($txtFullTroop, $fulltroop)
-	;barracks boost not saved (no use)
+	;barracks boost not saved (no use
+    If $ichkBoostKing = 1 Then ;==>BoostKing
+		GUICtrlSetState($chkBoostKing, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkBoostKing, $GUI_UNCHECKED)
+	EndIf
+
+	If $ichkBoostQueen = 1 Then ;==>BoostQuuen
+		GUICtrlSetState($chkBoostQueen, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkBoostQueen, $GUI_UNCHECKED)
+	EndIf
 
 
 	;PushBullet-----------------------------------------------------------------------------
