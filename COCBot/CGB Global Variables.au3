@@ -196,9 +196,9 @@ Global $checkQPower = False ; Check for Queen activate power
 Global $iActivateKQCondition
 Global $delayActivateKQ ; = 9000 ;Delay before activating KQ
 Global $checkUseClanCastle ; Use Clan Castle settings
-Global $checkUseClanCastleBalanced ; Use Clan Castle Balanced settings
-Global $ratioNumeratorDonated ; Use Clan Castle Balanced ratio settings
-Global $ratioDenominatorReceived ; Use Clan Castle Balanced ratio settings
+Global $checkUseClanCastleBalanced = 0 ; Use Clan Castle Balanced settings
+Global $ratioNumeratorDonated = 1 ; Use Clan Castle Balanced ratio settings
+Global $ratioDenominatorReceived = 1 ; Use Clan Castle Balanced ratio settings
 Global $iradAttackMode ;Attack mode, 0 1 2
 Global $iradAttackModeString
 Global $THLoc
