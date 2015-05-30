@@ -421,6 +421,10 @@ $tabAttack = GUICtrlCreateTabItem("Attack")
 		$Randomspeedatk = GUICtrlCreateCheckbox("Random", $x + 250, $y, -1, -1)
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "Randomspeedatk")
+		$lblSelectTroop=GUICtrlCreateLabel("Use Troops :",$x+320,$y-25,-1,-1)
+		$cmbSelectTroop=GUICtrlCreateCombo("",$x+320,$y-5,100,-1)
+			GUICtrlSetData(-1, "Barb Only|Arch Only|B+A|B+Gob|A+Gob|B+A+Gi|B+A+Gob+Gi|Use Barracks|Use All", "B+A")
+			GUICtrlSetData($icmbSelectTroop,$cmbSelectTroop)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y = 210
