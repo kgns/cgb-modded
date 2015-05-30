@@ -83,6 +83,9 @@ Func readConfig() ;Reads config and sets it to the variables
 		$MinDark = IniRead($config, "search", "searchDark", "0")
 		$MinTrophy = IniRead($config, "search", "searchTrophy", "0")
 		$icmbTH = IniRead($config, "search", "THLevel", "0")
+		
+		;Use selected troops
+		$icmbSelectTroop = IniRead($config, "attack", "SelectTroop", "1")
 
 		$AlertSearch = IniRead($config, "search", "AlertSearch", "0")
 
