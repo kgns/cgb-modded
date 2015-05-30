@@ -115,7 +115,9 @@ Func saveConfig() ;Saves the controls settings to the config
 	Else
 		IniWrite($config, "search", "AlertSearch", 0)
 	 EndIf
-
+	 
+	;Use only selected troops
+	IniWrite($config, "attack", "SelectTroop", _GUICtrlComboBox_GetCurSel($cmbSelectTroop))
 
 	;Attack Basic Settings-------------------------------------------------------------------------
 	IniWrite($config, "attack", "deploy", _GUICtrlComboBox_GetCurSel($cmbDeploy))
