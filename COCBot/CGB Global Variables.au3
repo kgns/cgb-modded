@@ -172,6 +172,8 @@ Global $WallX = 0, $WallY = 0, $WallLoc = 0
 Global $Wallv[8]
 Global $wallh[8]
 Global $Wall[8]
+;Use selected troops
+Global $icmbSelectTroop
 
 ;Attack Settings
 Global $TopLeft[5][2] = [[79, 281], [170, 205], [234, 162], [296, 115], [368, 66]]
