@@ -574,6 +574,17 @@ Func saveConfig() ;Saves the controls settings to the config
 
 	IniWrite($config, "troop", "fulltroop", GUICtrlRead($txtFullTroop))
 	;barracks boost not saved (no use)
+    If GUICtrlRead($chkBoostKing) = $GUI_CHECKED Then ;==>boostking
+		IniWrite($config, "other", "BoostKing", 1)
+	Else
+		IniWrite($config, "other", "BoostKing", 0)
+	EndIf
+
+	If GUICtrlRead($chkBoostQueen) = $GUI_CHECKED Then ;==>boostqueen
+		IniWrite($config, "other", "BoostQueen", 1)
+	Else
+		IniWrite($config, "other", "BoostQueen", 0)
+	EndIf
 
 	;========================== laboratory ===========================
 If GUICtrlRead($chkLab) = $GUI_CHECKED Then

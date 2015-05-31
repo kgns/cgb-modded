@@ -1506,8 +1506,28 @@ $tabTroops = GUICtrlCreateTabItem("Troops")
 			GUICtrlSetLimit(-1, 3)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+
 	$x +=  227
 	$y = 310
+        $grpBoostHeroes = GUICtrlCreateGroup("Boost Heroes", $x - 20, $y - 20, 220, 65)
+        $btnLocateKing = GUICtrlCreateButton("King", $x - 10, $y, 40, 40, $BS_ICON)
+            GUICtrlSetOnEvent(-1, "btnLocateKing")
+            GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 7, 1)
+            $txtTip = "Locate Your King."
+            GUICtrlSetTip(-1, $txtTip)
+        $btnLocateQueen = GUICtrlCreateButton("Queen", $x + 30, $y, 40, 40, $BS_ICON)
+            GUICtrlSetOnEvent(-1, "btnLocateQueen")
+            GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 41, 1)
+            $txtTip = "Locate Your Queen."
+            GUICtrlSetTip(-1, $txtTip)
+        $chkBoostKing = GUICtrlCreateCheckbox("Boost King", $x + 90, $y , 80, 17)
+            GUICtrlSetTip(-1, "Boost your King so he is always available for raids.")
+        $chkBoostQueen = GUICtrlCreateCheckbox("Boost Queen", $x + 90, $y + 21, 95, 17)
+            GUICtrlSetTip(-1, "Boost your Queen so she is always available for raids")
+    GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$x += 2
+   $y += 70
 	$grpDarkTroops = GUICtrlCreateGroup("Add. Dark Troops", $x - 20, $y - 20, 223, 195)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 37, $x - 5, $y - 5, 24, 24)
 		$lblMinion = GUICtrlCreateLabel("No. of Minions:", $x + 25, $y, -1, -1)

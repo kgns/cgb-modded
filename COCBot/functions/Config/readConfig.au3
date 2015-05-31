@@ -296,6 +296,8 @@ Func readConfig() ;Reads config and sets it to the variables
 
 		$fulltroop = IniRead($config, "troop", "fullTroop", "100")
 		;barracks boost not saved (no use)
+	    $ichkBoostKing = IniRead($config, "other", "BoostKing", "0")
+		$ichkBoostQueen = IniRead($config, "other", "BoostQueen", "0")
 ; labo
 ;Laboratory
 		$ichkLab = IniRead($config, "upgrade", "auto-uptroops", "0")

@@ -215,6 +215,7 @@ Global $iUnbreakableWait, $iUnBrkMinGold, $iUnBrkMinElixir, $iUnBrkMaxGold, $iUn
 ;Boosts Settings
 Global $remainingBoosts = 0 ;  remaining boost to active during session
 Global $boostsEnabled = 1 ; is this function enabled
+Global $ichkBoostKing, $ichkBoostQueen ;==> upgrade heroes
 
 ; TownHall Settings
 Global $TownHallPos[2] = [-1, -1] ;Position of TownHall
@@ -437,3 +438,7 @@ Global $SpellHealX = 675
 Global $SpellHealY = 470
 Global $SpellLightningX = 675
 Global $SpellLightningY = 370
+
+;DE Side Mod------------------------
+Global $DESideAtk, $chkDESideAtk, $DEEdge, $FoundDarkSideAtk
+Global $DarkLow, $AimDeSideAtk ,$AimDeSideTh
