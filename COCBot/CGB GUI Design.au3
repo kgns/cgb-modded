@@ -2234,7 +2234,7 @@ Local $x = 30, $y = 130
 	$grpModCredits = GUICtrlCreateGroup("Mod Credits", $x - 20, $y - 20, 450, 85)
 		$lblModCredits = GUICtrlCreateLabel("Credits go to the following modders:", $x - 5, $y - 5, 400, 20)
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
-		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts"
+		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts, CrazyHeo, outcry666"
 		$lbltxtModCredits = GUICtrlCreateEdit($txtModCredits, $x - 5, $y + 10, 434, 39, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 		$labelModForumURL = GUICtrlCreateLabel("https://GameBot.org/forums/thread-2682.html", $x - 5, $y + 50, 450, 20)
