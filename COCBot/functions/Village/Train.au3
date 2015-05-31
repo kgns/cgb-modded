@@ -248,7 +248,8 @@ Func Train()
 			if $FirstStart then
 				$icount = 0
 				while not _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20)
-				    Click(496, 197, 10)
+				    ; Delete your build queue from your barracks when you push Stop and then Start button again
+				    	Click(496, 197, 10)
 					$icount += 1
 					if $icount = 20 then ExitLoop
 				wend

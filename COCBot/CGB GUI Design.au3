@@ -403,7 +403,7 @@ $tabAttack = GUICtrlCreateTabItem("Attack")
 	$grpDeploy = GUICtrlCreateGroup("Deploy", $x - 20, $y - 20, 450, 75)
 		$y -= 5
 		$lblDeploy = GUICtrlCreateLabel("Attack on:", $x + 20, $y + 5, -1, -1)
-		$cmbDeploy = GUICtrlCreateCombo("", $x + 75, $y, 270, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		$cmbDeploy = GUICtrlCreateCombo("", $x + 75, $y, 240, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetTip(-1, "Attack on a single side, penetrates through base" & @CRLF & "Attack on two sides, penetrates through base" & @CRLF & "Attack on three sides, gets outer and some inside of base" & @CRLF & "Attack on all sides equally, gets most of outer base", "Select the No. of sides to attack on.")
 			GUICtrlSetData(-1, "one side, penetrates through base|two sides, penetrates through base|three sides, gets outer and some inside of base|all sides equally, gets most of outer base", "all sides equally, gets most of outer base")
 		$y += 25
@@ -421,6 +421,10 @@ $tabAttack = GUICtrlCreateTabItem("Attack")
 		$Randomspeedatk = GUICtrlCreateCheckbox("Random", $x + 250, $y, -1, -1)
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetOnEvent(-1, "Randomspeedatk")
+		$lblSelectTroop=GUICtrlCreateLabel("Use Troops :",$x+325,$y-25,-1,-1)
+		$cmbSelectTroop=GUICtrlCreateCombo("",$x+325,$y-5,100,-1)
+			GUICtrlSetData(-1, "Barb Only|Arch Only|B+A|B+Gob|A+Gob|B+A+Gi|B+A+Gob+Gi|Use Barracks|Use All", "B+A")
+			GUICtrlSetData($icmbSelectTroop,$cmbSelectTroop)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y = 210

@@ -122,7 +122,10 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkAlertSearch, $GUI_UNCHECKED)
 	EndIf
-
+	
+	;Use only selected troops
+	_GUICtrlComboBox_SetCurSel($cmbSelectTroop, $icmbSelectTroop)
+	
 	;Attack Settings-------------------------------------------------------------------------
 	_GUICtrlComboBox_SetCurSel($cmbDeploy, $deploySettings)
 	_GUICtrlComboBox_SetCurSel($cmbTroopComp, $icmbTroopComp)
