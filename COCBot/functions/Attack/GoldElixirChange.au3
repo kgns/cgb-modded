@@ -54,7 +54,7 @@ Func GoldElixirChange()
 			EndIf
 			;If (GUICtrlRead($cmbBoostBarracks) > 0) And ($boostsEnabled = 1) Then $x = $sTimeStopAtk*1000
 		WEnd
-		If ($Gold1 = $Gold2 And $Elixir1 = $Elixir2) Or ($Gold2 = "" And $Elixir2 = "") Then
+		If ($Gold1 = $Gold2 And $Elixir1 = $Elixir2) Or ($Gold2 = "" And $Elixir2 = "") Or (DarkLow = 1)Then
 			GUICtrlSetData($lblresultvillagesattacked, GUICtrlRead($lblresultvillagesattacked)+1)
 			Return False
 		Else
