@@ -16,21 +16,34 @@
 #include <Array.au3>
 #include <String.au3>
 
+Global $pushLastModified = 0
+
 Func _RemoteControl()
 	$oHTTP = ObjCreate("WinHTTP.WinHTTPRequest.5.1")
 	$access_token = $PushToken
-	$oHTTP.Open("Get", "https://api.pushbullet.com/v2/pushes?active=true&limit=1", False)
+	Local $pushbulletApiUrl
+	If $pushLastModified = 0 Then
+		$pushbulletApiUrl = "https://api.pushbullet.com/v2/pushes?active=true&limit=1" ; if this is the first time looking for pushes, get the last one
+	Else
+		$pushbulletApiUrl = "https://api.pushbullet.com/v2/pushes?active=true&modified_after=" & $pushLastModified ; get the one pushed after the last one received
+	EndIf
+	$oHTTP.Open("Get", $pushbulletApiUrl, False)
 	$oHTTP.SetCredentials($access_token, "", 0)
 	$oHTTP.SetRequestHeader("Content-Type", "application/json")
 	$oHTTP.Send()
 	$Result = $oHTTP.ResponseText
 
+	Local $modified = _StringBetween($Result, '"modified":', ',' , "", False)
+	If UBound($modified) > 0 Then
+		$pushLastModified = Number($modified[0]) ; modified date of the newest push that we received
+		$pushLastModified += 0.00001
+	EndIf
+	
 	Local $findstr = StringRegExp(StringUpper($Result), '"TITLE":"BOT')
 	If $findstr = 1 Then
 		Local $title   = _StringBetween($Result, '"title":"' , '"' , "", False)
 		Local $iden    = _StringBetween($Result, '"iden":"'  , '"' , "", False)
-		Local $created = _StringBetween($Result, '"created":', ',' , "", False)
-		For $x = 0 To UBound($title) - 1
+		For $x = UBound($title) - 1 To 0 Step -1
 			If $title <> "" Or $iden <> "" Then
 				$title[$x] = StringUpper(StringStripWS($title[$x], $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES))
 				$iden[$x] = StringStripWS($iden[$x], $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)
