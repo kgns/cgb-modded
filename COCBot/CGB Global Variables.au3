@@ -339,7 +339,7 @@ Global $iWBMortar
 Global $iWBWizTower
 Global $iWBXbow
 Global $TroopGroup[10][4] = [["Pekk",9,25,-1],["Drag",8,20,-1],["Heal",7,14,-1],["Wiza",6,4,-1],["Ball",5,5,-1],["Wall",4,2,-1],["Giant",2,5,-1],["Gobl",3,1,-1],["Arch",1,1,9],["Barb",0,1,8]]
-Global $THSnipeTroopGroup[10][4] = [["Arch",1,1,2],["Giant",2,5,-1],["Barb",0,1,0],["Heal",7,14,-1],["Wiza",6,4,-1],["Drag",8,20,-1],["Pekk",9,25,-1],["Gobl",3,1,-1],["Wall",4,2,-1],["Ball",5,5,-1]]
+Global $THSnipeTroopGroup[10][4] = [["Arch",1,1,-1],["Giant",2,5,-1],["Barb",0,1,-1],["Heal",7,14,-1],["Wiza",6,4,-1],["Drag",8,20,-1],["Pekk",9,25,-1],["Gobl",3,1,-1],["Wall",4,2,-1],["Ball",5,5,-1]]
 Global $TroopName[Ubound($TroopGroup,1)]
 Global $TroopNamePosition[Ubound($TroopGroup,1)]
 Global $TroopHeight[Ubound($TroopGroup,1)]
