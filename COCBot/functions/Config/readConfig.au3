@@ -85,7 +85,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$icmbTH = IniRead($config, "search", "THLevel", "0")
 		
 		;Use selected troops
-		$icmbSelectTroop = IniRead($config, "attack", "SelectTroop", "1")
+		$icmbSelectTroop = IniRead($config, "attack", "SelectTroop", "8")
 
 		$AlertSearch = IniRead($config, "search", "AlertSearch", "0")
 
