@@ -614,6 +614,9 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	_GUICtrlComboBox_SetCurSel($cmbBarrack4, $barrackTroop[3])
 
 	GUICtrlSetData($txtFullTroop, $fulltroop)
+	
+	GUICtrlSetData($sldTrainITDelay, $isldTrainITDelay)
+	GUICtrlSetData($lbltxtTrainITDelay, "delay " & $isldTrainITDelay & " ms.")
 	;barracks boost not saved (no use)
 
 

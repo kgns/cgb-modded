@@ -1510,6 +1510,11 @@ Func chkDonateCustom()
 	EndIf
 EndFunc   ;==>chkDonateCustom
 
+Func sldTrainITDelay()
+	$isldTrainITDelay = GUICtrlRead($sldTrainITDelay)
+	GUICtrlSetData($lbltxtTrainITDelay, "delay " & $isldTrainITDelay & " ms.")
+EndFunc   ;==>sldTrainITDelay
+
 Func chkWalls()
 	If GUICtrlRead($chkWalls) = $GUI_CHECKED Then
 		GUICtrlSetState($UseGold, $GUI_ENABLE)

@@ -75,6 +75,8 @@ Global $PushToken = ""
 Global $DontTouchMe=False
 Global $IAmSelfish=False
 
+Global $isldTrainITDelay
+
 ;PushBullet---------------------------------------------------------------
 Global $PBRemoteControlInterval = 30000
 GLOBAL $iOrigPushB

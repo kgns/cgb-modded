@@ -25,7 +25,7 @@ Func TrainIt($troopKind, $howMuch = 1, $iSleep = 400)
    Local $pos = GetTrainPos($troopKind)
    If IsArray($pos) Then
 	  If CheckPixel($pos) Then
-		 ClickP($pos, $howMuch, 20)
+		 ClickP($pos, $howMuch, $isldTrainITDelay)
 		 ;if _Sleep($iSleep) Then Return False
 		 ;Return True
 	  EndIf
@@ -359,7 +359,7 @@ Func Train()
 					endif
 				endif
 			next
-			
+
 			$troopNameCooking = ""
 			for $i=0 to Ubound($TroopName) - 1
 			   if eval("troopSecond" & $TroopName[$i]) > eval("troopFirst" & $TroopName[$i]) and GUICtrlRead(eval("txtNum" & $TroopName[$i])) <> "0" then
@@ -372,7 +372,7 @@ Func Train()
 			next
 
 			;if  _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20) then
-			if  _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20) or $troopNameCooking = "" then 
+			if  _ColorCheck(_GetPixelColor(496, 197, True), Hex(0xE0E4D0, 6), 20) or $troopNameCooking = "" then
 				$BarrackStatus[$brrNum-1] = false
 			else
 				$BarrackStatus[$brrNum-1] = true
@@ -407,7 +407,7 @@ Func Train()
 		wend
 
  EndIf
- 
+
  ;dark here
 
 	If $isDarkBuild Then

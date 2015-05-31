@@ -1512,7 +1512,7 @@ $tabTroops = GUICtrlCreateTabItem("Troops")
 
 	$x +=  227
 	$y = 310
-	$grpDarkTroops = GUICtrlCreateGroup("Add. Dark Troops", $x - 20, $y - 20, 223, 195)
+	$grpDarkTroops = GUICtrlCreateGroup("Add. Dark Troops", $x - 20, $y - 20, 223, 170)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 37, $x - 5, $y - 5, 24, 24)
 		$lblMinion = GUICtrlCreateLabel("No. of Minions:", $x + 25, $y, -1, -1)
 		$txtNumMini = GUICtrlCreateInput("0", $x + 130, $y - 5, 55, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
@@ -1548,6 +1548,17 @@ $tabTroops = GUICtrlCreateTabItem("Troops")
 		$txtNumLava = GUICtrlCreateInput("0", $x + 130, $y - 5, 55, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
 			GUICtrlSetTip(-1, "Enter the No. of Lava Hounds to make.")
 			GUICtrlSetLimit(-1, 2)
+		$y +=25
+		$lbltxtTrainITDelay = GUICtrlCreateLabel("delay", $x - 5, $y,100, -1)
+			GUICtrlSetTip(-1, "Lower PC increase delay between train each troop")
+		$sldTrainITDelay = GUICtrlCreateSlider($x + 62, $y , 130, 25, BITOR($TBS_TOOLTIPS, $TBS_AUTOTICKS)) ;,
+			GUICtrlSetTip(-1, "Lower PC increase delay between train each troop")
+			GUICtrlSetBkColor(-1, $COLOR_WHITE)
+			_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
+			_GUICtrlSlider_SetTicFreq(-100, 100)
+			GUICtrlSetLimit(-1,500, 20) ; change max/min value
+			GUICtrlSetData(-1, 20) ; default value
+			GUICtrlSetOnEvent(-1, "sldTrainITDelay")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 

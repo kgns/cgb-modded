@@ -575,6 +575,7 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($config, "troop", "troop4", _GUICtrlComboBox_GetCurSel($cmbBarrack4))
 
 	IniWrite($config, "troop", "fulltroop", GUICtrlRead($txtFullTroop))
+	IniWrite($config, "troop", "TrainITDelay", GUICtrlRead($sldTrainITDelay))
 	;barracks boost not saved (no use)
 
 	;========================== laboratory ===========================
