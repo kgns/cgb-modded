@@ -36,7 +36,11 @@ Func DropTroop($troop, $nbSides, $number, $slotsPerEdge = 0, $indexToAttack = -1
 					Local $nbTroopsPerEdge = Round($nbTroopsLeft / ($nbSides - $i))
 					If ($number > 0 And $nbTroopsPerEdge = 0) Then $nbTroopsPerEdge = 1
 					Local $edgesPixelToDrop = GetPixelDropTroop($troop, $nbTroopsPerEdge, $slotsPerEdge)
-					Local $listEdgesPixelToDrop[1] = [$edgesPixelToDrop[$i]]
+					If $FoundDarkSideAtk = 1 Then
+						Local $listEdgesPixelToDrop[1] = [$edgesPixelToDrop[$DEEdge]]
+					Else
+						Local $listEdgesPixelToDrop[1] = [$edgesPixelToDrop[$i]]
+					EndIf
 					DropOnPixel($troop, $listEdgesPixelToDrop, $nbTroopsPerEdge, $slotsPerEdge)
 					$nbTroopsLeft -= $nbTroopsPerEdge
 				ElseIf ($nbSides = 2 And $i = 0) Or ($nbSides = 3 And $i <> 1) Then

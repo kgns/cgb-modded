@@ -1,6 +1,42 @@
 ;Applies all of the  variable to the GUI
 
 Func applyConfig() ;Applies the data from config to the controls in GUI
+    If $DESideEnable = 1 Then
+	    GUICtrlSetState($chkDESideEnable, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDESideEnable, $GUI_UNCHECKED)
+	EndIf
+    If $DERedLineEnable = 1 Then
+	    GUICtrlSetState($chkDERedLineEnable, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDERedLineEnable, $GUI_UNCHECKED)
+	EndIf
+    If $DropBKEarly = 1 Then
+	    GUICtrlSetState($chkDropBKEarly, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDropBKEarly, $GUI_UNCHECKED)
+	EndIf
+    _GUICtrlComboBox_SetCurSel($cmbDEMortar, $iDEMortar)
+	_GUICtrlComboBox_SetCurSel($cmbDEWizTower, $iDEWizTower)
+    If $MeetDESGPE = 1 Then
+	    GUICtrlSetState($chkMeetDESGPE, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkMeetDESGPE, $GUI_UNCHECKED)
+	EndIf
+	If $MeetDESDark = 1 Then
+		GUICtrlSetState($chkMeetDESDark, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkMeetDESDark, $GUI_UNCHECKED)
+	EndIf
+	If $MeetDESTrophy = 1 Then
+		GUICtrlSetState($chkMeetDESTrophy, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkMeetDESTrophy, $GUI_UNCHECKED)
+	EndIf
+	GUICtrlSetData($txtMinDESGPE, $DESGPE)
+	GUICtrlSetData($txtMinDESDark, $DESDark)
+	GUICtrlSetData($txtMinDESTrophy, $DESTrophy)
+	_GUICtrlComboBox_SetCurSel($cmbDESTH, ($DESTH))
 
 	;General Settings--------------------------------------------------------------------------
 	If $frmBotPosX <> -32000 Then WinMove($sBotTitle, "", $frmBotPosX, $frmBotPosY)

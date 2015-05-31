@@ -440,5 +440,16 @@ Global $SpellLightningX = 675
 Global $SpellLightningY = 370
 
 ;DE Side Mod------------------------
-Global $DESideAtk, $chkDESideAtk, $DEEdge, $FoundDarkSideAtk
-Global $DarkLow, $AimDeSideAtk ,$AimDeSideTh
+Global $DarkLow, $AimDeSideAtk ,$AimDeSideTh, $DEEdge, $FoundDarkSideAtk
+Global $DESideEnable, $chkDESideEnable
+Global $DERedLineEnable, $chkDERedLineEnable
+Global $chkDropBKEarly, $DropBKEarly
+Global $cmbDEMortar, $iDEMortar, $cmbDEWizTower, $iDEWizTower
+Global $txtMinDESDark,$chkMeetDESDark, $MeetDESDark, $DESDark
+Global $txtMinDESTrophy, $chkMeetDESTrophy, $MeetDESTrophy, $DESTrophy
+Global $txtMinDESGpEGoldPlusElixir,$chkMeetDESGPE, $MeetDESGPE, $DESGPE
+Global $cmbDESTH, $DESTH
+
+Global $SnipeCount = 0
+Global $MaxSnipe = 4
+

@@ -23,24 +23,28 @@ Func GoldElixirChange()
 		$Elixir1 = getElixir(51, 66 + 29)
 		Local $iBegin = TimerInit(), $x = $sTimeStopAtk*1000
 		While TimerDiff($iBegin) < $x
+			If $FoundDarkSideAtk = 1 And (($dropKing = True) Or ($dropQueen = True)) Then
+			   DELow()
+			   If $DarkLow = 1 Then ExitLoop
+			EndIf
 			CheckHeroesHealth()
-			If $checkKPower Or $checkQPower Then
+			If $checkKPower Or $checkQPower Or ($DarkLow = 0) Then
 				If _Sleep(500) Then Return
 			else
 				If _Sleep(1000) Then Return
 			endif
 			$Gold2 = getGold(51, 66)
 			if $Gold2 = "" then
-				If _Sleep(500) Then Return				
+				If _Sleep(500) Then Return
 				$Gold2 = getGold(51, 66)
 			endif
 			$Elixir2 = getElixir(51, 66 + 29)
-			
+
 			If $Gold2 <> "" Or $Elixir2 <> "" Then
 			   $GoldChange = $Gold2
 			   $ElixirChange = $Elixir2
 			EndIf
-			
+
 			If ($Gold2 = "" And $Elixir2 = "") Then
 				If _Sleep(500) Then Return
 				if getGold(51, 66) = "" and getElixir(51, 66 + 29) = "" then

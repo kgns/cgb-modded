@@ -288,6 +288,18 @@ Func btnAttackNow()
 	EndIf
 EndFunc   ;==>btnAttackNow
 
+Func chkDESideEnable() ;-----------------------------------------------------------------------------------------------------------------------
+   If GUICtrlRead($chkDESideEnable) = $GUI_CHECKED Then
+	  For $i = $lblDEMortar To $txtMinDESTrophy
+			GUICtrlSetState($i, $GUI_ENABLE)
+		 Next
+   Else
+	  For $i = $lblDEMortar To $txtMinDESTrophy
+			GUICtrlSetState($i, $GUI_DISABLE)
+		 Next
+   EndIF
+EndFunc
+
 Func chkUnbreakable()
 	If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
 		GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)

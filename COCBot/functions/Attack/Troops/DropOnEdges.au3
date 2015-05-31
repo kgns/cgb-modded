@@ -17,8 +17,13 @@ Func DropOnEdges($troop, $nbSides, $number, $slotsPerEdge = 0)
 	For $i = 0 To $nbSides - 1
 		If $nbSides = 1 Or ($nbSides = 3 And $i = 2) Then
 			Local $nbTroopsPerEdge = Round($nbTroopsLeft / ($nbSides - $i))
-			DropOnEdge($troop, $Edges[$i], $nbTroopsPerEdge, $slotsPerEdge)
-			$nbTroopsLeft -= $nbTroopsPerEdge
+			If $FoundDarkSideAtk = 1 Then
+				DropOnEdge($troop, $Edges[$DEEdge], $nbTroopsPerEdge, $slotsPerEdge)
+				$nbTroopsLeft -= $nbTroopsPerEdge
+			Else
+				DropOnEdge($troop, $Edges[$i], $nbTroopsPerEdge, $slotsPerEdge)
+				$nbTroopsLeft -= $nbTroopsPerEdge
+			EndIf
 		ElseIf ($nbSides = 2 And $i = 0) Or ($nbSides = 3 And $i <> 1) Then
 			Local $nbTroopsPerEdge = Round($nbTroopsLeft / ($nbSides - $i * 2))
 			DropOnEdge($troop, $Edges[$i + 3], $nbTroopsPerEdge, $slotsPerEdge, $Edges[$i + 1])

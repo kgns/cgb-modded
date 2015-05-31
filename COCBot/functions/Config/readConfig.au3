@@ -54,6 +54,21 @@ Func readConfig() ;Reads config and sets it to the variables
 		$icmbBotCond = IniRead($config, "general", "Cond", "0")
 		$icmbHoursStop = IniRead($config, "general", "Hour", "0")
 
+
+	    $DESideEnable = IniRead($config, "advanced", "desideenable", "0")
+		$DERedLineEnable = IniRead($config, "advanced", "deredlineenable", "0")
+		$DropBkEarly = IniRead($config, "advanced", "dropbkearly", "0")
+	    $iDEMortar = IniRead($config, "advanced", "demortar", "5")
+		$iDEWizTower = IniRead($config, "advanced", "dewiztower", "5")
+		$MeetDESGPE = IniRead($config, "advanced", "MeetDESGPE", "0")
+		$MeetDESDark = IniRead($config, "advanced", "MeetDESDark", "0")
+		$MeetDESTrophy = IniRead($config, "advanced", "MeetDESTrophy", "0")
+		$DESGPE = IniRead($config, "advanced", "searchDESGPE", "160000")
+		$DESDark = IniRead($config, "advanced", "searchDESDark", "800")
+		$DESTrophy = IniRead($config, "advanced", "searchDESTrophy", "15")
+		$DESTH = IniRead($config, "advanced", "DESTHLevel", "8")
+
+
 		;Search Settings------------------------------------------------------------------------
 		$iradAttackMode = IniRead($config, "search", "mode", "0")
 		$iWBMortar = IniRead($config, "search", "iwbmortar", "5")

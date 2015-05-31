@@ -20,6 +20,10 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		_WinAPI_DeleteObject($hBitmapFirst)
 		$hBitmapFirst = _CaptureRegion2()
 		_GetRedArea()
+		If $FoundDarkSideAtk = 1 Then
+			GetDEEdge()
+			DERedDropSave()
+		EndIf
 
 		SetLog("Calculated  (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds) :")
 		;SetLog("	[" & UBound($PixelTopLeft) & "] pixels TopLeft")
@@ -117,6 +121,8 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 				AttackTHgbarch(); good for masters+
 			Case 4
 				AttackTHSmartBarch(); Good for Snipe While Train
+			Case 5
+				AttackTHLimitedBarch(); Good for Snipe While Train
 		EndSwitch
 
 		If $OptTrophyMode = 1 And SearchTownHallLoc() Then; Return ;Exit attacking if trophy hunting and not bullymode
@@ -132,11 +138,14 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			Click(512, 394) ;Click Confirm
 			Return
 		EndIf
-	EndIf
+	 EndIf
 
+    $SnipeCount = 0
 	Local $nbSides = 0
 	If $bBtnAttackNowPressed = True Then
 		$nbSides = ($icmbAtkNowDeploy + 1)
+	ElseIf $FoundDarkSideAtk = 1 Then
+		$nbSides = 1
 	Else
 		$nbSides = ($deploySettings + 1)
 	EndIf
@@ -153,7 +162,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	If ($nbSides = 0) Then Return
 	If _Sleep(1000) Then Return
 
-	Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, 2] _
+	Local $listInfoDeploy[13][5] = [[$eGiant, $nbSides, 1, 1, 5] _
 			, [$eBarb, $nbSides, 1, 2, 0] _
 			, [$eWall, $nbSides, 1, 1, 1] _
 			, [$eArch, $nbSides, 1, 2, 0] _
@@ -201,7 +210,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			$checkQPower = False
 		EndIf
 	EndIf
-
+	If $FoundDarkSideAtk = 1 Then DERedDropRevert()
 	SetLog("Finished Attacking, waiting for the battle to end")
 EndFunc   ;==>algorithm_AllTroops
 

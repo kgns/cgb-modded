@@ -2,6 +2,47 @@
 
 Func saveConfig() ;Saves the controls settings to the config
 
+
+    If GUICtrlRead($chkDESideEnable) = $GUI_CHECKED Then
+		IniWrite($config, "advanced", "desideenable", 1)
+	Else
+		IniWrite($config, "advanced", "desideenable", 0)
+	EndIf
+	If GUICtrlRead($chkDERedLineEnable) = $GUI_CHECKED Then
+		IniWrite($config, "advanced", "deredlineenable", 1)
+	Else
+		IniWrite($config, "advanced", "deredlineenable", 0)
+	 EndIf
+	If GUICtrlRead($chkDropBKEarly) = $GUI_CHECKED Then
+		IniWrite($config, "advanced", "dropbkearly", 1)
+	Else
+		IniWrite($config, "advanced", "dropbkearly", 0)
+	 EndIf
+    IniWrite($config, "advanced", "demortar", _GUICtrlComboBox_GetCurSel($cmbDEMortar))
+    IniWrite($config, "advanced", "dewiztower", _GUICtrlComboBox_GetCurSel($cmbDEWizTower))
+	IniWrite($config, "advanced", "dewalllvl", _GUICtrlComboBox_GetCurSel($cmbDEWallLVL))
+    If GUICtrlRead($chkMeetDESGPE) = $GUI_CHECKED Then
+		IniWrite($config, "advanced", "MeetDESGPE", 1)
+	Else
+		IniWrite($config, "advanced", "MeetDESGPE", 0)
+    EndIf
+	If GUICtrlRead($chkMeetDESDark) = $GUI_CHECKED Then
+		IniWrite($config, "advanced", "MeetDESDark", 1)
+	Else
+		IniWrite($config, "advanced", "MeetDESDark", 0)
+	EndIf
+
+	If GUICtrlRead($chkMeetDESTrophy) = $GUI_CHECKED Then
+		IniWrite($config, "advanced", "MeetDESTrophy", 1)
+	Else
+		IniWrite($config, "advanced", "MeetDESTrophy", 0)
+	 EndIf
+	IniWrite($config, "advanced", "searchDESGPE", GUICtrlRead($txtMinDESGPE))
+	IniWrite($config, "advanced", "searchDESDark", GUICtrlRead($txtMinDESDark))
+	IniWrite($config, "advanced", "searchDESTrophy", GUICtrlRead($txtMinDESTrophy))
+	IniWrite($config, "advanced", "DESTHLevel", _GUICtrlComboBox_GetCurSel($cmbDESTH))
+
+
 	;General Settings--------------------------------------------------------------------------
 	Local $frmBotPos = WinGetPos($sBotTitle)
 	IniWrite($config, "general", "frmBotPosX", $frmBotPos[0])
