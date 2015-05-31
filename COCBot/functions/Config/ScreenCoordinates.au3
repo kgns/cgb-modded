@@ -32,8 +32,10 @@ Global $CampFull[4]  	  = [328, 535, 0xD03840,     20] ;
 Global $DropTrophiesStartPoint=[34, 310]
 
 Global $TrainBarb[4]  = [ 261, 366, 0x39D8E0,     20] ;
-Global $TrainArch[4]  = [ 369, 366, 0x39D8E0,     100] ;
-Global $TrainGiant[4] = [ 475, 366, 0x3DD8E0,     20] ;
+;Global $TrainArch[4]  = [ 369, 366, 0x39D8E0,     100] ;------
+Global $TrainArch[4]  = [ 330, 299, 0xE04070,     30] ;------
+;Global $TrainGiant[4] = [ 475, 366, 0x3DD8E0,     20] ;-------
+Global $TrainGiant[4] = [ 423, 299, 0xF8A31B,     30] ;-------
 Global $TrainWiza[4]  = [ 325, 425, 0xA56052,     20] ;
 Global $TrainGobl[4]  = [ 581, 366, 0x39D8E0,     20] ;
 ;Global $TrainHogs[4]  = [ 369, 366, 0x39CBDA,     20]
@@ -42,7 +44,8 @@ Global $TrainMini[4]  = [ 225, 324, 0x4E91B0,     20]
 Global $TrainWall[4]  = [ 688, 366, 0x3AD8E0,     20] ;
 
 
-Global $TrainHeal[4]  = [ 437, 425, 0xf8ddc6,     20]
+;Global $TrainHeal[4]  = [ 437, 425, 0xf8ddc6,     20] ; ------
+Global $TrainHeal[4]  = [ 429, 450, 0x88341A,     30] ; ------
 Global $TrainPekk[4]  = [ 648, 425, 0x506e8a,     20]
 Global $TrainBall[4]  = [ 225, 425, 0xa4713e,     20]
 Global $TrainDrag[4]  = [ 541, 425, 0x382c50,     20]
