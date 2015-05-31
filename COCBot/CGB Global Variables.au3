@@ -442,7 +442,7 @@ Global $SpellLightningY = 370
 ;DE Side Mod------------------------
 Global $DarkLow, $AimDeSideAtk ,$AimDeSideTh, $DEEdge, $FoundDarkSideAtk
 Global $DESideEnable, $chkDESideEnable
-Global $DERedLineEnable, $chkDERedLineEnable
+Global $DERedLineEnable, $chkDERedLineEnable, $SaveRedArea
 Global $chkDropBKEarly, $DropBKEarly
 Global $cmbDEMortar, $iDEMortar, $cmbDEWizTower, $iDEWizTower
 Global $txtMinDESDark,$chkMeetDESDark, $MeetDESDark, $DESDark
