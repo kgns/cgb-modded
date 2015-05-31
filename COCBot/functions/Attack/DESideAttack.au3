@@ -83,7 +83,7 @@ Func checkDESideResources()
 EndFunc
 
 Func DERedDropSave()
-	Global $SaveRedArea = $chkRedArea
+	$SaveRedArea = $chkRedArea
 	$chkRedArea = 0
 EndFunc
 
