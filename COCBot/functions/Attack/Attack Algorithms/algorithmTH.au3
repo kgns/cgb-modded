@@ -231,9 +231,6 @@ If SearchTownHallLoc() And GUICtrlRead($chkAttackTH)=$GUI_CHECKED Then
    Local $waveName = "first"
    if $waveNb = 2 Then $waveName = "second"
    if $waveNb = 3 Then $waveName = "third"
-   if $waveNb = 4 Then $waveName = "fourth"
-   if $waveNb = 5 Then $waveName = "fifth"
-   if $waveNb = 6 Then $waveName = "sixth"
    if $maxWaveNb = 1 Then $waveName = "only"
    if $waveNb = 0 Then $waveName = "last"
    SetLog("Dropping " & $waveName & " wave of " & $troopNb & " " & $name, $COLOR_GREEN)
@@ -294,59 +291,29 @@ If SearchTownHallLoc() And GUICtrlRead($chkAttackTH)=$GUI_CHECKED Then
 			If $THi>15 Then
 				  If $THside=1 Then
 ;						Setlog("LL Bottom deployment $THi="&$THi)
-						For $num=0 to $numperspot
-							  _CaptureRegion()
-							  Local $BottomDeployCount=Number(getNormal(40 + (72 * $THtroop), 565))
-							  If $BottomDeployCount=0 Then ExitLoop
-							  For $iy=0 To 19/4*5 Step 19/4
-								 For $ix=0 To 14/4*5*2 Step 14/4
-									   _CaptureRegion()
-									   If $BottomDeployCount-Number(getNormal(40 + (72 * $THtroop), 565))>=5 Then ExitLoop(3)
-									   ;Click(floor(340+$ix),floor(545-$iy),5,5) ;not sure deploy but highest chance of hit. Static 1 spot only
-									   Click(430,668) ;bottom corner under gui
-									   _Sleep(50)
-								 Next
-							  Next
-
-;							  		Click(323,538,5,50) ;not sure deploy but highest chance of hit. Static 1 spot only
-							  ;_CaptureRegion()
-							  ;If $BottomDeployCount=Number(getNormal(40 + (72 * $THtroop), 565)) Then
-;									SetLog("BottomLeft Deployment1 Failed numspot="&$num&". Deploying Alternative 2")
-									;If $THtroop<3 Then
-										  ;For $ii=0 to ceiling($spots*1)
-												;Click(340-$ii*19, 546-$ii*14) ;sure deploy for clearing but low chance of hitting
-										  ;Next
-									;EndIf
-							  ;EndIf
+						For $num=0 to $numperspot-1
+						 For $ii=$THi+1 to $THi+1+($spots-1)
+							$aThx=830-$ii*19
+							$aThy=314+$ii*14
+							   ;Click($aThx,$aThy)
+							   Click(430,668)
+							   _Sleep(Random(30,60))
+						 Next
+						_Sleep(Random(40,100))
 						Next
 				  EndIf
 
 				  If $THside=3 Then
 ;						Setlog("LR Bottom deployment $THi="&$THi)
-						For $num=0 to $numperspot
-							  _CaptureRegion()
-							  $BottomDeployCount=Number(getNormal(40 + (72 * $THtroop), 565))
-							  If $BottomDeployCount=0 Then ExitLoop
-							  For $iy=0 To 19/4*5 Step 19/4
-								 For $ix=0 To 14/4*5*2 Step 14/4
-									   _CaptureRegion()
-									   If $BottomDeployCount-Number(getNormal(40 + (72 * $THtroop), 565))>=5 Then ExitLoop(3)
-									   ;Click(floor(516-$ix),floor(545-$iy),5,5) ;not sure deploy but highest chance of hit. Static 1 spot only
-									   Click(430,668) ;bottom corner under gui
-									   _Sleep(50)
-								 Next
-							  Next
-
-;									Click(531,538,5,50) ;not sure deploy but highest chance of hit. Static 1 spot only
-							  ;_CaptureRegion()
-							  ;If $BottomDeployCount=Number(getNormal(40 + (72 * $THtroop), 565)) Then
-;									SetLog("BottomRight Deployment1 Failed numspot="&$num&". Deploying Alternative 2")
-									;if $THtroop<3 Then
-										  ;For $ii=0 to Ceiling($spots*1)
-												;Click(524+$ii*19, 546-$ii*14)
-										  ;Next
-									;EndIf
-							  ;EndIf
+						For $num=0 to $numperspot-1
+						 For $ii=$THi+1 to $THi+1+($spots-1)
+							$aThx=830-$ii*19
+							$aThy=314+$ii*14
+							   ;Click($aThx,$aThy)
+							   Click(430,668)
+							   _Sleep(Random(30,60))
+						 Next
+						_Sleep(Random(40,100))
 						Next
 				  EndIf
 			EndIf
@@ -518,8 +485,8 @@ WEnd
  Setlog("I smell a trap! Let's send in more diverse troops...")
  AttackTHGrid($eGiant,2,1,1500,1,2,0) ;releases 2 giants in case of spring traps
  AttackTHGrid($eGiant,3,5,1500,2,2,0) ;releases up to 15 giants to take heat
- AttackTHGrid($eBarb,4,4,1000,1,5,0) ; deploys up to 16 barbarians
- AttackTHGrid($eBarb,3,5,1500,1,5,0) ; deploys up to 15 barbarians
+ AttackTHGrid($eBarb,3,5,1000,1,5,0) ; deploys up to 15 barbarians
+ AttackTHGrid($eBarb,4,5,1500,1,5,0) ; deploys up to 20 barbarians
  AttackTHGrid($eArch,3,8,1500,3,4,0) ; deploys 24 archers
  AttackTHGrid($eArch,4,7,1000,3,4,0) ; deploys 28 archers
  $count = 0
@@ -537,7 +504,7 @@ WEnd
  AttackTHGrid($eGiant,2,9,1500,3,2,0) ;releases up to 18 giants (in case numbers are off)
  AttackTHGrid($eBarb,4,8,1200,2,5,1) ; deploys Heroes/CC + up to 32 barbarians
  AttackTHGrid($eBarb,3,11,1200,2,5,0) ; deploys up to 33 barbarians
- AttackTHGrid($eBarb,4,8,1500,2,5,0) ; deploys up to 32 barbarians
+ AttackTHGrid($eBarb,4,9,1500,2,5,0) ; deploys up to 36 barbarians
  AttackTHGrid($eArch,3,13,1200,4,4,0) ;releases up to 39 archers
  AttackTHGrid($eArch,2,20,1200,4,4,0) ;releases up to 40 archers
  AttackTHGrid($eArch,2,20,1000,4,4,0) ;releases up to 40 archers
@@ -630,11 +597,11 @@ Func AttackTHSmartBarch()
 
 EndFunc   ;==>AttackTHSmartBarch
 
-Func ALLDropheroes($aThx,$aThy)
-   		 dropHeroes($aThx,$aThy, $King, $Queen)
+Func ALLDropheroes($x,$y)
+   		 dropHeroes($x,$y, $King, $Queen)
 		 If _Sleep(1000) Then Return
 
-		 dropCC($aThx,$aThy, $CC)
+		 dropCC($x,$y, $CC)
 
 		If _Sleep(100) Then Return
 
