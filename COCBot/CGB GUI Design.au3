@@ -753,7 +753,7 @@ GUICtrlCreateTabItem("")
 			GUICtrlSetTip(-1, $txtTip)
 		$y += 22
 		$lblMinDESTH = GUICtrlCreateLabel("Maximum Townhall Level:", $x, $y, -1, -1)
-			$txtTip = "Set the Max. level of the Townhall to search for on a village to attack."
+			$txtTip = "Set the Max. level of the Townhall to search for on a village to attack Set to turn off. No th10 setting because its pointless just set to off/0"
 			GUICtrlSetTip(-1, $txtTip)
 		$cmbDESTH = GUICtrlCreateCombo("", $x + 125, $y-2, 61, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 		GUICtrlSetTip(-1, $txtTip)
