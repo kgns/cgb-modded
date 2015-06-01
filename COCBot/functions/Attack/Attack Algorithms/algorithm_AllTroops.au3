@@ -14,16 +14,16 @@
 ; ===============================================================================================================================
 
 Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
+        If $FoundDarkSideAtk = 1 Then
+                GetDEEdge()
+		DERedDropSave()
+	EndIf
 	If ($chkRedArea) Then
 		SetLog("Calculating Smart Attack Strategy", $COLOR_BLUE)
 		Local $hTimer = TimerInit()
 		_WinAPI_DeleteObject($hBitmapFirst)
 		$hBitmapFirst = _CaptureRegion2()
 		_GetRedArea()
-		If $FoundDarkSideAtk = 1 Then
-			GetDEEdge()
-			DERedDropSave()
-		EndIf
 
 		SetLog("Calculated  (in " & Round(TimerDiff($hTimer) / 1000, 2) & " seconds) :")
 		;SetLog("	[" & UBound($PixelTopLeft) & "] pixels TopLeft")
