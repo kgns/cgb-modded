@@ -14,6 +14,8 @@
 ; ===============================================================================================================================
 
 Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
+        $dropKing = 0
+        $dropQueen = 0
         If $FoundDarkSideAtk = 1 Then
                 GetDEEdge()
 		DERedDropSave()
