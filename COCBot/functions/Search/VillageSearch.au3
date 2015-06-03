@@ -1,9 +1,9 @@
 ;Searches for a village that until meets conditions
 
 Func VillageSearch() ;Control for searching a village that meets conditions
-    $FoundDarkSideAtk = 0
-    Global $dropKing = False
-	Global $dropQueen = False
+        $FoundDarkSideAtk = 0
+        $dropKing = False
+	$dropQueen = False
 	$zapandrunAvoidAttack = 0
 	$iSkipped = 0
 	$haltSearch = False ; to halt searches after 10 attempts ; Snipe While Train Mod by ChiefM3
