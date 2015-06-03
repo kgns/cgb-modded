@@ -453,3 +453,4 @@ Global $cmbDESTH, $DESTH
 Global $SnipeCount = 0
 Global $MaxSnipe = 4
 
+Global $dropKing, $dropQueen
