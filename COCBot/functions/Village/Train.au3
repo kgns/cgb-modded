@@ -34,6 +34,9 @@ EndFunc
 
 
 Func Train()
+    If $OptTrophyMode = 1 Then
+        $ArmyComp = $CurCamp
+    EndIf
 	If _GUICtrlComboBox_GetCurSel($cmbTroopComp) <> 1 Then
 		checkArmyCamp()
 	EndIf
