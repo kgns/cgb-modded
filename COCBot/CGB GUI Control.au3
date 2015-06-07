@@ -1875,3 +1875,15 @@ EndIf
 GUIRegisterMsg($WM_COMMAND, "GUIControl")
 GUIRegisterMsg($WM_SYSCOMMAND, "GUIControl")
 ;---------------------------------------------------
+
+
+; Do something after "X" amount of searches mod
+Func ChkSearchConnfunc()
+   If Guictrlread($chkSearchConne)=$GUI_CHECKED Then
+ GUICtrlSetState($txtSearchConne , $GUI_ENABLE)
+ GUICtrlSetState($cmbDoWhenReach , $GUI_ENABLE)
+   Else
+ GUICtrlSetState($txtSearchConne , $GUI_DISABLE)
+ GUICtrlSetState($cmbDoWhenReach , $GUI_DISABLE)
+   EndIf
+EndFunc
