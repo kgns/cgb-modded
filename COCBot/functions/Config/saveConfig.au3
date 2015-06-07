@@ -41,6 +41,16 @@ Func saveConfig() ;Saves the controls settings to the config
 	ElseIf GUICtrlRead($radAllBases) = $GUI_CHECKED Then
 		IniWrite($config, "search", "mode", 2)
 	EndIf
+	
+	;Search Condition
+	;Do something after "X" amount of searches mod
+	If GUICtrlRead($chkSearchConne)=$GUI_CHECKED  Then
+ 		IniWrite($config,"search","ChkSearchConne",1)
+	Else
+		IniWrite($config,"search","ChkSearchConne",0)
+	EndIf
+		IniWrite($config, "search", "TxtSearchConne", GUICtrlRead($txtSearchConne))
+		IniWrite($config, "search", "DoWhenReach", _GUICtrlComboBox_GetCurSel($cmbDoWhenReach))
 
 	If GUICtrlRead($chkSearchReduction) = $GUI_CHECKED Then
 		IniWrite($config, "search", "reduction", 1)
