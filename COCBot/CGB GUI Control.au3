@@ -49,7 +49,7 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 					_WinAPI_DeleteObject($hHBitmap)
 					_GDIPlus_Shutdown()
 					_GUICtrlRichEdit_Destroy($txtLog)
-					;SaveConfig()
+					;SaveConfig() ; commented out for Switch Accounts Mod
 					Exit
 				Case $labelGameBotURL
 					ShellExecute("https://GameBot.org") ;open web site when clicking label
@@ -85,7 +85,7 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 				Case 0xf060
 					_GDIPlus_Shutdown()
 					_GUICtrlRichEdit_Destroy($txtLog)
-					;SaveConfig()
+					;SaveConfig() ; commented out for Switch Accounts Mod
 					Exit
 			EndSwitch
 	EndSwitch
@@ -219,9 +219,9 @@ Func btnStart()
 	CreateLogFile()
 
 
-	;SaveConfig()
-	;readConfig()
-	;applyConfig()
+	;SaveConfig() ; commented out for Switch Accounts Mod
+	;readConfig() ; commented out for Switch Accounts Mod
+	;applyConfig() ; commented out for Switch Accounts Mod
 
 	_GUICtrlEdit_SetText($txtLog, "")
 
