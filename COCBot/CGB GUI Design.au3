@@ -203,7 +203,7 @@ $tabSearch = GUICtrlCreateTabItem("Search")
   	GUICtrlSetLimit(-1,3)
   	GUIctrlsetstate(-1,$GUI_DISABLE)
   	Global $cmbDoWhenReach=GUIctrlcreatecombo("",$x+150,$y+30,150,20)
-  	GUIctrlsetdata(-1,"Return Home|Simulate OOS|Restart BS|Change COC Lang|Retstart PC","Return Home")
+  	GUIctrlsetdata(-1,"Return Home|Simulate OOS|Restart BS|Change COC Lang|Restart PC","Return Home")
   
 	Local $x = 150, $y = 130
 	$grpWeakBaseSettings = GUICtrlCreateGroup("", $x - 20, $y - 20, 330, 85)
