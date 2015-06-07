@@ -114,6 +114,12 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 		GUICtrlSetState($lblVersion, $GUI_HIDE)
 	EndIf
 
+	;Do something after "X" amount of searches mod
+	$itxtSrcCon=GUICtrlRead($txtSearchConne)
+	If GUICtrlRead($chkSearchConne)=$GUI_CHECKED Then
+ 		SetLog("Will "& Guictrlread($cmbDoWhenReach)& " After "&$itxtSrcCon&" searches",$COLOR_GREEN)
+	EndIf
+
 	If $Is_ClientSyncError = False Then
 		$SearchCount = 0
 	EndIf
