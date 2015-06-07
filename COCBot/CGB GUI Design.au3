@@ -194,6 +194,17 @@ $tabSearch = GUICtrlCreateTabItem("Search")
 			GUICtrlSetOnEvent(-1, "radNotWeakBases")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	; Search condition
+	; Do something after "X" amount of searches mod
+	
+	Global $chkSearchConne=GUICtrlCreateCheckbox("Do After Reach :",$x,$y+30,-1,-1)
+  	GUICtrlSetOnEvent(-1, "ChkSearchConnfunc")
+  	Global $txtSearchConne=GUICtrlCreateInput("150",$x+120,$y+30,25,20,BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+  	GUICtrlSetLimit(-1,3)
+  	GUIctrlsetstate(-1,$GUI_DISABLE)
+  	Global $cmbDoWhenReach=GUIctrlcreatecombo("",$x+150,$y+30,150,20)
+  	GUIctrlsetdata(-1,"Return Home|Simulate OOS|Restart BS|Change COC Lang|Retstart PC","Return Home")
+  
 	Local $x = 150, $y = 130
 	$grpWeakBaseSettings = GUICtrlCreateGroup("", $x - 20, $y - 20, 330, 85)
 		$txtTip = "Use these options to specify the WeakBase settings."
