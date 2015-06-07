@@ -23,6 +23,16 @@ $frmBot = GUICreate($sBotTitle, 470, 715)
 $tabMain = GUICtrlCreateTab(5, 85, 461, 495, $TCS_TOOLTIPS)
 	GUICtrlSetOnEvent(-1, "tabMain")
 	GUICtrlCreatePic (@ScriptDir & "\Icons\logo.jpg", 0, 0, 470, 80)
+;~ ------------------------------------------------------
+;~ Switch Accounts Mod
+;~ ------------------------------------------------------
+	$account =  GUICtrlCreateLabel("switch", 150, 0, 100)
+	GUICtrlSetState($account, $GUI_HIDE)
+	$SwitchMenu = GUICtrlCreateMenu("Switch Account")
+	$Main = GUICtrlCreateMenuItem("Main", $SwitchMenu)
+	GUICtrlSetOnEvent(-1, "Switchmain")
+	$Mini = GUICtrlCreateMenuItem("Mini", $SwitchMenu)
+	GUICtrlSetOnEvent(-1, "Switchmini")
 
 ;~ ------------------------------------------------------
 ;~ Header Menu
