@@ -54,6 +54,7 @@
 #include "functions\Attack\Troops\OldDropTroop.au3"
 #include "functions\Attack\Troops\ReadTroopQuantity.au3"
 #include "functions\Attack\Troops\SelectDropTroop.au3"
+#include "functions\Attack\DESideAttack.au3"
 
 #include "functions\Image Search\ImageSearch.au3"
 #include "functions\Image Search\checkDeadBase.au3"

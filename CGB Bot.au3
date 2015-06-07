@@ -122,6 +122,10 @@ Func runBot() ;Bot that runs everything in order
 					If _Sleep(1000) Then Return
 					checkMainScreen(False)
 					If $Restart = True Then ContinueLoop
+   				BoostHeros()
+					If _Sleep(1000) Then Return
+					checkMainScreen(False)
+					If $Restart = True Then ContinueLoop
 				RequestCC()
 					If _Sleep(1000) Then Return
 					checkMainScreen(False)
@@ -255,9 +259,10 @@ Func AttackMain() ;Main control for attack functions
 	    ProfileReport()
 		If _Sleep(1000) Then Return
     EndIf
-
-			    checkMainScreen(False)
-		If $Restart = True Then Return
+    BoostHeros()
+	  If _Sleep(1000) Then Return
+	  checkMainScreen(False)
+	  If $Restart = True Then Return
 	PrepareSearch()
 		If $Restart = True Then Return
 	VillageSearch()

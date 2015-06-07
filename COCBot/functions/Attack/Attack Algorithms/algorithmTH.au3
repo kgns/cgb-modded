@@ -597,8 +597,69 @@ Func AttackTHSmartBarch()
 
 EndFunc   ;==>AttackTHSmartBarch
 
-Func ALLDropheroes($x,$y)
-   		 dropHeroes($x,$y, $King, $Queen)
+Func AttackTHLimitedBarch()
+		 ; Zap DE
+		 If $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		 EndIf
+
+   		 Setlog("Sniping TH with LimitedBarch")
+
+		 ; 1st wave 30 secs, total 4 barbs 8 archers, works for totally unprotected TH
+		 SetLog("Attacking TH with 1st wave of BARCH", $COLOR_BLUE)
+		 AttackTHGrid($eBarb,4,1,2000,1,4,0) ; deploys 4 barbarians to take out traps waits 2 seconds for bombs to go off
+		 AttackTHGrid($eArch,2,4,22000,1,4,0) ; deploys 8 archers and wait additional 42sec
+
+		 _Sleep(200)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Easy 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+		 _Sleep(22000)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Easy 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+		 _Sleep(22000)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Easy 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+
+		 ; 2nd wave 25 secs total 16 barbs, 22 archers, works for TH partially covered by defenses
+ 		 SetLog("Attacking TH with 2nd wave of BARCH", $COLOR_BLUE)
+		 AttackTHGrid($eBarb,3,2,200,2,4,0) ; deploys 6 barbarians
+		 AttackTHGrid($eArch,2,4,200,2,4,0) ; deploys 8 archers and waits 2 seconds
+		 AttackTHGrid($eBarb,2,2,200,2,4,0) ; deploys 4 barbarians
+		 AttackTHGrid($eArch,4,2,1000,2,4,0) ; deploys 8 archers
+		 AttackTHGrid($eBarb,2,2,22000,2,4,0) ; deploys 4 barbarians
+
+		 _Sleep(200)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Cheap 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+		 _Sleep(22000)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Cheap 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+	SetLog("All troops deployed and waiting for a star...", $COLOR_GREEN)
+
+EndFunc   ;==>AttackTHLimitedBarch
+
+Func ALLDropheroes($aThx,$aThy)
+   		 dropHeroes($aThx,$aThy, $King, $Queen)
 		 If _Sleep(1000) Then Return
 
 		 dropCC($x,$y, $CC)

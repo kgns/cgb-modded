@@ -3,8 +3,6 @@
 
 Func dropHeroes($x, $y, $KingSlot = -1, $QueenSlot = -1) ;Drops for king and queen
 	If _Sleep(300) Then Return
-	Local $dropKing = False
-	Local $dropQueen = False
 	Switch $iradAttackMode
 		Case 0 ;Dead Base
 			If $KingSlot <> -1 And ($KingAttack[0] = 1 Or $KingAttack[2] = 1) Then
