@@ -49,7 +49,7 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 					_WinAPI_DeleteObject($hHBitmap)
 					_GDIPlus_Shutdown()
 					_GUICtrlRichEdit_Destroy($txtLog)
-					SaveConfig()
+					;SaveConfig()
 					Exit
 				Case $labelGameBotURL
 					ShellExecute("https://GameBot.org") ;open web site when clicking label
@@ -85,7 +85,7 @@ Func GUIControl($hWind, $iMsg, $wParam, $lParam)
 				Case 0xf060
 					_GDIPlus_Shutdown()
 					_GUICtrlRichEdit_Destroy($txtLog)
-					SaveConfig()
+					;SaveConfig()
 					Exit
 			EndSwitch
 	EndSwitch
@@ -211,6 +211,7 @@ Func btnStart()
 	GUICtrlSetState($btnStart, $GUI_HIDE)
 	GUICtrlSetState($btnStop, $GUI_SHOW)
 	GUICtrlSetState($btnPause, $GUI_SHOW)
+	GUICtrlSetState($SwitchMenu, $GUI_DISABLE)
 	$NoMoreWalls = 0
 	$DontTouchMe = False
 	$IAmSelfish = False
@@ -218,9 +219,9 @@ Func btnStart()
 	CreateLogFile()
 
 
-	SaveConfig()
-	readConfig()
-	applyConfig()
+	;SaveConfig()
+	;readConfig()
+	;applyConfig()
 
 	_GUICtrlEdit_SetText($txtLog, "")
 
@@ -246,7 +247,8 @@ Func btnStop()
 			If $pEnabled And $i = $btnDeletePBmessages Then $i += 1 ; exclude the DeleteAllMesages button when PushBullet is enabled
 			GUICtrlSetState($i, $iPrevState[$i])
 		Next
-
+		
+		GUICtrlSetState($SwitchMenu,$GUI_ENABLE)
 		GUICtrlSetState($chkBackground, $GUI_ENABLE)
 		GUICtrlSetState($btnStart, $GUI_SHOW)
 		GUICtrlSetState($btnStop, $GUI_HIDE)
