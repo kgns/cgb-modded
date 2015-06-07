@@ -49,6 +49,8 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	EndIf
 	chkSearchReduction()
 
+	;Do something after "X" amount of searches mod
+	_GUICtrlComboBox_SetCurSel($cmbDoWhenReach,$icmbDoWhenReach)
 	GUICtrlSetData($txtSearchReduceCount, $ReduceCount)
 	GUICtrlSetData($txtSearchReduceGold, $ReduceGold)
 	GUICtrlSetData($txtSearchReduceElixir, $ReduceElixir)

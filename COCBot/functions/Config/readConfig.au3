@@ -77,6 +77,17 @@ Func readConfig() ;Reads config and sets it to the variables
 		$chkConditions[5] = IniRead($config, "search", "conditionTownHallO", "0")
 		$ichkMeetOne = IniRead($config, "search", "conditionOne", "0")
 
+		;Search Condition
+		;Do something after "X" amount of searches mod
+ 		If IniRead($config, "search", "ChkSearchConne", "0") = 1 Then
+			GUICtrlSetState($chkSearchConne,$GUI_CHECKED)
+    			GUICtrlSetState($txtSearchConne,$GUI_ENABLE)
+ 		Else
+    			GUICtrlSetState($chkSearchConne,$GUI_UNCHECKED)
+ 		EndIf
+ 		GUICtrlSetData($txtSearchConne, IniRead($config, "search", "TxtSearchConne", "150"))
+ 		$icmbDoWhenReach=IniRead($config, "search", "DoWhenReach", "0")
+
 		$MinGold = IniRead($config, "search", "searchGold", "80000")
 		$MinElixir = IniRead($config, "search", "searchElixir", "80000")
 		$MinGoldPlusElixir = IniRead($config, "search", "searchGoldPlusElixir", "160000")

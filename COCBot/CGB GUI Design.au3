@@ -23,6 +23,16 @@ $frmBot = GUICreate($sBotTitle, 470, 715)
 $tabMain = GUICtrlCreateTab(5, 85, 461, 495, $TCS_TOOLTIPS)
 	GUICtrlSetOnEvent(-1, "tabMain")
 	GUICtrlCreatePic (@ScriptDir & "\Icons\logo.jpg", 0, 0, 470, 80)
+;~ ------------------------------------------------------
+;~ Switch Accounts Mod
+;~ ------------------------------------------------------
+	$account =  GUICtrlCreateLabel("switch", 150, 0, 100)
+	GUICtrlSetState($account, $GUI_HIDE)
+	$SwitchMenu = GUICtrlCreateMenu("Switch Account")
+	$Main = GUICtrlCreateMenuItem("Main", $SwitchMenu)
+	GUICtrlSetOnEvent(-1, "Switchmain")
+	$Mini = GUICtrlCreateMenuItem("Mini", $SwitchMenu)
+	GUICtrlSetOnEvent(-1, "Switchmini")
 
 ;~ ------------------------------------------------------
 ;~ Header Menu
@@ -184,6 +194,17 @@ $tabSearch = GUICtrlCreateTabItem("Search")
 			GUICtrlSetOnEvent(-1, "radNotWeakBases")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
+	; Search condition
+	; Do something after "X" amount of searches mod
+	
+	Global $chkSearchConne=GUICtrlCreateCheckbox("Do After Reach :",$x,$y+30,-1,-1)
+  	GUICtrlSetOnEvent(-1, "ChkSearchConnfunc")
+  	Global $txtSearchConne=GUICtrlCreateInput("150",$x+120,$y+30,25,20,BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+  	GUICtrlSetLimit(-1,3)
+  	GUIctrlsetstate(-1,$GUI_DISABLE)
+  	Global $cmbDoWhenReach=GUIctrlcreatecombo("",$x+150,$y+30,150,20)
+  	GUIctrlsetdata(-1,"Return Home|Simulate OOS|Restart BS|Change COC Lang|Restart PC","Return Home")
+  
 	Local $x = 150, $y = 130
 	$grpWeakBaseSettings = GUICtrlCreateGroup("", $x - 20, $y - 20, 330, 85)
 		$txtTip = "Use these options to specify the WeakBase settings."
@@ -2234,7 +2255,7 @@ Local $x = 30, $y = 130
 	$grpModCredits = GUICtrlCreateGroup("Mod Credits", $x - 20, $y - 20, 450, 85)
 		$lblModCredits = GUICtrlCreateLabel("Credits go to the following modders:", $x - 5, $y - 5, 400, 20)
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
-		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts, CrazyHeo, outcry666"
+		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts, CrazyHeo, outcry666, lnuxunl"
 		$lbltxtModCredits = GUICtrlCreateEdit($txtModCredits, $x - 5, $y + 10, 434, 39, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 		$labelModForumURL = GUICtrlCreateLabel("https://GameBot.org/forums/thread-2682.html", $x - 5, $y + 50, 450, 20)
