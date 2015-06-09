@@ -54,6 +54,21 @@ Func readConfig() ;Reads config and sets it to the variables
 		$icmbBotCond = IniRead($config, "general", "Cond", "0")
 		$icmbHoursStop = IniRead($config, "general", "Hour", "0")
 
+
+	    $DESideEnable = IniRead($config, "advanced", "desideenable", "0")
+		$DERedLineEnable = IniRead($config, "advanced", "deredlineenable", "0")
+		$DEEndEarly = IniRead($config, "advanced", "deendearly", "0")
+	    $iDEMortar = IniRead($config, "advanced", "demortar", "5")
+		$iDEWizTower = IniRead($config, "advanced", "dewiztower", "5")
+		$MeetDESGPE = IniRead($config, "advanced", "MeetDESGPE", "0")
+		$MeetDESDark = IniRead($config, "advanced", "MeetDESDark", "0")
+		$MeetDESTrophy = IniRead($config, "advanced", "MeetDESTrophy", "0")
+		$DESGPE = IniRead($config, "advanced", "searchDESGPE", "160000")
+		$DESDark = IniRead($config, "advanced", "searchDESDark", "800")
+		$DESTrophy = IniRead($config, "advanced", "searchDESTrophy", "15")
+		$DESTH = IniRead($config, "advanced", "DESTHLevel", "8")
+
+
 		;Search Settings------------------------------------------------------------------------
 		$iradAttackMode = IniRead($config, "search", "mode", "0")
 		$iWBMortar = IniRead($config, "search", "iwbmortar", "5")
@@ -130,6 +145,7 @@ Func readConfig() ;Reads config and sets it to the variables
 
 		$chkATH = IniRead($config, "advanced", "townhall", "0")
 		$iChkSnipeWhileTrain = IniRead($config, "advanced", "chkSnipeWhileTrain", "0") ; Snipe While Train MOD by ChiefM3
+		$MaxSnipe = IniRead($config, "advanced", "maxSnipe", "9999")
 		$iChkLightSpell = IniRead($config, "advanced", "hitDElightning", "0")
 		$SpellMinDarkStorage = IniRead($config, "advanced", "txtMinDarkStorage", "500")
         $iLSpellQ = IniRead ($config, "advanced", "QLSpell", "3")
@@ -300,6 +316,8 @@ Func readConfig() ;Reads config and sets it to the variables
 		$fulltroop = IniRead($config, "troop", "fullTroop", "100")
 		$isldTrainITDelay = IniRead($config, "troop", "TrainITDelay", "20")
 		;barracks boost not saved (no use)
+	    $ichkBoostKing = IniRead($config, "other", "BoostKing", "0")
+		$ichkBoostQueen = IniRead($config, "other", "BoostQueen", "0")
 ; labo
 ;Laboratory
 		$ichkLab = IniRead($config, "upgrade", "auto-uptroops", "0")

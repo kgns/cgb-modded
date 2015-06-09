@@ -558,6 +558,9 @@ GUICtrlCreateTabItem("")
 			GUICtrlSetTip(-1, "Check this to Attack an exposed Townhall first. (Townhall outside of Walls)" & @CRLF & "TIP: Also tick 'Meet Townhall Outside' on the Search tab if you only want to search for bases with exposed Townhalls.")
 	    $chkSnipeWhileTrain = GUICtrlCreateCheckbox("TH snipe while training army", $x + 200, $y, -1, -1) ; Snipe While Train MOD by ChiefM3
 			GUICtrlSetTip(-1, "Bot will try to TH snipe while training army.")
+	    $txtMaxSnipe = GUICtrlCreateInput("9999", $x + 360, $y, 35, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, "Maximum Snipes While Train. Limits amount of snipes, when it reaches max it wont 'Snipe While Train' until army has trained and does proper attack ")
+			GUICtrlSetLimit(-1, 4)
 		$y +=22
 		$chkLightSpell = GUICtrlCreateCheckbox("Hit Dark Elixir storage with Lightning Spell", $x, $y, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to use lightning spells to steal Dark Elixir when bot meet Minimum Dark Elixir.")
@@ -627,7 +630,7 @@ GUICtrlCreateTabItem("")
 		$y+=22
 		$lblAttackTHType = GUICtrlCreateLabel("Attack Type:", $x + 10 , $y + 5, -1, 17, $SS_RIGHT)
 		$cmbAttackTHType = GUICtrlCreateCombo("",  $x + 95, $y, 105, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch|Attack4:SmartBarch", "Attack1:Normal")
+			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch|Attack4:SmartBarch|Attack5:LimitedBarch", "Attack1:Normal")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y+=22
 		$chkTHSnipeLightningDE = GUICtrlCreateCheckbox("Use lightning for DE while TH Sniping", $x, $y, -1, -1)
@@ -682,7 +685,7 @@ GUICtrlCreateTabItem("")
 
 
 	Local $x = 30, $y = 425
-	$grpBattleOptions = GUICtrlCreateGroup("Battle Options", $x - 20, $y - 20, 300, 80)
+	$grpBattleOptions = GUICtrlCreateGroup("Battle Options", $x - 20, $y - 20, 300, 60)
 		;$chkTimeStopAtk = GUICtrlCreateCheckbox("End Battle, if no new loot raided within:", $x, $y - 5, -1, -1)
 		$lblTimeStopAtk = GUICtrlCreateLabel("End Battle, if no new loot raided within:", $x + 17, $y, -1, -1)
 			$txtTip = "End Battle if there is no extra loot raided within this No. of seconds." & @CRLF & "Countdown is started after all Troops and Royals are deployed in battle."
@@ -705,13 +708,76 @@ GUICtrlCreateTabItem("")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$x +=305
-	$grpLootSnapshot = GUICtrlCreateGroup("Loot Snapshot", $x - 20, $y - 20, 145, 80)
-		$chkTakeLootSS = GUICtrlCreateCheckbox("Take Loot Snapshot", $x - 5, $y - 5, -1, -1)
+	$grpLootSnapshot = GUICtrlCreateGroup("Loot Snapshot", $x - 20, $y - 20, 145, 60)
+		$chkTakeLootSS = GUICtrlCreateCheckbox("Take Loot Snapshot", $x - 5, $y - 7, -1, -1)
 			GUICtrlSetTip(-1, "Check this if you want to save a Loot snapshot of the Village that was attacked.")
 			GUICtrlSetState(-1, $GUI_CHECKED)
 		$chkScreenshotLootInfo = GUICtrlCreateCheckbox("Include Loot Info", $x - 5, $y + 15, -1, -1)
 			GUICtrlSetTip(-1, "Include loot info into screenshot filename")
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
+   $x -=305
+   $y += 65
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+   	$grpConditions = GUICtrlCreateGroup("Dark Elixir Side Attack", $x - 20, $y - 20, 450, 105)
+	  $chkDESideEnable = GUICtrlCreateCheckbox("DE Side Enable", $x - 15, $y - 7, -1, -1)
+	  GUICtrlSetOnEvent(-1, "chkDESideEnable")
+	  $chkDERedLineEnable = GUICtrlCreateCheckbox("RedLine Enable", $x - 15, $y + 15, -1, -1)
+	  GUICtrlSetOnEvent(-1, "chkDERedLineEnable")
+	  GUICtrlSetState(-1, $GUI_DISABLE)
+	  $chkDEEndEarly = GUICtrlCreateCheckbox("End Battle Early DE Low", $x - 15, $y + 59, -1, -1)
+	  GUICtrlSetTip(-1, "This feature will end battle early when Dark Elixir is below 15% and you have achieved 1 star if DESide Base found and Heros are used")
+		$y -= 3
+		$x += 90
+    $lblDEMortar = GUICtrlCreateLabel("Max. Mortar Lvl:", $x - 10, $y , -1, -1)
+	$cmbDEMortar = GUICtrlCreateCombo("", $x + 100, $y - 5, 35, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetData(-1, "0|1|2|3|4|5|6|7|8", "0")
+    $y +=22
+	$lblDEWizTower = GUICtrlCreateLabel("Max. Wizard Tow. Lvl:", $x - 10, $y, -1, -1)
+	$cmbDEWizTower = GUICtrlCreateCombo("", $x + 100, $y - 5, 35, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetData(-1, "0|1|2|3|4|5|6|7|8", "0")
+    $y +=22
+	$lblDEWallLVL = GUICtrlCreateLabel("Max. Wall. Lvl:", $x - 10, $y, -1, -1)
+	$cmbDEWallLVL = GUICtrlCreateCombo("", $x + 100, $y - 5, 35, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+	    $txtTip = "Currently unavailable. "
+		GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetData(-1, "-|1|2|3|4|5|6|7|8", "-")
+		$x += 140
+		$y -= 47
+		$chkMeetDESGPE = GUICtrlCreateCheckbox("Meet Gold + Elixir", $x, $y, -1, -1)
+			$txtTip = "Search for a base that meets sum of values set for Min. Gold + Elixir."
+			GUICtrlSetOnEvent(-1, "chkMeetDESGPE")
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 22
+		$chkMeetDESDark = GUICtrlCreateCheckbox("Meet Dark Elixir", $x , $y, -1, -1)
+			$txtTip = "Search for a base that meets the value set for Min. Dark Elixir."
+			GUICtrlSetOnEvent(-1, "chkMeetDESDE")
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 22
+		$chkMeetDESTrophy = GUICtrlCreateCheckbox("Meet Trophy Count", $x, $y, -1, -1)
+			$txtTip = "Search for a base that meets the value set for Min. Trophies."
+			GUICtrlSetOnEvent(-1, "chkMeetDESTrophy")
+			GUICtrlSetTip(-1, $txtTip)
+		$y += 22
+		$lblMinDESTH = GUICtrlCreateLabel("Maximum Townhall Level:", $x, $y, -1, -1)
+			$txtTip = "Set the Max. level of the Townhall to search for on a village to attack Set to turn off. No th10 setting because its pointless just set to off/0"
+			GUICtrlSetTip(-1, $txtTip)
+		$cmbDESTH = GUICtrlCreateCombo("", $x + 125, $y-2, 61, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+		GUICtrlSetTip(-1, $txtTip)
+		GUICtrlSetData(-1, "0|4-6|7|8|9", "0")
+		$y -= 63
+			$txtMinDESGPE = GUICtrlCreateInput("160000", $x + 125, $y - 5, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 6)
+		$y += 22
+			$txtMinDESDark = GUICtrlCreateInput("800", $x + 125, $y - 5, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 4)
+		$y += 22
+			$txtMinDESTrophy = GUICtrlCreateInput("20", $x + 125, $y - 5, 61, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 6)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 GUICtrlCreateTabItem("")
 
@@ -1512,7 +1578,26 @@ $tabTroops = GUICtrlCreateTabItem("Troops")
 
 	$x +=  227
 	$y = 310
-	$grpDarkTroops = GUICtrlCreateGroup("Add. Dark Troops", $x - 20, $y - 20, 223, 170)
+        $grpBoostHeroes = GUICtrlCreateGroup("Boost Heroes", $x - 20, $y - 20, 220, 65)
+        $btnLocateKing = GUICtrlCreateButton("King", $x - 10, $y, 40, 40, $BS_ICON)
+            GUICtrlSetOnEvent(-1, "btnLocateKing")
+            GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 7, 1)
+            $txtTip = "Locate Your King."
+            GUICtrlSetTip(-1, $txtTip)
+        $btnLocateQueen = GUICtrlCreateButton("Queen", $x + 30, $y, 40, 40, $BS_ICON)
+            GUICtrlSetOnEvent(-1, "btnLocateQueen")
+            GUICtrlSetImage (-1, $LibDir & "\CGBBOT.dll", 41, 1)
+            $txtTip = "Locate Your Queen."
+            GUICtrlSetTip(-1, $txtTip)
+        $chkBoostKing = GUICtrlCreateCheckbox("Boost King", $x + 90, $y , 80, 17)
+            GUICtrlSetTip(-1, "Boost your King so he is always available for raids.")
+        $chkBoostQueen = GUICtrlCreateCheckbox("Boost Queen", $x + 90, $y + 21, 95, 17)
+            GUICtrlSetTip(-1, "Boost your Queen so she is always available for raids")
+    GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$x += 2
+   $y += 70
+	$grpDarkTroops = GUICtrlCreateGroup("Add. Dark Troops", $x - 20, $y - 20, 223, 195)
 		GUICtrlCreateIcon ($LibDir & "\CGBBOT.dll", 37, $x - 5, $y - 5, 24, 24)
 		$lblMinion = GUICtrlCreateLabel("No. of Minions:", $x + 25, $y, -1, -1)
 		$txtNumMini = GUICtrlCreateInput("0", $x + 130, $y - 5, 55, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
@@ -2234,7 +2319,7 @@ Local $x = 30, $y = 130
 	$grpModCredits = GUICtrlCreateGroup("Mod Credits", $x - 20, $y - 20, 450, 85)
 		$lblModCredits = GUICtrlCreateLabel("Credits go to the following modders:", $x - 5, $y - 5, 400, 20)
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
-		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts, CrazyHeo, outcry666"
+		$txtModCredits =	"ChiefM3, Sm0kE, lekter, kgns, barracoda, janikz211, bunana123, Jame, papaismurf, indy, sabrewulf86, Jgrt123, summoner, Boju, Shark, Cocmady, coldfire2k, cmestres, rcorts, CrazyHeo, outcry666, KnowsKones"
 		$lbltxtModCredits = GUICtrlCreateEdit($txtModCredits, $x - 5, $y + 10, 434, 39, BITOR($WS_VISIBLE, $ES_AUTOVSCROLL, $ES_READONLY, $SS_LEFT),0)
 			GUICtrlSetBkColor(-1, $COLOR_WHITE)
 		$labelModForumURL = GUICtrlCreateLabel("https://GameBot.org/forums/thread-2682.html", $x - 5, $y + 50, 450, 20)

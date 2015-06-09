@@ -93,3 +93,77 @@ If (GUICtrlRead($cmbBoostSpellFactory ) > 0) And ($boostsEnabled = 1)  Then
 		EndIf
 EndIf
 EndFunc
+
+Func BoostHeros()
+	  If $ichkBoostKing = 1 Then;
+			If $KingPos[0] = "" Then
+				LocateKing()
+				SaveConfig()
+				If _Sleep(2000) Then Return
+				Click(1, 1) ;Click Away
+			EndIf
+			SetLog("Boosting King...", $COLOR_BLUE)
+			Click($KingPos[0], $KingPos[1]) ;Click King
+			If _Sleep(500) Then Return
+			_CaptureRegion()
+			$Boost = _PixelSearch(382, 603, 440, 621, Hex(0xfffd70, 6), 10)
+		   If IsArray($Boost) Then
+				  Click($Boost[0], $Boost[1])
+				  If _Sleep(1000) Then Return
+				  _CaptureRegion()
+			  If _ColorCheck(_GetPixelColor(420, 375), Hex(0xD0E978, 6), 20) Then
+				  Click(420, 375)
+				  If _Sleep(2000) Then Return
+				  _CaptureRegion()
+			     If _ColorCheck(_GetPixelColor(586, 267), Hex(0xd80405, 6), 20) Then
+				    SetLog("Not enough gems", $COLOR_RED)
+			     Else
+				    SetLog('Boost completed.', $COLOR_GREEN)
+			     EndIf
+			  Else
+			     SetLog("King is already Boosted", $COLOR_RED)
+			  EndIf
+			     If _Sleep(500) Then Return
+			    Click(1, 1)
+		   Else
+			 SetLog("King is already Boosted", $COLOR_RED)
+			 If _Sleep(1000) Then Return
+		   EndIf
+	  EndIf
+
+	  If $ichkBoostQueen = 1 Then
+			If $QueenPos[0] = "" Then
+				LocateQueen()
+				SaveConfig()
+				If _Sleep(2000) Then Return
+				Click(1, 1) ;Click Away
+			EndIf
+			SetLog("Boosting Queen...", $COLOR_BLUE)
+			Click($QueenPos[0], $QueenPos[1]) ;Click Queen
+			If _Sleep(500) Then Return
+			_CaptureRegion()
+			$Boost = _PixelSearch(382, 603, 440, 621, Hex(0xfffd70, 6), 10)
+		   If IsArray($Boost) Then
+				  Click($Boost[0], $Boost[1])
+				  If _Sleep(1000) Then Return
+				  _CaptureRegion()
+			  If _ColorCheck(_GetPixelColor(420, 375), Hex(0xD0E978, 6), 20) Then
+				  Click(420, 375)
+				  If _Sleep(2000) Then Return
+				  _CaptureRegion()
+			     If _ColorCheck(_GetPixelColor(586, 267), Hex(0xd80405, 6), 20) Then
+				    SetLog("Not enough gems", $COLOR_RED)
+			     Else
+				    SetLog('Boost completed.', $COLOR_GREEN)
+			     EndIf
+			  Else
+			     SetLog("Queen is already Boosted", $COLOR_RED)
+			  EndIf
+			     If _Sleep(500) Then Return
+			    Click(1, 1)
+		   Else
+			 SetLog("Queen is already Boosted", $COLOR_RED)
+			 If _Sleep(1000) Then Return
+		   EndIf
+	  EndIf
+EndFunc

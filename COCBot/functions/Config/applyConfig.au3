@@ -260,6 +260,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkSnipeWhileTrain, $GUI_UNCHECKED)
 	EndIf
+    GUICtrlSetData($txtMaxSnipe, $MaxSnipe)
 	If $iChkLightSpell = 1 Then
 		GUICtrlSetState($chkLightSpell, $GUI_CHECKED)
 	Else
@@ -312,6 +313,42 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 
 	;attk their king
 	;attk their queen
+    If $DESideEnable = 1 Then
+	    GUICtrlSetState($chkDESideEnable, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDESideEnable, $GUI_UNCHECKED)
+	EndIf
+    If $DERedLineEnable = 1 Then
+	    GUICtrlSetState($chkDERedLineEnable, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDERedLineEnable, $GUI_UNCHECKED)
+	EndIf
+    If $DEEndEarly = 1 Then
+	    GUICtrlSetState($chkDEEndEarly, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkDEEndEarly, $GUI_UNCHECKED)
+	EndIf
+    _GUICtrlComboBox_SetCurSel($cmbDEMortar, $iDEMortar)
+	_GUICtrlComboBox_SetCurSel($cmbDEWizTower, $iDEWizTower)
+    If $MeetDESGPE = 1 Then
+	    GUICtrlSetState($chkMeetDESGPE, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkMeetDESGPE, $GUI_UNCHECKED)
+	EndIf
+	If $MeetDESDark = 1 Then
+		GUICtrlSetState($chkMeetDESDark, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkMeetDESDark, $GUI_UNCHECKED)
+	EndIf
+	If $MeetDESTrophy = 1 Then
+		GUICtrlSetState($chkMeetDESTrophy, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkMeetDESTrophy, $GUI_UNCHECKED)
+	EndIf
+	GUICtrlSetData($txtMinDESGPE, $DESGPE)
+	GUICtrlSetData($txtMinDESDark, $DESDark)
+	GUICtrlSetData($txtMinDESTrophy, $DESTrophy)
+	_GUICtrlComboBox_SetCurSel($cmbDESTH, ($DESTH))
 
 	;Donate Settings-------------------------------------------------------------------------
 	If $ichkRequest = 1 Then
@@ -613,11 +650,21 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	_GUICtrlComboBox_SetCurSel($cmbBarrack3, $barrackTroop[2])
 	_GUICtrlComboBox_SetCurSel($cmbBarrack4, $barrackTroop[3])
 
-	GUICtrlSetData($txtFullTroop, $fulltroop)
-	
+	GUICtrlSetData($txtFullTroop, $fulltroop)	
 	GUICtrlSetData($sldTrainITDelay, $isldTrainITDelay)
 	GUICtrlSetData($lbltxtTrainITDelay, "delay " & $isldTrainITDelay & " ms.")
 	;barracks boost not saved (no use)
+    If $ichkBoostKing = 1 Then ;==>BoostKing
+		GUICtrlSetState($chkBoostKing, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkBoostKing, $GUI_UNCHECKED)
+	EndIf
+
+	If $ichkBoostQueen = 1 Then ;==>BoostQuuen
+		GUICtrlSetState($chkBoostQueen, $GUI_CHECKED)
+	Else
+		GUICtrlSetState($chkBoostQueen, $GUI_UNCHECKED)
+	EndIf
 
 
 	;PushBullet-----------------------------------------------------------------------------
