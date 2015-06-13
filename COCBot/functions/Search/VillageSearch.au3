@@ -222,18 +222,15 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
 			EndIf
-		ElseIf $DESideEnable = 1 Then
-			If checkDESideResources()= True Then
-				SetLog("DE Side Base Found Found Attacking NOW", $COLOR_BLUE)
-				$FoundDarkSideAtk = 1
-				ExitLoop
-			EndIf
-			If $bBtnAttackNowPressed = True Then ExitLoop
-			Click(750, 500) ;Click Next
-			$iSkipped = $iSkipped + 1
-			GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
-			ContinueLoop
+
 		Else
+			If $DESideEnable = 1 Then
+				If checkDESideResources()= True Then
+					SetLog("DE Side Base Found Found Attacking NOW", $COLOR_BLUE)
+					$FoundDarkSideAtk = 1
+					ExitLoop
+				EndIf
+			EndIf
 			; Zap And Run
 			If $OptZapAndRun = 1 And $LSpellQ >= $iLSpellQ Then
 				If (Number($searchDark) >= Number($SpellMinDarkStorage)) Then
@@ -241,7 +238,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 					SetLog(_PadStringCenter(" Zap and Run base Found!", 50, "~"), $COLOR_GREEN)
 					ExitLoop
 				EndIf
-			Endif
+			EndIf
 			;If _Sleep(1000) Then Return
 			If $bBtnAttackNowPressed = True Then ExitLoop
 			Click(825, 527) ;Click Next
