@@ -125,6 +125,8 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 				AttackTHSmartBarch(); Good for Snipe While Train
 			Case 5
 				AttackTHLimitedBarch(); Good for Snipe While Train
+			Case 6 
+				AttachTHGiarch(); Good for no barbs
 		EndSwitch
 
 		If $OptTrophyMode = 1 And SearchTownHallLoc() Then; Return ;Exit attacking if trophy hunting and not bullymode
