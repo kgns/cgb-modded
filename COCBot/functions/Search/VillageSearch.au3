@@ -210,7 +210,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				ExitLoop
 			Else
 				; break every 10 searches when Snipe While Train MOD is activated
-				If $isSnipeWhileTrain And $iSkipped > 8 Then
+				If $isSnipeWhileTrain And $iSkipped > 18 Then
 					Click(62, 519) ; Click End Battle to return home
 					$haltSearch = True ; To Prevent Initiation of Attack
 					ExitLoop
