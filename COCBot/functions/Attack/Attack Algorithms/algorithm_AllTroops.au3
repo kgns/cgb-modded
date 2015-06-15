@@ -61,7 +61,9 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 			EndIf
 		EndIf
 		
-		If SearchTownHallLoc() And GUICtrlRead($chkAttackTH) = $GUI_CHECKED Then
+		If SearchTownHallLoc() And checkDeadBase() And $isSnipeWhileTrain = False Then
+		 SetLog("Found dead base with TH outside.", $COLOR_GREEN)
+		ElseIf SearchTownHallLoc() And GUICtrlRead($chkAttackTH) = $GUI_CHECKED Then
 		Switch $AttackTHType
 			Case 0
 				algorithmTH()
