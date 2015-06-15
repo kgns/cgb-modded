@@ -207,7 +207,6 @@ If SearchTownHallLoc() And GUICtrlRead($chkAttackTH)=$GUI_CHECKED Then
 	  _CaptureRegion()
 	  If _ColorCheck(_GetPixelColor(747,497), Hex(0x0C2C8C0, 6), 20) Then Return ;exit if 1 star
 
-	  If $BoolDropHeroes=True Then	ALLDropheroes($aThx,$aThy)
 
    Local $THtroop = -1
    Local $troopNb = 0
@@ -328,7 +327,7 @@ If SearchTownHallLoc() And GUICtrlRead($chkAttackTH)=$GUI_CHECKED Then
 				  SetLog("Deployment of "&$name&"NOT Successful!")
 			EndIf
 
-
+If $BoolDropHeroes=True Then	ALLDropheroes($aThx,$aThy)
 EndIf
 
 EndFunc   ;==>AttackTHGrid
@@ -729,10 +728,10 @@ Func AttackTHLimitedBarch()
 EndFunc   ;==>AttackTHLimitedBarch
 
 Func ALLDropheroes($aThx,$aThy)
+		 dropCC($x,$y, $CC)
    		 dropHeroes($aThx,$aThy, $King, $Queen)
 		 If _Sleep(1000) Then Return
 
-		 dropCC($x,$y, $CC)
 
 		If _Sleep(100) Then Return
 
