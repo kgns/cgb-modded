@@ -79,13 +79,6 @@ Func TurnOnSnipeWhileTrain()
    ;;; This is a must be fixed in the official release since it is a waste of resources
 
    $OptTrophyMode = 1
-;   If $CurCamp / $TotalCamp < 0.9 Then
-	  $THaddtiles = 0 ;; Safe TH snipe if army under 60%
-;  Else
-;	  $THaddtiles = 1 ;; Take a bit of risk if army over 60%
-;   EndIf
-
-   ; go to search for 10 times
    $isSnipeWhileTrain = True ; Lets the SearchVillage() function to know this is a part of Snipe While Train MOD
 EndFunc
 
