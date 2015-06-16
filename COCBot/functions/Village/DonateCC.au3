@@ -252,6 +252,21 @@ Func DonateCC($Check = False)
 
 			If $DonateAllTroop Then
 				Select
+				    Case $iChkDonateAllCustom = 1
+						For $i = 0 To 2
+						   If $varDonateCustom[$i][0] < $eBarb Then
+							  $varDonateCustom[$i][0] = $eArch ; Change strange small numbers to archer
+						   ElseIf $varDonateCustom[$i][0] > $eLava Then
+							  ContinueLoop ; If "Nothing" is selected then continue
+						   EndIf
+						   If $varDonateCustom[$i][1] < 1 Then
+							  ContinueLoop ; If donate number is smaller than 1 then continue
+						   ElseIf $varDonateCustom[$i][1] > 8 Then
+							  $varDonateCustom[$i][1] = 8 ; Number larger than 8 is unnecessary
+						   EndIf
+						   DonateTroopType2($varDonateCustom[$i][0], $varDonateCustom[$i][1]) ;;; Donate Custom Troop using DonateTroopType2
+						Next
+						Click(1, 1)
 					Case $iChkDonateAllLavaHounds = 1
 						DonateTroopType($eLava)
 					Case $iChkDonateAllGolems = 1

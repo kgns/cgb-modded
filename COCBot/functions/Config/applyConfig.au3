@@ -122,10 +122,10 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkAlertSearch, $GUI_UNCHECKED)
 	EndIf
-	
+
 	;Use only selected troops
 	_GUICtrlComboBox_SetCurSel($cmbSelectTroop, $icmbSelectTroop)
-	
+
 	;Attack Settings-------------------------------------------------------------------------
 	_GUICtrlComboBox_SetCurSel($cmbDeploy, $deploySettings)
 	_GUICtrlComboBox_SetCurSel($cmbTroopComp, $icmbTroopComp)
@@ -509,12 +509,11 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	Else
 		GUICtrlSetState($chkDonateCustom, $GUI_UNCHECKED)
 	EndIf
-
-	chkDonateCustom()
-
+    chkDonateCustom()
 	GUICtrlSetData($txtDonateCustom, $sTxtDonateCustom)
-	GUICtrlSetData($txtBlacklistCustom, $sTxtBlacklistCustom)
-	_GUICtrlComboBox_SetCurSel($cmbDonateCustom1, $varDonateCustom[0][0])
+    GUICtrlSetData($txtBlacklistCustom, $sTxtBlacklistCustom)
+
+    _GUICtrlComboBox_SetCurSel($cmbDonateCustom1, $varDonateCustom[0][0])
 	GUICtrlSetData($txtDonateCustom1, $varDonateCustom[0][1])
 	_GUICtrlComboBox_SetCurSel($cmbDonateCustom2, $varDonateCustom[1][0])
 	GUICtrlSetData($txtDonateCustom2, $varDonateCustom[1][1])
@@ -635,6 +634,13 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 		GUICtrlSetState($chkDonateAllLavaHounds, $GUI_UNCHECKED)
 	EndIf
 
+	If $ichkDonateAllCustom = 1 Then
+		GUICtrlSetState($chkDonateAllCustom, $GUI_CHECKED)
+		_DonateAllControls(16, True)
+	Else
+		GUICtrlSetState($chkDonateAllCustom, $GUI_UNCHECKED)
+	EndIf
+
 	;Troop Settings--------------------------------------------------------------------------
 	for $i=0 to Ubound($TroopName) - 1
 		GUICtrlSetData(eval("txtNum" & $TroopName[$i]), eval($TroopName[$i]&"Comp"))
@@ -650,7 +656,7 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	_GUICtrlComboBox_SetCurSel($cmbBarrack3, $barrackTroop[2])
 	_GUICtrlComboBox_SetCurSel($cmbBarrack4, $barrackTroop[3])
 
-	GUICtrlSetData($txtFullTroop, $fulltroop)	
+	GUICtrlSetData($txtFullTroop, $fulltroop)
 	GUICtrlSetData($sldTrainITDelay, $isldTrainITDelay)
 	GUICtrlSetData($lbltxtTrainITDelay, "delay " & $isldTrainITDelay & " ms.")
 	;barracks boost not saved (no use)
