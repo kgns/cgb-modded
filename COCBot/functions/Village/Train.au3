@@ -150,21 +150,6 @@ Func Train()
 		If _Sleep(1000) Then return
 	endif
 
-
-
-
-	If $fullArmy Then
-		$BarrackStatus[0] = false
-		$BarrackStatus[1] = false
-		$BarrackStatus[2] = false
-		$BarrackStatus[3] = false
-		$BarrackDarkStatus[0] = false
-		$BarrackDarkStatus[1] = false
-		SetLog("Army Camp is Full", $COLOR_RED)
-	Else
-		SetLog("Army Camp not Full yet", $COLOR_RED)
-	EndIf
-
 	If $fullArmy Then ; reset all to cook again
 		$ArmyComp = 0
 		for $i=0 to Ubound($TroopName) - 1
@@ -743,7 +728,17 @@ Func checkArmyCamp()
 	   ClickP($TopLeftClient) ;Click Away
 	   $FirstCampView = True
 	 EndIf
-
+	If $fullArmy Then
+		$BarrackStatus[0] = false
+		$BarrackStatus[1] = false
+		$BarrackStatus[2] = false
+		$BarrackStatus[3] = false
+		$BarrackDarkStatus[0] = false
+		$BarrackDarkStatus[1] = false
+		SetLog("Army Camp is Full", $COLOR_RED)
+	Else
+		SetLog("Army Camp not Full yet", $COLOR_RED)
+	EndIf
 Endfunc
 
 Func IsOdd($num)

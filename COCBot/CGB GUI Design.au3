@@ -630,7 +630,7 @@ GUICtrlCreateTabItem("")
 		$y+=22
 		$lblAttackTHType = GUICtrlCreateLabel("Attack Type:", $x + 10 , $y + 5, -1, 17, $SS_RIGHT)
 		$cmbAttackTHType = GUICtrlCreateCombo("",  $x + 95, $y, 105, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch|Attack4:SmartBarch|Attack5:LimitedBarch", "Attack1:Normal")
+			GUICtrlSetData(-1, "Barch|Attack1:Normal|Attack2:eXtreme|Attack3:Gbarch|Attack4:SmartBarch|Attack5:LimitedBarch|Attack6:Giarch", "Attack1:Normal")
 			GUICtrlSetState(-1, $GUI_DISABLE)
 		$y+=22
 		$chkTHSnipeLightningDE = GUICtrlCreateCheckbox("Use lightning for DE while TH Sniping", $x, $y, -1, -1)
