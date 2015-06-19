@@ -127,6 +127,7 @@
 #include "functions\Village\DonateCC.au3"
 #include "functions\Village\DropTrophy.au3"
 #include "functions\Village\isGoldFull.au3"
+#include "functions\Village\isDarkElixirFull.au3"
 #include "functions\Village\isElixirFull.au3"
 #include "functions\Village\LocateBarrack.au3"
 #include "functions\Village\LocateBuildings.au3"

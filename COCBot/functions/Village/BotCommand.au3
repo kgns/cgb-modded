@@ -58,6 +58,8 @@ Func BotCommand()
 			    $MeetCondStop = True
 				$DontTouchMe = True
 				$IAmSelfish = True
+			Case 17
+				If isDarkElixirFull() Then $MeetCondStop = True
 		EndSwitch
 
 		If $MeetCondStop Then
