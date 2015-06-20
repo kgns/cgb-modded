@@ -276,6 +276,12 @@ Func applyConfig() ;Applies the data from config to the controls in GUI
 	   GUICtrlSetState($chkZapAndRun, $GUI_UNCHECKED)
     EndIf
 
+	if $OptZapAndRunPrepareSpells = 1 Then
+	   GUICtrlSetState($chkZapAndRunPrepareSpells, $GUI_CHECKED)
+    Else
+	   GUICtrlSetState($chkZapAndRunPrepareSpells, $GUI_UNCHECKED)
+    EndIf
+
 	If $OptBullyMode = 1 Then
 		GUICtrlSetState($chkBullyMode, $GUI_CHECKED)
 	ElseIf $OptBullyMode = 0 Then

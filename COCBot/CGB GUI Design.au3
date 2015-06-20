@@ -586,6 +586,9 @@ GUICtrlCreateTabItem("")
 	    $chkZapAndRun = GUICtrlCreateCheckbox("Allow Zap && Run", $x, $y, -1, -1)
 		GUICtrlSetTip(-1, "Allow Zap and Run behavior. If a live base has enough Dark Elixir, we will zap the storage and return.")
 		GUICtrlSetState(-1, $GUI_DISABLE)
+	    $chkZapAndRunPrepareSpells = GUICtrlCreateCheckbox("Create Lightning immediately after Zap && Run", $x + 140, $y, -1, -1)
+		GUICtrlSetTip(-1, "Check this option to train lightning spells immediately after Zap & Run. Leave unchecked to attack after zapping without preparing new spells.")
+		GUICtrlSetState(-1, $GUI_DISABLE)
 
 #cs		$y +=27
 		$chkWithKing = GUICtrlCreateCheckbox("Attack their King", $x, $y, -1, -1)
