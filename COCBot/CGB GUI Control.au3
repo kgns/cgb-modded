@@ -212,8 +212,8 @@ Func btnStart()
 	GUICtrlSetState($btnStop, $GUI_SHOW)
 	GUICtrlSetState($btnPause, $GUI_SHOW)
 	$NoMoreWalls = 0
-	$DontTouchMe = False
-	$IAmSelfish = False
+	$bTrainEnabled = True
+	$bDonationEnabled = True
 	$MeetCondStop = False
 	CreateLogFile()
 

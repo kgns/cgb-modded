@@ -551,14 +551,14 @@ Func saveConfig() ;Saves the controls settings to the config
 	EndIf
 	IniWrite($config, "donate", "txtDonateCustom", StringReplace(GUICtrlRead($txtDonateCustom), @CRLF, "|"))
 
-    IniWrite($config, "donate", "txtBlacklistCustom", StringReplace(GUICtrlRead($txtBlacklistCustom), @CRLF, "|"))
+	IniWrite($config, "donate", "txtBlacklistCustom", StringReplace(GUICtrlRead($txtBlacklistCustom), @CRLF, "|"))
 
-   IniWrite($config, "donate", "cmbDonateCustom1", _GUICtrlComboBox_GetCurSel($cmbDonateCustom1))
-   IniWrite($config, "donate", "txtDonateCustom1", GUICtrlRead($txtDonateCustom1))
-   IniWrite($config, "donate", "cmbDonateCustom2", _GUICtrlComboBox_GetCurSel($cmbDonateCustom2))
-   IniWrite($config, "donate", "txtDonateCustom2", GUICtrlRead($txtDonateCustom2))
-   IniWrite($config, "donate", "cmbDonateCustom3", _GUICtrlComboBox_GetCurSel($cmbDonateCustom3))
-   IniWrite($config, "donate", "txtDonateCustom3", GUICtrlRead($txtDonateCustom3))
+	IniWrite($config, "donate", "cmbDonateCustom1", _GUICtrlComboBox_GetCurSel($cmbDonateCustom1))
+	IniWrite($config, "donate", "txtDonateCustom1", GUICtrlRead($txtDonateCustom1))
+	IniWrite($config, "donate", "cmbDonateCustom2", _GUICtrlComboBox_GetCurSel($cmbDonateCustom2))
+	IniWrite($config, "donate", "txtDonateCustom2", GUICtrlRead($txtDonateCustom2))
+	IniWrite($config, "donate", "cmbDonateCustom3", _GUICtrlComboBox_GetCurSel($cmbDonateCustom3))
+	IniWrite($config, "donate", "txtDonateCustom3", GUICtrlRead($txtDonateCustom3))
 	IniWrite($config, "donate", "txtBlacklist", StringReplace(GUICtrlRead($txtBlacklist), @CRLF, "|"))
 
 	;Troop Settings--------------------------------------------------------------------------

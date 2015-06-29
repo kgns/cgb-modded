@@ -280,7 +280,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		For $i = 0 To 2
 		   $varDonateCustom[$i][0] = IniRead($config, "donate", "cmbDonateCustom" & ($i + 1), "0")
 		   $varDonateCustom[$i][1] = IniRead($config, "donate", "txtDonateCustom" & ($i + 1), "0")
-	    Next
+		Next
 
 		$sTxtBlacklist = StringReplace(IniRead($config, "donate", "txtBlacklist", "clan war|war|cw"), "|", @CRLF)
 		$aBlackList = StringSplit($sTxtBlackList, @CRLF, $STR_ENTIRESPLIT)
