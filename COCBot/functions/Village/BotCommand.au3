@@ -53,11 +53,11 @@ Func BotCommand()
 			    $MeetCondStop = True
 		    Case 15
 			    $MeetCondStop = True
-			    $bTrainEnabled = False
+				$DontTouchMe = True
 		    Case 16
 			    $MeetCondStop = True
-			    $bTrainEnabled = False
-			    $bDonationEnabled = False
+				$DontTouchMe = True
+				$IAmSelfish = True
 		EndSwitch
 
 		If $MeetCondStop Then
@@ -67,9 +67,9 @@ Func BotCommand()
 			EndIf
 			Switch $icmbBotCommand
 				Case 0
-					If $bDonationEnabled = False Then
+					If $IAmSelfish Then
 						SetLog("Halt Attack, Stay Online/Collect...", $COLOR_BLUE)
-					ElseIf $bTrainEnabled = False Then
+					ElseIf $DontTouchMe Then
 						SetLog("Halt Attack, Stay Online/Collect/Donate...", $COLOR_BLUE)
 					Else
 						SetLog("Halt Attack, Stay Online/Train/Collect/Donate...", $COLOR_BLUE)

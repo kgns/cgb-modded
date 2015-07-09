@@ -262,6 +262,7 @@ Local $x = 30, $y = 265
 		$chkMeetGpE = GUICtrlCreateRadio("Meet Gold + Elixir", $x, $y, -1, -1)
 			$txtTip = "Search for a base that meets sum of values set for Min. Gold + Elixir."
 			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetState(-1, $GUI_CHECKED)
 		$y += 22
 		$chkMeetDE = GUICtrlCreateCheckbox("Meet Dark Elixir", $x , $y, -1, -1)
 			$txtTip = "Search for a base that meets the value set for Min. Dark Elixir."

@@ -77,7 +77,7 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep(1000) Then Return
 
 				If $Restart = True Then ContinueLoop
-			If $bDonationEnabled = True AND $checkUseClanCastleBalanced = 1 then
+			If $IAmSelfish = False AND $checkUseClanCastleBalanced = 1 then
 			    ProfileReport()
 			    If _Sleep(1000) Then Return
 			    checkMainScreen(False)
@@ -101,13 +101,13 @@ Func runBot() ;Bot that runs everything in order
 				If _Sleep(1000) Then Return
 			    checkMainScreen(False)
 				If $Restart = True Then ContinueLoop
-			If $bDonationEnabled = True Then
+			If $IAmSelfish = False Then
 				DonateCC()
 					If _Sleep(1000) Then Return
 					checkMainScreen(False)
 					If $Restart = True Then ContinueLoop
 			EndIf
-			If $bTrainEnabled Then
+			If $DontTouchMe = False Then
 				SetTroops()
 				Train()
 				RevertTroops()
@@ -201,7 +201,7 @@ Func Idle() ;Sequence that runs until Full Army
 		Local $iReHere = 0
 		While $iReHere < 10
 			$iReHere += 1
-			If $bDonationEnabled = True Then
+			If $IAmSelfish = False Then
 				DonateCC(true)
 			EndIf
 			If _Sleep(1500) Then ExitLoop
@@ -219,7 +219,7 @@ Func Idle() ;Sequence that runs until Full Army
 			$iCollectCounter = 0
 		EndIf
 		$iCollectCounter = $iCollectCounter + 1
-		If $CommandStop <> 3 AND $bTrainEnabled Then
+		If $CommandStop <> 3 AND $DontTouchMe = False Then
 			SetTroops()
 			Train()
 			RevertTroops()
@@ -251,7 +251,7 @@ Func Idle() ;Sequence that runs until Full Army
 			    checkMainScreen(False)
 		EndIf
 
-		 If $bTrainEnabled AND $iChkSnipeWhileTrain = 1 Then
+		 If $DontTouchMe = False AND $iChkSnipeWhileTrain = 1 Then
 			SnipeWhileTrain() ;; Initiate at the end of Idle() loop ; Snipe While Train MOD by ChiefM3
 		 EndIf
 
