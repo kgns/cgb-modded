@@ -20,17 +20,24 @@
 
 Func SnipeWhileTrain()
    ; Attempt only when 30% army full to prevent failure of TH snipe
-   If $CurCamp / $TotalCamp < 0.3 Then
+   If $CurCamp / $TotalCamp < 0.5 Then
 	  Return False
    EndIf
    ; If army is 90% full of user defined full army then don't attempt TH snipe to prevent delay of full attack (ex: if user defined 90% don't snipe after 81% is full)
    If $CurCamp / $TotalCamp > $fulltroop / 100 * 0.9 Then
 	  Return False
    EndIf
+   SetLog("SnipeCount = " & $SnipeCount & "MaxSnipe = " & $MaxSnipe, $COLOR_GREEN)
+   If $SnipeCount >= $MaxSnipe Then
+	  SetLog("SnipeCount to high. Waiting for Full attack", $COLOR_GREEN)
+	  Return False
+   EndIf
 
    TurnOnSnipeWhileTrain()
 
    AttackMain()
+
+   $SnipeCount += 1
 
    TurnOffSnipeWhileTrain()
 
@@ -72,13 +79,6 @@ Func TurnOnSnipeWhileTrain()
    ;;; This is a must be fixed in the official release since it is a waste of resources
 
    $OptTrophyMode = 1
-   If $CurCamp / $TotalCamp < 0.6 Then
-	  $THaddtiles = 0 ;; Safe TH snipe if army under 60%
-   Else
-	  $THaddtiles = 1 ;; Take a bit of risk if army over 60%
-   EndIf
-
-   ; go to search for 10 times
    $isSnipeWhileTrain = True ; Lets the SearchVillage() function to know this is a part of Snipe While Train MOD
 EndFunc
 

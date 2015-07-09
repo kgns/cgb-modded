@@ -177,8 +177,13 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen)
 	Else
 		For $i = 0 To UBound($listInfoDeploy) - 1
 			If (IsString($listInfoDeploy[$i][0]) And ($listInfoDeploy[$i][0] = "CC" Or $listInfoDeploy[$i][0] = "HEROES")) Then
-				Local $RandomEdge = $Edges[Round(Random(0, 3))]
-				Local $RandomXY = Round(Random(0, 4))
+				If $FoundDarkSideAtk = 1 Then
+				   Local $RandomEdge = $Edges[$DEEdge]
+				   Local $RandomXY = 2
+				Else
+					Local $RandomEdge = $Edges[Round(Random(0, 3))]
+					Local $RandomXY = Round(Random(0, 4))
+				EndIf
 				If ($listInfoDeploy[$i][0] = "CC") Then
 					dropCC($RandomEdge[$RandomXY][0], $RandomEdge[$RandomXY][1], $CC)
 				ElseIf ($listInfoDeploy[$i][0] = "HEROES") Then

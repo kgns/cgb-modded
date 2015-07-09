@@ -1,7 +1,10 @@
 ;Searches for a village that until meets conditions
 
 Func VillageSearch() ;Control for searching a village that meets conditions
-    $zapandrunAvoidAttack = 0
+        $FoundDarkSideAtk = 0
+        $dropKing = False
+	$dropQueen = False
+	$zapandrunAvoidAttack = 0
 	$iSkipped = 0
 	$haltSearch = False ; to halt searches after 10 attempts ; Snipe While Train Mod by ChiefM3
 
@@ -154,7 +157,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						If $bBtnAttackNowPressed = True Then ExitLoop
 						$msg &= ", Not TH Bully Level"
 					EndIf
-
 				EndIf
 				If $OptTrophyMode = 1 Then ;Enables Triple Mode Settings
 					If SearchTownHallLoc() Then
@@ -177,7 +179,13 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 						$msg &= ", Not a Weak Base"
 					EndIf
 				EndIf
-
+				If $DESideEnable = 1 Then
+					If checkDESideResources() = True Then
+						SetLog("DE Side Base Found Found Attacking NOW", $COLOR_BLUE)
+						$FoundDarkSideAtk = 1
+						ExitLoop
+					EndIf
+			   EndIf
 				;If _Sleep(1000) Then Return
 				If $bBtnAttackNowPressed = True Then ExitLoop
 				; Zap And Run
@@ -193,7 +201,6 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				$iSkipped = $iSkipped + 1
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
-
 			Else
 				ExitLoop ; attack Allbase
 			EndIf
@@ -203,7 +210,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				ExitLoop
 			Else
 				; break every 10 searches when Snipe While Train MOD is activated
-				If $isSnipeWhileTrain And $iSkipped > 8 Then
+				If $isSnipeWhileTrain And $iSkipped > 18 Then
 					Click(62, 519) ; Click End Battle to return home
 					$haltSearch = True ; To Prevent Initiation of Attack
 					ExitLoop
@@ -215,7 +222,15 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 				GUICtrlSetData($lblresultvillagesskipped, GUICtrlRead($lblresultvillagesskipped) + 1)
 				ContinueLoop
 			EndIf
+
 		Else
+			If $DESideEnable = 1 Then
+				If checkDESideResources()= True Then
+					SetLog("DE Side Base Found Found Attacking NOW", $COLOR_BLUE)
+					$FoundDarkSideAtk = 1
+					ExitLoop
+				EndIf
+			EndIf
 			; Zap And Run
 			If $OptZapAndRun = 1 And $LSpellQ >= $iLSpellQ Then
 				If (Number($searchDark) >= Number($SpellMinDarkStorage)) Then
@@ -223,7 +238,7 @@ Func VillageSearch() ;Control for searching a village that meets conditions
 					SetLog(_PadStringCenter(" Zap and Run base Found!", 50, "~"), $COLOR_GREEN)
 					ExitLoop
 				EndIf
-			Endif
+			EndIf
 			;If _Sleep(1000) Then Return
 			If $bBtnAttackNowPressed = True Then ExitLoop
 			Click(825, 527) ;Click Next

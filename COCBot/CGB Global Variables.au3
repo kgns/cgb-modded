@@ -150,7 +150,9 @@ Global $YourTH
 Global $AttackTHType
 Global $chklightspell
 Global $chkZapAndRun
+Global $chkZapAndRunPrepareSpells
 Global $OptZapAndRun
+Global $OptZapAndRunPrepareSpells
 Global $zapandrunAvoidAttack = 0
 Global $SpellMinDarkStorage = 500
 Global $iLSpellQ
@@ -216,6 +218,7 @@ Global $iUnbreakableWait, $iUnBrkMinGold, $iUnBrkMinElixir, $iUnBrkMaxGold, $iUn
 ;Boosts Settings
 Global $remainingBoosts = 0 ;  remaining boost to active during session
 Global $boostsEnabled = 1 ; is this function enabled
+Global $ichkBoostKing, $ichkBoostQueen ;==> upgrade heroes
 
 ; TownHall Settings
 Global $TownHallPos[2] = [-1, -1] ;Position of TownHall
@@ -440,3 +443,19 @@ Global $SpellHealX = 675
 Global $SpellHealY = 470
 Global $SpellLightningX = 675
 Global $SpellLightningY = 370
+
+;DE Side Mod------------------------
+Global $DarkLow, $AimDeSideAtk ,$AimDeSideTh, $DEEdge, $FoundDarkSideAtk
+Global $DESideEnable, $chkDESideEnable
+Global $DERedLineEnable, $chkDERedLineEnable, $SaveRedArea
+Global $chkDEEndEarly, $DEEndEarly
+Global $cmbDEMortar, $iDEMortar, $cmbDEWizTower, $iDEWizTower
+Global $txtMinDESDark,$chkMeetDESDark, $MeetDESDark, $DESDark
+Global $txtMinDESTrophy, $chkMeetDESTrophy, $MeetDESTrophy, $DESTrophy
+Global $txtMinDESGpEGoldPlusElixir,$chkMeetDESGPE, $MeetDESGPE, $DESGPE
+Global $cmbDESTH, $DESTH
+
+Global $SnipeCount = 0
+Global $txtMaxSnipe, $MaxSnipe
+
+Global $dropKing, $dropQueen

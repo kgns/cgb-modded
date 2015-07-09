@@ -288,6 +288,18 @@ Func btnAttackNow()
 	EndIf
 EndFunc   ;==>btnAttackNow
 
+Func chkDESideEnable() ;-----------------------------------------------------------------------------------------------------------------------
+   If GUICtrlRead($chkDESideEnable) = $GUI_CHECKED Then
+	  For $i = $lblDEMortar To $txtMinDESTrophy
+			GUICtrlSetState($i, $GUI_ENABLE)
+		 Next
+   Else
+	  For $i = $lblDEMortar To $txtMinDESTrophy
+			GUICtrlSetState($i, $GUI_DISABLE)
+		 Next
+   EndIF
+EndFunc
+
 Func chkUnbreakable()
 	If GUICtrlRead($chkUnbreakable) = $GUI_CHECKED Then
 		GUICtrlSetState($txtUnbreakable, $GUI_ENABLE)
@@ -948,6 +960,7 @@ Func GUILightSpell()
 		GUICtrlSetState($cmbiLSpellQ, $GUI_ENABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_ENABLE)
 		GUICtrlSetState($chkZapAndRun, $GUI_ENABLE)
+		GUICtrlSetState($chkZapAndRunPrepareSpells, $GUI_ENABLE)
 		If GUICtrlRead($chkTrophyMode) = $GUI_CHECKED Then
 			GUICtrlSetState($chkTHSnipeLightningDE, $GUI_ENABLE)
 		EndIf
@@ -959,6 +972,7 @@ Func GUILightSpell()
 		GUICtrlSetState($cmbiLSpellQ, $GUI_DISABLE)
 		GUICtrlSetState($lbliLSpellQ2, $GUI_DISABLE)
 		GUICtrlSetState($chkZapAndRun, $GUI_DISABLE)
+		GUICtrlSetState($chkZapAndRunPrepareSpells, $GUI_DISABLE)
 		GUICtrlSetState($chkTHSnipeLightningDE, $GUI_DISABLE)
 	EndIf
 EndFunc   ;==>GUILightSpell

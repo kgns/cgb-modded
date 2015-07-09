@@ -207,7 +207,6 @@ If SearchTownHallLoc() And GUICtrlRead($chkAttackTH)=$GUI_CHECKED Then
 	  _CaptureRegion()
 	  If _ColorCheck(_GetPixelColor(747,497), Hex(0x0C2C8C0, 6), 20) Then Return ;exit if 1 star
 
-	  If $BoolDropHeroes=True Then	ALLDropheroes($aThx,$aThy)
 
    Local $THtroop = -1
    Local $troopNb = 0
@@ -328,7 +327,7 @@ If SearchTownHallLoc() And GUICtrlRead($chkAttackTH)=$GUI_CHECKED Then
 				  SetLog("Deployment of "&$name&"NOT Successful!")
 			EndIf
 
-
+If $BoolDropHeroes=True Then	ALLDropheroes($aThx,$aThy)
 EndIf
 
 EndFunc   ;==>AttackTHGrid
@@ -597,11 +596,142 @@ Func AttackTHSmartBarch()
 
 EndFunc   ;==>AttackTHSmartBarch
 
-Func ALLDropheroes($x,$y)
-   		 dropHeroes($x,$y, $King, $Queen)
+Func AttackTHgiarch()
+	If $OptTrophyMode = 1 AND $OptTrophyModeDE = 1 Then
+		DropLSpell()
+	EndIf
+  _Sleep(200)
+ Setlog("Sending 10 archers.")
+ AttackTHGrid($eArch,1,5,2000,1,4,0) ; deploys 8 archers among 4 spots - take out possible bombs
+ AttackTHGrid($eArch,1,5,1000,1,4,0) ; deploys 12 archers & wait 25s to check for star
+ $count = 0
+
+ While $count < 30
+ _Sleep(1000)
+ _CaptureRegion()
+  If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+  SetLog("Townhall has been destroyed!")
+  Return ;exit if you get a star
+  EndIf
+  $count+=1
+  WEnd
+
+ Setlog("No star yet? Sending 2 giants and 21 archers.")
+ AttackTHGrid($eGiant,1,2,200,2,4,0)
+ AttackTHGrid($eArch,3,7,1000,2,4,0) ;releases 20 archers & wait 15s to check for star
+  $count = 0
+
+  While $count < 20
+ _Sleep(1000)
+ _CaptureRegion()
+  If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+  SetLog("Townhall has been destroyed!")
+  Return ;exit if you get a star
+  EndIf
+   $count+=1
+WEnd
+
+
+  Setlog("Still no star? Sending 3 giants and 32 archers.")
+ AttackTHGrid($eGiant,1,3,200,2,4,0)
+ AttackTHGrid($eArch,4,8,1000,2,4,0) ;releases 20 archers & wait 15s to check for star
+  $count = 0
+
+  While $count < 15
+ _Sleep(1000)
+ _CaptureRegion()
+  If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+  SetLog("Townhall has been destroyed!")
+  Return ;exit if you get a star
+  EndIf
+  $count+=1
+  WEnd
+
+
+ Setlog("I smell a trap! Sending all troops...")
+
+ AttackTHGrid($eGiant,2,5,200,2,4,0)
+ AttackTHGrid($eArch,4,25,1000,2,4,1) ;releases 20 archers & wait 15s to check for star
+  $count = 0
+  While $count < 15
+ _Sleep(1000)
+ _CaptureRegion()
+  If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+  SetLog("Townhall has been destroyed!")
+  Return ;exit if you get a star
+  EndIf
+  $count+=1
+  WEnd
+ SetLog("~Finished Attacking, waiting to finish", $COLOR_GREEN)
+
+EndFunc   ;==>AttackTHgiarch
+
+Func AttackTHLimitedBarch()
+		 ; Zap DE
+		 If $OptTrophyModeDE = 1 Then
+			DropLSpell()
+		 EndIf
+
+   		 Setlog("Sniping TH with LimitedBarch")
+
+		 ; 1st wave 30 secs, total 4 barbs 8 archers, works for totally unprotected TH
+		 SetLog("Attacking TH with 1st wave of BARCH", $COLOR_BLUE)
+		 AttackTHGrid($eBarb,4,1,2000,1,4,0) ; deploys 4 barbarians to take out traps waits 2 seconds for bombs to go off
+		 AttackTHGrid($eArch,2,4,22000,1,4,0) ; deploys 8 archers and wait additional 42sec
+
+		 _Sleep(200)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Easy 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+		 _Sleep(22000)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Easy 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+		 _Sleep(22000)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Easy 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+
+		 ; 2nd wave 25 secs total 16 barbs, 22 archers, works for TH partially covered by defenses
+ 		 SetLog("Attacking TH with 2nd wave of BARCH", $COLOR_BLUE)
+		 AttackTHGrid($eBarb,3,2,200,2,4,0) ; deploys 6 barbarians
+		 AttackTHGrid($eArch,2,4,200,2,4,0) ; deploys 8 archers and waits 2 seconds
+		 AttackTHGrid($eBarb,2,2,200,2,4,0) ; deploys 4 barbarians
+		 AttackTHGrid($eArch,4,2,1000,2,4,0) ; deploys 8 archers
+		 AttackTHGrid($eBarb,2,2,22000,2,4,0) ; deploys 4 barbarians
+
+		 _Sleep(200)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Cheap 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+		 _Sleep(22000)
+		 _CaptureRegion()
+		 If _ColorCheck(_GetPixelColor(746,498), Hex(0xc8cac7, 6), 20)=True Then
+		 SetLog("Cheap 1 star! Yay!", $COLOR_RED)
+		 _Sleep(1000)
+		 Return ; exit if you get a star
+		 EndIf
+	SetLog("All troops deployed and waiting for a star...", $COLOR_GREEN)
+
+EndFunc   ;==>AttackTHLimitedBarch
+
+Func ALLDropheroes($aThx,$aThy)
+		 dropCC($x,$y, $CC)
+   		 dropHeroes($aThx,$aThy, $King, $Queen)
 		 If _Sleep(1000) Then Return
 
-		 dropCC($x,$y, $CC)
 
 		If _Sleep(100) Then Return
 

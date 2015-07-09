@@ -150,21 +150,6 @@ Func Train()
 		If _Sleep(1000) Then return
 	endif
 
-
-
-
-	If $fullArmy Then
-		$BarrackStatus[0] = false
-		$BarrackStatus[1] = false
-		$BarrackStatus[2] = false
-		$BarrackStatus[3] = false
-		$BarrackDarkStatus[0] = false
-		$BarrackDarkStatus[1] = false
-		SetLog("Army Camp is Full", $COLOR_RED)
-	Else
-		SetLog("Army Camp not Full yet", $COLOR_RED)
-	EndIf
-
 	If $fullArmy Then ; reset all to cook again
 		$ArmyComp = 0
 		for $i=0 to Ubound($TroopName) - 1
@@ -594,6 +579,57 @@ Func Train()
 
  EndFunc   ;==>Train
 
+Func TrainLightning()
+	SetLog("Train Lightning after Zap&Run", $COLOR_BLUE)
+	If $SFPos[0] = -1 Then
+		LocateSpellFactory()
+		SaveConfig()
+	Else
+		Click($SFPos[0], $SFPos[1])
+		If _Sleep(600) Then Return
+		Local $TrainPos = _ColorCheck(_GetPixelColor(555, 623, True), Hex(0x474747, 6), 20) ;Finds Create Spell button
+		$icount = 0
+		while not $TrainPos
+			If _Sleep(500) Then Return
+			$icount = $icount + 1
+			$TrainPos = _ColorCheck(_GetPixelColor(555, 623, True), Hex(0x474747, 6), 20) ;Finds Create Spell button
+			If $icount = 10 then ExitLoop
+		wend
+		If $TrainPos = False Then
+			SetLog("Your Spell is not available. (Upgrading? Disable Zap&Run if upgrade in progress)", $COLOR_RED)
+			If _Sleep(500) Then Return
+			Return
+		EndIf
+        ; Now go into the spell factory
+        Click (555,623)
+        If _Sleep(500) Then Return
+		Local $x = 0
+		While 1
+			_CaptureRegion()
+			If _sleep(500) Then Return
+			If  _ColorCheck(_GetPixelColor(237, 354, True), Hex(0xFFFFFF, 6), 20) = False Then
+				setlog("Not enough Elixir to create Spell", $COLOR_RED)
+				ExitLoop
+			Elseif  _ColorCheck(_GetPixelColor(200, 346, True), Hex(0x1A1A1A, 6), 20) Then
+				setlog("Spell Factory Full", $COLOR_RED)
+				ExitLoop
+			Else
+				Click(252, 354, 1, 20)
+				$x = $x + 1
+			EndIf
+			If $x = 5 Then
+				ExitLoop
+			EndIf
+		WEnd
+		If $x = 0 then
+			else
+				SetLog("Created " & $x &" Lightning Spell(s)", $COLOR_BLUE)
+		Endif
+		If _Sleep(200) Then Return
+		Click($TopLeftClient[0], $TopLeftClient[1], 2, 250); Click away twice with 250ms delay
+	EndIf
+EndFunc    ;==>TrainLightning
+
 Func checkArmyCamp()
 	SetLog("Checking Army Camp...", $COLOR_BLUE)
    If _Sleep(100) Then Return
@@ -743,7 +779,17 @@ Func checkArmyCamp()
 	   ClickP($TopLeftClient) ;Click Away
 	   $FirstCampView = True
 	 EndIf
-
+	If $fullArmy Then
+		$BarrackStatus[0] = false
+		$BarrackStatus[1] = false
+		$BarrackStatus[2] = false
+		$BarrackStatus[3] = false
+		$BarrackDarkStatus[0] = false
+		$BarrackDarkStatus[1] = false
+		SetLog("Army Camp is Full", $COLOR_RED)
+	Else
+		SetLog("Army Camp not Full yet", $COLOR_RED)
+	EndIf
 Endfunc
 
 Func IsOdd($num)

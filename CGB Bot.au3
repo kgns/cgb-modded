@@ -122,6 +122,10 @@ Func runBot() ;Bot that runs everything in order
 					If _Sleep(1000) Then Return
 					checkMainScreen(False)
 					If $Restart = True Then ContinueLoop
+   				BoostHeros()
+					If _Sleep(1000) Then Return
+					checkMainScreen(False)
+					If $Restart = True Then ContinueLoop
 				RequestCC()
 					If _Sleep(1000) Then Return
 					checkMainScreen(False)
@@ -165,12 +169,20 @@ Func runBot() ;Bot that runs everything in order
 				;
 		Else ;When error occours directly goes to attack
 			If $zapandrunAvoidAttack <> 0 Then
-				SetLog("Last attack was Zap&Run: Attack Now", $COLOR_RED)
+                If $OptZapAndRun Then
+                    SetLog("Last attack was Zap&Run: Refill Lightning", $COLOR_RED)
+				    TrainLightning()
+    				SetLog("Lightning filled. Attack Now", $COLOR_RED)
+                Else
+                    SetLog("Last attack was Zap&Run: Attack Now", $COLOR_RED)
+                EndIf
+                    
 			Else
 				SetLog("Restarted after Out of Sync Error: Attack Now", $COLOR_RED)
 				PushMsg("OutOfSync")
 			EndIf
 			    checkMainScreen(False)
+
 			AttackMain()
 				If _Sleep(1000) Then Return
 
@@ -255,9 +267,10 @@ Func AttackMain() ;Main control for attack functions
 	    ProfileReport()
 		If _Sleep(1000) Then Return
     EndIf
-
-			    checkMainScreen(False)
-		If $Restart = True Then Return
+    BoostHeros()
+	  If _Sleep(1000) Then Return
+	  checkMainScreen(False)
+	  If $Restart = True Then Return
 	PrepareSearch()
 		If $Restart = True Then Return
 	VillageSearch()
