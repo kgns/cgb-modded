@@ -14,6 +14,10 @@
 ; ===============================================================================================================================
 Func RequestCC()
 
+	If $ichkRequest <> 1 Or $bDonationEnabled = False Then
+		Return
+	EndIf
+
 	If $iPlannedRequestCCHoursEnable = 1 Then
 		Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
 		If $iPlannedRequestCCHours[$hour[0]] = 0 Then
@@ -64,7 +68,7 @@ Func _makerequest()
 	;wait window
 	Local $icount = 0
 	While Not ( _ColorCheck(_GetPixelColor($aCancRequestCCBtn[0], $aCancRequestCCBtn[1], True), Hex($aCancRequestCCBtn[2], 6), $aCancRequestCCBtn[3]))
-		If _Sleep(100) Then ContinueLoop
+		_Sleep(100)
 		$icount = $icount + 1
 		If $icount = 5 Then ExitLoop
 	WEnd
@@ -74,12 +78,21 @@ Func _makerequest()
 	Else
 		If $sTxtRequest <> "" Then
 			Click($atxtRequestCCBtn[0], $atxtRequestCCBtn[1], 1, 0, "#0254") ;Select text for request
-			If _Sleep(250) Then Return
+			_Sleep(250)
 			ControlSend($Title, "", "", $sTxtRequest, 0)
-			If _Sleep(600) Then Return
 		EndIf
-		Click($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], 1, 0, "#0256") ; click send button
-		If _Sleep(1000) Then Return
+		$icount = 0
+		While Not _ColorCheck(_GetPixelColor($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], True), Hex(0x5fac10, 6), 20)
+			_Sleep(50)
+			$icount += 1
+			If $icount = 100 Then ExitLoop
+		WEnd
+		If $icount = 100 Then
+			If $debugSetlog = 1 Then SetLog("send request button not found")
+			;emergency exit
+		    checkMainScreen(False)
+		EndIf
+		Click($aSendRequestCCBtn[0], $aSendRequestCCBtn[1], 1, 100, "#0256") ; click send button
 	EndIf
 
 EndFunc   ;==>_makerequest

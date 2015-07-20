@@ -71,7 +71,7 @@ Func DropTrophy()
 						If $iChkTrophyHeroes = 1 Then
 							$King = -1
 							$Queen = -1
-							For $i = 0 To 8
+							For $i = 0 To UBound($atkTroops) - 1
 								If $atkTroops[$i][0] = $eKing Then
 									$King = $i
 								ElseIf $atkTroops[$i][0] = $eQueen Then
@@ -82,7 +82,7 @@ Func DropTrophy()
 
 							If $King <> -1 Then
 								SetLog("Deploying King", $COLOR_BLUE)
-								Click(68 + (72 * $King), 595, 1, 0, "#0177") ;Select King
+								Click(GetXPosOfArmySlot($King, 68), 595, 1, 0, "#0177") ;Select King
 								_Sleep(1000)
 								Click(34, 310, 1, 0, "#0178") ;Drop King
 								If _Sleep(1000) Then ExitLoop
@@ -92,7 +92,7 @@ Func DropTrophy()
 							EndIf
 							If $King = -1 And $Queen <> -1 Then
 								SetLog("Deploying Queen", $COLOR_BLUE)
-								Click(68 + (72 * $Queen), 595, 1, 0, "#0179") ;Select Queen
+								Click(GetXPosOfArmySlot($Queen, 68), 595, 1, 0, "#0179") ;Select Queen
 								_Sleep(1000)
 								Click(34, 310, 1, 0, "#0180") ;Drop Queen
 								If _Sleep(1000) Then ExitLoop
@@ -180,7 +180,7 @@ Func DropTrophy()
 					If $iChkTrophyHeroes = 1 Then
 						$King = -1
 						$Queen = -1
-						For $i = 0 To 8
+						For $i = 0 To UBound($atkTroops) - 1
 							If $atkTroops[$i][0] = $eKing Then
 								$King = $i
 							ElseIf $atkTroops[$i][0] = $eQueen Then
@@ -191,7 +191,7 @@ Func DropTrophy()
 
 						If $King <> -1 Then
 							SetLog("Deploying King", $COLOR_BLUE)
-							Click(68 + (72 * $King), 595, 1, 0, "#0187") ;Select King
+							Click(GetXPosOfArmySlot($King, 68), 595, 1, 0, "#0187") ;Select King
 							_Sleep(1000)
 							Click(34, 310, 1, 0, "#0188") ;Drop King
 							If _Sleep(1000) Then ExitLoop
@@ -201,7 +201,7 @@ Func DropTrophy()
 						EndIf
 						If $King = -1 And $Queen <> -1 Then
 							SetLog("Deploying Queen", $COLOR_BLUE)
-							Click(68 + (72 * $Queen), 595, 1, 0, "#0189") ;Select Queen
+							Click(GetXPosOfArmySlot($Queen, 68), 595, 1, 0, "#0189") ;Select Queen
 							_Sleep(1000)
 							Click(34, 310, 1, 0, "#0190") ;Drop Queen
 							If _Sleep(1000) Then ExitLoop

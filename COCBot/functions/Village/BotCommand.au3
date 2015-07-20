@@ -14,15 +14,15 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func BotCommand()
-	If GUICtrlRead($chkBotStop) = $GUI_CHECKED Then
-		$itxtMaxTrophy = GUICtrlRead($txtMaxTrophy)
-		$itxtdropTrophy = GUICtrlRead($txtdropTrophy)
-		$icmbBotCond = _GUICtrlComboBox_GetCurSel($cmbBotCond)
-		$icmbBotCommand = _GUICtrlComboBox_GetCurSel($cmbBotCommand)
-		$icmbHoursStop = _GUICtrlComboBox_GetCurSel($cmbHoursStop)
+	If $iChkBotStop = 1 Then
+		;$itxtMaxTrophy = GUICtrlRead($txtMaxTrophy)
+		;$itxtdropTrophy = GUICtrlRead($txtdropTrophy)
+		;$icmbBotCond = _GUICtrlComboBox_GetCurSel($cmbBotCond)
+		;$icmbBotCommand = _GUICtrlComboBox_GetCurSel($cmbBotCommand)
+		;$icmbHoursStop = _GUICtrlComboBox_GetCurSel($cmbHoursStop)
 		If $icmbBotCond = 13 And $icmbHoursStop <> 0 Then $TimeToStop = $icmbHoursStop * 3600000 ; 3600000 = 1 Hours
 
-		Local $TrophyCount = getOther(50, 74, "Trophy")
+		Local $TrophyCount = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
 		Local $TrophyMax = Number($TrophyCount) > Number($itxtMaxTrophy)
 		If $TrophyMax Then
 			$Trophy = "Max. Trophy Reached!"

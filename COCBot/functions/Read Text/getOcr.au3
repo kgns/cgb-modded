@@ -37,7 +37,7 @@ EndFunc   ;==>getTrophyMainScreen
 
 Func getTrophyLossAttackScreen($x_start, $y_start) ; 48,214 or 48,184 WO/DE -> Gets complete value trophy loss from attack screen
 	Return getOcrAndCapture("coc-t-p", $x_start, $y_start, 50, 16, True)
-EndFunc   ;==>getTrophyMainScreen
+EndFunc   ;==>getTrophyLossAttackScreen
 
 Func getUpgradeResource($x_start, $y_start) ; -> Gets complete value of Gold/Elixir xxx,xxx "UpgradeBuildings.au3" to use in future function
 	Return getOcrAndCapture("coc-u-r", $x_start, $y_start, 92, 16, True)
@@ -113,20 +113,22 @@ Func getBarracksTroopQuantity($x_start, $y_start);  -> Gets quantity of troops i
 	Return getOcrAndCapture("coc-train", $x_start, $y_start, 52, 16, True)
 EndFunc   ;==>getBarracksTroopQuantity
 
-
+Func getAttackDisable($x_start, $y_start);  -> 346, 182 - Gets red text disabled for early warning of Take-A-Break
+    Return getOcrAndCapture("coc-dis", $x_start, $y_start, 96, 24, True)
+EndFunc   ;==>getAttackDisable
 
 
 Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = False)
 	Local $hBmp = _CaptureRegion2($x_start, $y_start, $x_start + $width, $y_start + $height)
-;	If $debugSetlog = 1 Then
-;		Local $Date = @MDAY & "." & @MON & "." & @YEAR
-;		Local $Time = @HOUR & "." & @MIN & "." & @SEC
-;		Local $hBitmap = _GDIPlus_BitmapCreateFromHBITMAP($hBmp)
-;		If _Sleep(200) Then Return
-;		_GDIPlus_ImageSaveToFile($hBitmap, $dirloots & "OCR_" & $Date & " at " & $Time & ".png")
-;		If _Sleep(1000) Then Return
-;		_GDIPlus_BitmapDispose($hBitmap)
-;	EndIf
+	;	If $debugSetlog = 1 Then
+	;		Local $Date = @MDAY & "." & @MON & "." & @YEAR
+	;		Local $Time = @HOUR & "." & @MIN & "." & @SEC
+	;		Local $hBitmap = _GDIPlus_BitmapCreateFromHBITMAP($hBmp)
+	;		If _Sleep(200) Then Return
+	;		_GDIPlus_ImageSaveToFile($hBitmap, $dirloots & "OCR_" & $Date & " at " & $Time & ".png")
+	;		If _Sleep(1000) Then Return
+	;		_GDIPlus_BitmapDispose($hBitmap)
+	;	EndIf
 	Local $result = getOcr($hBmp, $language)
 	If ($removeSpace) Then
 		$result = StringReplace($result, " ", "")
@@ -143,3 +145,8 @@ Func getOcr($hBitmap, $language)
 		Return ""
 	EndIf
 EndFunc   ;==>getOcr
+
+
+Func getOcrLanguage($x_start, $y_start);  -> Get english language - main screen --> getLanguage(324,6)
+	return getOcrAndCapture("coc-ms-testl", $x_start, $y_start, 43, 11, True)
+EndFunc   ;==>getOcrLanguage

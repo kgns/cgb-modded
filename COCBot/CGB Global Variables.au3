@@ -41,14 +41,17 @@
 #include <String.au3>
 #include <IE.au3>
 
+;debugging
+Global $debugSearchArea = 0, $debugOcr = 0, $debugRedArea = 0, $debugSetlog = 0
+
 Global Const $COLOR_ORANGE = 0xFFA500
 Global Const $bCapturePixel = True, $bNoCapturePixel = False
 
 Global $Compiled
 If @Compiled Then
-	$Compiled = "Executable"
+	$Compiled = @ScriptName & " Executable"
 Else
-	$Compiled = "Au3 Script"
+	$Compiled = @ScriptName & " Script"
 EndIf
 
 Global $hBitmap; Image for pixel functions
@@ -190,7 +193,7 @@ Global $AttackTHType
 Global $TrainSpecial = 1 ;0=Only trains after atk. Setting is automatic
 Global $cBarbarian = 0, $cArcher = 0, $cGoblin = 0, $cGiant = 0, $cWallbreaker = 0, $cWizard = 0, $cBalloon = 0, $cDragon = 0, $cPekka = 0, $cMinion = 0, $cHogs = 0, $cValkyrie = 0, $cGolem = 0, $cWitch = 0, $cLavaHound = 0
 ;Troop types
-Global Enum $eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eMini, $eHogs, $eValk, $eGole, $eWitc, $eLava, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell
+Global Enum $eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eMini, $eHogs, $eValk, $eGole, $eWitc, $eLava, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell
 ;wall
 Global $wallcost
 Global $wallbuild
@@ -212,7 +215,7 @@ Global $BottomRight[5][2] = [[523, 537], [595, 484], [654, 440], [715, 393], [77
 Global $eThing[1] = [101]
 Global $Edges[4] = [$BottomRight, $TopLeft, $BottomLeft, $TopRight]
 
-Global $atkTroops[11][2] ;11 Slots of troops -  Name, Amount
+Global $atkTroops[12][2] ;11 Slots of troops -  Name, Amount
 
 Global $fullArmy ;Check for full army or not
 ;Global $deploySettings ;Method of deploy found in attack settings
@@ -220,17 +223,17 @@ Global $iChkDeploySettings[$iModeCount] ;Method of deploy found in attack settin
 Global $iChkRedArea[$iModeCount], $iCmbSmartDeploy[$iModeCount], $iChkSmartAttack[$iModeCount][3], $iCmbSelectTroop[$iModeCount]
 
 Global $troopsToBeUsed[11]
-Global $useAllTroops[24] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eMini, $eHogs, $eValk, $eGole, $eWitc, $eLava, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useBarracks[18] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useBarbs[9] = [$eBarb, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useArchs[9] = [$eArch, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useBarcher[10] = [$eBarb, $eArch, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useBarbGob[10] = [$eBarb, $eGobl, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useArchGob[10] = [$eArch, $eGobl, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useBarcherGiant[11] = [$eBarb, $eArch, $eGiant, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useBarcherGobGiant[12] = [$eBarb, $eArch, $eGiant, $eGobl, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useBarcherHog[11] = [$eBarb, $eArch, $eHogs, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
-Global $useBarcherMinion[11] = [$eBarb, $eArch, $eMini, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell]
+Global $useAllTroops[27] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eMini, $eHogs, $eValk, $eGole, $eWitc, $eLava, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useBarracks[21] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useBarbs[12] = [$eBarb, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useArchs[12] = [$eArch, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useBarcher[13] = [$eBarb, $eArch, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useBarbGob[13] = [$eBarb, $eGobl, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useArchGob[13] = [$eArch, $eGobl, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useBarcherGiant[14] = [$eBarb, $eArch, $eGiant, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useBarcherGobGiant[15] = [$eBarb, $eArch, $eGiant, $eGobl, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useBarcherHog[14] = [$eBarb, $eArch, $eHogs, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
+Global $useBarcherMinion[14] = [$eBarb, $eArch, $eMini, $eKing, $eQueen, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $ePSpell, $eESpell, $eHaSpell]
 $troopsToBeUsed[0] = $useAllTroops
 $troopsToBeUsed[1] = $useBarracks
 $troopsToBeUsed[2] = $useBarbs
@@ -266,6 +269,9 @@ Global $iUnbreakableMode = 0
 Global $iUnbreakableWait, $iUnBrkMinGold, $iUnBrkMinElixir, $iUnBrkMaxGold, $iUnBrkMaxElixir, $iUnBrkMinDark, $iUnBrkMaxDark
 Global $OutOfGold = 0 ; Flag for out of gold to search for attack
 Global $OutOfElixir = 0 ; Flag for out of elixir to train troops
+
+;Zoom/scroll variables for TH snipe, bottom corner
+Global $zoomedin = false, $zCount = 0, $sCount = 0
 
 ;Boosts Settings
 Global $remainingBoosts = 0 ;  remaining boost to active during session
@@ -316,11 +322,11 @@ Global $T[1] = [97]
 Global $ArmyComp
 
 ;Global $barrackPos[4][2] ;Positions of each barracks
-Global $barrackPos[2] ;Positions of each barracks
+Global $barrackPos[2] = [-1, -1] ;Positions of each barracks
 Global $barrackTroop[5] ;Barrack troop set
-Global $ArmyPos[2]
-Global $barrackNum = 0
-Global $barrackDarkNum = 0
+Global $ArmyPos[2] = [-1, -1]
+;Global $barrackNum = 0 replaced by  $numBarracksAvaiables
+;Global $barrackDarkNum = 0 replaced by  $numDarkBarracksAvaiables
 ;Other Settings
 Global $ichkWalls
 Global $icmbWalls
@@ -442,8 +448,6 @@ Global $PixelRedAreaFurther[0]
 Global $hBitmapFirst
 Global Enum $eVectorLeftTop, $eVectorRightTop, $eVectorLeftBottom, $eVectorRightBottom
 
-;debugging
-Global $debugSearchArea = 0, $debugOcr = 0, $debugRedArea = 0, $debugSetlog = 0
 
 ;Debug CLick
 Global $debugClick = 0
@@ -485,7 +489,7 @@ Global $pushLastModified = 0
 
 
 ;UpgradeTroops
-Global $aLabPos[2]
+Global $aLabPos[2] = [-1,-1]
 Global $iChkLab, $iCmbLaboratory, $iFirstTimeLab
 
 ; Array to hold Laboratory Troop information [LocX of upper left corner of image, LocY of upper left corner of image, PageLocation, Troop "name", Icon # in DLL file]
@@ -559,6 +563,27 @@ Global $iValueTotalCampForced = 200
 
 Global $iMakeScreenshotNow = False
 
-Global $lastversion = ""
-Global $lastmessage = ""
+Global $lastversion = "" ;latest version from GIT
+Global $lastmessage = "" ;message for last version
 Global $ichkVersion = 1
+Global $oldversmessage = "" ;warning message for old bot
+
+;BarracksStatus
+Global $numBarracks = 0
+Global $numBarracksAvaiables = 0
+Global $numDarkBarracks = 0
+Global $numDarkBarracksAvaiables = 0
+Global $numFactorySpell = 0
+Global $numFactorySpellAvaiables = 0
+Global $numFactoryDarkSpell = 0
+Global $numFactoryDarkSpellAvaiables = 0
+
+; Attack Report
+Global $BonusLeagueG, $BonusLeagueE, $BonusLeagueD, $LeagueShort
+Global $League[16][4] = [ _
+		["600", "Bronze III", "0", "B3"], ["800", "Bronze II", "0", "B2"], ["1000", "Bronze I", "0", "B1"], _
+		["2000", "Silver III", "0", "S3"], ["3000", "Silver II", "0", "S2"], ["4000", "Silver I", "0", "S1"], _
+		["8000", "Gold III", "0", "G3"], ["11000", "Gold II", "0", "G2"], ["14000", "Gold I", "0", "G1"], _
+		["35000", "Crystal III", "100", "C3"], ["50000", "Crystal II", "200", "C2"], ["65000", "Crystal I", "300", "C1"], _
+		["100000", "Master III", "500", "M3"], ["120000", "Master II", "700", "M2"], ["140000", "Master I", "900", "M1"], _
+		["180000", "Champion", "1200", "CA"]]

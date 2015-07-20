@@ -39,7 +39,7 @@ Func UpgradeBuilding()
 	$iAvailElixir = Number($ElixirVillage)
 	$iAvailDark = Number($DarkVillage)
 
-	If $ichkWalls = 1 Then  ; If wall upgrades are enable, make sure to reserve builder if enabled
+	If $iSaveWallBldr = 1 Then  ; If save wall builder is enable, make sure to reserve builder if enabled
 		$iAvailBldr = $FreeBuilder - $iSaveWallBldr
 	Else
 		$iAvailBldr = $FreeBuilder

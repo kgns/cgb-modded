@@ -32,7 +32,7 @@ Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $aLootSpot, $sdebugtxt = 
 
 			If isProblemAffect(True) Then checkMainScreen(False) ; Check for BS/CoC errors
 			;SetLog(_GetPixelColor($aWatchSpot[0], $aWatchSpot[1], True), $COLOR_PURPLE)
-			If _CheckPixel($aWatchSpot, True) = True Then ExitLoop
+			;If _CheckPixel($aWatchSpot, True) = True Then ExitLoop
 			If _CheckPixel($aLootSpot, True) = True Then
 				$OutOfElixir = 1
 				If _Sleep(3000) Then Return
@@ -45,7 +45,7 @@ Func TrainClick($x, $y, $iTimes, $iSpeed, $aWatchSpot, $aLootSpot, $sdebugtxt = 
 		Next
 		Else
 		If isProblemAffect(True) Then checkMainScreen(False)
-		If _CheckPixel($aWatchSpot, True) = True Then Return ; Check to see barrack full
+		;If _CheckPixel($aWatchSpot, True) = True Then Return ; Check to see barrack full
 		If _CheckPixel($aLootSpot, True) = True Then
 				$OutOfElixir = 1
 				If _Sleep(3000) Then Return

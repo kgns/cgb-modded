@@ -17,7 +17,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 	$King = -1
 	$Queen = -1
 	$CC = -1
-	For $i = 0 To 8
+	For $i = 0 To UBound($atkTroops) - 1
 		If $atkTroops[$i][0] = $eCastle Then
 			$CC = $i
 		ElseIf $atkTroops[$i][0] = $eKing Then
@@ -33,19 +33,27 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 		Switch $AttackTHType
 			Case 0
 				algorithmTH()
-				_CaptureRegion()
+				;_CaptureRegion()
 				If _ColorCheck(_GetPixelColor($aWonOneStar[0],$aWonOneStar[1], True), Hex($aWonOneStar[2], 6), $aWonOneStar[3]) Then AttackTHNormal() ;if 'no' use another attack mode.
 			Case 1
 				AttackTHNormal();Good for Masters
 			Case 2
 				AttackTHXtreme();Good for Champ
+			Case 3
+				AttackTHGbarch()
 		EndSwitch
+		If $zoomedin = True Then
+			ZoomOut()
+			$zoomedin = False
+			$zCount = 0
+			$sCount = 0
+		EndIf
 	EndIf
 
 	;If $OptTrophyMode = 1 And SearchTownHallLoc() Then; Return ;Exit attacking if trophy hunting and not bullymode
 	If $iMatchMode = $TS Then; Return ;Exit attacking if trophy hunting and not bullymode
 		For $i = 1 To 30
-			_CaptureRegion()
+			;_CaptureRegion()
 			If _ColorCheck(_GetPixelColor($aWonOneStar[0],$aWonOneStar[1], True), Hex($aWonOneStar[2], 6), $aWonOneStar[3]) = True Then ExitLoop ;exit if not 'no star'
 			_Sleep(1000)
 		Next
@@ -71,7 +79,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
 
 
 		If ($iChkSmartAttack[$iMatchMode][0] = 1 Or $iChkSmartAttack[$iMatchMode][1] = 1 Or $iChkSmartAttack[$iMatchMode][2] = 1) Then
-			SetLog("Locating Village Pump & Mines", $COLOR_BLUE)
+			SetLog("Locating Mines, Collectors & Drills", $COLOR_BLUE)
 			$hTimer = TimerInit()
 			Global $PixelMine[0]
 			Global $PixelElixir[0]

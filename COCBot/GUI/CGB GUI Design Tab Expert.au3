@@ -19,8 +19,8 @@
 $tabExpert = GUICtrlCreateTabItem("Expert")
 Local $x = 30, $y = 150
 $grpOnLoadBot = GUICtrlCreateGroup("When Bot Loads", $x - 20, $y - 20, 205, 112)
-$chkVersion = GUICtrlCreateCheckbox("Check For New Version At Start", $x, $y, -1, -1)
-$txtTip = "Check if you are running the latest version of the bot upon startup"
+$chkVersion = GUICtrlCreateCheckbox("Check for Updates", $x, $y, -1, -1)
+$txtTip = "Check if you are running the latest version of the bot."
 GUICtrlSetTip(-1, $txtTip)
 GUICtrlSetState(-1, $GUI_CHECKED)
 $y += 22

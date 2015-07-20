@@ -98,15 +98,15 @@ $E[3][10] = @ScriptDir & "\images\ELIX4\E12F9.bmp"
 Func ZombieSearch()
 	_CaptureRegion()
 
-	If $iTownHallLevel >= 9 Then
-		$ZombieFileSets = 4 ;Variant Image to use organized as per Folder
-		$ZSExclude = 3 ;Set to 0 to include Elixir Lvl 6, 1 to include lvl 7 and so on..
-	Else
-		$ZombieFileSets = 3 ;Variant Image to use organized as per Folder
-		$ZSExclude = 0 ;Set to 0 to include Elixir Lvl 6, 1 to include lvl 7 and so on..
-	EndIf
+;~ 	If $iTownHallLevel >= 9 Then
+;~ 		$ZombieFileSets = 4 ;Variant Image to use organized as per Folder
+;~ 		$ZSExclude = 3 ;Set to 0 to include Elixir Lvl 6, 1 to include lvl 7 and so on..
+;~ 	Else
+;~ 		$ZombieFileSets = 3 ;Variant Image to use organized as per Folder
+;~ 		$ZSExclude = 0 ;Set to 0 to include Elixir Lvl 6, 1 to include lvl 7 and so on..
+;~ 	EndIf
 
-	If $debugSetlog = 1 Then SetLog("$ZSExclude :" & $ZSExclude)
+	; If $debugSetlog = 1 Then SetLog("$ZSExclude :" & $ZSExclude)
 
 	$ZombieCount = 0
 	$ZC = 0

@@ -78,7 +78,7 @@ Func DropLSpell ()
   If $iChkLightSpell = 1 Then
         $LSpell = -1
 		$LSpellQ = 0
-       For $i = 0 To 8
+       For $i = 0 To UBound($atkTroops) - 1
           ;############## LSpell Slot and Quantity ###########
 			If $atkTroops[$i][0] = $eLSpell Then
 				$LSpell = $i
@@ -90,7 +90,7 @@ Func DropLSpell ()
 	    If (($DESLoc = 1) And $LSpell <> -1 ) Then
 			If (Number($searchDark) >= Number($AimDark)) then
 			     If $LSpellQ >= $iLSpellQ then
-				   Click(68 + (72 * $LSpell), 595) ;Select Troop
+				   Click(GetXPosOfArmySlot($LSpell, 68), 595) ;Select Troop
 				   If _Sleep(SetSleep(1)) Then Return
 				   Click($DESLocx, $DESLocy, $LSpellQ , 250)   ; $LSpellQ = $atkTroops[$i][1] = quantity of spells
 				   SetLog("== Attacking DE Storage with: " & $LSpellQ &" Spells ==")

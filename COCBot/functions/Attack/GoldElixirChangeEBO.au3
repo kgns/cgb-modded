@@ -96,7 +96,11 @@ Func GoldElixirChangeEBO()
 		;WRITE LOG
 		$txtDiff = Round(($z - TimerDiff($iBegin)) / 1000, 1)
 		If Number($txtDiff) < 0 Then $txtDiff = 0
-		SetLog("detected [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " |  Exit in " & StringReplace(StringFormat("%2.1f", $txtDiff), "-", "") & " sec.", $COLOR_BLUE)
+		If $Gold2 = "" and $Elixir2 = "" and $DarkElixir2= "" Then
+			SetLog("detected [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " |  Exit now ", $COLOR_BLUE)
+		Else
+			SetLog("detected [G]: " & $Gold2 & " [E]: " & $Elixir2 & " [DE]: " & $DarkElixir2 & " |  Exit in " & StringReplace(StringFormat("%2.1f", $txtDiff), "-", "") & " sec.", $COLOR_BLUE)
+		EndIf
 
 		;CALCULATE RESOURCE CHANGES
 		If $Gold2 <> "" Or $Elixir2 <> "" Or $DarkElixir2 <> "" Then
@@ -106,9 +110,9 @@ Func GoldElixirChangeEBO()
 		EndIf
 
 		;EXIT IF RESOURCES = 0
-		If $chkEndNoResources = 1 And Number($Gold2) = 0 And Number($Elixir2) = 0 And Number($DarkElixir2) = 0 Then
+		If $ichkEndNoResources = 1 And Number($Gold2) = 0 And Number($Elixir2) = 0 And Number($DarkElixir2) = 0 Then
 			SetLog("Gold & Elixir & DE = 0, end battle ", $COLOR_GREEN)
-			If _Sleep(1500) Then Return ;wait 1.5 seconds... antiban purpose...
+			If _Sleep(Random(500, 2500, 1)) Then Return ;wait random seconds... antiban purpose...
 			ExitLoop
 		EndIf
 
@@ -145,13 +149,13 @@ Func GoldElixirChangeEBO()
 
 	;FIRST CHECK... EXIT FOR ONE STAR REACH
 	If $ichkEndOneStar = 1 And $exitOneStar = 1 Then
-		If _Sleep(1500) Then Return ;wait 1.5 seconds... antiban purpose...
+		If _Sleep(Random(500, 2500, 1)) Then Return ;wait random seconds... antiban purpose...
 		Return False
 	EndIf
 
 	;SECOND CHECK... EXIT FOR TWO STARS REACH
 	If $ichkEndTwoStars = 1 And $exitTwoStars = 1 Then
-		If _Sleep(1500) Then Return ;wait 1.5 seconds... antiban purpose...
+		If _Sleep(Random(500, 2500, 1)) Then Return ;wait random seconds... antiban purpose...
 		Return False
 	EndIf
 
@@ -162,9 +166,9 @@ Func GoldElixirChangeEBO()
 	EndIf
 
 	;FOURTH CHECK... IF RESOURCES = 0 THEN EXIT
-	If $chkEndNoResources = 1 And Number($Gold2) = 0 And Number($Elixir2) = 0 And Number($DarkElixir2) = 0 Then
+	If $ichkEndNoResources = 1 And Number($Gold2) = 0 And Number($Elixir2) = 0 And Number($DarkElixir2) = 0 Then
 		SetLog("Gold & Elixir & DE = 0, end battle ", $COLOR_GREEN)
-		If _Sleep(1500) Then Return ;wait 1.5 seconds... antiban purpose...
+		If _Sleep(Random(500, 2500, 1)) Then Return ;wait random seconds... antiban purpose...
 		Return False
 	EndIf
 

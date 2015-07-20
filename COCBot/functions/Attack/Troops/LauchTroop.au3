@@ -2,7 +2,7 @@ Func LauchTroop($troopKind, $nbSides, $waveNb, $maxWaveNb, $slotsPerEdge = 0)
 	Local $troop = -1
 	Local $troopNb = 0
 	Local $name = ""
-	For $i = 0 To 8 ; identify the position of this kind of troop
+	For $i = 0 To UBound($atkTroops) - 1 ; identify the position of this kind of troop
 		If $atkTroops[$i][0] = $troopKind Then
 			$troop = $i
 			$troopNb = Ceiling($atkTroops[$i][1] / $maxWaveNb)
@@ -42,7 +42,7 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen)
 			$maxWaveNb = $listInfoDeploy[$i][3]
 			$slotsPerEdge = $listInfoDeploy[$i][4]
 			If (IsNumber($troopKind)) Then
-				For $j = 0 To 8 ; identify the position of this kind of troop
+				For $j = 0 To UBound($atkTroops) - 1 ; identify the position of this kind of troop
 					If $atkTroops[$j][0] = $troopKind Then
 						$troop = $j
 						$troopNb = Ceiling($atkTroops[$j][1] / $maxWaveNb)
@@ -112,6 +112,7 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen)
 						DropOnPixel($infoPixelDropTroop[0], $infoPixelDropTroop[1], $infoPixelDropTroop[2], $infoPixelDropTroop[3])
 					EndIf
 					If ($isHeroesDropped) Then
+						If _sleep (1000) then return ; delay Queen Image  has to be at maximum size : CheckHeroesHealth checks the y = 573
 						CheckHeroesHealth()
 					EndIf
 					If _Sleep(SetSleep(1)) Then Return
@@ -166,6 +167,7 @@ Func LaunchTroop2($listInfoDeploy, $CC, $King, $Queen)
 									DropOnPixel($infoTroopListArrPixel[0], $pixelDropTroop, $infoTroopListArrPixel[2], $infoTroopListArrPixel[3])
 								EndIf
 								If ($isHeroesDropped) Then
+									If _sleep (1000) then return ; delay Queen Image  has to be at maximum size : CheckHeroesHealth checks the y = 573
 									CheckHeroesHealth()
 								EndIf
 							Next

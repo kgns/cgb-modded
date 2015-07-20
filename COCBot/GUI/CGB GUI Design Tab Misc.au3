@@ -78,27 +78,35 @@ Local $x = 30, $y = 205
 	;$grpTombstones = GUICtrlCreateGroup("Clear Tombstones", $x - 20, $y - 20 , 225, 55)
 		GUICtrlCreateIcon($pIconLib, $eIcnTombstone, $x + 20, $y, 24, 24)
 		$chkTombstones = GUICtrlCreateCheckbox("Clear Tombstones", $x + 75, $y + 2, -1, -1)
-			$txtTip = "Check this to automatically clear tombstones after enemy attack"
+			$txtTip = "Check this to automatically clear tombstones after enemy attack."
 			GUICtrlSetTip(-1, $txtTip)
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 30, $y = 380
-	$grpRestartMins = GUICtrlCreateGroup("After Halt, Restart when reach min values", $x - 20, $y - 20 , 225, 75)
-		GUICtrlCreateIcon ($pIconLib, $eIcnGold, $x + 25, $y - 5, 16, 16)
-		$txtRestartGold = GUICtrlCreateInput("10000", $x + 75, $y - 5, 75, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			$txtTip = "Minimum Gold value for the bot to resume attacking after halting because of low gold"
+	$grpRestartMins = GUICtrlCreateGroup("Resume Bot", $x - 20, $y - 20 , 225, 75)
+		$lblRestartMins = GUICtrlCreateLabel("Resume when reaching these minimal values, if Halted due to low resources.", $x, $y, 110, 50, $BS_MULTILINE)
+		$y -= 7
+		$lblRestartGold = GUICtrlCreateLabel(">", $x + 112, $y, -1, -1)
+		GUICtrlCreateIcon ($pIconLib, $eIcnGold, $x + 175, $y, 16, 16)
+		$txtRestartGold = GUICtrlCreateInput("10000", $x + 120, $y, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			$txtTip = "Minimum Gold value for the bot to resume attacking after halting because of low gold."
 			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 7)
 		$y += 20
-		GUICtrlCreateIcon ($pIconLib, $eIcnElixir, $x + 25, $y - 5, 16, 16)
-		$txtRestartElixir = GUICtrlCreateInput("25000", $x + 75, $y - 5, 75, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			$txtTip = "Minimum Elixir value for the bot to resume attacking after halting because of low elixir"
+		$lblRestartElixir = GUICtrlCreateLabel(">", $x + 112, $y, -1, -1)
+		GUICtrlCreateIcon ($pIconLib, $eIcnElixir, $x + 175, $y, 16, 16)
+		$txtRestartElixir = GUICtrlCreateInput("25000", $x + 120, $y, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			$txtTip = "Minimum Elixir value for the bot to resume attacking after halting because of low elixir."
 			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 7)
 		$y += 20
-		GUICtrlCreateIcon ($pIconLib, $eIcnDark, $x + 25, $y - 5, 16, 16)
-		$txtRestartDark = GUICtrlCreateInput("500", $x + 75, $y - 5, 75, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-			$txtTip = "Minimum Dark Elixir value for the bot to resume attacking after halting because of low dark elixir"
+		$lblRestartDark = GUICtrlCreateLabel(">", $x + 112, $y, -1, -1)
+		GUICtrlCreateIcon ($pIconLib, $eIcnDark, $x + 175, $y, 16, 16)
+		$txtRestartDark = GUICtrlCreateInput("500", $x + 120, $y, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+			$txtTip = "Minimum Dark Elixir value for the bot to resume attacking after halting because of low dark elixir."
 			GUICtrlSetTip(-1, $txtTip)
+			GUICtrlSetLimit(-1, 6)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	Local $x = 260, $y = 275

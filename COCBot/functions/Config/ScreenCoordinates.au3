@@ -8,8 +8,8 @@ Global $aReloadButton[2]     = [416, 399]               ; Reload Coc Button afte
 Global $aAttackButton[2]     = [ 60, 614]               ; Attack Button, Main Screen
 Global $aFindMatchButton[2]  = [217, 510]               ; Find Multiplayer Match Button, Attack Screen
 ;Global $aBreakShield[4]     = [513, 416, 0x5DAC10, 50] ; Break Shield Button, Attack Screen ;the 0x5DAC10 color value matches open grass use with caution
-Global $aSurrenderButton[2]  = [ 62, 519]               ; Surrender Button, Attack Screen
-Global $aConfirmSurrender[2] = [512, 394]               ; Confirm Surrender Button, Attack Screen
+Global $aSurrenderButton[4]  = [ 70, 545, 0xC10000, 30] ; Surrender Button, Attack Screen
+Global $aConfirmSurrender[2] = [512, 394]               ; Confirm Surrender Button, Attack Screen (no color for button as it matches grass)
 Global $aCancelFight[4]      = [822,  48, 0xD80408, 20] ; Cancel Fight Scene
 Global $aCancelFight2[4]     = [830,  59, 0xD80408, 20] ; Cancel Fight Scene 2nd pixel
 Global $aEndFightScene[4]    = [429, 519, 0xB8E35F, 20] ; Victory or defeat scene
@@ -17,7 +17,10 @@ Global $aReturnHomeButton[2] = [428, 544]               ; Return Home Button, En
 Global $aChatTab[4]          = [331, 330, 0xF0A03B, 20] ; Chat Window Open, Main Screen
 Global $aOpenChat[2]         = [ 19, 349]               ; Open Chat Windows, Main Screen
 Global $aClanTab[2]          = [189,  24]               ; Clan Tab, Chat Window, Main Screen
-Global $aArmyCampSize[2]     = [586, 193]               ; Army Camp Info Window, Current Size/Total Size
+Global $aArmyCampSize[2]     = [586, 193]               ; Training Window, Overview screen, Current Size/Total Size
+Global $aIsCampNotFull[4] 	  = [149, 150, 0x761714, 20] ; Training Window, Overview screen Red pixel in Exclamation mark with camp is not full
+Global $aIsCampFull[4]  	  = [151, 153, 0xFFFFFF, 10] ; Training Window, Overview screen White pixel in check mark with camp IS full (can not test for Green, as it has trees under it!)
+Global $aArmyCampFull[4] 	  = [395, 156, 0x761714, 20] ; Training Window, Barracks Screen, Red pixel in Exclamation mark with camp is full (normally not there and off while color)
 Global $aBuildersDigits[2]   = [324,  21]               ; Main Screen, Free/Total Builders
 Global $aLanguageCheck1[4]   = [326,   8, 0xF9FAF9, 20] ; Main Screen Test Language for word 'Builders'
 Global $aLanguageCheck2[4]   = [329,   9, 0x060706, 20] ; Main Screen Test Language for word 'Builders'
@@ -31,9 +34,17 @@ Global $aWonOneStar[4] 		 = [714, 538, 0xC0C8C0, 20] ; Center of 1st Star for wi
 Global $aWonTwoStar[4] 		 = [739, 538, 0xC0C8C0, 20] ; Center of 2nd Star for winning attack on enemy
 Global $aWonThreeStar[4] 	 = [763, 538, 0xC0C8C0, 20] ; Center of 3rd Star for winning attack on enemy
 Global $aArmyOverviewTest[4] = [150, 554, 0xBC2BD1, 20] ; Color purple of army overview  bottom left
-Global $aCancRequestCCBtn[4] = [340, 245,0xCC4010, 20]  ; Red button Cancel in window request CC
-Global $aSendRequestCCBtn[4] = [524, 245]               ; Green button Send in window request CC
-Global $atxtRequestCCBtn[4]  = [430, 140]               ; textbox in window request CC
+Global $aCancRequestCCBtn[4] = [340, 245, 0xCC4010, 20] ; Red button Cancel in window request CC
+Global $aSendRequestCCBtn[2] = [524, 245]               ; Green button Send in window request CC
+Global $atxtRequestCCBtn[2]  = [430, 140]               ; textbox in window request CC
+Global $aIsGoldFull[4]       = [660,  33, 0xD4B100,  6] ; Main Screen Gold Resource bar is Full
+Global $aIsElixirFull[4]     = [660,  84, 0xAE1AB3,  6] ; Main Screen Elixir Resource bar is Full
+Global $aConfirmCoCExit[2]   = [515, 410] 				  ; CoC Confirm Exit button (no color for button as it matches grass)
+;Global $aKingHealth          = [ -1, 572, 0x4FD404,110] ; Attack Screen, Check King's Health, X coordinate is dynamic, not used from array
+;Global $aQueenHealth         = [ -1, 573, 0x4FD404,110] ; Attack Screen, Check Queen's Health, X coordinate is dynamic, not used from array
+
+Global $aKingHealth          = [ -1, 572, 0x00b29e, 15] ; Attack Screen, Check King's Health, X coordinate is dynamic, not used from array   ;  -> with slot compensation 0xbfb29e
+Global $aQueenHealth         = [ -1, 572, 0x008227, 15] ; Attack Screen, Check Queen's Health, X coordinate is dynamic, not used from array  ;  -> with slot compensation 0xe08227
 
 
 ;attack report... stars won
@@ -64,7 +75,7 @@ Global $TrainGobl[4]  = [ 546, 310, 0xA8F468,     40] ;  Done
 Global $TrainWall[4]  = [ 646, 310, 0x78D4F0,     40] ;  Done
 
 Global $TrainBall[4]  = [ 220, 459, 0x383831,     20] ;  Done
-Global $TrainWiza[4]  = [ 301, 459, 0x2F3030,     20] ;  Done ;
+Global $TrainWiza[4]  = [ 319, 447, 0x000000,     40] ;  Done ;
 Global $TrainHeal[4]  = [ 442, 459, 0xD77E57,     20] ;  Done
 Global $TrainDrag[4]  = [ 546, 459, 0xBA1618,     20] ;  Done
 Global $TrainPekk[4]  = [ 646, 459, 0x406281,     20] ;  Done
@@ -73,7 +84,7 @@ Global $TrainMini[4]  = [ 220, 310, 0x182340,     20] ;  Done
 Global $TrainHogs[4]  = [ 301, 310, 0x72D0E8,     20] ;  Done
 Global $TrainValk[4]  = [ 442, 310, 0xA64002,     20] ;  Done
 Global $TrainGole[4]  = [ 546, 310, 0xDEC3A8,     20] ;  Done
-Global $TrainWitc[4]  = [ 646, 324, 0x685EA5,     20] ;  Done
+Global $TrainWitc[4]  = [ 646, 324, 0x3D3C65,     20] ;  Fix V4.0.1?
 
 Global $TrainLava[4]  = [ 220, 459, 0x4F4F40,     20] ;  Done
 
@@ -94,13 +105,13 @@ Global Const $FullHeal[4]  = [ 468, 482, 0xB5B5B5, 45]
 Global Const $FullDrag[4]  = [ 574, 482, 0xB5B5B5, 45]
 Global Const $FullPekk[4]  = [ 680, 482, 0xB5B5B5, 45]
 
-Global Const $FullMini[4]  = [ 253, 375, 0x8D8D8D, 45] ; Need New pixel location, difference between normal and full is too close with Dark Elxir icon
-Global Const $FullHogs[4]  = [ 360, 375, 0x8D8D8D, 45] ; Need New pixel location, difference between normal and full is too close with Dark Elxir icon
-Global Const $FullValk[4]  = [ 468, 375, 0x8D8D8D, 45] ; Need New pixel location, difference between normal and full is too close with Dark Elxir icon
-Global Const $FullGole[4]  = [ 574, 375, 0x8D8D8D, 45] ; Need New pixel location, difference between normal and full is too close with Dark Elxir icon
-Global Const $FullWitc[4]  = [ 680, 375, 0x8D8D8D, 45] ; Need New pixel location, difference between normal and full is too close with Dark Elxir icon
+Global Const $FullMini[4]  = [ 255, 348, 0xFFFFFF, 15] ; 0xC7F8F8 Most locations are only 30 decimal change in blue to gray (Dk blue chest)
+Global Const $FullHogs[4]  = [ 364, 355, 0xB2B2B2, 30] ; 0xD07C58 normal (lt brown shoulder)
+Global Const $FullValk[4]  = [ 417, 317, 0xB1B1B1, 30] ; 0xFF6E18 normal (lt orange hari curl)
+Global Const $FullGole[4]  = [ 562, 339, 0xC9C9C9, 30] ; 0xF07CD0 normal (pink eye)
+Global Const $FullWitc[4]  = [ 638, 339, 0xACACAC, 15] ; 0xF83DA4 normal (left pink eye) Need to fix
 
-Global Const $FullLava[4]  = [ 680, 375, 0xDE58D0, 0x8D8D8D ] ; Need New pixel location, difference between normal and full is too close with Dark Elxir icon
+Global Const $FullLava[4]  = [ 256, 458, 0xB3B3B3, 30] ; 0xFF7000 normal (Orange line above DE drop)
 
 Global Const $GemBarb[4]   = [ 239, 372, 0xE70A12, 30] ; Pixel location of middle of right side of zero text for troop training, and color when out of Elixir
 Global Const $GemArch[4]   = [ 346, 372, 0xE70A12, 30]

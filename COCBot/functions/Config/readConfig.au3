@@ -32,8 +32,8 @@ Func readConfig() ;Reads config and sets it to the variables
 		$SFPos[0] = IniRead($building, "other", "xspellfactory", "-1")
 		$SFPos[1] = IniRead($building, "other", "yspellfactory", "-1")
 
-		$barrackNum = IniRead($building, "other", "barrackNum", "0")
-		$barrackDarkNum = IniRead($building, "other", "barrackDarkNum", "0")
+		;$barrackNum = IniRead($building, "other", "barrackNum", "0")
+		;$barrackDarkNum = IniRead($building, "other", "barrackDarkNum", "0")
 
 		$listResourceLocation = IniRead($building, "other", "listResource", "")
 
@@ -451,7 +451,7 @@ Func readConfig() ;Reads config and sets it to the variables
 		$iShareminElixir = IniRead($config, "shareattack", "minElixir", "200000")
 		$iSharemindark = IniRead($config, "shareattack", "minDark", "100")
 		$iShareAttack = IniRead($config, "shareattack", "ShareAttack", "0")
-		$sShareMessage = StringReplace(IniRead($config, "shareattack", "Message", "Nice!|Good :-)|Thanks!|Wowwww!"), "|", @CRLF)
+		$sShareMessage = StringReplace(IniRead($config, "shareattack", "Message", "Nice|Good|Thanks|Wowwww"), "|", @CRLF)
 
 		;screenshot type: 0 JPG   1 PNG
 		$iScreenshotType = IniRead($config, "other", "ScreenshotType", "0")

@@ -16,6 +16,8 @@ Func GetResources() ;Reads resources
 	If _Sleep(250) Then Return
 	$searchGold = ""
 	$searchElixir = ""
+	$searchDark = ""
+	$searchTrophy = ""
 	Local $iResult = 0
 	Local $i = 0
 

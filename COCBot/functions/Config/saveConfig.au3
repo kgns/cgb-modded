@@ -816,8 +816,8 @@ Func saveConfig() ;Saves the controls settings to the config
 	IniWrite($building, "other", "xArmy", $ArmyPos[0])
 	IniWrite($building, "other", "yArmy", $ArmyPos[1])
 
-	IniWrite($building, "other", "barrackNum", $barrackNum)
-	IniWrite($building, "other", "barrackDarkNum", $barrackDarkNum)
+	;IniWrite($building, "other", "barrackNum", $barrackNum)
+	;IniWrite($building, "other", "barrackDarkNum", $barrackDarkNum)
 
 	IniWrite($building, "other", "listResource", $listResourceLocation)
 

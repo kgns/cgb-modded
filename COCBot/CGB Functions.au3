@@ -53,6 +53,8 @@
 #include "functions\Attack\Troops\OldDropTroop.au3"
 #include "functions\Attack\Troops\ReadTroopQuantity.au3"
 #include "functions\Attack\Troops\SelectDropTroop.au3"
+#include "functions\Attack\Troops\GetXPosOfArmySlot.au3"
+#include "functions\Attack\Troops\GetSlotIndexFromXPos.au3"
 
 #include "functions\Image Search\ImageSearch.au3"
 #include "functions\Image Search\checkDeadBase.au3"
@@ -161,5 +163,6 @@
 #include "functions\Village\PushBullet.au3"
 #include "functions\Village\Laboratory.au3"
 #include "functions\Village\ReplayShare.au3"
+#include "functions\Village\BarracksStatus.au3"
 
 

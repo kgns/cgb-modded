@@ -42,7 +42,9 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 
 	$checkKPower = False
 	$checkQPower = False
-
+	
+	If $OptTrophyMode = 1 And _GUICtrlComboBox_GetCurSel($cmbTroopComp) = 9 Then $FirstStart = True ;reset barracks upon return when TH sniping w/custom army
+	
 	SetLog("Returning Home", $COLOR_BLUE)
 	If $RunState = False Then Return
 	ClickP($aSurrenderButton, 1, 0, "#0099") ;Click Surrender

@@ -19,11 +19,11 @@
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://gamebot.org)
 #pragma compile(ProductName, Clash Game Bot)
 
-#pragma compile(ProductVersion, 4.0)
-#pragma compile(FileVersion, 4.0)
+#pragma compile(ProductVersion, 4.0.1)
+#pragma compile(FileVersion, 4.0.1)
 #pragma compile(LegalCopyright, © http://gamebot.org)
 
-$sBotVersion = "v4.0"
+$sBotVersion = "v4.0.1"
 $sBotTitle = "Clash Game Bot " & $sBotVersion
 Global $sBotDll = @ScriptDir & "\CGBPlugin.dll"
 
@@ -50,20 +50,6 @@ EndIf
 
 CheckPrerequisites() ; check for VC2010 and .NET software
 
-;check last version from gamebot.org site
-IF $ichkVersion = 1 Then
-	CheckVersionHTML()
-	If $lastversion = "" Then
-		SetLog("Cannot detect last version from gamebot.org", $COLOR_ORANGE)
-	ElseIf $sBotVersion <> $lastversion  Then
-		SetLog("WARNING, THIS VERSION (" & $sBotVersion & ") IT'S OUT OF DATE", $COLOR_RED)
-		SetLog("PLEASE DOWNLOAD LATEST(" & $lastversion & ") from https://GameBot.org               ", $COLOR_RED)
-		If $lastmessage <> "" THEN SetLog(  $lastmessage , $COLOR_RED )
-	Else
-		SetLog("WELCOME CHIEF, YOU HAVE LATEST VERSION (" & $sBotVersion & ") OF THE BOT", $COLOR_GREEN)
-	EndIf
-EndIf
-
 DirCreate($sTemplates)
 DirCreate($sProfilePath & "\" & $sCurrProfile)
 DirCreate($dirLogs)
@@ -87,6 +73,11 @@ debugCGBFunctions($debugSearchArea, $debugRedArea, $debugOcr) ; set debug levels
 
 AdlibRegister("PushBulletRemoteControl", $PBRemoteControlInterval)
 AdlibRegister("PushBulletDeleteOldPushes", $PBDeleteOldPushesInterval)
+
+CheckVersion() ; check latest version on gamebot.org site
+
+;AutoStart Bot if request
+AutoStart()
 
 While 1
 	Switch TrayGetMsg()
@@ -140,13 +131,13 @@ Func runBot() ;Bot that runs everything in order
 					$OutOfGold = 0  ; reset out of gold flag
 					Setlog("Switching back to normal after no gold to search ...", $COLOR_RED)
 					$ichkBotStop = 0  ; reset halt attack variable
-					GUICtrlSetState($chkBotStop, $GUI_UNCHECKED)
+					;GUICtrlSetState($chkBotStop, $GUI_UNCHECKED)
 				EndIf
 				If $OutOfElixir = 1  And ($ElixirCount >= $itxtRestartElixir) And ($DarkCount >= $itxtRestartDark) Then  ; check if enough elixir to begin searching again
 					$OutOfElixir = 0  ; reset out of gold flag
 					Setlog("Switching back to normal setting after no elixir to train ...", $COLOR_RED)
 					$ichkBotStop = 0  ; reset halt attack variable
-					GUICtrlSetState($chkBotStop, $GUI_UNCHECKED)
+					;GUICtrlSetState($chkBotStop, $GUI_UNCHECKED)
 				EndIf
 				If $Restart = True Then ContinueLoop
 			ReportPushBullet()
@@ -198,8 +189,8 @@ Func runBot() ;Bot that runs everything in order
 					Setlog("Switching to Halt Attack, Stay Online/Train/Collect/Donate...", $COLOR_RED)
 					$ichkBotStop = 1  ; set halt attack variable
 					$icmbBotCond = 14  ; set stay online/train/collect/Donate mode
-					GUICtrlSetState($chkBotStop, $GUI_CHECKED)
-					_GUICtrlComboBox_SetCurSel($cmbBotCond, $icmbBotCond)
+					;GUICtrlSetState($chkBotStop, $GUI_CHECKED)
+					;_GUICtrlComboBox_SetCurSel($cmbBotCond, $icmbBotCond)
 					ContinueLoop
 				Endif
 				If _Sleep(1000) Then Return
@@ -215,8 +206,8 @@ Func runBot() ;Bot that runs everything in order
 				Setlog("Switching to Halt Attack, Stay Online/Train/Collect/Donate...", $COLOR_RED)
 				$ichkBotStop = 1  ; set halt attack variable
 				$icmbBotCond = 14  ; set stay online/train/collect/Donate mode
-				GUICtrlSetState($chkBotStop, $GUI_CHECKED)
-				_GUICtrlComboBox_SetCurSel($cmbBotCond, $icmbBotCond)
+				;GUICtrlSetState($chkBotStop, $GUI_CHECKED)
+				;_GUICtrlComboBox_SetCurSel($cmbBotCond, $icmbBotCond)
 				$Is_ClientSyncError = False  ; reset fast restart flag to stop OOS mode and start collecting resources
 				ContinueLoop
 			Endif

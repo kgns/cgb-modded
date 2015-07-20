@@ -17,11 +17,11 @@
 Func TestLanguage()
 	If $Runstate Then
 		; test "builder" word top of sceen
-		If Not (_CheckPixel($aLanguageCheck1, $bCapturePixel) And _CheckPixel($aLanguageCheck2, $bCapturePixel) And _CheckPixel($aLanguageCheck3, $bCapturePixel) And _CheckPixel($aLanguageCheck4, $bCapturePixel)) Then
+		If getOcrLanguage(324,6) = "english"  Then
+			Setlog("Language setting is English: Correct.", $COLOR_BLUE)
+		Else
 			SetLog("Language setting is Wrong: Change CoC language to English!", $COLOR_RED)
 			btnStop()
-		Else
-			Setlog("Language setting is English: Correct.", $COLOR_BLUE)
 		EndIf
 	EndIf
 EndFunc   ;==>TestLanguage

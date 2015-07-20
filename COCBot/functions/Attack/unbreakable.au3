@@ -4,7 +4,7 @@
 ; Syntax ........:
 ; Parameters ....: None
 ; Return values .: False if regular farming is needed to refill storage
-; Author ........: KnowJack (2015)
+; Author ........: KnowJack (July 2015) updated for COC changes, added early Take-A-Break Detection
 ; Modified ......:
 ; Remarks .......: This file is part of ClashGameBot. Copyright 2015
 ;                  ClashGameBot is distributed under the terms of the GNU GPL
@@ -20,7 +20,7 @@ Func Unbreakable()
 	; Enable mode with checkbox, and set desired time to be offline getting defense wins before base is reset.
 	; Set absolute minimum loot required to still farm for more loot in Farm Minimum setting, and Save Minimum setting loot that will atttact enemy attackers
 	;
-	Local $x, $y, $iTime
+	Local $x, $y, $i, $iTime, $iCount
 
 	Switch $iUnbreakableMode
 		Case 2
@@ -59,26 +59,46 @@ Func Unbreakable()
 	EndIf
 
 	DropTrophy()
-
-	ClickP($aTopLeftClient, 2, 100, "#0112") ;clear screen, 2 clicks 100ms delay
+	If _Sleep(2000) Then Return  ; wait for home screen
+	ClickP($aTopLeftClient, 1, 100, "#0112") ;clear screen
+	If _Sleep(1000) Then Return  ; wait for home screen
+	$iCount = 0
+	Local $TrophyCount = getTrophyMainScreen($aTrophies[0], $aTrophies[1])  ; Get trophy
+	If $debugSetlog = 1 Then Setlog("Trophy Count Read = " &$TrophyCount, $COLOR_PURPLE)
+	While Number($TrophyCount) > Number($itxtMaxTrophy)  ; verify that trophy dropped and didn't fail due misc errors searching
+		If $debugSetlog = 1 Then Setlog("Drop Trophy Loop #" &$iCount+1, $COLOR_PURPLE)
+		DropTrophy()
+		If _Sleep(2000) Then Return  ; wait for home screen
+		ClickP($aTopLeftClient) ;clear screen
+		If _Sleep(1000) Then Return  ; wait for home screen
+		$TrophyCount = getTrophyMainScreen($aTrophies[0], $aTrophies[1])
+		If ($iCount > 2) And  (Number($TrophyCount) > Number($itxtMaxTrophy)) Then  ; If unable to drop trophy after a couple of tries, restart at main loop.
+			Setlog("Unable to drop trophy, trying again", $COLOR_RED)
+			If _Sleep(500) Then Return
+			Return True
+		EndIf
+		$iCount += 1
+	WEnd
 
 	PrepareSearch() ; Break Shield
 	If _Sleep(3000) Then Return
 
-	SetLog("Returning Home For Defense", $COLOR_BLUE)
-
-	ClickP($aTopLeftClient, 2, 100, "#0113") ;clear screen selection
+	; ClickP($aTopLeftClient, 2, 100, "#0113") ;clear screen selection
 	$i = 0
-	While _ColorCheck(_GetPixelColor(63, 532, True), Hex(0xC00000, 6), 20) = False
+	While _CheckPixel($aSurrenderButton, True) = False
 		If _Sleep(1000) Then Return ; wait for clouds to disappear and the end battle button to appear
-		If $i > 30 Then
+		If $i > 45 Then
 			Setlog("Excess Cloud Watching Time, Try again", $COLOR_RED)
 			Return
 		EndIf
 		$i += 1
 	WEnd
+
+	SetLog("Returning Home For Defense", $COLOR_BLUE)
+	If _Sleep(1000) Then Return
+
 	$i = 0
-	While _ColorCheck(_GetPixelColor(63, 532, True), Hex(0xC00000, 6), 20) = True
+	While _CheckPixel($aSurrenderButton, True) = True
 		PureClickP($aSurrenderButton, 1, 0, "#0114") ;Click End Battle
 		If _Sleep(1000) Then Return ; wait for button to disappear
 		If $i > 15 Then ExitLoop
@@ -88,18 +108,31 @@ Func Unbreakable()
 	ClickP($aTopLeftClient, 2, 50, "#0115") ;clear screen selections
 	If _Sleep(1000) Then Return
 
-	_WinAPI_EmptyWorkingSet(WinGetProcess($Title))
+	If CheckObstacles() = True Then Setlog("Window clean required, but no problem for ClashGameBot!", $COLOR_BLUE)
+	_WinAPI_EmptyWorkingSet(WinGetProcess($Title))  ; Reduce BS memory usage
 
 	SetLog("Closing Clash Of Clans", $COLOR_BLUE)
 
 	$i = 0
-	While _ColorCheck(_GetPixelColor(515, 410, True), Hex(0x60B010, 6), 20) = False
-		PureClick(50, 700, 1, 0, "#0116") ; Hit BS Back button till confirm exit dialog appears
+	While 1
+		PureClick(50, 700, 1, 0, "#0116") ; Hit BS Back button for the confirm exit dialog to appear
 		If _Sleep(1000) Then Return
+		; New button search as old pixel check matched grass color sometimes
+		Local $offColors[3][3] = [[0x000000, 144, 0], [0xFFFFFF, 54, 17], [0xCBE870, 54, 10]] ; 2nd Black opposite button, 3rd pixel white "O" center top, 4th pixel White "0" bottom center
+		Global $ButtonPixel = _MultiPixelSearch(438, 372, 590, 404, 1, 1, Hex(0x000000, 6), $offColors, 20) ; first vertical black pixel of Okay
+		If $debugSetlog = 1 Then Setlog("Exit btn chk-#1: " & _GetPixelColor(441, 374, True) & ", #2: " & _GetPixelColor(441 + 144, 374, True) & ", #3: " & _GetPixelColor(441 + 54, 374 + 17, True) & ", #4: " & _GetPixelColor(441 + 54, 374 + 10, True), $COLOR_PURPLE)
+		If IsArray($ButtonPixel) Then
+			If $debugSetlog = 1 Then
+				Setlog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_PURPLE) ;Debug
+				Setlog("Pixel color found #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 144, $ButtonPixel[1], True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 17, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 27, True), $COLOR_PURPLE)
+			EndIf
+			PureClick($ButtonPixel[0] + 75, $ButtonPixel[1] + 25, 2, 50, "#0117") ; Click Okay Button
+			ExitLoop
+		EndIf
 		If $i > 15 Then ExitLoop
 		$i += 1
 	WEnd
-	PureClick(515, 400, 1, 0, "#0117") ;Click Confirm to stop CoC
+	;PureClick(515, 400, 1, 0, "#0117") ;Click Confirm to stop CoC
 
 	$iTime = Number($iUnbreakableWait)
 	If $iTime < 1 Then $iTime = 1 ;error check user time input
@@ -110,7 +143,41 @@ Func Unbreakable()
 	$HWnD = WinGetHandle($Title)
 	Local $RunApp = StringReplace(_WinAPI_GetProcessFileName(WinGetProcess($Title)), "Frontend", "RunApp")
 	Run($RunApp & " Android com.supercell.clashofclans com.supercell.clashofclans.GameApp")
-	If _Sleep(15000) Then Return ; Wait for CoC restart
+	If $debugSetlog = 1 Then setlog("Waiting for CoC to restart", $COLOR_PURPLE)
+	If _SleepStatus(15000) Then Return ; Wait for CoC restart
+
+	$iCount = 0
+	While 1  ; Under attack when return from sleep?  wait some more ...
+		If $debugSetlog = 1 Then Setlog("Under Attack Pixels = "&_GetPixelColor(841,342, True)&"/"&_GetPixelColor(842,348, True), $COLOR_PURPLE)
+		If  _ColorCheck(_GetPixelColor(841,342, True), Hex(0x711C0A, 6), 20) And _ColorCheck(_GetPixelColor(842,348, True), Hex(0x721C0E, 6), 20)  Then
+			Setlog("Base is under attack, waiting 30 seocnds for end", $COLOR_BLUE)
+		Else
+			ExitLoop
+		EndIf
+		If _SleepStatus(30000) Then Return  ; sleep 30 seconds
+		If $iCount > 7 Then ExitLoop  ; wait 3 minutes for attack, and 30 seconds prep time; up to 3:30 total
+		$iCount += 1
+	WEnd
+	If _Sleep(5000) Then Return
+
+	Local $Message = _PixelSearch(19, 565, 104, 580, Hex(0xD9DDCF, 6), 15) ;Check if Return Home button available and close the screen
+	If IsArray($Message) Then
+		If $debugSetlog = 1 Then Setlog("Return Home Pixel = "&_GetPixelColor($Message[0],$Message[1], True)&", Pos: "& $Message[0]&"/"&$Message[1], $COLOR_PURPLE)
+		PureClick(67, 602, 1, 0, "#0138")
+		If _Sleep(3000) Then Return
+	EndIf
+
+	If _ColorCheck(_GetPixelColor(235, 209, True), Hex(0x9E3826, 6), 20) And _ColorCheck(_GetPixelColor(242, 140, True), Hex(0xFFFFFF, 6), 20) Then  ;See if village was attacked, then click Okay
+		If $debugSetlog = 1 Then Setlog("Village Attacked Pixels = "&_GetPixelColor(235, 209, True)&"/"&_GetPixelColor(242, 140, True), $COLOR_PURPLE)
+		PureClick(429, 493, 1, 0, "#0132")
+		If _Sleep(3000) Then Return
+	EndIf
+
+	If CheckObstacles() = True Then  ; Check for unusual windows open, or slow windows
+		If _Sleep(3000) Then Return ; wait for window to close
+		If CheckObstacles() = True Then CheckMainScreen(False)  ; Check again, if true then let Check main screen fix it and zoomout
+		Return
+	EndIf
 
 	ZoomOut()
 	If _Sleep(1000) Then Return

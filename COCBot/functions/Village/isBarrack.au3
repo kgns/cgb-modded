@@ -1,4 +1,5 @@
 ;Checks for your Barrack, Dark Barrack or Spell Factory
+; 2015-06 Sardo
 
 Func isBarrack()
 	;-----------------------------------------------------------------------------
@@ -6,23 +7,14 @@ Func isBarrack()
 	;	Return True
 	;EndIf
 	;If _ColorCheck(_GetPixelColor(217, 318, True), Hex(0xFFBD21, 6), 20)  Then 		Return True
-	If _ColorCheck(_GetPixelColor(235, 565, True), Hex(0xeceee8, 6), 10)  Then
-		if $debugSetlog = 1 then SetLog("Barrack1 selected")
-		Return True ;barrack1
+	For $i = 1 To 4
+		If _ColorCheck(_GetPixelColor($btnpos[$i][0], $btnpos[$i][1], True), Hex(0xE8E8E0, 6), 10) Then
+			If $debugSetlog = 1 Then SetLog("Barrack" & $i & " selected", $COLOR_PURPLE)
+			Return True ;exit when  found
 		EndIf
-	If _ColorCheck(_GetPixelColor(295, 565, True), Hex(0xeceee8, 6), 10)  Then
-		if $debugSetlog = 1 then SetLog("Barrack2 selected")
-		Return True ;barrack2
-		EndIf
-	If _ColorCheck(_GetPixelColor(355, 565, True), Hex(0xeceee8, 6), 10)  Then
-		if $debugSetlog = 1 then SetLog("Barrack3 selected")
-		Return True ;barrack3
-		EndIf
-	If _ColorCheck(_GetPixelColor(415, 565, True), Hex(0xeceee8, 6), 10)  Then
-		if $debugSetlog = 1 then SetLog("Barrack4 selected")
-		Return True ;barrack4
-		EndIf
-	if $debugSetlog = 1 then SetLog("This is not a Barrack")
+	Next
+
+	If $debugSetlog = 1 Then SetLog("This is not a Barrack", $COLOR_PURPLE)
 	Return False
 EndFunc   ;==>isBarrack
 
@@ -33,15 +25,13 @@ Func isDarkBarrack()
 	;	Return True
 	;EndIf
 	;If _ColorCheck(_GetPixelColor(219, 347, True), Hex(0x4884B0, 6), 20)  Then 		Return True ;dark barrack1
-	If _ColorCheck(_GetPixelColor(505, 565, True), Hex(0xeceee8, 6), 10)  Then
-		if $debugSetlog = 1 then SetLog("Dark Barrack1 selected")
-		Return True ;dark barrack1
+	For $i = 5 To 6
+		If _ColorCheck(_GetPixelColor($btnpos[$i][0], $btnpos[$i][1], True), Hex(0xE8E8E0, 6), 10) Then
+			If $debugSetlog = 1 Then SetLog("Dark Barrack" & $i - 4 & " selected", $COLOR_PURPLE)
+			Return True ;exit when found
 		EndIf
-	If _ColorCheck(_GetPixelColor(565, 565, True), Hex(0xeceee8, 6), 10)  Then
-		if $debugSetlog = 1 then SetLog("Dark Barrack2 selected")
-		Return True ;dark barrack2
-		EndIf
-	if $debugSetlog = 1 then SetLog("This is not a Dark Barrack")
+	Next
+	If $debugSetlog = 1 Then SetLog("This is not a Dark Barrack", $COLOR_PURPLE)
 	Return False
 EndFunc   ;==>isDarkBarrack
 
@@ -51,14 +41,17 @@ Func isSpellFactory()
 	;If _ColorCheck(_GetPixelColor(717, 440, True), Hex(0x8F8D7E, 6), 10) Or _ColorCheck(_GetPixelColor(211, 324, True), Hex(0x0830E8, 6), 10) Then
 	;	Return True
 	;EndIf
-	If _ColorCheck(_GetPixelColor(640, 530, True), Hex(0xeceee8, 6), 10)  Then
-		if $debugSetlog = 1 then SetLog("Spell FactoryDark  selected")
+	If _ColorCheck(_GetPixelColor($btnpos[7][0], $btnpos[7][1], True), Hex(0xE8E8E0, 6), 10) Then
+		If $debugSetlog = 1 Then SetLog("Spell FactoryDark  selected")
 		Return True ;Spell Factory
-		EndIf
-Return True ;Spell
-	If _ColorCheck(_GetPixelColor(700, 530, True), Hex(0xeceee8, 6), 10)  Then
-		if $debugSetlog = 1 then SetLog("Dark Spell Factory  selected")
-		Return True ;dark Spell Factory
-		EndIf
+	EndIf
 	Return False
 EndFunc   ;==>isSpellFactory
+
+Func isDarkSpellFactory()
+	If _ColorCheck(_GetPixelColor($btnpos[8][0], $btnpos[8][1], True), Hex(0xE8E8E0, 6), 10) Then
+		If $debugSetlog = 1 Then SetLog("Dark Spell Factory  selected")
+		Return True ;dark Spell Factory
+	EndIf
+	Return False
+EndFunc   ;==>isDarkSpellFactory

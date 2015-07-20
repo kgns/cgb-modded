@@ -38,7 +38,7 @@ Func checkObstacles() ;Checks if something is in the way for mainscreen
 	If _ImageSearch($break, 0, $x, $y, 80) Then
 		SetLog("Village must take a break, wait ...", $COLOR_RED)
 		PushMsg("TakeBreak")
-		If _Sleep(120000) Then Return ; 2 Minutes
+		If _SleepStatus(120000) Then Return ; 2 Minutes
 		PureClickP($aReloadButton, 1, 0, "#0128");Check for "Take a break" message
 		Return True
 	EndIf

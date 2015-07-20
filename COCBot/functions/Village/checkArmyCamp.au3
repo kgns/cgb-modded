@@ -68,10 +68,9 @@ Func checkArmyCamp()
 		$fullArmy = True
 	EndIf
 
-	If $fullArmy Then
-	ElseIf ($CurCamp + 1) = $TotalCamp Then
+	If ($CurCamp + 1) = $TotalCamp Then
 		$fullArmy = True
-	Else
+	EndIf
 		_WinAPI_DeleteObject($hBitmapFirst)
 		Local $hBitmapFirst = _CaptureRegion2(140, 165, 705, 220)
 		If $debugSetlog = 1 Then SetLog("$hBitmapFirst made")
@@ -177,10 +176,19 @@ Func checkArmyCamp()
 
 			If $TroopQ <> 0 Then SetLog(" - No. of " & $TroopName & ": " & $TroopQ)
 		Next
-	EndIf
 	If Not $fullArmy And $FirstStart Then
 		$ArmyComp = $CurCamp
 	EndIf
+
+	;call BarracksStatus() to read barracks num
+	If $FirstStart then
+		BarracksStatus(true)
+	Else
+		BarracksStatus(false)
+	EndIf
+
+
+
 	ClickP($aTopLeftClient, 1, 0, "#0295") ;Click Away
 	$FirstCampView = True
 

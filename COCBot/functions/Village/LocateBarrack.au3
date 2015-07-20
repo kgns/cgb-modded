@@ -14,36 +14,170 @@
 ; ===============================================================================================================================
 Func LocateBarrack($ArmyCamp = False)
 	Local $choice = "Barrack"
-	Local $stext, $MsgBox, $iCount
+	Local $stext, $MsgBox, $iCount, $iStupid = 0, $iSilly = 0, $sErrorText = "", $sLocMsg = "", $sInfo, $sArmyInfo
 	Local $aGetArmySize[3] = ["", "", ""]
 	Local $sArmyInfo = ""
 
 	If $ArmyCamp Then $choice = "Army Camp"
 	SetLog("Locating " & $choice & "...", $COLOR_BLUE)
 
+	If _GetPixelColor($aTopLeftClient[0], $aTopLeftClient[1], True) <> Hex($aTopLeftClient[2], 6) And _GetPixelColor($aTopRightClient[0], $aTopRightClient[1], True) <> Hex($aTopRightClient[2], 6) Then
+		Zoomout()
+		Collect()
+	EndIf
+
 	While 1
+		ClickP($aTopLeftClient)
 		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
-		$stext = "Click OK then click on one of your " & $choice & "'s." & @CRLF & "Do not move mouse quickly after clicking location"
-		$MsgBox = _ExtMsgBox(32, "OK", "Locate " & $choice, $stext, 15, $frmBot)
+		$stext =  $sErrorText & @CRLF & "Click OK then click on one of your " & $choice & "'s." & @CRLF & @CRLF & _
+		"Do not move mouse quickly after clicking location"& @CRLF & @CRLF & "Make sure the building name is visible for me!" & @CRLF
+		$MsgBox = _ExtMsgBox(0, "Ok|Cancel", "Locate " & $choice, $stext, 15, $frmBot)
 		If $MsgBox = 1 Then
 			WinActivate($HWnD)
 			If $ArmyCamp Then
 				$ArmyPos[0] = FindPos()[0]
 				$ArmyPos[1] = FindPos()[1]
+				If _Sleep(1000) Then Return
 				If isInsideDiamond($ArmyPos) = False Then
-					SetLog("Location not valid", $COLOR_RED)
-					ContinueLoop
+					$iStupid += 1
+					Select
+						Case $iStupid = 1
+							$sErrorText = $choice & " Location Not Valid!"&@CRLF
+							SetLog("Location not valid, try again", $COLOR_RED)
+							ContinueLoop
+						Case $iStupid = 2
+							$sErrorText = "Please try to click inside the grass field!" & @CRLF
+							ContinueLoop
+						Case $iStupid = 3
+							$sErrorText = "This is not funny, why did you click @ (" & $ArmyPos[0] & "," & $ArmyPos[1] & ")?" & @CRLF & "  Please stop!" & @CRLF
+							ContinueLoop
+						Case $iStupid = 4
+							$sErrorText = "Last Chance, DO NOT MAKE ME ANGRY, or" & @CRLF & "I will give ALL of your gold to Barbarian King," & @CRLF & "And ALL of your Gems to the Archer Queen!"& @CRLF
+							ContinueLoop
+						Case $iStupid > 4
+							SetLog(" Operator Error - Bad " & $choice & " Location: " & "(" & $ArmyPos[0] & "," & $ArmyPos[1] & ")", $COLOR_RED)
+							ClickP($aTopLeftClient)
+							Return False
+						Case Else
+							SetLog(" Operator Error - Bad " & $choice & " Location: " & "(" & $ArmyPos[0] & "," & $ArmyPos[1] & ")", $COLOR_RED)
+							$ArmyPos[0] = -1
+							$ArmyPos[1] = -1
+							ClickP($aTopLeftClient)
+							Return False
+					EndSelect
+				EndIf
+				$sArmyInfo = BuildingInfo(250, 520)
+				If $sArmyInfo[0] > 1 Or $sArmyInfo[0] = "" Then
+					If  StringInStr($sArmyInfo[1], "Army") = 0 Then
+						If $sArmyInfo[0] = "" Then
+							$sLocMsg = "Nothing"
+						Else
+							$sLocMsg = $sArmyInfo[1]
+						EndIf
+						$iSilly += 1
+						Select
+							Case $iSilly = 1
+								$sErrorText = "Wait, That is not a Army Camp?, It was a " & $sLocMsg & @CRLF
+								ContinueLoop
+							Case $iSilly = 2
+								$sErrorText = "Quit joking, That was " & $sLocMsg & @CRLF
+								ContinueLoop
+							Case $iSilly = 3
+								$sErrorText = "This is not funny, why did you click " & $sLocMsg & "? Please stop!" & @CRLF
+								ContinueLoop
+							Case $iSilly = 4
+								$sErrorText = $sLocMsg&" ?!?!?!"&@CRLF&@CRLF&"Last Chance, DO NOT MAKE ME ANGRY, or" & @CRLF & "I will give ALL of your gold to Barbarian King," & @CRLF & "And ALL of your Gems to the Archer Queen!"& @CRLF
+								ContinueLoop
+							Case $iSilly > 4
+								SetLog("Quit joking, Click the Army Camp, or restart bot and try again", $COLOR_RED)
+								$ArmyPos[0] = -1
+								$ArmyPos[1] = -1
+								ClickP($aTopLeftClient)
+								Return False
+						EndSelect
+					EndIf
+				Else
+					SetLog(" Operator Error - Bad " & $choice & " Location: " & "(" & $ArmyPos[0] & "," & $ArmyPos[1] & ")", $COLOR_RED)
+					$ArmyPos[0] = -1
+					$ArmyPos[1] = -1
+					ClickP($aTopLeftClient)
+					Return False
 				EndIf
 				SetLog($choice & ": " & "(" & $ArmyPos[0] & "," & $ArmyPos[1] & ")", $COLOR_GREEN)
 			Else
 				$barrackPos[0] = FindPos()[0]
 				$barrackPos[1] = FindPos()[1]
 				If isInsideDiamond($barrackPos) = False Then
-					SetLog("Location not valid, try again", $COLOR_RED)
-					ContinueLoop
+					$iStupid += 1
+					Select
+						Case $iStupid = 1
+							$sErrorText = $choice & " Location Not Valid!"&@CRLF
+							SetLog("Location not valid, try again", $COLOR_RED)
+							ContinueLoop
+						Case $iStupid = 2
+							$sErrorText = "Please try to click inside the grass field!" & @CRLF
+							ContinueLoop
+						Case $iStupid = 3
+							$sErrorText = "This is not funny, why did you click @ (" &$barrackPos[0] & "," & $barrackPos[1] & ")?  Please stop!" & @CRLF
+							ContinueLoop
+						Case $iStupid = 4
+							$sErrorText = "Last Chance, DO NOT MAKE ME ANGRY, or" & @CRLF & "I will give ALL of your gold to Barbarian King," & @CRLF & "And ALL of your Gems to the Archer Queen!"& @CRLF
+							ContinueLoop
+						Case $iStupid > 4
+							SetLog(" Operator Error - Bad  " & $choice & " Location: " & "(" & $barrackPos[0] & "," & $barrackPos[1] & ")", $COLOR_RED)
+							ClickP($aTopLeftClient)
+							Return False
+						Case Else
+							SetLog(" Operator Error - Bad " & $choice & " Location: " & "(" & $barrackPos[0] & "," & $barrackPos[1] & ")", $COLOR_RED)
+							$barrackPos[0] = -1
+							$barrackPos[1] = -1
+							ClickP($aTopLeftClient)
+							Return False
+					EndSelect
 				EndIf
-				SetLog($choice & ": " & "(" & $barrackPos[0] & "," & $barrackPos[1] & ")", $COLOR_GREEN)
+				$sInfo = BuildingInfo(250, 520)
+				If $sInfo[0] > 1 Or $sInfo[0] = "" Then
+					If  StringInStr($sInfo[1], "Barr") = 0 Then
+						If $sInfo[0] = "" Then
+							$sLocMsg = "Nothing"
+						Else
+							$sLocMsg = $sInfo[1]
+						EndIf
+						$iSilly += 1
+						Select
+							Case $iSilly = 1
+								$sErrorText = "Wait, That is not a Barracks?, It was a " & $sLocMsg & @CRLF
+								ContinueLoop
+							Case $iSilly = 2
+								$sErrorText = "Quit joking, That was " & $sLocMsg & @CRLF
+								ContinueLoop
+							Case $iSilly = 3
+								$sErrorText = "This is not funny, why did you click " & $sLocMsg & "? Please stop!" & @CRLF
+								ContinueLoop
+							Case $iSilly = 4
+								$sErrorText = $sLocMsg&" ?!?!?!"&@CRLF&@CRLF&"Last Chance, DO NOT MAKE ME ANGRY, or" & @CRLF & "I will give ALL of your gold to Barbarian King," & @CRLF & "And ALL of your Gems to the Archer Queen!"& @CRLF
+								ContinueLoop
+							Case $iSilly > 4
+								SetLog("Quit joking, Click the Barracks, or restart bot and try again", $COLOR_RED)
+								$barrackPos[0] = -1
+								$barrackPos[1] = -1
+								ClickP($aTopLeftClient)
+								Return False
+						EndSelect
+					EndIf
+				Else
+					SetLog(" Operator Error - Bad " & $choice & " Location: " & "(" & $barrackPos[0] & "," & $barrackPos[1] & ")", $COLOR_RED)
+					$barrackPos[0] = -1
+					$barrackPos[1] = -1
+					ClickP($aTopLeftClient)
+					Return False
+				EndIf
+				SetLog("Locate success "&$choice & ": " & "(" & $barrackPos[0] & "," & $barrackPos[1] & ")", $COLOR_GREEN)
 			EndIf
+		Else
+			SetLog("Locate "&$choice&" Cancelled", $COLOR_BLUE)
+			ClickP($aTopLeftClient)
+			Return
 		EndIf
 		ExitLoop
 	WEnd

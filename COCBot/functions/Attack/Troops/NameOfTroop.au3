@@ -46,8 +46,14 @@ Func NameOfTroop($kind, $plurial = 0)
 			Return "Rage Spells"
 	    Case $eJSpell
 			Return "Jump Spells"
-	   Case $eFSpell
+		Case $eFSpell
 			Return "Freeze Spells"
+		Case $ePSpell
+			Return "Poison Spells"
+		Case $eESpell
+			Return "Earthquake Spells"
+		Case $eHaSpell
+			Return "Haste Spells"
 		Case Else
 			Return ""
 	EndSwitch

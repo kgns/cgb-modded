@@ -31,31 +31,34 @@ Func WindowsArrange($position, $offset = 0)
 		Local $BOTw = $BOTPos[2]
 		Local $BOTh = $BOTPos[3]
 		;Setlog($sBotTitle & " position found:" & $BOTx & "," & $BOTy & " w:" & $BOTw & " h:" & $BOTh)
-		Switch $position
-			Case "BS-BOT" ; position left bs, right adjacent BOT
-				$BSHandle = WinMove($Title, "", 0, 0)
-				If _Sleep(500) Then Return
-				$BOTHandle = WinMove($sBotTitle, "", Number($BSw) + Number($offset), 0)
-				If _Sleep(500) Then Return
-			Case "BOT-BS" ; position left BOT, right adjacent BS
-				$BOTHandle = WinMove($sBotTitle, "", 0, 0)
-				If _Sleep(500) Then Return
-				$BSHandle = WinMove($Title, "", Number($BOTw) + Number($offset), 0)
-				If _Sleep(500) Then Return
-			Case "SNAP-TR" ; position BOT top right of BS, do not move BS
-
-				$BOTHandle = WinMove($sBotTitle, "", $BSx + $BSw + $offset, $BSy)
-				If _Sleep(500) Then Return
-			Case "SNAP-BR" ; position BOT botom right of BS, do not move BS
-				$BOTHandle = WinMove($sBotTitle, "", $BSx + $BSw + $offset, $BSy + ( $BSh- $BOTh ) )
-				If _Sleep(500) Then Return
-			Case "SNAP-TL" ; position BOT top left of BS, do not move BS
-				$BOTHandle = WinMove($sBotTitle, "", $BSx - $BOTw - $offset, $BSy)
-				If _Sleep(500) Then Return
-			Case "SNAP-BL" ; position BOT bottom left of BS, do not move BS
-				$BOTHandle = WinMove($sBotTitle, "", $BSx - $BOTw - $offset, $BSy + ( $BSh- $BOTh ))
-				If _Sleep(500) Then Return
-		EndSwitch
+		;Setlog(Number( $BSx) & " " & Number($BSy ) )
+		;SetLog(@DesktopWidth)
+		If Number( $BSx) > -30000 and Number($BSy ) > -30000 Then
+			Switch $position
+				Case "BS-BOT" ; position left bs, right adjacent BOT
+					$BSHandle = WinMove($Title, "", 0, 0)
+					If _Sleep(500) Then Return
+					$BOTHandle = WinMove($sBotTitle, "", Number($BSw) + Number($offset), 0)
+					If _Sleep(500) Then Return
+				Case "BOT-BS" ; position left BOT, right adjacent BS
+					$BOTHandle = WinMove($sBotTitle, "", 0, 0)
+					If _Sleep(500) Then Return
+					$BSHandle = WinMove($Title, "", Number($BOTw) + Number($offset), 0)
+					If _Sleep(500) Then Return
+				Case "SNAP-TR" ; position BOT top right of BS, do not move BS
+					If $BSx + $BSw + $offset < @DesktopWidth Then $BOTHandle = WinMove($sBotTitle, "", $BSx + $BSw + $offset, $BSy)
+					If _Sleep(500) Then Return
+				Case "SNAP-BR" ; position BOT botom right of BS, do not move BS
+					If $BSx + $BSw + $offset < @DesktopWidth Then $BOTHandle = WinMove($sBotTitle, "", $BSx + $BSw + $offset, $BSy + ( $BSh- $BOTh ) )
+					If _Sleep(500) Then Return
+				Case "SNAP-TL" ; position BOT top left of BS, do not move BS
+					If $BSx  >=100 Then $BOTHandle = WinMove($sBotTitle, "", $BSx - $BOTw - $offset, $BSy)
+					If _Sleep(500) Then Return
+				Case "SNAP-BL" ; position BOT bottom left of BS, do not move BS
+					If $BSx >= 100 Then $BOTHandle = WinMove($sBotTitle, "", $BSx - $BOTw - $offset, $BSy + ( $BSh- $BOTh ))
+					If _Sleep(500) Then Return
+			EndSwitch
+		EndIf
 	EndIf
 
 

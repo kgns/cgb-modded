@@ -13,19 +13,16 @@
 ; Link ..........:
 ; Example .......: No
 ; ===============================================================================================================================
-Global $BonusLeagueG, $BonusLeagueE, $BonusLeagueD, $LeagueShort
-Global $League[16][4] = [ _
-		["600", "Bronze III", "0", "B3"], ["800", "Bronze II", "0", "B2"], ["1000", "Bronze I", "0", "B1"], _
-		["2000", "Silver III", "0", "S3"], ["3000", "Silver II", "0", "S2"], ["4000", "Silver I", "0", "S1"], _
-		["8000", "Gold III", "0", "G3"], ["11000", "Gold II", "0", "G2"], ["14000", "Gold I", "0", "G1"], _
-		["35000", "Crystal III", "100", "C3"], ["50000", "Crystal II", "200", "C2"], ["65000", "Crystal I", "300", "C1"], _
-		["100000", "Master III", "500", "M3"], ["120000", "Master II", "700", "M2"], ["140000", "Master I", "900", "M1"], _
-		["180000", "Champion", "1200", "CA"]]
 
 Func AttackReport()
 
+	$lootGold = ""		; reset previous loot won values
+	$lootElixir = ""
+	$lootDarkElixir = ""
+	$lootTrophies = ""
+
 	If _sleep(500) Then Return
-	If _ColorCheck(_GetPixelColor(459, 372), Hex(0x433350, 6), 20) Then ; if the color of the DE drop detected
+	If _ColorCheck(_GetPixelColor(459, 372, True), Hex(0x433350, 6), 20) Then ; if the color of the DE drop detected
 		$lootGold = getResourcesLoot(333, 289)
 		If _sleep(150) Then Return
 		$lootElixir = getResourcesLoot(333, 328)
@@ -33,7 +30,7 @@ Func AttackReport()
 		$lootDarkElixir = getResourcesLootDE(365, 365)
 		If _sleep(150) Then Return
 		$lootTrophies = getResourcesLootT(403, 402)
-		If _ColorCheck(_GetPixelColor(327, 189), Hex(0x3B321C, 6), 30) Then
+		If _ColorCheck(_GetPixelColor(327, 189, True), Hex(0x3B321C, 6), 30) Then
 			$lootTrophies = -$lootTrophies
 		EndIf
 		SetLog("Loot: [G]: " & _NumberFormat($lootGold) & " [E]: " & _NumberFormat($lootElixir) & " [DE]: " & _NumberFormat($lootDarkElixir) & " [T]: " & $lootTrophies, $COLOR_GREEN)
@@ -50,13 +47,11 @@ Func AttackReport()
 		$lootElixir = getResourcesLoot(333, 328)
 		If _sleep(150) Then Return
 		$lootTrophies = getResourcesLootT(403, 365)
-		If _ColorCheck(_GetPixelColor(327, 189), Hex(0x3B321C, 6), 30) Then
+		If _ColorCheck(_GetPixelColor(327, 189, True), Hex(0x3B321C, 6), 30) Then
 			$lootTrophies = -$lootTrophies
-		Else
-			$lootTrophies = 0
 		EndIf
 		$lootDarkElixir = 0
-		SetLog("Loot: [G]: " & _NumberFormat($lootGold) & " [E]: " & _NumberFormat($lootElixir) & " [DE]: " & _NumberFormat($lootElixir) & " [T]: " & $lootTrophies, $COLOR_GREEN)
+		SetLog("Loot: [G]: " & _NumberFormat($lootGold) & " [E]: " & _NumberFormat($lootElixir) & " [DE]: " & _NumberFormat($lootDarkElixir) & " [T]: " & $lootTrophies, $COLOR_GREEN)
 
 		If $FirstAttack = 1 Then GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
 
@@ -67,7 +62,7 @@ Func AttackReport()
 	EndIf
 
 	If $lootTrophies >= 0 Then
-		If _ColorCheck(_GetPixelColor(678, 418), Hex(0x030000, 6), 30) Then
+		If _ColorCheck(_GetPixelColor(678, 418, True), Hex(0x030000, 6), 30) Then
 			If _sleep(150) Then Return
 			$BonusLeagueG = getResourcesBonus(590, 340)
 			$BonusLeagueG = StringReplace($BonusLeagueG, "+", "")

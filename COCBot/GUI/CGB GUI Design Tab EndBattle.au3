@@ -143,7 +143,7 @@ Local $x = 30, $y = 380
 			GUICtrlSetState(-1, $GUI_DISABLE)
 	    $y += 27
 		$txtShareMessage = GUICtrlCreateEdit("", $x, $y - 10 , 205, 80, BitOR($ES_WANTRETURN, $ES_CENTER, $ES_AUTOVSCROLL))
-			GUICtrlSetData(-1, StringFormat("Nice!\r\nGood :-)\r\nThanks! \r\nWowwww!"))
+			GUICtrlSetData(-1, StringFormat("Nice\r\nGood\r\nThanks \r\nWowwww"))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetTip(-1, "Message to send with the Share Replay")
 	    $y += 73

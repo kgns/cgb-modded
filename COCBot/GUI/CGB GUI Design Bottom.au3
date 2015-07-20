@@ -21,21 +21,21 @@ Local $btnColor = False
 
 ;~ Buttons
 Local $x = 15, $y = 525
-$grpButtons = GUICtrlCreateGroup("", $x - 5, $y - 10, 190, 85)
-	$btnStart = GUICtrlCreateButton("Start Bot", $x, $y + 2, 90, 40)
+$grpButtons = GUICtrlCreateGroup("https://gamebot.org - freeware bot -", $x - 5, $y - 10, 190, 85)
+	$btnStart = GUICtrlCreateButton("Start Bot", $x, $y + 2 +5, 90, 40-5)
 		GUICtrlSetOnEvent(-1, "btnStart")
 		IF $btnColor then GUICtrlSetBkColor(-1, 0x5CAD85)
-	$btnStop = GUICtrlCreateButton("Stop Bot", -1, -1, 90, 40)
+	$btnStop = GUICtrlCreateButton("Stop Bot", -1, -1, 90, 40-5)
 		GUICtrlSetOnEvent(-1, "btnStop")
 		IF $btnColor then GUICtrlSetBkColor(-1, 0xDB4D4D)
 		GUICtrlSetState(-1, $GUI_HIDE)
- 	$btnPause = GUICtrlCreateButton("Pause", $x + 90, -1, 90, 40)
+ 	$btnPause = GUICtrlCreateButton("Pause", $x + 90, -1, 90, 40-5)
 		$txtTip = "Use this to PAUSE all actions of the bot until you Resume."
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "btnPause")
  		IF $btnColor then GUICtrlSetBkColor(-1,  0xFFA500)
 		GUICtrlSetState(-1, $GUI_HIDE)
-	$btnResume = GUICtrlCreateButton("Resume", -1, -1, 90, 40)
+	$btnResume = GUICtrlCreateButton("Resume", -1, -1, 90, 40-5)
  		$txtTip = "Use this to RESUME a paused Bot."
 		GUICtrlSetTip(-1, $txtTip)
 		GUICtrlSetOnEvent(-1, "btnResume")

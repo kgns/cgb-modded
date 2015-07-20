@@ -9,10 +9,16 @@ Func BuildingInfo($iXstart, $iYstart)
 		$sBldgText = getNameBuilding($iXstart, $iYstart) ; Get Unit name and level with OCR
 	EndIf
 	If $debugSetlog = 1 Then Setlog("Read building Name String = " & $sBldgText, $COLOR_MAROON) ;debug
+	If StringInStr($sBldgText, "Tree") Then $sBldgText &= " (FakeLevel 99)"
+	If StringInStr($sBldgText, "Mush") Then $sBldgText &= " (FakeLevel 98)"
+	If StringInStr($sBldgText, "Trunk") Then $sBldgText &= " (FakeLevel 97)"
+	If StringInStr($sBldgText, "Bush") Then $sBldgText &= " (FakeLevel 96)"
+	If StringInStr($sBldgText, "Bark") Then $sBldgText &= " (FakeLevel 95)"
+	If StringInStr($sBldgText, "Gem") Then $sBldgText &= " (FakeLevel 94)"
 	$aString = StringSplit($sBldgText, "(") ; Spilt the name and building level
 	If $aString[0] = 2 Then ; If we have name and level then use it
 		If $debugSetlog = 1 Then Setlog("1st $aString = " & $aString[0] & ", " & $aString[1] & ", " & $aString[2], $COLOR_FUCHSIA) ;debug
-		If $aString[1] <> "" Then $aResult[1] = $aString[1] ; check for bad read and store name in result[0]
+		If $aString[1] <> "" Then $aResult[1] = $aString[1] ; check for bad read and store name in result[]
 		If $aString[2] <> "" Then ; check for bad read of level
 			$sBldgLevel = $aString[2] ; store level text
 			$aString = StringSplit($sBldgLevel, ")") ;split off the closing parenthesis
@@ -29,6 +35,7 @@ Func BuildingInfo($iXstart, $iYstart)
 	EndIf
 	If $aResult[1] <> "" Then $aResult[0] = 1
 	If $aResult[2] <> "" Then $aResult[0] += 1
+	If $aResult[2] > 90 Then $aResult[2] = ""
 
 	Return $aResult
 

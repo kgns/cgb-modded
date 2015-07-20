@@ -14,28 +14,35 @@
 ; ===============================================================================================================================
 Func CheckHeroesHealth()
 
-	If $debugSetlog = 1 Then
-		Setlog(" CheckHeroesHealth started ")
-		_CaptureRegion()
-		Local $color1 = _GetPixelColor(68 + (72 * $King), 572)
-		Local $color2 = _GetPixelColor(68 + (72 * $Queen), 572)
-	EndIf
+	If $checkKPower Or $checkQPower Then
+		Local $aKingHealthCopy = $aKingHealth ; copy ScreenCoordinates array to modify locally with dynamic X coordinate from slotposition
+		$aKingHealthCopy[0] = GetXPosOfArmySlot($King, 68)
+		Local $aQueenHealthCopy = $aQueenHealth ; copy ScreenCoordinates array to modify locally with dynamic X coordinate from slotposition
+		$aQueenHealthCopy[0] = GetXPosOfArmySlot($Queen, 68)
 
-	If $checkKPower Then
-		If $debugSetlog = 1 Then Setlog(" _GetPixelColor : " & $color1)
-		If not _ColorCheck(_GetPixelColor(68 + (72 * $King), 572, True), Hex(0x4FD404, 6), 120, "Heroes") Then ; At Start RGB - B is 03
-
-			SetLog("King is getting weak, Activating King's power", $COLOR_BLUE)
-			SelectDropTroop($King)
-			$checkKPower = False
+		If $debugSetlog = 1 Then
+			Setlog(" CheckHeroesHealth started ")
+			Local $KingPixelColor = _GetPixelColor($aKingHealthCopy[0], $aKingHealthCopy[1], $bCapturePixel)
+			Local $QueenPixelColor = _GetPixelColor($aQueenHealthCopy[0], $aQueenHealthCopy[1], $bCapturePixel)
 		EndIf
-	EndIf
-	If $checkQPower Then
-		If $debugSetlog = 1 Then Setlog(" _GetPixelColor : " & $color2)
-		If not _ColorCheck(_GetPixelColor(68 + (72 * $Queen), 572, True), Hex(0x72F50B, 6), 120, "Heroes") Then ; In the middle RGB - B is 150
-			SetLog("Queen is getting weak, Activating Queen's power", $COLOR_BLUE)
-			SelectDropTroop($Queen)
-			$checkQPower = False
+
+		If $checkKPower Then
+			If $debugSetlog = 1 Then Setlog(" King _GetPixelColor(" & $aKingHealthCopy[0] & "," & $aKingHealthCopy[1] & "): " & $KingPixelColor)
+			If _CheckPixel($aKingHealthCopy, $bCapturePixel, "Red") Then
+
+				SetLog("King is getting weak, Activating King's power", $COLOR_BLUE)
+				SelectDropTroop($King)
+				$checkKPower = False
+			EndIf
+		EndIf
+		If $checkQPower Then
+			If $debugSetlog = 1 Then Setlog(" Queen _GetPixelColor(" & $aQueenHealthCopy[0] & "," & $aQueenHealthCopy[1] & "): " & $QueenPixelColor)
+			If _CheckPixel($aQueenHealthCopy, $bCapturePixel, "Red") Then
+				SetLog("Queen is getting weak, Activating Queen's power", $COLOR_BLUE)
+				SelectDropTroop($Queen)
+				$checkQPower = False
+			EndIf
 		EndIf
 	EndIf
 EndFunc   ;==>CheckHeroesHealth
+

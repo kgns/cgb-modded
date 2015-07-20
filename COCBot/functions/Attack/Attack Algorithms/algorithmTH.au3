@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 
 Func algorithmTH() ;Attack Algorithm TH
-	If $chkATH = 1 Then
+	If $iMatchMode = $TS Or $chkATH = 1  Then    ; $iMatchMode = $TS
 		$LeftTHx = 40
 		$RightTHx = 30
 		$BottomTHy = 30
@@ -22,7 +22,7 @@ Func algorithmTH() ;Attack Algorithm TH
 		$GetTHLoc = 0
 		If $THLocation = 0 Then
 			SetLog("Can't get Townhall location", $COLOR_RED)
-		ElseIf $THx > 227 And $THx < 627 And $THy > 151 And $THy < 419 And $chkATH = 1 Then ;if found outside
+		ElseIf $THx > 227 And $THx < 627 And $THy > 151 And $THy < 419 And ($iMatchMode = $TS Or $chkATH = 1) Then ;if found outside
 			SetLog("Townhall location (" & $THx & ", " & $THy &")")
 			SetLog("Townhall is in the Center of the Base. Ignore Attacking Townhall", $COLOR_RED)
 			$THLocation = 0
@@ -36,9 +36,9 @@ Func algorithmTH() ;Attack Algorithm TH
 				  $atkTroops[$Barb][1] = Number(ReadTroopQuantity($Barb))
 				  Local $numBarbPerSpot = Ceiling($atkTroops[$Barb][1] / 3)
 				  If $atkTroops[$Barb][1] <> 0 Then
-					  Click(68 + (72 * $Barb), 595,1,0, "#0001") ;Select Troop
+					  Click(GetXPosOfArmySlot($Barb, 68), 595,1,0, "#0001") ;Select Troop
 					  If _Sleep(100) Then ExitLoop (2)
-					  If $chkATH = 1 Then
+					  If $iMatchMode = $TS Or $chkATH = 1 Then
 						  If $GetTHLoc = 0 Then
 						   If $THx < 287 And $THx > 584 And $THy < 465 Then ; Leftmost, Rightmost, Topmost. If found Outside
 								$i = 0
@@ -113,9 +113,9 @@ Func algorithmTH() ;Attack Algorithm TH
 			  $atkTroops[$Arch][1] = Number(ReadTroopQuantity($Arch))
 			  Local $numArchPerSpot = Ceiling($atkTroops[$Arch][1] / 3)
 			  If $atkTroops[$Arch][1] <> 0 Then
-				  Click(68 + (72 * $Arch), 595,1,0,"#0010") ;Select Troop
+				  Click(GetXPosOfArmySlot($Arch, 68), 595,1,0,"#0010") ;Select Troop
 				  If _Sleep(100) Then ExitLoop (2)
-				  If $chkATH = 1 Then
+				  If $iMatchMode = $TS Or $chkATH = 1 Then
 					  If $GetTHLoc = 0 Then
 						If $THx < 287 And $THx > 584 And $THy < 465 Then ; Leftmost, Rightmost and Topmost. If found outside
 							$i = 0
@@ -200,7 +200,7 @@ Func algorithmTH() ;Attack Algorithm TH
  Func AttackTHGrid($troopKind,$spots,$numperspot,$Sleep,$waveNb,$maxWaveNb,$BoolDropHeroes)
    Local $aThx,$aThy,$num
    Local $TroopCountBeg
-If $chkATH = 1 And SearchTownHallLoc() Then
+If $iMatchMode = $TS Or $chkATH = 1 And SearchTownHallLoc() Then
 
 	  ;_CaptureRegion()
 	  If _ColorCheck(_GetPixelColor($aWonOneStar[0],$aWonOneStar[1], True), Hex($aWonOneStar[2], 6), $aWonOneStar[3]) Then Return ;exit if 1 star
@@ -210,7 +210,7 @@ If $chkATH = 1 And SearchTownHallLoc() Then
    Local $THtroop = -1
    Local $troopNb = 0
    Local $name = ""
-   For $i = 0 To 8
+   For $i = 0 To UBound($atkTroops) - 1
 	  If $atkTroops[$i][0] = $troopKind Then
 		 $THtroop = $i
 		 $troopNb = $spots*$numperspot
@@ -283,32 +283,35 @@ If $chkATH = 1 And SearchTownHallLoc() Then
 			EndIf
 
 			If $THi>15 Then
+				If ($THside = 1 Or $THside = 3) And $zoomedin = False Then
+					;Zoom in all the way
+					SetLog("Zooming in...")
+					While $zCount < 6
+						_Sleep(300)
+						ControlSend($Title, "", "", "{UP}")
+						_Sleep(100)
+						$zCount += 1
+					WEnd
+					SetLog("Done zooming.")
+					_Sleep(500)
+
+					;Scroll to bottom
+					SetLog("Scrolling to bottom...")
+					While $sCount < 7
+						_Sleep(300)
+						ControlSend($Title, "", "", "{CTRLDOWN}{UP}{CTRLUP}")
+						_Sleep(100)
+						$sCount += 1
+					WEnd
+					$zoomedin = True
+				EndIf
 				  If $THside=1 Then
-				  		Global $zCount = 0, $sCount = 0
-						;Zoom in all the way
-						SetLog("Zooming in 6 times.")
-						While $zCount < 6
-							ControlSend($Title, "", "", "{UP}") ; change to MouseWheel()
-							_Sleep(500)
-							$zCount += 1
-						WEnd
-						SetLog("Done zooming.")
-						_Sleep(1000)
-
-						;Scroll to bottom
-						SetLog("Scrolling to bottom 5 units.")
-						While $sCount < 5
-							ControlSend($Title, "", "", "{CTRLDOWN}{UP}{CTRLUP}")
-							_Sleep(500)
-							$sCount += 1
-						WEnd
-
 ;						Setlog("LL Bottom deployment $THi="&$THi)
 						For $num=0 to $numperspot-1
 						 For $ii=$THi+1 to $THi+1+($spots-1)
 							$aThx=830-$ii*19
 							$aThy=314+$ii*14
-							Click(785,300)
+							Click(730,450)
 							_Sleep(Random(30,60))
 						 Next
 						 _Sleep(Random(40,100))
@@ -316,31 +319,13 @@ If $chkATH = 1 And SearchTownHallLoc() Then
 				  EndIf
 
 				  If $THside=3 Then
-					Global $zCount = 0, $sCount = 0
-					;Zoom in all the way
-					SetLog("Zooming in 6 times.")
-					While $zCount < 6
-						ControlSend($Title, "", "", "{UP}") ; change to MouseWheel()
-						_Sleep(500)
-						$zCount += 1
-					WEnd
-					SetLog("Done zooming.")
-					_Sleep(1000)
-
-					;Scroll to bottom
-					SetLog("Scrolling to bottom 5 units.")
-					While $sCount < 5
-						ControlSend($Title, "", "", "{CTRLDOWN}{UP}{CTRLUP}")
-						_Sleep(500)
-						$sCount += 1
-					WEnd
 ;						Setlog("LR Bottom deployment $THi="&$THi)
 						For $num=0 to $numperspot-1
 						 For $ii=$THi+1 to $THi+1+($spots-1)
 							$aThx=830-$ii*19
 							$aThy=314+$ii*14
 							   ;Click($aThx,$aThy)
-							   Click(785,300)
+							   Click(730,450)
 							   _Sleep(Random(30,60))
 						 Next
 						_Sleep(Random(40,100))
@@ -367,9 +352,9 @@ Func AttackTHNormal()
 		 Setlog("Normal Attacking TH Outside with BAM PULSE!")
 
 		 ;---1st wave
-		 AttackTHGrid($eBarb,3,2,2000,1,5,0) ; deploys 6 barbarians
-		 AttackTHGrid($eArch,3,2,1600,1,4,0) ; deploys 6 archers
-		 AttackTHGrid($eMini,3,2,1400,1,4,0) ; deploys 6 minions
+		 AttackTHGrid($eBarb,3,2,1800,1,5,0) ; deploys 6 barbarians
+		 AttackTHGrid($eArch,3,2,1200,1,4,0) ; deploys 6 archers
+		 AttackTHGrid($eMini,3,2,1000,1,4,0) ; deploys 6 minions
 		$count = 0
 		While $count < 30
 		 _Sleep(1000)
@@ -382,9 +367,9 @@ Func AttackTHNormal()
 		WEnd
 
 		 ;---2nd wave
-		 AttackTHGrid($eBarb,3,2,2000,2,5,0) ; deploys 6 barbarians
-		 AttackTHGrid($eArch,3,2,1600,2,4,0) ; deploys 6 archers
-		 AttackTHGrid($eMini,3,2,1400,2,4,0) ; deploys 6 minions
+		 AttackTHGrid($eBarb,3,2,1500,2,5,0) ; deploys 6 barbarians
+		 AttackTHGrid($eArch,3,2,1400,2,4,0) ; deploys 6 archers
+		 AttackTHGrid($eMini,3,2,1300,2,4,0) ; deploys 6 minions
 		$count = 0
 		While $count < 20
 		 _Sleep(1000)
@@ -397,9 +382,9 @@ Func AttackTHNormal()
 		WEnd
 
 		 ;---3rd wave 10 secs
-		 AttackTHGrid($eBarb,3,2,1600,3,5,0) ; deploys 6 barbarians
-		 AttackTHGrid($eMini,3,2,1500,3,4,0) ; deploys 6 minions
-		 AttackTHGrid($eArch,3,2,1400,3,4,0) ; deploys 6 archers
+		 AttackTHGrid($eBarb,3,2,1400,3,5,0) ; deploys 6 barbarians
+		 AttackTHGrid($eMini,3,2,1300,3,4,0) ; deploys 6 minions
+		 AttackTHGrid($eArch,3,2,1200,3,4,0) ; deploys 6 archers
 		$count = 0
 		While $count < 20
 		 _Sleep(1000)
@@ -413,10 +398,10 @@ Func AttackTHNormal()
 
 		 Setlog("Normal Attacking TH Outside in FULL!")
 		 AttackTHGrid($eGiant,3,1,1000,1,2,0) ;releases 3 giants
-		 AttackTHGrid($eWall,2,2,1000,1,1,0) ; deploys 4 wallbreakers
-		 AttackTHGrid($eArch,5,5,7000,4,4,0) ;releases 25 archers
-		 AttackTHGrid($eBarb,5,5,7000,4,5,0) ;releases 25 barbs
-		 AttackTHGrid($eMini,5,2,5000,4,4,1) ;releases 10 minions and Heroes
+		 AttackTHGrid($eWall,2,2,1100,1,1,0) ; deploys 4 wallbreakers
+		 AttackTHGrid($eArch,5,5,1200,4,4,0) ;releases 25 archers
+		 AttackTHGrid($eBarb,5,5,1150,4,5,0) ;releases 25 barbs
+		 AttackTHGrid($eMini,5,2,1000,4,4,1) ;releases 10 minions and Heroes
 		$count = 0
 		While $count < 20
 		 _Sleep(1000)
@@ -429,12 +414,12 @@ Func AttackTHNormal()
 		WEnd
 
 		;Final Wave
- 		 AttackTHGrid($eGiant,5,1,500,2,2,0) ;releases 5 giants
- 		 AttackTHGrid($eHogs,5,1,100,2,4,0) ;releases 5 Hogs
-		 AttackTHGrid($eArch,5,5,7000,4,4,0) ;releases 25 archers
-		 AttackTHGrid($eBarb,5,5,7000,4,5,0) ;releases 25 barbs
-		 AttackTHGrid($eMini,5,2,5000,4,4,0) ;releases 10 minions
-		 AttackTHGrid($eWiza,3,2,10000,1,1,1) ;releases 6 wizards and releases hero
+ 		 AttackTHGrid($eGiant,5,1,1100,2,2,0) ;releases 5 giants
+ 		 AttackTHGrid($eHogs,5,1,1300,2,4,0) ;releases 5 Hogs
+		 AttackTHGrid($eArch,5,5,1000,4,4,0) ;releases 25 archers
+		 AttackTHGrid($eBarb,5,5,1100,4,5,0) ;releases 25 barbs
+		 AttackTHGrid($eMini,5,2,1050,4,4,0) ;releases 10 minions
+		 AttackTHGrid($eWiza,3,2,1000,1,1,1) ;releases 6 wizards and releases hero
 		$count = 0
 		While $count < 20
 		 _Sleep(1000)
@@ -471,9 +456,9 @@ Func AttackTHXtreme()
 
 		 ;---2nd wave 20 secs
 ;		 SetLog("Attacking TH with 2nd wave of BAM COMBO")
-		 AttackTHGrid($eBarb,5,1,10,2,5,0) ; deploys 5 barbarians
-		 AttackTHGrid($eMini,5,1,10,2,4,0) ; deploys 5 minions
-		 AttackTHGrid($eArch,5,1,10000,2,4,0) ; deploys 5 archers
+		 AttackTHGrid($eBarb,5,1,1000,2,5,0) ; deploys 5 barbarians
+		 AttackTHGrid($eMini,5,1,1000,2,4,0) ; deploys 5 minions
+		 AttackTHGrid($eArch,5,1,1000,2,4,0) ; deploys 5 archers
 		$count = 0
 		While $count < 20
 		_Sleep(1000)
@@ -487,9 +472,9 @@ Func AttackTHXtreme()
 
 		 ;---3nd wave 10 secs
 ;		 SetLog("Attacking TH with 3rd wave of BAM COMBO")
-		 AttackTHGrid($eBarb,5,1,10,3,5,0) ; deploys 5 barbarians
-		 AttackTHGrid($eMini,5,1,10,3,4,0) ; deploys 5 minions
-		 AttackTHGrid($eArch,5,1,12000,3,4,0) ; deploys 5 archers
+		 AttackTHGrid($eBarb,5,1,1000,3,5,0) ; deploys 5 barbarians
+		 AttackTHGrid($eMini,5,1,1000,3,4,0) ; deploys 5 minions
+		 AttackTHGrid($eArch,5,1,1200,3,4,0) ; deploys 5 archers
 		$count = 0
 		While $count < 20
 		_Sleep(1000)
@@ -504,13 +489,13 @@ Func AttackTHXtreme()
 		 ;---4th wave
 		 Setlog("Extreme Attacking TH Outside in FULL!")
 		 AttackTHGrid($eGiant,3,1,1000,1,4,0) ;releases 3 giants
-		 AttackTHGrid($eWall,2,2,10,1,1,0) ; deploys 4 wallbreakers
-		 AttackTHGrid($eArch,5,5,200,4,4,0) ;releases 25 archers
-		 AttackTHGrid($eBarb,5,5,200,4,5,0) ;releases 25 barbs
-		 AttackTHGrid($eMini,5,2,200,4,4,0) ; deploys 5 minions
- 		 AttackTHGrid($eGiant,5,1,100,2,4,0) ;releases 5 giants
- 		 AttackTHGrid($eHogs,5,1,100,2,4,0) ;releases 5 Hogs
- 		 AttackTHGrid($eBarb,5,5,200,5,5,0) ;releases 25 barbs
+		 AttackTHGrid($eWall,2,2,100,1,1,0) ; deploys 4 wallbreakers
+		 AttackTHGrid($eArch,5,5,1200,4,4,0) ;releases 25 archers
+		 AttackTHGrid($eBarb,5,5,1200,4,5,0) ;releases 25 barbs
+		 AttackTHGrid($eMini,5,2,1200,4,4,0) ; deploys 5 minions
+ 		 AttackTHGrid($eGiant,5,1,1000,2,4,0) ;releases 5 giants
+ 		 AttackTHGrid($eHogs,5,1,1000,2,4,0) ;releases 5 Hogs
+ 		 AttackTHGrid($eBarb,5,5,1200,5,5,0) ;releases 25 barbs
 		 AttackTHGrid($eWiza,3,2,1000,1,1,1) ;releases 6 wizards and releases hero
 		$count = 0
 		While $count < 20
@@ -526,6 +511,74 @@ Func AttackTHXtreme()
 	SetLog("~Finished Attacking, waiting to finish", $COLOR_GREEN)
 
 EndFunc ;---AttackTHXtreme
+
+Func AttackTHGbarch()
+ Setlog("Sending 1st wave of archers.")
+ AttackTHGrid($eArch,4,1,2000,1,4,0) ; deploys 4 archers - take out possible bombs
+ AttackTHGrid($eArch,3,Random(5,6,1),1000,1,4,0) ; deploys 15-18 archers
+ $count = 0
+While $count < 30
+	_Sleep(1000)
+	_CaptureRegion()
+	If _ColorCheck(_GetPixelColor($aWonOneStar[0],$aWonOneStar[1], True), Hex($aWonOneStar[2], 6), $aWonOneStar[3]) = True Then
+		SetLog("Townhall has been destroyed!")
+		Return ;exit if you get a star
+	EndIf
+	$count+=1
+WEnd
+
+ Setlog("Sending second wave of archers.")
+ AttackTHGrid($eArch,4,Random(4,5,1),1000,2,4,0) ;deploys 16-20 archers
+  $count = 0
+While $count < 30
+	_Sleep(1000)
+	_CaptureRegion()
+	If _ColorCheck(_GetPixelColor($aWonOneStar[0],$aWonOneStar[1], True), Hex($aWonOneStar[2], 6), $aWonOneStar[3]) = True Then
+		SetLog("Townhall has been destroyed!")
+		Return ;exit if you get a star
+	EndIf
+	$count+=1
+WEnd
+
+ Setlog("Still no star - Let's send in more diverse troops!")
+ AttackTHGrid($eGiant,2,1,1240,1,2,0) ;deploys 2 giants in case of spring traps
+ AttackTHGrid($eGiant,2,Random(3,4,1),1500,2,2,0) ;deploys 6-8 giants to take heat
+ AttackTHGrid($eBarb,3,Random(4,5,1),1000,1,5,0) ; deploys up to 12-15 barbarians
+ AttackTHGrid($eBarb,4,Random(4,5,1),1500,1,5,0) ; deploys up to 16-20 barbarians
+ AttackTHGrid($eArch,3,8,1200,3,4,0) ; deploys 24 archers
+ AttackTHGrid($eArch,4,7,1000,3,4,0) ; deploys 28 archers
+ $count = 0
+While $count < 25
+	_Sleep(1000)
+	_CaptureRegion()
+	If _ColorCheck(_GetPixelColor($aWonOneStar[0],$aWonOneStar[1], True), Hex($aWonOneStar[2], 6), $aWonOneStar[3]) = True Then
+		SetLog("Townhall has been destroyed!")
+		Return ;exit if you get a star
+	EndIf
+	$count+=1
+WEnd
+
+ Setlog("Hope the rest of your troops can finish the job!")
+ AttackTHGrid($eGiant,2,9,1500,3,2,1) ;deploys CC/Heroes & up to 18 giants (in case numbers are off)
+ AttackTHGrid($eBarb,4,8,1200,2,5,0) ; deploys up to 32 barbarians
+ AttackTHGrid($eArch,3,13,1210,4,4,0) ;deploys up to 39 archers
+ AttackTHGrid($eBarb,3,11,1190,2,5,0) ; deploys up to 33 barbarians
+ AttackTHGrid($eArch,2,20,1200,4,4,0) ;deploys up to 40 archers
+ AttackTHGrid($eBarb,4,9,1500,2,5,0) ; deploys up to 36 barbarians
+ AttackTHGrid($eArch,2,20,1000,4,4,0) ;deploys up to 40 archers
+ $count = 0
+While $count < 25
+	_Sleep(1000)
+	_CaptureRegion()
+	If _ColorCheck(_GetPixelColor($aWonOneStar[0],$aWonOneStar[1], True), Hex($aWonOneStar[2], 6), $aWonOneStar[3]) = True Then
+		SetLog("Townhall has been destroyed!")
+		Return ;exit if you get a star
+	EndIf
+	$count+=1
+WEnd
+ SetLog("All Giants, Barbs, and Archers should be deployed, in addition to Heroes & CC (if options are selected). Other troops are not meant to be deployed in this algorithm.", $COLOR_GREEN)
+
+EndFunc ;---AttackTHGbarch
 
 Func ALLDropheroes($x,$y)
    		 dropHeroes($x,$y, $King, $Queen)
@@ -569,7 +622,7 @@ EndFunc ;---SpellTHGrid
 Func CastSpell($THSpell,$x,$y)
    Local $Spell = -1
    Local $name = ""
-   For $i = 0 To 8
+   For $i = 0 To UBound($atkTroops) - 1
 	  If $atkTroops[$i][0] = $THSpell Then
 		 $Spell = $i
 		 $name = NameOfTroop($THSpell,0)
